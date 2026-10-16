@@ -61,6 +61,17 @@ class Router(models.Model):
         help_text="Inatumika kwenye link ya ukurasa wa kulipia: /p/<kitambulisho>/",
     )
     location = models.CharField("mahali", max_length=120, blank=True)
+    nas_identifier = models.CharField(
+        "NAS identifier",
+        max_length=64,
+        unique=True,
+        null=True,
+        blank=True,
+        help_text=(
+            "Jina la MikroTik (/system identity), mfano wifi-majaribio. "
+            "RADIUS server inalitumia kujua ombi limetoka router ipi."
+        ),
+    )
     radius_secret = models.CharField(
         "RADIUS secret", max_length=64, default=generate_radius_secret
     )
@@ -84,6 +95,8 @@ class Router(models.Model):
         return f"{self.name} ({self.owner})"
 
     def save(self, *args, **kwargs):
+        # Thamani tupu ihifadhiwe kama NULL ili unique isizuie routers nyingi zisizo nayo.
+        self.nas_identifier = (self.nas_identifier or "").strip() or None
         if not self.slug:
             base = slugify(f"{self.owner.business_name}-{self.name}")[:50] or "router"
             slug = base

@@ -111,3 +111,29 @@ class Voucher(models.Model):
         if self.expires_at is None:
             return False
         return (now or timezone.now()) >= self.expires_at
+
+    def remaining_seconds(self, now=None):
+        if self.expires_at is None:
+            return self.package.duration_minutes * 60
+        return max(0, int((self.expires_at - (now or timezone.now())).total_seconds()))
+
+
+class VoucherDevice(models.Model):
+    """Kifaa (MAC) kilichotumia vocha. Kinazuia vocha moja kugawiwa kwa watu wengi."""
+
+    voucher = models.ForeignKey(
+        Voucher, on_delete=models.CASCADE, related_name="devices", verbose_name="vocha"
+    )
+    mac_address = models.CharField("MAC", max_length=17)
+    first_seen_at = models.DateTimeField(auto_now_add=True)
+    last_seen_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "kifaa"
+        verbose_name_plural = "vifaa"
+        constraints = [
+            models.UniqueConstraint(fields=["voucher", "mac_address"], name="voucher_device_unique"),
+        ]
+
+    def __str__(self):
+        return self.mac_address

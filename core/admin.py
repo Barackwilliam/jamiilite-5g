@@ -25,9 +25,9 @@ class OwnerAdmin(admin.ModelAdmin):
 
 @admin.register(Router)
 class RouterAdmin(admin.ModelAdmin):
-    list_display = ("name", "owner", "slug", "location", "is_active")
+    list_display = ("name", "owner", "slug", "nas_identifier", "location", "is_active")
     list_filter = ("is_active", "owner")
-    search_fields = ("name", "slug", "owner__business_name")
+    search_fields = ("name", "slug", "nas_identifier", "owner__business_name")
     list_select_related = ("owner",)
 
 

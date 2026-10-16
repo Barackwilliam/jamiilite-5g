@@ -6,17 +6,19 @@ ukiisha.
 
 <img src="docs/portal-1-vifurushi.png" width="260" alt="Ukurasa wa kununua kifurushi"> <img src="docs/portal-2-vocha.png" width="260" alt="Vocha baada ya kulipa">
 
-## Hali ya sasa (Awamu ya 1)
+## Hali ya sasa
 
 - **Wamiliki, routers na vifurushi** kupitia admin panel (`/admin/`)
 - **Ukurasa wa kulipia** kwa Kiswahili kwa kila router: `/p/<kitambulisho>/`
 - **Malipo ya majaribio (sandbox)**: kila malipo yanafanikiwa papo hapo, kisha mteja anapewa vocha
-- **Vocha** zinatumwa kwa MikroTik ili mteja aunganishwe
+- **RADIUS server** (`python manage.py radius_server`): MikroTik inauliza mfumo huu kama vocha ni halali
+  - muda wa **kalenda** (vocha ya saa 1 inaisha saa 1 baada ya kuanza, hata mteja akikatika)
+  - **kasi** ya kifurushi inatumwa kwa MikroTik (Mikrotik-Rate-Limit)
+  - vocha moja inakubaliwa kwenye idadi ya **vifaa** iliyowekwa kwenye kifurushi tu
+  - vocha ya mmiliki inafanya kazi kwenye routers zake zote
 - Database: **Supabase Postgres**. Picha (logo): **Supabase Storage**
 
-Kinachofuata:
-- **Awamu ya 2:** RADIUS, ili MikroTik iulize mfumo huu kama vocha ni halali
-- **Awamu ya 3:** malipo halisi (Selcom / AzamPay / ClickPesa) na dashboard ya mmiliki
+Kinachofuata: malipo halisi (Selcom / AzamPay / ClickPesa) na dashboard ya mmiliki.
 
 ## Kuanza (local)
 
@@ -71,32 +73,47 @@ python manage.py migrate
 S3 keys zina ruhusa kamili juu ya Storage. Ziweke kwenye server tu, kamwe
 zisiwe kwenye browser au git.
 
-## Kuunganisha na MikroTik (kwa ukurasa wa kulipia)
+## Kuunganisha na MikroTik
 
-MikroTik inampeleka mteja kwenye ukurasa wetu, kisha ukurasa unatuma vocha
-kurudi kwa MikroTik ili aunganishwe:
+Mfumo una sehemu mbili zinazoendeshwa kwa pamoja, kila moja kwenye terminal
+yake:
 
-1. **Walled garden**: ruhusu domain ya mfumo huu kabla mteja hajaingia:
-   ```
-   /ip hotspot walled-garden add dst-host=jamiilite.example.com
-   ```
-2. **Login kwa PAP**: vocha inatumwa kama username na password:
-   ```
-   /ip hotspot profile set [find] login-by=http-pap
-   ```
-3. **Peleka mteja kwenye ukurasa wetu**: badilisha `hotspot/login.html` ya
-   MikroTik iwe na redirect hii (badilisha `demo` kuwa kitambulisho cha router):
-   ```html
-   <meta http-equiv="refresh" content="0; url=https://jamiilite.example.com/p/demo/?link-login-only=$(link-login-only-esc)&link-orig=$(link-orig-esc)&mac=$(mac-esc)&ip=$(ip)&error=$(error-esc)">
-   ```
+```bash
+python manage.py runserver            # ukurasa wa kulipia + admin
+python manage.py radius_server        # RADIUS (UDP 1812 na 1813)
+```
 
-Hadi Awamu ya 2 (RADIUS) ikamilike, MikroTik haijui vocha zinazotolewa na
-mfumo huu, kwa hiyo bado haitamkubali mteja. Ukurasa wa kulipia unaweza
-kujaribiwa wenyewe hadi hapo.
+Kisha chapisha amri za RouterOS za router yako na uzibandike kwenye MikroTik
+terminal:
 
-Ukiweka **login URL ya hotspot** kwenye router (admin), vocha zinatumwa hapo
-tu, na `link-login-only` inayokuja kwenye link inapuuzwa. Hii inazuia mtu
-kutengeneza link inayotuma vocha kwa server nyingine.
+```bash
+python manage.py mikrotik_config demo
+```
+
+Amri hizo zinaweka:
+1. **Jina la router** (`/system identity`). Lazima liwe sawa na *NAS identifier*
+   ya router kwenye admin, kwa sababu RADIUS inatambua router kwa jina hilo.
+2. **RADIUS** pamoja na secret ya router hiyo.
+3. **Login kwa PAP**: vocha inatumwa kama username na password.
+4. **Walled garden**: mteja anafikia ukurasa wa kulipia kabla hajaingia.
+5. **`hotspot/login.html`**: inampeleka mteja kwenye ukurasa wetu.
+
+Kwa chaguo-msingi, anwani ni zile za maabara ya VirtualBox: MikroTik inaiona
+kompyuta mwenyeji kama `10.0.2.2` (weka `10.0.2.2` kwenye `ALLOWED_HOSTS`).
+Kwa server halisi:
+
+```bash
+python manage.py mikrotik_config duka-la-kati --radius-address 203.0.113.10 --portal-base https://jamiilite.example.com
+```
+
+**Usalama:**
+- Packet kutoka router isiyojulikana, au yenye secret batili, inapuuzwa.
+- Maombi bila **Message-Authenticator** yanakataliwa (kinga dhidi ya
+  BlastRADIUS). RouterOS 7.15 na kuendelea inaituma. Kwa router za zamani
+  weka `RADIUS_REQUIRE_MESSAGE_AUTHENTICATOR=False`.
+- Ukiweka **login URL ya hotspot** kwenye router (admin), vocha zinatumwa hapo
+  tu, na `link-login-only` inayokuja kwenye link inapuuzwa. Hii inazuia mtu
+  kutengeneza link inayotuma vocha kwa server nyingine.
 
 ## Majaribio
 
@@ -112,3 +129,4 @@ DEBUG=True python manage.py test
 | `core/` | Wamiliki, routers, vifurushi, ulinzi wa RLS |
 | `billing/` | Malipo, vocha, watoa huduma wa malipo (`providers/`) |
 | `portal/` | Ukurasa wa kulipia anaouona mteja |
+| `radius/` | RADIUS server na amri za kusanidi MikroTik |

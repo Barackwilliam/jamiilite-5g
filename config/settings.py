@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "core",
     "billing",
     "portal",
+    "radius",
 ]
 
 MIDDLEWARE = [
@@ -198,6 +199,12 @@ STORAGES = {
 # ALLOW_SANDBOX_PAYMENTS=True imewekwa wazi.
 PAYMENT_PROVIDER = os.environ.get("PAYMENT_PROVIDER", "sandbox")
 ALLOW_SANDBOX_PAYMENTS = env_bool("ALLOW_SANDBOX_PAYMENTS", DEBUG)
+
+
+# --- RADIUS ------------------------------------------------------------------
+# Kinga dhidi ya BlastRADIUS: Access-Request bila Message-Authenticator
+# inakataliwa. RouterOS 7.15 na kuendelea inaituma. Zima tu kwa router za zamani.
+RADIUS_REQUIRE_MESSAGE_AUTHENTICATOR = env_bool("RADIUS_REQUIRE_MESSAGE_AUTHENTICATOR", True)
 
 
 # --- Usalama wa production ---------------------------------------------------
