@@ -1,0 +1,52 @@
+{% extends "portal/base.html" %}
+
+{% block content %}
+  {% if hotspot_error %}
+    <p class="alert">{{ hotspot_error }}</p>
+  {% endif %}
+
+  <section>
+    <h2>Nunua kifurushi</h2>
+    {% if form.package.field.queryset.exists %}
+      <form method="post" action="{% url 'portal:pay' router.slug %}" class="stack">
+        {% csrf_token %}
+        {% if form.non_field_errors %}<p class="alert">{{ form.non_field_errors|join:" " }}</p>{% endif %}
+
+        <fieldset class="packages">
+          <legend class="sr-only">Vifurushi</legend>
+          {% for choice in form.package %}
+            {% with pkg=choice.data.value.instance %}
+              <label class="package">
+                {{ choice.tag }}
+                <span class="package-body">
+                  <span class="package-name">{{ pkg.name }}</span>
+                  {% if pkg.summary %}<span class="package-meta">{{ pkg.summary }}</span>{% endif %}
+                </span>
+                <span class="package-price">Tsh {{ pkg.price_display }}</span>
+              </label>
+            {% endwith %}
+          {% endfor %}
+          {% for error in form.package.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </fieldset>
+
+        <label class="field">
+          <span>{{ form.phone.label }}</span>
+          {{ form.phone }}
+          {% for error in form.phone.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </label>
+
+        <button type="submit" class="btn">Lipa kwa simu</button>
+        <p class="muted small">Utapokea ombi la kulipia kwenye simu yako. Weka PIN kuthibitisha.</p>
+      </form>
+    {% else %}
+      <p class="muted">Hakuna kifurushi kinachouzwa kwa sasa.</p>
+    {% endif %}
+  </section>
+
+  {% if login_target %}
+    <section class="divider">
+      <h2>Una vocha tayari?</h2>
+      {% include "portal/_voucher_login.html" with code="" %}
+    </section>
+  {% endif %}
+{% endblock %}

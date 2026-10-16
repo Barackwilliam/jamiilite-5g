@@ -1,0 +1,27 @@
+{% load static %}<!doctype html>
+<html lang="sw">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ owner.business_name }}{% endblock %} · JamiiLite 5G</title>
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <main class="card">
+    <header class="brand">
+      {% if owner.logo %}
+        <img class="brand-logo" src="{{ owner.logo.url }}" alt="{{ owner.business_name }}">
+      {% else %}
+        <div class="brand-mark" aria-hidden="true">{{ owner.business_name|slice:":1"|upper }}</div>
+      {% endif %}
+      <div>
+        <h1>{{ owner.business_name }}</h1>
+        {% if router.location %}<p class="muted">{{ router.location }}</p>{% endif %}
+      </div>
+    </header>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">Inaendeshwa na <strong>JamiiLite 5G</strong></footer>
+</body>
+</html>
