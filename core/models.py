@@ -1,8 +1,10 @@
 import secrets
+from datetime import timedelta
 
 from django.conf import settings
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 
 rate_limit_validator = RegexValidator(
@@ -13,6 +15,14 @@ rate_limit_validator = RegexValidator(
 
 def generate_radius_secret():
     return secrets.token_urlsafe(24)
+
+
+def generate_provision_token():
+    return secrets.token_urlsafe(32)
+
+
+# Router inaripoti kila dakika. Ikikaa kimya zaidi ya hapa, tunaiona offline.
+ONLINE_THRESHOLD = timedelta(minutes=3)
 
 
 class Owner(models.Model):
@@ -83,8 +93,22 @@ class Router(models.Model):
             "na link-login-only inayotumwa na MikroTik inapuuzwa."
         ),
     )
+    provision_token = models.CharField(
+        "token ya usanidi",
+        max_length=64,
+        unique=True,
+        default=generate_provision_token,
+        editable=False,
+        help_text="Siri iliyo kwenye link ya usanidi na ripoti za router. Usiitoe hadharani.",
+    )
     is_active = models.BooleanField("iko hai", default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    # Taarifa zinazoletwa na router yenyewe kila inaporipoti (check-in).
+    last_seen_at = models.DateTimeField("ilionekana mara ya mwisho", null=True, blank=True)
+    routeros_version = models.CharField("toleo la RouterOS", max_length=60, blank=True)
+    uptime = models.CharField("muda iliowaka", max_length=40, blank=True)
+    active_clients = models.PositiveIntegerField("wateja online", default=0)
 
     class Meta:
         verbose_name = "router"
@@ -93,6 +117,12 @@ class Router(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.owner})"
+
+    @property
+    def is_online(self):
+        if self.last_seen_at is None:
+            return False
+        return timezone.now() - self.last_seen_at <= ONLINE_THRESHOLD
 
     def save(self, *args, **kwargs):
         # Thamani tupu ihifadhiwe kama NULL ili unique isizuie routers nyingi zisizo nayo.
@@ -166,3 +196,33 @@ class Package(models.Model):
         else:
             count, unit = minutes, "dakika"
         return f"{unit} {count}"
+
+
+class RouterCommand(models.Model):
+    """Agizo linalosubiri router ilichukue kwenye ripoti yake inayofuata."""
+
+    class Action(models.TextChoices):
+        REBOOT = "reboot", "Washa upya (reboot)"
+        REAPPLY_SETUP = "reapply_setup", "Weka upya usanidi wa JamiiLite"
+
+    router = models.ForeignKey(
+        Router, on_delete=models.CASCADE, related_name="commands", verbose_name="router"
+    )
+    action = models.CharField("agizo", max_length=20, choices=Action.choices)
+    created_at = models.DateTimeField(auto_now_add=True)
+    delivered_at = models.DateTimeField("lilipokelewa", null=True, blank=True)
+
+    class Meta:
+        verbose_name = "agizo la router"
+        verbose_name_plural = "maagizo ya router"
+        ordering = ["created_at"]
+        indexes = [
+            models.Index(
+                fields=["router", "created_at"],
+                condition=models.Q(delivered_at__isnull=True),
+                name="routercommand_pending_idx",
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.get_action_display()} → {self.router.name}"

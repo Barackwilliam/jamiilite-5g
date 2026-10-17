@@ -83,27 +83,53 @@ python manage.py runserver            # ukurasa wa kulipia + admin
 python manage.py radius_server        # RADIUS (UDP 1812 na 1813)
 ```
 
-Kisha chapisha amri za RouterOS za router yako na uzibandike kwenye MikroTik
-terminal:
+### Usanidi wa mstari mmoja
+
+Kila router ina **mstari mmoja** wa usanidi. Unauona kwenye admin (fungua
+router, sehemu ya *Usanidi*), au kwa:
 
 ```bash
-python manage.py mikrotik_config demo
+python manage.py mikrotik_config demo          # mstari mmoja
+python manage.py mikrotik_config demo --full   # script nzima, kwa kuikagua
 ```
 
-Amri hizo zinaweka:
-1. **Jina la router** (`/system identity`). Lazima liwe sawa na *NAS identifier*
-   ya router kwenye admin, kwa sababu RADIUS inatambua router kwa jina hilo.
-2. **RADIUS** pamoja na secret ya router hiyo.
-3. **Login kwa PAP**: vocha inatumwa kama username na password.
-4. **Walled garden**: mteja anafikia ukurasa wa kulipia kabla hajaingia.
-5. **`hotspot/login.html`**: inampeleka mteja kwenye ukurasa wetu.
+Mstari huo ukibandikwa kwenye terminal ya MikroTik, unapakua usanidi kutoka
+`/r/<token>/setup.rsc` na kuuweka:
+1. **Jina la router** (`/system identity`), sawa na *NAS identifier* yake
+2. **RADIUS** pamoja na secret ya router hiyo
+3. **Login kwa PAP**: vocha inatumwa kama username na password
+4. **Walled garden**: mteja anafikia ukurasa wa kulipia kabla hajaingia
+5. **`hotspot/login.html`**: inampeleka mteja kwenye ukurasa wetu
+6. **Ripoti ya kila dakika (check-in)**: angalia hapa chini
+
+Ni salama kuuendesha tena: unaondoa mipangilio ya zamani ya JamiiLite kabla ya
+kuweka mipya. Router lazima iwe na hotspot tayari.
+
+### Router "inapiga simu nyumbani"
+
+Kila dakika router inatuma ripoti (`/r/<token>/checkin`): toleo la RouterOS,
+muda iliowaka, na wateja walio online. Admin inaonyesha router iko
+**Online/Offline**. Kwa sababu router ndiyo inayoanzisha mawasiliano, hii
+inafanya kazi hata nyuma ya 4G au NAT.
+
+Jibu la ripoti linabeba **maagizo kutoka mbali**. Kwenye admin, chagua routers,
+kisha *Actions*:
+- **Washa upya (reboot)**
+- **Weka upya usanidi wa JamiiLite**: router inapakua usanidi mpya, kwa mfano
+  baada ya kubadilisha anwani ya server
+
+Token ya usanidi ni siri: yeyote mwenye link anaweza kuona RADIUS secret ya
+router. Kwenye server halisi tumia **HTTPS** tu.
+
+### Anwani
 
 Kwa chaguo-msingi, anwani ni zile za maabara ya VirtualBox: MikroTik inaiona
 kompyuta mwenyeji kama `10.0.2.2` (weka `10.0.2.2` kwenye `ALLOWED_HOSTS`).
-Kwa server halisi:
+Kwa server halisi weka kwenye `.env`:
 
-```bash
-python manage.py mikrotik_config duka-la-kati --radius-address 203.0.113.10 --portal-base https://jamiilite.example.com
+```
+JAMIILITE_PUBLIC_URL=https://jamiilite.example.com
+RADIUS_PUBLIC_ADDRESS=203.0.113.10
 ```
 
 **Usalama:**

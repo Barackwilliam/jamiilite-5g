@@ -206,6 +206,12 @@ ALLOW_SANDBOX_PAYMENTS = env_bool("ALLOW_SANDBOX_PAYMENTS", DEBUG)
 # inakataliwa. RouterOS 7.15 na kuendelea inaituma. Zima tu kwa router za zamani.
 RADIUS_REQUIRE_MESSAGE_AUTHENTICATOR = env_bool("RADIUS_REQUIRE_MESSAGE_AUTHENTICATOR", True)
 
+# Anwani ambazo MikroTik (na wateja wake) wanaitumia kufikia mfumo huu. Kwa
+# maabara ya VirtualBox, kompyuta mwenyeji inaonekana kama 10.0.2.2. Kwenye
+# server halisi weka mfano https://jamiilite.co.tz na IP ya server.
+JAMIILITE_PUBLIC_URL = os.environ.get("JAMIILITE_PUBLIC_URL", "http://10.0.2.2:8000")
+RADIUS_PUBLIC_ADDRESS = os.environ.get("RADIUS_PUBLIC_ADDRESS", "10.0.2.2")
+
 
 # --- Usalama wa production ---------------------------------------------------
 if not DEBUG:

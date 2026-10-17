@@ -10,6 +10,7 @@ admin.site.index_title = "Usimamizi"
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("p/", include("portal.urls")),
+    path("r/", include("radius.urls")),
 ]
 
 if settings.DEBUG and not settings.USE_SUPABASE_STORAGE:
