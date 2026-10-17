@@ -108,14 +108,19 @@
 <section class="section section-alt">
   <div class="wrap pricing">
     <div>
-      <h2 class="section-title left">Hulipi chochote kuanza</h2>
-      <p class="lead">Hakuna ada ya kujiunga wala ya mwezi. Tunachukua <strong>{{ commission_percent }}%</strong> tu ya kila mauzo. Usipouza, hulipi.</p>
+      <h2 class="section-title left">Bei moja, rahisi</h2>
+      <p class="lead">Siku <strong>{{ trial_days }} za kwanza ni bure</strong>. Kisha ni <strong>Tsh {{ monthly_fee }} kwa mwezi</strong>, chini ya Tsh {{ daily_fee }} kwa siku. Mauzo yako yote ni yako.</p>
+      <p class="muted">Ada inalipwa yenyewe kutoka kwenye mauzo yako, kwa hiyo hutoi pesa mfukoni.</p>
     </div>
     <div class="price-card">
-      <p class="muted">Mfano: ukiuza vifurushi vya Tsh {{ example_sales }} kwa mwezi</p>
-      <p class="price-row"><span>Mauzo</span><b>Tsh {{ example_sales }}</b></p>
-      <p class="price-row"><span>JamiiLite ({{ commission_percent }}%)</span><b>− Tsh {{ example_fee }}</b></p>
-      <p class="price-row total"><span>Unabaki na</span><b>Tsh {{ example_net }}</b></p>
+      <p class="price-amount">Tsh {{ monthly_fee }}<span>/mwezi</span></p>
+      <ul class="price-list">
+        <li>Siku {{ trial_days }} za majaribio bure</li>
+        <li>Routers na vifurushi bila kikomo</li>
+        <li>Vocha za kiotomatiki na za kuchapisha</li>
+        <li>Dashboard ya mapato kwenye simu yako</li>
+      </ul>
+      <p class="price-note">Ukiuza vifurushi <strong>{{ breakeven_packages }}</strong> tu vya Tsh {{ example_package_price }} kwa mwezi, ada imeshalipika. Vinavyobaki ni faida yako.</p>
       <a class="link-arrow" href="{% url 'pages:mahitaji' %}">Ona vifaa vinavyohitajika →</a>
     </div>
   </div>
@@ -134,7 +139,11 @@
     </details>
     <details class="faq">
       <summary>Pesa za wateja zinanifikiaje?</summary>
-      <p>Wateja wanalipa kwa simu, na mauzo yako yanaonekana kwenye dashboard. Unatoa pesa yako kwenda namba yako ya simu, ukiondoa kamisheni ya {{ commission_percent }}%.</p>
+      <p>Wateja wanalipa kwa simu, na kila mauzo yanaongezwa kwenye salio lako. Unaliona kwenye dashboard, na unatoa pesa kwenda namba yako ya simu wakati wowote unaotaka. Ada ya mwezi (Tsh {{ monthly_fee }}) inakatwa yenyewe kutoka kwenye salio hilo.</p>
+    </details>
+    <details class="faq">
+      <summary>Nisipolipa ada ya mwezi itakuwaje?</summary>
+      <p>Mauzo mapya yanasimama hadi ada ilipwe. Wateja waliokwisha kununua vifurushi wanaendelea kutumia hadi muda wao uishe, kwa hiyo hawaumii kwa sababu yako. Salio likitosha, ada inalipwa yenyewe na mauzo yanaendelea.</p>
     </details>
     <details class="faq">
       <summary>Internet ikikatika au umeme ukikatika?</summary>

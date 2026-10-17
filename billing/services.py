@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from .models import Payment, Voucher
 from .providers import get_provider
+from .wallet import credit_sale
 
 
 def start_payment(*, router, package, phone, client_mac="", client_ip=None):
@@ -55,6 +56,7 @@ def confirm_payment(payment_id, reference=""):
             update_fields.append("provider_reference")
         payment.save(update_fields=update_fields)
 
+        credit_sale(payment)
         return Voucher.objects.create(
             router=payment.router, package=payment.package, payment=payment
         )

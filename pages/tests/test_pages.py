@@ -23,9 +23,10 @@ class PublicPagesTests(TestCase):
         self.assertNotContains(response, "wa.me")
         self.assertContains(response, f'href="{reverse("pages:mahitaji")}"')
 
-    @override_settings(JAMIILITE_COMMISSION_PERCENT="7.5")
-    def test_pricing_example_uses_commission(self):
+    @override_settings(JAMIILITE_MONTHLY_FEE=10000, JAMIILITE_TRIAL_DAYS=14)
+    def test_pricing_uses_monthly_fee_and_trial(self):
         response = self.client.get(reverse("pages:home"))
-        self.assertContains(response, "7.5%")
-        self.assertContains(response, "− Tsh 7,500")
-        self.assertContains(response, "Tsh 92,500")
+        self.assertContains(response, "Tsh 10,000<span>/mwezi</span>")
+        self.assertContains(response, "Siku 14 za majaribio bure")
+        self.assertContains(response, "vifurushi <strong>20</strong> tu")
+        self.assertNotContains(response, "kamisheni")

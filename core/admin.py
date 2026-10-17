@@ -20,7 +20,7 @@ class PackageInline(admin.TabularInline):
 
 @admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
-    list_display = ("business_name", "phone", "commission_percent", "is_active", "created_at")
+    list_display = ("business_name", "phone", "is_active", "trial_ends_at", "paid_until", "created_at")
     list_filter = ("is_active",)
     search_fields = ("business_name", "phone", "user__username")
     inlines = [RouterInline, PackageInline]

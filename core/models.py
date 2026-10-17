@@ -37,15 +37,16 @@ class Owner(models.Model):
     business_name = models.CharField("jina la biashara", max_length=120)
     phone = models.CharField("namba ya simu", max_length=20)
     logo = models.ImageField("logo", upload_to="owners/logos/", blank=True)
-    commission_percent = models.DecimalField(
-        "kamisheni (%)",
-        max_digits=5,
-        decimal_places=2,
-        default=5,
-        validators=[MinValueValidator(0)],
+    is_active = models.BooleanField(
+        "yuko hai",
+        default=True,
+        help_text="Ukiondoa tiki, mmiliki amesitishwa: hawezi kuingia wala kuuza.",
     )
-    is_active = models.BooleanField("yuko hai", default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    # Usajili: siku za majaribio, kisha ada ya kila mwezi.
+    trial_ends_at = models.DateTimeField("majaribio yanaisha", null=True, blank=True)
+    paid_until = models.DateTimeField("amelipia hadi", null=True, blank=True)
 
     class Meta:
         verbose_name = "mmiliki"
@@ -54,6 +55,24 @@ class Owner(models.Model):
 
     def __str__(self):
         return self.business_name
+
+    @property
+    def subscription_ends_at(self):
+        dates = [d for d in (self.trial_ends_at, self.paid_until) if d]
+        return max(dates) if dates else None
+
+    def is_in_trial(self, now=None):
+        now = now or timezone.now()
+        return bool(self.trial_ends_at and now < self.trial_ends_at) and not (
+            self.paid_until and now < self.paid_until
+        )
+
+    def has_active_subscription(self, now=None):
+        ends = self.subscription_ends_at
+        return ends is not None and (now or timezone.now()) < ends
+
+    def can_sell(self, now=None):
+        return self.is_active and self.has_active_subscription(now)
 
 
 class Router(models.Model):

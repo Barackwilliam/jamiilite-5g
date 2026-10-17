@@ -8,6 +8,7 @@ from django.views.decorators.http import require_http_methods, require_POST
 
 from billing.models import Payment
 from billing.services import start_payment
+from billing.subscriptions import ensure_active
 from core.models import Router
 
 from .forms import PayForm
@@ -55,7 +56,10 @@ def home(request, slug):
     if incoming:
         request.session[_hotspot_session_key(router)] = incoming
 
-    form = PayForm(packages=_active_packages(router))
+    return _render_home(request, router, PayForm(packages=_active_packages(router)))
+
+
+def _render_home(request, router, form, status=200):
     return render(
         request,
         "portal/home.html",
@@ -63,9 +67,13 @@ def home(request, slug):
             "router": router,
             "owner": router.owner,
             "form": form,
+            # Usajili wa mmiliki ukiisha, mauzo mapya yanasimama, lakini vocha za
+            # zamani bado zinaweza kutumika.
+            "selling_paused": not ensure_active(router.owner),
             "hotspot_error": request.GET.get("error", ""),
             **_hotspot_context(request, router),
         },
+        status=status,
     )
 
 
@@ -73,13 +81,10 @@ def home(request, slug):
 def pay(request, slug):
     router = _get_router(slug)
     form = PayForm(request.POST, packages=_active_packages(router))
+    if not ensure_active(router.owner):
+        return _render_home(request, router, form, status=403)
     if not form.is_valid():
-        return render(
-            request,
-            "portal/home.html",
-            {"router": router, "owner": router.owner, "form": form, **_hotspot_context(request, router)},
-            status=400,
-        )
+        return _render_home(request, router, form, status=400)
 
     params = request.session.get(_hotspot_session_key(router), {})
     payment = start_payment(

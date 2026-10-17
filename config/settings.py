@@ -217,8 +217,16 @@ RADIUS_PUBLIC_ADDRESS = os.environ.get("RADIUS_PUBLIC_ADDRESS", "10.0.2.2")
 # --- Tovuti ya hadhara ---------------------------------------------------------
 # Namba ya WhatsApp ya kupokea wateja wapya (bila +), mfano 255712345678.
 JAMIILITE_WHATSAPP_NUMBER = os.environ.get("JAMIILITE_WHATSAPP_NUMBER", "").lstrip("+")
-# Kamisheni inayotangazwa kwenye ukurasa wa mwanzo.
-JAMIILITE_COMMISSION_PERCENT = os.environ.get("JAMIILITE_COMMISSION_PERCENT", "5")
+
+
+# --- Biashara ya JamiiLite -----------------------------------------------------
+# Ada ya mmiliki kwa mwezi, na siku za majaribio bure kwa mmiliki mpya.
+JAMIILITE_MONTHLY_FEE = int(os.environ.get("JAMIILITE_MONTHLY_FEE", "10000"))
+JAMIILITE_TRIAL_DAYS = int(os.environ.get("JAMIILITE_TRIAL_DAYS", "14"))
+# Asilimia inayokatwa kwenye kila mauzo kufidia ada za mtoa huduma wa malipo
+# (Selcom/AzamPay...). 0 = mmiliki anapata kiasi chote.
+JAMIILITE_SALE_FEE_PERCENT = int(os.environ.get("JAMIILITE_SALE_FEE_PERCENT", "0"))
+JAMIILITE_MIN_WITHDRAWAL = int(os.environ.get("JAMIILITE_MIN_WITHDRAWAL", "1000"))
 
 
 # --- Usalama wa production ---------------------------------------------------

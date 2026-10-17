@@ -7,7 +7,9 @@
 
   <section>
     <h2>Nunua kifurushi</h2>
-    {% if form.package.field.queryset.exists %}
+    {% if selling_paused %}
+      <p class="alert">Mauzo ya vifurushi yamesimama kwa muda. Kama una vocha, bado unaweza kuitumia hapa chini.</p>
+    {% elif form.package.field.queryset.exists %}
       <form method="post" action="{% url 'portal:pay' router.slug %}" class="stack">
         {% csrf_token %}
         {% if form.non_field_errors %}<p class="alert">{{ form.non_field_errors|join:" " }}</p>{% endif %}

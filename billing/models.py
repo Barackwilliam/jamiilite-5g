@@ -2,6 +2,7 @@ import secrets
 import uuid
 from datetime import timedelta
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
@@ -137,3 +138,101 @@ class VoucherDevice(models.Model):
 
     def __str__(self):
         return self.mac_address
+
+
+class LedgerEntry(models.Model):
+    """
+    Kila mabadiliko ya salio la mmiliki. Salio = jumla ya `amount` zote.
+
+    Mauzo yanaongeza (+), ada ya mwezi na kutoa pesa vinapunguza (−). Hakuna
+    kufuta wala kubadilisha rekodi: kosa linarekebishwa kwa rekodi mpya.
+    """
+
+    class Kind(models.TextChoices):
+        SALE = "sale", "Mauzo"
+        SUBSCRIPTION = "subscription", "Ada ya mwezi"
+        WITHDRAWAL = "withdrawal", "Kutoa pesa"
+        WITHDRAWAL_REVERSAL = "withdrawal_reversal", "Kutoa pesa kumerudishwa"
+        ADJUSTMENT = "adjustment", "Marekebisho"
+
+    owner = models.ForeignKey(
+        "core.Owner", on_delete=models.PROTECT, related_name="ledger", verbose_name="mmiliki"
+    )
+    kind = models.CharField("aina", max_length=24, choices=Kind.choices)
+    amount = models.BigIntegerField("kiasi (Tsh)")
+    description = models.CharField("maelezo", max_length=200, blank=True)
+    payment = models.OneToOneField(
+        Payment, on_delete=models.PROTECT, null=True, blank=True, related_name="ledger_entry"
+    )
+    withdrawal = models.ForeignKey(
+        "Withdrawal", on_delete=models.PROTECT, null=True, blank=True, related_name="ledger_entries"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "rekodi ya salio"
+        verbose_name_plural = "rekodi za salio"
+        ordering = ["-created_at", "-id"]
+        indexes = [models.Index(fields=["owner", "-created_at"], name="ledger_owner_recent_idx")]
+
+    def __str__(self):
+        return f"{self.get_kind_display()}: {self.amount:+,}"
+
+
+class Withdrawal(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "pending", "Inasubiri"
+        PAID = "paid", "Imelipwa"
+        REJECTED = "rejected", "Imekataliwa"
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    owner = models.ForeignKey(
+        "core.Owner", on_delete=models.PROTECT, related_name="withdrawals", verbose_name="mmiliki"
+    )
+    amount = models.PositiveIntegerField("kiasi (Tsh)")
+    phone = models.CharField("namba ya kupokea", max_length=12)
+    status = models.CharField("hali", max_length=10, choices=Status.choices, default=Status.PENDING)
+    reference = models.CharField("kumbukumbu ya malipo", max_length=100, blank=True)
+    note = models.CharField("maelezo", max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    processed_at = models.DateTimeField(null=True, blank=True)
+    processed_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
+    )
+
+    class Meta:
+        verbose_name = "ombi la kutoa pesa"
+        verbose_name_plural = "maombi ya kutoa pesa"
+        ordering = ["-created_at"]
+        indexes = [models.Index(fields=["status", "created_at"], name="withdrawal_status_idx")]
+
+    def __str__(self):
+        return f"{self.owner} - Tsh {self.amount:,} ({self.get_status_display()})"
+
+
+class SubscriptionCharge(models.Model):
+    """Malipo ya ada ya mwezi. Ndiyo mapato ya JamiiLite."""
+
+    class Source(models.TextChoices):
+        BALANCE = "balance", "Kutoka kwenye salio"
+        CASH = "cash", "Pesa taslimu / nje ya mfumo"
+
+    owner = models.ForeignKey(
+        "core.Owner", on_delete=models.PROTECT, related_name="subscription_charges", verbose_name="mmiliki"
+    )
+    months = models.PositiveSmallIntegerField("miezi", default=1)
+    amount = models.PositiveIntegerField("kiasi (Tsh)")
+    source = models.CharField("chanzo", max_length=10, choices=Source.choices)
+    period_end = models.DateTimeField("muda mpya unaisha")
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
+    )
+
+    class Meta:
+        verbose_name = "malipo ya ada"
+        verbose_name_plural = "malipo ya ada"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.owner} - miezi {self.months}"
