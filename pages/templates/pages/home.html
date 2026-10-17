@@ -1,0 +1,160 @@
+{% extends "pages/base.html" %}
+
+{% block title %}JamiiLite 5G: uza WiFi yako kiotomatiki{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow">Kwa wamiliki wa WiFi</p>
+      <h1>Uza WiFi yako kiotomatiki. Pesa inaingia yenyewe.</h1>
+      <p class="lead">Wateja wako wanachagua kifurushi, wanalipa kwa simu, na wanaunganishwa papo hapo. Muda ukiisha, wanakatwa wenyewe. Wewe unaona mapato yako kwenye simu.</p>
+      <div class="hero-actions">
+        {% include "pages/_cta.html" %}
+        <a class="btn btn-ghost" href="{% url 'pages:mwongozo' %}">Ona jinsi inavyofanya kazi</a>
+      </div>
+      <ul class="pay-chips" aria-label="Njia za malipo">
+        <li>M-Pesa</li><li>Mixx by Yas (Tigo Pesa)</li><li>Airtel Money</li><li>HaloPesa</li>
+      </ul>
+    </div>
+
+    <div class="hero-phone" aria-hidden="true">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="mini-brand"><span class="mini-logo">N</span> Neema WiFi</div>
+          <p class="mini-title">Nunua kifurushi</p>
+          <div class="mini-pkg"><span>Saa 1</span><b>Tsh 500</b></div>
+          <div class="mini-pkg is-picked"><span>Siku 1</span><b>Tsh 1,500</b></div>
+          <div class="mini-pkg"><span>Wiki 1</span><b>Tsh 7,000</b></div>
+          <div class="mini-btn">Lipa kwa simu</div>
+        </div>
+      </div>
+      <div class="toast">
+        <span class="toast-dot"></span>
+        <span><b>+ Tsh 1,500</b><br><small>Siku 1 · 0712 ••• 678</small></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">Bado unafanya hivi?</h2>
+    <div class="pain-grid">
+      <div class="pain"><span class="pain-x" aria-hidden="true">✕</span>Unaandika password kwenye karatasi na kuibadilisha kila mtu asipolipa</div>
+      <div class="pain"><span class="pain-x" aria-hidden="true">✕</span>Unakumbuka kwa kichwa nani amelipa na nani anadaiwa</div>
+      <div class="pain"><span class="pain-x" aria-hidden="true">✕</span>Mtu mmoja analipia, kisha anawapa wenzake password bure</div>
+      <div class="pain"><span class="pain-x" aria-hidden="true">✕</span>Huwezi kusafiri kwa sababu biashara inakusubiri wewe</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <h2 class="section-title">Inavyofanya kazi, kwa hatua 3</h2>
+    <ol class="steps">
+      <li class="step">
+        <span class="step-num">1</span>
+        <h3>Unganisha router yako</h3>
+        <p>Unabandika mstari mmoja tu kwenye MikroTik, au tunakuunganishia. Huhitaji kujua mambo ya kiufundi.</p>
+      </li>
+      <li class="step">
+        <span class="step-num">2</span>
+        <h3>Weka vifurushi na bei</h3>
+        <p>Saa 1, siku 1, wiki 1, kwa bei unayotaka wewe. Unabadilisha wakati wowote kwenye simu yako.</p>
+      </li>
+      <li class="step">
+        <span class="step-num">3</span>
+        <h3>Pokea malipo</h3>
+        <p>Wateja wanalipa kwa simu na kuunganishwa papo hapo. Mapato yanaonekana kwenye dashboard yako.</p>
+      </li>
+    </ol>
+    <p class="center"><a class="link-arrow" href="{% url 'pages:mwongozo' %}">Tazama mwongozo wa kuunganisha →</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">Kila kitu unachohitaji</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>Vocha za kiotomatiki</h3>
+        <p>Mteja akilipa anapewa vocha yake papo hapo. Hakuna kusubiri wala kukupigia simu.</p>
+      </div>
+      <div class="feature">
+        <h3>Muda unahesabiwa wenyewe</h3>
+        <p>Vocha ya saa 1 inaisha saa 1 baadaye, hata mteja akikatika na kurudi. Kisha anakatwa mwenyewe.</p>
+      </div>
+      <div class="feature">
+        <h3>Hakuna kugawana password</h3>
+        <p>Kila vocha inafanya kazi kwenye idadi ya simu uliyoruhusu tu. Wa pili anakataliwa.</p>
+      </div>
+      <div class="feature">
+        <h3>Kasi kwa kila kifurushi</h3>
+        <p>Weka kasi tofauti kwa vifurushi tofauti ili internet yako isimalizwe na mtu mmoja.</p>
+      </div>
+      <div class="feature">
+        <h3>Simamia ukiwa popote</h3>
+        <p>Ona kama router iko hai, wateja walio online, na uiwashe upya ukiwa mbali.</p>
+      </div>
+      <div class="feature">
+        <h3>Ukurasa wenye jina lako</h3>
+        <p>Wateja wanaona jina na logo ya biashara yako, kwa Kiswahili.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap pricing">
+    <div>
+      <h2 class="section-title left">Hulipi chochote kuanza</h2>
+      <p class="lead">Hakuna ada ya kujiunga wala ya mwezi. Tunachukua <strong>{{ commission_percent }}%</strong> tu ya kila mauzo. Usipouza, hulipi.</p>
+    </div>
+    <div class="price-card">
+      <p class="muted">Mfano: ukiuza vifurushi vya Tsh {{ example_sales }} kwa mwezi</p>
+      <p class="price-row"><span>Mauzo</span><b>Tsh {{ example_sales }}</b></p>
+      <p class="price-row"><span>JamiiLite ({{ commission_percent }}%)</span><b>− Tsh {{ example_fee }}</b></p>
+      <p class="price-row total"><span>Unabaki na</span><b>Tsh {{ example_net }}</b></p>
+      <a class="link-arrow" href="{% url 'pages:mahitaji' %}">Ona vifaa vinavyohitajika →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap narrow">
+    <h2 class="section-title">Maswali yanayoulizwa mara nyingi</h2>
+    <details class="faq">
+      <summary>Nina router ya kawaida (MiFi, 4G au fiber). Inafaa?</summary>
+      <p>Ndiyo, kama chanzo cha internet. Utahitaji kuongeza router ndogo ya MikroTik nyuma yake, ambayo ndiyo inayowaonyesha wateja ukurasa wa kulipia. Ukurasa wa <a href="{% url 'pages:mahitaji' %}">Mahitaji</a> unakuonyesha hasa unachohitaji.</p>
+    </details>
+    <details class="faq">
+      <summary>Sijui mambo ya kompyuta. Nitaweza?</summary>
+      <p>Ndiyo. Unabandika mstari mmoja tu ukifuata <a href="{% url 'pages:mwongozo' %}">mwongozo wetu</a>. Ukikwama, tunakusaidia, au fundi wetu wa karibu nawe anakuunganishia.</p>
+    </details>
+    <details class="faq">
+      <summary>Pesa za wateja zinanifikiaje?</summary>
+      <p>Wateja wanalipa kwa simu, na mauzo yako yanaonekana kwenye dashboard. Unatoa pesa yako kwenda namba yako ya simu, ukiondoa kamisheni ya {{ commission_percent }}%.</p>
+    </details>
+    <details class="faq">
+      <summary>Internet ikikatika au umeme ukikatika?</summary>
+      <p>Router ikiwaka tena, inajiunganisha yenyewe. Vocha za wateja hazipotei, na muda wao unaendelea kama ulivyokuwa.</p>
+    </details>
+    <details class="faq">
+      <summary>Nina maeneo mengi ya WiFi. Je, ninahitaji akaunti nyingi?</summary>
+      <p>Hapana. Akaunti moja inasimamia routers zako zote, na vocha za mteja zinafanya kazi kwenye maeneo yako yote.</p>
+    </details>
+  </div>
+</section>
+
+<section class="section cta-band">
+  <div class="wrap center">
+    <h2>Anza kuuza WiFi yako leo</h2>
+    <p class="lead">Tuambie unatumia router gani, nasi tutakuonyesha hatua inayofuata.</p>
+    <div class="hero-actions center-actions">
+      {% include "pages/_cta.html" %}
+      <a class="btn btn-ghost" href="{% url 'pages:mahitaji' %}">Ona mahitaji</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

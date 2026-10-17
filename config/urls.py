@@ -11,6 +11,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("p/", include("portal.urls")),
     path("r/", include("radius.urls")),
+    path("", include("pages.urls")),
 ]
 
 if settings.DEBUG and not settings.USE_SUPABASE_STORAGE:

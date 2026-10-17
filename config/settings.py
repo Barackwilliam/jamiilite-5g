@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "billing",
     "portal",
     "radius",
+    "pages",
 ]
 
 MIDDLEWARE = [
@@ -211,6 +212,13 @@ RADIUS_REQUIRE_MESSAGE_AUTHENTICATOR = env_bool("RADIUS_REQUIRE_MESSAGE_AUTHENTI
 # server halisi weka mfano https://jamiilite.co.tz na IP ya server.
 JAMIILITE_PUBLIC_URL = os.environ.get("JAMIILITE_PUBLIC_URL", "http://10.0.2.2:8000")
 RADIUS_PUBLIC_ADDRESS = os.environ.get("RADIUS_PUBLIC_ADDRESS", "10.0.2.2")
+
+
+# --- Tovuti ya hadhara ---------------------------------------------------------
+# Namba ya WhatsApp ya kupokea wateja wapya (bila +), mfano 255712345678.
+JAMIILITE_WHATSAPP_NUMBER = os.environ.get("JAMIILITE_WHATSAPP_NUMBER", "").lstrip("+")
+# Kamisheni inayotangazwa kwenye ukurasa wa mwanzo.
+JAMIILITE_COMMISSION_PERCENT = os.environ.get("JAMIILITE_COMMISSION_PERCENT", "5")
 
 
 # --- Usalama wa production ---------------------------------------------------
