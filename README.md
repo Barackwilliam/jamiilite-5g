@@ -20,6 +20,11 @@ ukiisha.
 
 Kinachofuata: malipo halisi (Selcom / AzamPay / ClickPesa) na dashboard ya mmiliki.
 
+## Kuweka hewani
+
+Render (website) + Google Cloud e2-micro (RADIUS), vyote bure: angalia
+[`docs/DEPLOY.md`](docs/DEPLOY.md).
+
 ## Kuanza (local)
 
 ```bash

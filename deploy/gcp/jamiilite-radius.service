@@ -1,0 +1,20 @@
+[Unit]
+Description=JamiiLite 5G RADIUS server (UDP 1812/1813)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=jamiilite
+WorkingDirectory=/opt/jamiilite
+EnvironmentFile=/etc/jamiilite/radius.env
+Environment=PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/jamiilite/.venv/bin/python manage.py radius_server
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

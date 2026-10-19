@@ -38,6 +38,11 @@ if not SECRET_KEY:
 
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1" if DEBUG else "")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
+# Render inaweka jina la huduma (mfano jamiilite.onrender.com) kwenye mazingira.
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -185,7 +190,8 @@ if USE_SUPABASE_STORAGE:
         },
     }
 else:
-    if not DEBUG:
+    # Server ya RADIUS haishughulikii picha, kwa hiyo inaweza kukaa bila keys hizi.
+    if not DEBUG and not env_bool("JAMIILITE_NO_MEDIA", False):
         raise ImproperlyConfigured(
             "Weka SUPABASE_PROJECT_REF, SUPABASE_STORAGE_BUCKET, SUPABASE_S3_ACCESS_KEY_ID, "
             "SUPABASE_S3_SECRET_ACCESS_KEY na SUPABASE_S3_REGION wakati DEBUG=False."
