@@ -1,0 +1,76 @@
+{% load i18n %}
+{# Safari ya packet: gusa kifaa au hatua, uone packet ikisafiri na kilichomo ndani yake. #}
+<div class="jr" data-journey>
+  <div class="jr-map" data-jr-map>
+    <div class="jr-track" aria-hidden="true"></div>
+    <button type="button" class="jr-node" data-node="phone"><span class="jr-ico">📱</span><b>{% translate "Simu ya mteja" %}</b><small>0712 345 678</small></button>
+    <button type="button" class="jr-node" data-node="router"><span class="jr-ico">📡</span><b>{% translate "Router" %}</b><small>MikroTik · Neema WiFi</small></button>
+    <button type="button" class="jr-node is-core" data-node="cloud"><span class="jr-ico">⚡</span><b>JamiiLite</b><small>RADIUS · {% translate "Malipo" %}</small></button>
+    <button type="button" class="jr-node" data-node="pay"><span class="jr-ico">💳</span><b>M-Pesa</b><small>{% translate "Mtoa huduma wa malipo" %}</small></button>
+    <button type="button" class="jr-node" data-node="owner"><span class="jr-ico">👤</span><b>{% translate "Simu ya mmiliki" %}</b><small>Dashboard</small></button>
+    <span class="jr-packet" data-jr-packet aria-hidden="true"><i></i><em data-jr-tag>HTTP</em></span>
+  </div>
+
+  <div class="jr-panel">
+    <div class="jr-progress" aria-hidden="true"><span data-jr-bar></span></div>
+    <ol class="jr-steps" data-jr-steps>
+      <li data-from="phone" data-to="router" data-tag="HTTP" data-color="#4c95f5">
+        <h3>{% translate "Mteja anagusa “Neema WiFi”" %}</h3>
+        <p>{% translate "Simu inajaribu kufungua internet. Router inaizuia na kumrudishia ukurasa wa kulipia, kwa hiyo unajifungua wenyewe." %}</p>
+        <dl><dt>GET</dt><dd>connectivitycheck.gstatic.com</dd><dt>{% translate "Jibu" %}</dt><dd>302 → login.wifi</dd><dt>MAC</dt><dd>9C:2A:70:4C:14:E1</dd></dl>
+      </li>
+      <li data-from="router" data-to="cloud" data-tag="HTTPS" data-color="#4c95f5">
+        <h3>{% translate "Ukurasa wa kulipia unafunguka" %}</h3>
+        <p>{% translate "Router inaruhusu anwani ya JamiiLite peke yake. Mteja anaona jina la biashara yako na vifurushi vyako." %}</p>
+        <dl><dt>GET</dt><dd>/p/neema-wifi/</dd><dt>TLS</dt><dd>1.3 ✓</dd><dt>{% translate "Vifurushi" %}</dt><dd>3</dd></dl>
+      </li>
+      <li data-from="cloud" data-to="pay" data-tag="STK" data-color="#f0b54a">
+        <h3>{% translate "Ombi la malipo linaenda kwa M-Pesa" %}</h3>
+        <p>{% translate "Mteja anachagua Saa 1 na kubonyeza Lipa. Simu yake inapokea ombi la kuweka PIN." %}</p>
+        <dl><dt>{% translate "Kiasi" %}</dt><dd>Tsh 500</dd><dt>{% translate "Simu" %}</dt><dd>2557••••5678</dd><dt>Ref</dt><dd>JL-8F3A21</dd></dl>
+      </li>
+      <li data-from="pay" data-to="cloud" data-tag="PAID" data-color="#3ccf7e">
+        <h3>{% translate "Malipo yamethibitishwa" %}</h3>
+        <p>{% translate "M-Pesa inathibitisha. JamiiLite inatengeneza vocha ya mteja papo hapo." %}</p>
+        <dl><dt>Status</dt><dd>PAID ✓</dd><dt>{% translate "Risiti" %}</dt><dd>QK71H2MZ9P</dd><dt>{% translate "Vocha" %}</dt><dd>7K4QX9MP</dd></dl>
+      </li>
+      <li data-from="cloud" data-to="owner" data-tag="+500" data-color="#3ccf7e">
+        <h3>{% translate "Pesa inaingia kwenye salio lako" %}</h3>
+        <p>{% translate "Mauzo yanaonekana kwenye dashboard yako sekunde hiyo hiyo." %}</p>
+        <dl><dt>{% translate "Mauzo" %}</dt><dd>+Tsh 500</dd><dt>{% translate "Salio" %}</dt><dd>Tsh 146,500</dd></dl>
+      </li>
+      <li data-from="router" data-to="cloud" data-tag="RADIUS" data-color="#8b6ff0">
+        <h3>{% translate "Router inauliza: vocha hii ni halali?" %}</h3>
+        <p>{% translate "Simu inaingia yenyewe kwa vocha. Router inatuma ombi la RADIUS lililosainiwa kwa siri yake." %}</p>
+        <dl><dt>Access-Request</dt><dd>User-Name 7K4QX9MP</dd><dt>NAS-Identifier</dt><dd>jl-neema</dd><dt>Message-Auth</dt><dd>✓</dd></dl>
+      </li>
+      <li data-from="cloud" data-to="router" data-tag="ACCEPT" data-color="#3ccf7e">
+        <h3>{% translate "Ruhusa: saa 1, kasi 2 Mbps" %}</h3>
+        <p>{% translate "JamiiLite inakagua vocha na idadi ya simu, kisha inaiambia router ampe mteja muda na kasi gani." %}</p>
+        <dl><dt>Access-Accept</dt><dd>✓</dd><dt>Session-Timeout</dt><dd>3600 s</dd><dt>Rate-Limit</dt><dd>1M/2M</dd></dl>
+      </li>
+      <li data-from="router" data-to="phone" data-tag="ONLINE" data-color="#3ccf7e">
+        <h3>{% translate "Mteja yuko online" %}</h3>
+        <p>{% translate "Internet inafunguka. Mteja anarudishwa kwenye ukurasa aliokuwa akiufungua." %}</p>
+        <dl><dt>{% translate "Muda" %}</dt><dd>59:59</dd><dt>{% translate "Kasi" %}</dt><dd>2 Mbps</dd></dl>
+      </li>
+      <li data-from="router" data-to="cloud" data-tag="ACCT" data-color="#1fa3b8">
+        <h3>{% translate "Kila dakika 5: ripoti ya matumizi" %}</h3>
+        <p>{% translate "Router inaripoti kiasi cha data kilichotumika, kwa hiyo unaona kila mteja anavyotumia." %}</p>
+        <dl><dt>Accounting</dt><dd>Interim-Update</dd><dt>↓</dt><dd>84.2 MB</dd><dt>↑</dt><dd>6.1 MB</dd></dl>
+      </li>
+      <li data-from="router" data-to="phone" data-tag="STOP" data-color="#f0786a">
+        <h3>{% translate "Saa imeisha: router inamkata" %}</h3>
+        <p>{% translate "Muda ukifika, router inasimamisha internet ya mteja yenyewe na kuripoti mwisho wa matumizi." %}</p>
+        <dl><dt>Session-Timeout</dt><dd>0 s</dd><dt>Accounting</dt><dd>Stop</dd></dl>
+      </li>
+    </ol>
+    <div class="jr-controls">
+      <button type="button" class="jr-btn" data-jr="prev" aria-label="{% translate 'Hatua iliyopita' %}">‹</button>
+      <span class="jr-count" data-jr-count>1 / 10</span>
+      <button type="button" class="jr-btn jr-play" data-jr="play" aria-label="{% translate 'Cheza' %}">❚❚</button>
+      <button type="button" class="jr-btn" data-jr="next" aria-label="{% translate 'Hatua inayofuata' %}">›</button>
+    </div>
+    <p class="jr-hint">{% translate "Gusa kifaa chochote uone packet inayokifikia." %}</p>
+  </div>
+</div>

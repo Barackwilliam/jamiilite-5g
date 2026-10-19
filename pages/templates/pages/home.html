@@ -4,31 +4,31 @@
 {% block title %}{% translate "JamiiLite 5G: uza WiFi yako kiotomatiki" %}{% endblock %}
 {% block body_class %}page-landing{% endblock %}
 {% block head %}
-  <link rel="stylesheet" href="{% static 'ui/live.css' %}">
+  <link rel="preload" href="{% static 'js/landing.js' %}" as="script">
   <link rel="stylesheet" href="{% static 'css/landing.css' %}">
 {% endblock %}
 
 {% block content %}
-{# ================= HERO: mtaa wa usiku ================= #}
+{# ================= HERO ================= #}
 <section class="lp-hero">
   <div class="lp-aurora" aria-hidden="true"></div>
   <div class="wrap lp-hero-grid">
-    <div class="lp-hero-copy reveal">
+    <div class="lp-hero-copy">
       <p class="lp-pill"><span class="lp-live-dot"></span>{% translate "Mfumo wa WiFi za kulipia, Tanzania" %}</p>
       <h1>{% blocktranslate %}Geuza WiFi yako kuwa <span class="lp-grad-text">biashara inayojiendesha</span> yenyewe{% endblocktranslate %}</h1>
       <p class="lp-lead">{% translate "Wateja wanagusa jina la WiFi yako, wanalipa kwa simu, na wanaunganishwa papo hapo. Muda ukiisha, wanakatwa wenyewe. Wewe unaona kila shilingi ikiingia." %}</p>
       <div class="lp-actions">
         <a class="lp-btn lp-btn-primary" href="{% url 'dashboard:signup' %}">{% blocktranslate count days=trial_days %}Anza bure, siku {{ days }}{% plural %}Anza bure, siku {{ days }}{% endblocktranslate %}<span aria-hidden="true">→</span></a>
-        <a class="lp-btn lp-btn-glass" href="#jaribu"><span class="lp-play" aria-hidden="true"></span>{% translate "Jaribu kama mteja" %}</a>
+        <a class="lp-btn lp-btn-glass" href="#jaribu" data-open-tab="sim"><span class="lp-play" aria-hidden="true"></span>{% translate "Jaribu kama mteja" %}</a>
       </div>
       <ul class="lp-pay-chips" aria-label="{% translate 'Njia za malipo' %}">
         <li>M-Pesa</li><li>Mixx by Yas</li><li>Airtel Money</li><li>HaloPesa</li>
       </ul>
     </div>
 
-    <div class="lp-scene reveal" data-scene>
-      <canvas class="lp-scene-canvas" aria-hidden="true"></canvas>
-      <span class="lp-scene-tag">{% translate "Mfano wa jinsi inavyofanya kazi" %}</span>
+    <div class="lp-scene" data-scene>
+      <canvas class="lp-scene-canvas" role="img" aria-label="{% translate 'Wateja wakiunganishwa kwenye WiFi ya duka na kulipa kwa simu' %}"></canvas>
+      <span class="lp-scene-tag">📍 Neema WiFi · Sinza</span>
       <div class="lp-scene-stats" aria-hidden="true">
         <span><b data-scene-online>0</b> {% translate "online" %}</span>
         <span><b data-scene-sales>0</b> {% translate "mauzo" %}</span>
@@ -43,253 +43,108 @@
     </div>
   </div>
 
-  <div class="wrap lp-facts">
-    <div class="lp-fact reveal"><b>{% translate "Dakika 5" %}</b><span>{% translate "kuunganisha router" %}</span></div>
-    <div class="lp-fact reveal"><b>24/7</b><span>{% translate "inauza hata ukiwa umelala" %}</span></div>
-    <div class="lp-fact reveal"><b>Tsh {{ monthly_fee }}</b><span>{% translate "kwa mwezi, bila kamisheni" %}</span></div>
-    <div class="lp-fact reveal"><b>{% blocktranslate count days=trial_days %}Siku {{ days }}{% plural %}Siku {{ days }}{% endblocktranslate %}</b><span>{% translate "za kujaribu bure" %}</span></div>
-  </div>
+  <ul class="wrap lp-facts">
+    <li><b>{% translate "Dakika 5" %}</b><span>{% translate "kuunganisha router" %}</span></li>
+    <li><b>24/7</b><span>{% translate "inauza hata ukiwa umelala" %}</span></li>
+    <li><b>Tsh {{ monthly_fee }}</b><span>{% translate "kwa mwezi, bila kamisheni" %}</span></li>
+    <li><b>{% blocktranslate count days=trial_days %}Siku {{ days }}{% plural %}Siku {{ days }}{% endblocktranslate %}</b><span>{% translate "za kujaribu bure" %}</span></li>
+  </ul>
 </section>
 
-{# ================= Bila / Na JamiiLite ================= #}
-<section class="lp-section">
+{# ================= Ona ikifanya kazi: tabs ================= #}
+<section class="lp-section" id="jaribu">
   <div class="wrap">
-    <p class="lp-eyebrow reveal">{% translate "Tofauti yake" %}</p>
-    <h2 class="lp-title reveal">{% translate "Bado unafanya hivi?" %}</h2>
-    <div class="lp-compare reveal" data-compare>
-      <div class="lp-switch" role="tablist" aria-label="{% translate 'Linganisha' %}">
-        <button type="button" role="tab" aria-selected="true" data-compare-tab="before">{% translate "Bila JamiiLite" %}</button>
-        <button type="button" role="tab" aria-selected="false" data-compare-tab="after">{% translate "Na JamiiLite" %}</button>
-        <span class="lp-switch-thumb" aria-hidden="true"></span>
+    <p class="lp-eyebrow">{% translate "Ona ikifanya kazi" %}</p>
+    <h2 class="lp-title">{% translate "Gusa, ujaribu, uone kinachoendelea ndani" %}</h2>
+
+    <div class="lp-tabs" data-tabs>
+      <div class="lp-tablist" role="tablist" aria-label="{% translate 'Ona ikifanya kazi' %}">
+        <button type="button" role="tab" id="tab-sim" aria-controls="panel-sim" aria-selected="true" data-tab="sim"><span aria-hidden="true">📱</span>{% translate "Jaribu kama mteja" %}</button>
+        <button type="button" role="tab" id="tab-packet" aria-controls="panel-packet" aria-selected="false" tabindex="-1" data-tab="packet"><span aria-hidden="true">🔁</span>{% translate "Safari ya packet" %}</button>
+        <button type="button" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="false" tabindex="-1" data-tab="compare"><span aria-hidden="true">⚖️</span>{% translate "Bila / Na JamiiLite" %}</button>
+        <button type="button" role="tab" id="tab-calc" aria-controls="panel-calc" aria-selected="false" tabindex="-1" data-tab="calc"><span aria-hidden="true">🧮</span>{% translate "Kikokotoo" %}</button>
       </div>
-      <div class="lp-compare-panels">
-        <ul class="lp-compare-list is-before" data-compare-panel="before">
-          <li><span class="lp-x">✕</span><div><strong>{% translate "Password moja kwa wote" %}</strong><small>{% translate "Inasambaa, na watu wanatumia bure." %}</small></div></li>
-          <li><span class="lp-x">✕</span><div><strong>{% translate "Daftari la nani amelipa" %}</strong><small>{% translate "Unakumbuka kwa kichwa, unapoteza pesa." %}</small></div></li>
-          <li><span class="lp-x">✕</span><div><strong>{% translate "Unazima watu mmoja mmoja" %}</strong><small>{% translate "Muda ukiisha lazima uwepo." %}</small></div></li>
-          <li><span class="lp-x">✕</span><div><strong>{% translate "Pesa taslimu na chenji" %}</strong><small>{% translate "Hujui umepata kiasi gani leo." %}</small></div></li>
-        </ul>
-        <ul class="lp-compare-list is-after" data-compare-panel="after" hidden>
-          <li><span class="lp-ok">✓</span><div><strong>{% translate "Kila mteja na vocha yake" %}</strong><small>{% translate "Inafanya kazi kwenye simu alizolipia tu." %}</small></div></li>
-          <li><span class="lp-ok">✓</span><div><strong>{% translate "Kila malipo yanarekodiwa" %}</strong><small>{% translate "Unaona jina la kifurushi, saa na kiasi." %}</small></div></li>
-          <li><span class="lp-ok">✓</span><div><strong>{% translate "Anakatwa mwenyewe muda ukiisha" %}</strong><small>{% translate "Hata ukiwa safarini." %}</small></div></li>
-          <li><span class="lp-ok">✓</span><div><strong>{% translate "Malipo kwa simu, salio kwenye dashboard" %}</strong><small>{% translate "Unatoa pesa kwenda namba yako wakati wowote." %}</small></div></li>
-        </ul>
+
+      <div class="lp-panel" role="tabpanel" id="panel-sim" aria-labelledby="tab-sim" data-panel="sim">
+        <p class="lp-sub">{% translate "Hivi ndivyo mteja wako anavyopata internet: anachagua WiFi, analipa, anatumia, na muda ukiisha anakatwa. Pesa inaingia kwako papo hapo." %}</p>
+        {% include "pages/_sim.html" %}
+      </div>
+
+      <div class="lp-panel" role="tabpanel" id="panel-packet" aria-labelledby="tab-packet" data-panel="packet" hidden>
+        <p class="lp-sub">{% translate "Kila malipo ni safari ya packets kati ya vifaa vitano. Gusa kifaa au bonyeza ▶ uone kila packet inabeba nini." %}</p>
+        {% include "pages/_journey.html" %}
+      </div>
+
+      <div class="lp-panel" role="tabpanel" id="panel-compare" aria-labelledby="tab-compare" data-panel="compare" hidden>
+        <div class="lp-compare" data-compare>
+          <div class="lp-switch" role="group" aria-label="{% translate 'Linganisha' %}">
+            <button type="button" aria-pressed="true" data-compare-tab="before">{% translate "Bila JamiiLite" %}</button>
+            <button type="button" aria-pressed="false" data-compare-tab="after">{% translate "Na JamiiLite" %}</button>
+            <span class="lp-switch-thumb" aria-hidden="true"></span>
+          </div>
+          <ul class="lp-compare-list" data-compare-panel="before">
+            <li><span class="lp-x">✕</span><div><strong>{% translate "Password moja kwa wote" %}</strong><small>{% translate "Inasambaa, na watu wanatumia bure." %}</small></div></li>
+            <li><span class="lp-x">✕</span><div><strong>{% translate "Daftari la nani amelipa" %}</strong><small>{% translate "Unakumbuka kwa kichwa, unapoteza pesa." %}</small></div></li>
+            <li><span class="lp-x">✕</span><div><strong>{% translate "Unazima watu mmoja mmoja" %}</strong><small>{% translate "Muda ukiisha lazima uwepo." %}</small></div></li>
+            <li><span class="lp-x">✕</span><div><strong>{% translate "Pesa taslimu na chenji" %}</strong><small>{% translate "Hujui umepata kiasi gani leo." %}</small></div></li>
+          </ul>
+          <ul class="lp-compare-list" data-compare-panel="after" hidden>
+            <li><span class="lp-ok">✓</span><div><strong>{% translate "Kila mteja na vocha yake" %}</strong><small>{% translate "Inafanya kazi kwenye simu alizolipia tu." %}</small></div></li>
+            <li><span class="lp-ok">✓</span><div><strong>{% translate "Kila malipo yanarekodiwa" %}</strong><small>{% translate "Unaona jina la kifurushi, saa na kiasi." %}</small></div></li>
+            <li><span class="lp-ok">✓</span><div><strong>{% translate "Anakatwa mwenyewe muda ukiisha" %}</strong><small>{% translate "Hata ukiwa safarini." %}</small></div></li>
+            <li><span class="lp-ok">✓</span><div><strong>{% translate "Malipo kwa simu, salio kwenye dashboard" %}</strong><small>{% translate "Unatoa pesa kwenda namba yako wakati wowote." %}</small></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lp-panel" role="tabpanel" id="panel-calc" aria-labelledby="tab-calc" data-panel="calc" hidden>
+        <div class="lp-calc" data-calc data-fee="{{ monthly_fee_value }}">
+          <div class="lp-calc-inputs">
+            <label class="lp-range"><span>{% translate "Wateja kwa siku" %} <b data-calc-out="customers">20</b></span><input type="range" min="5" max="200" step="5" value="20" data-calc-in="customers"></label>
+            <label class="lp-range"><span>{% translate "Wastani wa bei ya kifurushi" %} <b>Tsh <span data-calc-out="price">700</span></b></span><input type="range" min="200" max="3000" step="100" value="700" data-calc-in="price"></label>
+            <label class="lp-range"><span>{% translate "Siku za kazi kwa mwezi" %} <b data-calc-out="days">30</b></span><input type="range" min="10" max="31" step="1" value="30" data-calc-in="days"></label>
+          </div>
+          <div class="lp-calc-result">
+            <p class="lp-calc-label">{% translate "Mauzo kwa mwezi" %}</p>
+            <p class="lp-calc-big">Tsh <span data-calc-result="gross">420,000</span></p>
+            <div class="lp-calc-bar"><span data-calc-bar></span></div>
+            <dl class="lp-calc-rows">
+              <dt>{% translate "Ada ya JamiiLite" %}</dt><dd>− Tsh {{ monthly_fee }}</dd>
+              <dt>{% translate "Unabaki na" %}</dt><dd class="lp-calc-net">Tsh <span data-calc-result="net">410,000</span></dd>
+              <dt>{% translate "Ada inarudi ndani ya" %}</dt><dd data-calc-result="payback">—</dd>
+            </dl>
+            <a class="lp-btn lp-btn-primary lp-btn-block" href="{% url 'dashboard:signup' %}">{% translate "Anza kuuza bure" %} <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-{# ================= Simulator ya mteja ================= #}
-<section class="lp-section lp-sim-section" id="jaribu">
+{# ================= Hatua 3 + vipengele (vimebanwa) ================= #}
+<section class="lp-section lp-section-tight" id="inavyofanya">
   <div class="wrap">
-    <p class="lp-eyebrow reveal">{% translate "Jaribu sasa hivi" %}</p>
-    <h2 class="lp-title reveal">{% translate "Kuwa mteja wako kwa dakika moja" %}</h2>
-    <p class="lp-sub reveal">{% translate "Gusa simu ya kushoto. Chagua WiFi, lipa, utumie internet, na uone muda ukiisha. Simu ya kulia ni yako: inapokea pesa papo hapo." %}</p>
-
-    <div class="sim reveal" data-sim>
-      <ol class="sim-steps" aria-label="{% translate 'Hatua' %}">
-        <li data-step="wifi">{% translate "Chagua WiFi" %}</li>
-        <li data-step="portal">{% translate "Kifurushi" %}</li>
-        <li data-step="stk">{% translate "PIN" %}</li>
-        <li data-step="online">{% translate "Internet" %}</li>
-        <li data-step="expired">{% translate "Muda umeisha" %}</li>
-      </ol>
-
-      <div class="sim-stage">
-        <div class="sim-phone" data-sim-phone>
-          <div class="sim-status"><span data-sim-clock>20:41</span><span class="sim-status-icons"><i class="sim-signal"></i><i class="sim-wifi-ico" data-sim-wifi></i><i class="sim-battery"></i></span></div>
-
-          <div class="sim-screen is-active" data-screen="wifi">
-            <p class="sim-h">Wi‑Fi</p>
-            <div class="sim-toggle-row"><span>Wi‑Fi</span><span class="sim-toggle"></span></div>
-            <p class="sim-small">{% translate "Mitandao inayopatikana" %}</p>
-            <button type="button" class="sim-net is-open" data-sim-action="join"><span class="sim-bars b4"></span><span class="sim-net-name">Neema WiFi</span><span class="sim-net-tag">{% translate "Wazi" %}</span></button>
-            <button type="button" class="sim-net" data-sim-action="locked"><span class="sim-bars b3"></span><span class="sim-net-name">TTCL-Home</span><span class="sim-lock">🔒</span></button>
-            <button type="button" class="sim-net" data-sim-action="locked"><span class="sim-bars b2"></span><span class="sim-net-name">Juma_5G</span><span class="sim-lock">🔒</span></button>
-            <button type="button" class="sim-net" data-sim-action="locked"><span class="sim-bars b1"></span><span class="sim-net-name">MiFi-7A21</span><span class="sim-lock">🔒</span></button>
-            <p class="sim-toast" data-sim-toast hidden>{% translate "Mtandao huu una password" %}</p>
-            <p class="sim-joining" data-sim-joining hidden><span class="sim-spin"></span>{% translate "Inaunganisha…" %}</p>
-          </div>
-
-          <div class="sim-screen sim-sheet" data-screen="portal">
-            <p class="sim-sheet-bar">{% translate "Ingia kwenye mtandao" %}<small>neema-wifi.jamiilite.co.tz</small></p>
-            <div class="sim-brand"><span>N</span><div><strong>Neema WiFi</strong><small>Sinza</small></div></div>
-            <p class="sim-label">{% translate "Nunua kifurushi" %}</p>
-            <button type="button" class="sim-pkg is-picked" data-sim-pkg="500" data-sim-mins="60" data-sim-name="{% translate 'Saa 1' %}"><span>{% translate "Saa 1" %}<small>{% translate "kasi 2 Mbps" %}</small></span><b>Tsh 500</b></button>
-            <button type="button" class="sim-pkg" data-sim-pkg="1000" data-sim-mins="1440" data-sim-name="{% translate 'Siku 1' %}"><span>{% translate "Siku 1" %}<small>{% translate "kasi 5 Mbps" %}</small></span><b>Tsh 1,000</b></button>
-            <button type="button" class="sim-pkg" data-sim-pkg="5000" data-sim-mins="10080" data-sim-name="{% translate 'Wiki' %}"><span>{% translate "Wiki" %}<small>{% translate "simu 2" %}</small></span><b>Tsh 5,000</b></button>
-            <p class="sim-label">{% translate "Namba ya simu" %}</p>
-            <p class="sim-input">0712 345 678</p>
-            <button type="button" class="sim-pay" data-sim-action="pay">{% translate "Lipa kwa simu" %}</button>
-          </div>
-
-          <div class="sim-screen sim-stk" data-screen="stk">
-            <div class="sim-stk-card">
-              <p class="sim-stk-title">M-Pesa</p>
-              <p class="sim-stk-text" data-sim-stk-text></p>
-              <p class="sim-pin" data-sim-pin><i></i><i></i><i></i><i></i></p>
-              <div class="sim-keypad">
-                {% for k in "123456789" %}<button type="button" data-sim-key="{{ k }}">{{ k }}</button>{% endfor %}
-                <span></span><button type="button" data-sim-key="0">0</button><span></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="sim-screen sim-center" data-screen="paid">
-            <span class="sim-big-check">✓</span>
-            <p class="sim-h">{% translate "Asante! Malipo yamepokelewa" %}</p>
-            <p class="sim-small">{% translate "Namba yako ya vocha" %}</p>
-            <p class="sim-code">7K4QX9MP</p>
-            <p class="sim-joining"><span class="sim-spin"></span>{% translate "Unaunganishwa…" %}</p>
-          </div>
-
-          <div class="sim-screen" data-screen="online">
-            <p class="sim-online-head"><span class="lp-live-dot"></span>{% translate "Umeunganishwa" %} · Neema WiFi</p>
-            <div class="sim-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="sim-ring-track"/><circle cx="60" cy="60" r="52" class="sim-ring-fill" data-sim-ring/></svg><div><b data-sim-left>59:59</b><small>{% translate "muda uliobaki" %}</small></div></div>
-            <div class="sim-apps">
-              <span><i>▶</i>{% translate "Video" %}</span><span><i>✉</i>{% translate "Ujumbe" %}</span><span><i>♫</i>{% translate "Muziki" %}</span><span><i>☰</i>{% translate "Habari" %}</span>
-            </div>
-            <p class="sim-data">↓ <b data-sim-down>0.0</b> MB · ↑ <b data-sim-up>0.0</b> MB</p>
-            <button type="button" class="sim-ghost" data-sim-action="skip">{% translate "Ruka mpaka muda uishe ⏩" %}</button>
-          </div>
-
-          <div class="sim-screen sim-center" data-screen="expired">
-            <span class="sim-big-clock">⏰</span>
-            <p class="sim-h">{% translate "Muda wako umeisha" %}</p>
-            <p class="sim-small">{% translate "Internet imesimama yenyewe. Mmiliki hakuhitaji kufanya kitu." %}</p>
-            <button type="button" class="sim-pay" data-sim-action="again">{% translate "Nunua tena" %}</button>
-          </div>
-
-          <span class="sim-finger" data-sim-finger aria-hidden="true"></span>
-        </div>
-
-        <div class="sim-link" aria-hidden="true"><span></span><span></span><span></span></div>
-
-        <div class="sim-phone sim-owner">
-          <div class="sim-status"><span>20:41</span><span class="sim-status-icons"><i class="sim-signal"></i><i class="sim-battery"></i></span></div>
-          <p class="owner-app">{% translate "Dashboard yako" %}</p>
-          <p class="owner-label">{% translate "Salio" %}</p>
-          <p class="owner-balance">Tsh <span data-sim-owner-balance>146,000</span></p>
-          <div class="sim-owner-stats"><span><b data-sim-owner-online>6</b>{% translate "online" %}</span><span><b data-sim-owner-today>21</b>{% translate "mauzo leo" %}</span></div>
-          <ol class="owner-feed" data-sim-owner-feed></ol>
-        </div>
-      </div>
-
-      <div class="sim-controls">
-        <span class="sim-auto" data-sim-auto><span class="lp-live-dot"></span>{% translate "Inajiendesha yenyewe. Gusa simu kuendesha wewe." %}</span>
-        <button type="button" class="lp-btn lp-btn-small lp-btn-glass" data-sim-action="restart">↺ {% translate "Anza upya" %}</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-{# ================= Hatua 3 ================= #}
-<section class="lp-section" id="inavyofanya">
-  <div class="wrap">
-    <p class="lp-eyebrow reveal">{% translate "Inavyofanya kazi" %}</p>
-    <h2 class="lp-title reveal">{% translate "Hatua 3, unaanza kuuza leo" %}</h2>
     <ol class="lp-steps">
-      <li class="lp-step reveal">
-        <span class="lp-step-ico">
-          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="26" width="32" height="12" rx="4"/><path d="M16 26v-6M32 26v-6"/><path class="anim-wave" d="M14 14a14 14 0 0 1 20 0"/><path class="anim-wave w2" d="M9 9a21 21 0 0 1 30 0"/></svg>
-        </span>
-        <b class="lp-step-num">01</b>
-        <h3>{% translate "Unganisha router yako" %}</h3>
-        <p>{% translate "Bandika mstari mmoja kwenye MikroTik yako. Router mpya? Mfumo unaweka hotspot wenyewe." %}</p>
-      </li>
-      <li class="lp-step reveal">
-        <span class="lp-step-ico">
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 8 14v20l16 8 16-8V14z"/><path d="m8 14 16 8 16-8M24 22v20"/></svg>
-        </span>
-        <b class="lp-step-num">02</b>
-        <h3>{% translate "Weka vifurushi na bei" %}</h3>
-        <p>{% translate "Saa 1, siku, wiki: wewe unaamua bei, kasi na simu ngapi kwa vocha moja." %}</p>
-      </li>
-      <li class="lp-step reveal">
-        <span class="lp-step-ico">
-          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="14" y="4" width="20" height="40" rx="5"/><path class="anim-coin" d="M24 18v12M20 22h6a2 2 0 0 1 0 4h-4a2 2 0 0 0 0 4h6"/></svg>
-        </span>
-        <b class="lp-step-num">03</b>
-        <h3>{% translate "Pokea malipo" %}</h3>
-        <p>{% translate "Wateja wanalipa kwa simu. Unaona mauzo live na unatoa pesa kwenda namba yako." %}</p>
-      </li>
+      <li><b>01</b><div><h3>{% translate "Unganisha router yako" %}</h3><p>{% translate "Bandika mstari mmoja kwenye MikroTik yako. Router mpya? Mfumo unaweka hotspot wenyewe." %}</p></div></li>
+      <li><b>02</b><div><h3>{% translate "Weka vifurushi na bei" %}</h3><p>{% translate "Saa 1, siku, wiki: wewe unaamua bei, kasi na simu ngapi kwa vocha moja." %}</p></div></li>
+      <li><b>03</b><div><h3>{% translate "Pokea malipo" %}</h3><p>{% translate "Wateja wanalipa kwa simu. Unaona mauzo live na unatoa pesa kwenda namba yako." %}</p></div></li>
     </ol>
+    <ul class="lp-features">
+      <li><span>🎟️</span>{% translate "Vocha za kiotomatiki" %}</li>
+      <li><span>⏱️</span>{% translate "Muda unahesabiwa wenyewe" %}</li>
+      <li><span>🔐</span>{% translate "Hakuna kugawana password" %}</li>
+      <li><span>⚡</span>{% translate "Kasi kwa kila kifurushi" %}</li>
+      <li><span>📡</span>{% translate "Simamia ukiwa popote" %}</li>
+      <li><span>🖨️</span>{% translate "Vocha za kuchapisha" %}</li>
+    </ul>
   </div>
 </section>
 
-{# ================= Ramani ya Live ================= #}
-<section class="lp-section lp-live" id="live">
-  <div class="wrap">
-    <p class="lp-eyebrow reveal">{% translate "Dashboard yako" %}</p>
-    <h2 class="lp-title reveal">{% translate "Ona kila packet ikisafiri, live" %}</h2>
-    <p class="lp-sub reveal">{% translate "Kwenye dashboard yako, kila mteja anayeingia, anayelipa na anavyotumia data unaviona kwa wakati huo huo. Hapa chini ni mfano." %}</p>
-    <div class="lp-live-frame reveal">{% include "ui/_live.html" with endpoint="" demo=True %}</div>
-  </div>
-</section>
-
-{# ================= Vipengele ================= #}
-<section class="lp-section">
-  <div class="wrap">
-    <p class="lp-eyebrow reveal">{% translate "Kila kitu ndani" %}</p>
-    <h2 class="lp-title reveal">{% translate "Kila kitu unachohitaji kuuza WiFi" %}</h2>
-    <div class="lp-features">
-      <article class="lp-feature reveal"><span class="lp-fico">🎟️</span><h3>{% translate "Vocha za kiotomatiki" %}</h3><p>{% translate "Mteja analipa, anapata vocha yake na anaunganishwa bila wewe kugusa kitu." %}</p></article>
-      <article class="lp-feature reveal"><span class="lp-fico">⏱️</span><h3>{% translate "Muda unahesabiwa wenyewe" %}</h3><p>{% translate "Saa moja ni saa moja. Ikiisha, internet ya mteja inasimama." %}</p></article>
-      <article class="lp-feature reveal"><span class="lp-fico">🔐</span><h3>{% translate "Hakuna kugawana password" %}</h3><p>{% translate "Kila vocha inafanya kazi kwenye idadi ya simu uliyoruhusu tu." %}</p></article>
-      <article class="lp-feature reveal"><span class="lp-fico">⚡</span><h3>{% translate "Kasi kwa kila kifurushi" %}</h3><p>{% translate "Internet yako haimalizwi na mtu mmoja anayepakua sana." %}</p></article>
-      <article class="lp-feature reveal"><span class="lp-fico">📡</span><h3>{% translate "Simamia ukiwa popote" %}</h3><p>{% translate "Ona router iko hai, wateja walio online, na uiwashe upya ukiwa mbali." %}</p></article>
-      <article class="lp-feature reveal"><span class="lp-fico">🖨️</span><h3>{% translate "Vocha za kuchapisha" %}</h3><p>{% translate "Kwa wateja wasio na pesa kwenye simu: chapisha vocha, uziuze kwa mkono." %}</p></article>
-    </div>
-  </div>
-</section>
-
-{# ================= Kikokotoo ================= #}
-<section class="lp-section" id="kikokotoo">
-  <div class="wrap">
-    <div class="lp-calc reveal" data-calc data-fee="{{ monthly_fee_value }}">
-      <div class="lp-calc-inputs">
-        <p class="lp-eyebrow">{% translate "Kikokotoo cha mapato" %}</p>
-        <h2 class="lp-title left">{% translate "WiFi yako inaweza kukuingizia kiasi gani?" %}</h2>
-        <label class="lp-range">
-          <span>{% translate "Wateja kwa siku" %} <b data-calc-out="customers">20</b></span>
-          <input type="range" min="5" max="200" step="5" value="20" data-calc-in="customers">
-        </label>
-        <label class="lp-range">
-          <span>{% translate "Wastani wa bei ya kifurushi" %} <b>Tsh <span data-calc-out="price">700</span></b></span>
-          <input type="range" min="200" max="3000" step="100" value="700" data-calc-in="price">
-        </label>
-        <label class="lp-range">
-          <span>{% translate "Siku za kazi kwa mwezi" %} <b data-calc-out="days">30</b></span>
-          <input type="range" min="10" max="31" step="1" value="30" data-calc-in="days">
-        </label>
-      </div>
-      <div class="lp-calc-result">
-        <p class="lp-calc-label">{% translate "Mauzo kwa mwezi" %}</p>
-        <p class="lp-calc-big">Tsh <span data-calc-result="gross">420,000</span></p>
-        <div class="lp-calc-bar"><span data-calc-bar></span></div>
-        <dl class="lp-calc-rows">
-          <dt>{% translate "Ada ya JamiiLite" %}</dt><dd>− Tsh {{ monthly_fee }}</dd>
-          <dt>{% translate "Unabaki na" %}</dt><dd class="lp-calc-net">Tsh <span data-calc-result="net">410,000</span></dd>
-          <dt>{% translate "Ada inarudi ndani ya" %}</dt><dd data-calc-result="payback">—</dd>
-        </dl>
-        <p class="lp-calc-note">{% translate "Hesabu ya makadirio tu, kutokana na namba ulizochagua." %}</p>
-        <a class="lp-btn lp-btn-primary lp-btn-block" href="{% url 'dashboard:signup' %}">{% translate "Anza kuuza bure" %} <span aria-hidden="true">→</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-{# ================= Bei ================= #}
+{# ================= Bei + Maswali ================= #}
 <section class="lp-section" id="bei">
   <div class="wrap lp-pricing">
-    <div class="reveal">
-      <p class="lp-eyebrow">{% translate "Bei" %}</p>
-      <h2 class="lp-title left">{% translate "Bei moja, rahisi" %}</h2>
-      <p class="lp-sub left">{% blocktranslate with days=trial_days fee=monthly_fee daily=daily_fee %}Siku <strong>{{ days }} za kwanza ni bure</strong>. Kisha ni <strong>Tsh {{ fee }} kwa mwezi</strong>, chini ya Tsh {{ daily }} kwa siku. Mauzo yako yote ni yako.{% endblocktranslate %}</p>
-      <p class="lp-muted">{% translate "Ada inalipwa yenyewe kutoka kwenye mauzo yako, kwa hiyo hutoi pesa mfukoni." %}</p>
-    </div>
-    <div class="lp-price-card reveal">
+    <div class="lp-price-card">
+      <p class="lp-eyebrow left">{% translate "Bei" %}</p>
       <p class="lp-price">Tsh {{ monthly_fee }}<span>/{% translate "mwezi" %}</span></p>
       <ul>
         <li>{% blocktranslate count days=trial_days %}Siku {{ days }} za majaribio bure{% plural %}Siku {{ days }} za majaribio bure{% endblocktranslate %}</li>
@@ -301,46 +156,41 @@
       <p class="lp-price-note">{% blocktranslate with n=breakeven_packages price=example_package_price %}Ukiuza vifurushi <strong>{{ n }}</strong> tu vya Tsh {{ price }} kwa mwezi, ada imeshalipika.{% endblocktranslate %}</p>
       <a class="lp-btn lp-btn-primary lp-btn-block" href="{% url 'dashboard:signup' %}">{% translate "Fungua akaunti bure" %}</a>
     </div>
-  </div>
-</section>
 
-{# ================= Maswali ================= #}
-<section class="lp-section">
-  <div class="wrap lp-narrow">
-    <p class="lp-eyebrow reveal">{% translate "Maswali" %}</p>
-    <h2 class="lp-title reveal">{% translate "Maswali yanayoulizwa mara nyingi" %}</h2>
-    {% url 'pages:mahitaji' as mahitaji_url %}{% url 'pages:mwongozo' as mwongozo_url %}
-    <details class="lp-faq reveal">
-      <summary>{% translate "Nina router ya kawaida (MiFi, 4G au fiber). Inafaa?" %}</summary>
-      <p>{% blocktranslate %}Ndiyo, kama chanzo cha internet. Utahitaji kuongeza router ndogo ya MikroTik nyuma yake, ambayo ndiyo inayowaonyesha wateja ukurasa wa kulipia. Ukurasa wa <a href="{{ mahitaji_url }}">Mahitaji</a> unakuonyesha hasa unachohitaji.{% endblocktranslate %}</p>
-    </details>
-    <details class="lp-faq reveal">
-      <summary>{% translate "Sijui mambo ya kompyuta. Nitaweza?" %}</summary>
-      <p>{% blocktranslate %}Ndiyo. Unabandika mstari mmoja tu ukifuata <a href="{{ mwongozo_url }}">mwongozo wetu</a>. Ukikwama, tunakusaidia.{% endblocktranslate %}</p>
-    </details>
-    <details class="lp-faq reveal">
-      <summary>{% translate "Pesa za wateja zinanifikiaje?" %}</summary>
-      <p>{% blocktranslate with fee=monthly_fee %}Wateja wanalipa kwa simu, na kila mauzo yanaongezwa kwenye salio lako. Unaliona kwenye dashboard, na unatoa pesa kwenda namba yako ya simu wakati wowote unaotaka. Ada ya mwezi (Tsh {{ fee }}) inakatwa yenyewe kutoka kwenye salio hilo.{% endblocktranslate %}</p>
-    </details>
-    <details class="lp-faq reveal">
-      <summary>{% translate "Nisipolipa ada ya mwezi itakuwaje?" %}</summary>
-      <p>{% translate "Mauzo mapya yanasimama hadi ada ilipwe. Wateja waliokwisha kununua vifurushi wanaendelea kutumia hadi muda wao uishe. Salio likitosha, ada inalipwa yenyewe." %}</p>
-    </details>
-    <details class="lp-faq reveal">
-      <summary>{% translate "Internet ikikatika au umeme ukikatika?" %}</summary>
-      <p>{% translate "Router ikiwaka tena, inajiunganisha yenyewe. Vocha za wateja hazipotei, na muda wao unaendelea kama ulivyokuwa." %}</p>
-    </details>
-    <details class="lp-faq reveal">
-      <summary>{% translate "Nina maeneo mengi ya WiFi. Je, ninahitaji akaunti nyingi?" %}</summary>
-      <p>{% translate "Hapana. Akaunti moja inasimamia routers zako zote." %}</p>
-    </details>
+    <div class="lp-faqs">
+      <h2 class="lp-title left">{% translate "Maswali yanayoulizwa mara nyingi" %}</h2>
+      {% url 'pages:mahitaji' as mahitaji_url %}{% url 'pages:mwongozo' as mwongozo_url %}
+      <details class="lp-faq">
+        <summary>{% translate "Nina router ya kawaida (MiFi, 4G au fiber). Inafaa?" %}</summary>
+        <p>{% blocktranslate %}Ndiyo, kama chanzo cha internet. Utahitaji kuongeza router ndogo ya MikroTik nyuma yake, ambayo ndiyo inayowaonyesha wateja ukurasa wa kulipia. Ukurasa wa <a href="{{ mahitaji_url }}">Mahitaji</a> unakuonyesha hasa unachohitaji.{% endblocktranslate %}</p>
+      </details>
+      <details class="lp-faq">
+        <summary>{% translate "Sijui mambo ya kompyuta. Nitaweza?" %}</summary>
+        <p>{% blocktranslate %}Ndiyo. Unabandika mstari mmoja tu ukifuata <a href="{{ mwongozo_url }}">mwongozo wetu</a>. Ukikwama, tunakusaidia.{% endblocktranslate %}</p>
+      </details>
+      <details class="lp-faq">
+        <summary>{% translate "Pesa za wateja zinanifikiaje?" %}</summary>
+        <p>{% blocktranslate with fee=monthly_fee %}Wateja wanalipa kwa simu, na kila mauzo yanaongezwa kwenye salio lako. Unaliona kwenye dashboard, na unatoa pesa kwenda namba yako ya simu wakati wowote unaotaka. Ada ya mwezi (Tsh {{ fee }}) inakatwa yenyewe kutoka kwenye salio hilo.{% endblocktranslate %}</p>
+      </details>
+      <details class="lp-faq">
+        <summary>{% translate "Nisipolipa ada ya mwezi itakuwaje?" %}</summary>
+        <p>{% translate "Mauzo mapya yanasimama hadi ada ilipwe. Wateja waliokwisha kununua vifurushi wanaendelea kutumia hadi muda wao uishe. Salio likitosha, ada inalipwa yenyewe." %}</p>
+      </details>
+      <details class="lp-faq">
+        <summary>{% translate "Internet ikikatika au umeme ukikatika?" %}</summary>
+        <p>{% translate "Router ikiwaka tena, inajiunganisha yenyewe. Vocha za wateja hazipotei, na muda wao unaendelea kama ulivyokuwa." %}</p>
+      </details>
+      <details class="lp-faq">
+        <summary>{% translate "Nina maeneo mengi ya WiFi. Je, ninahitaji akaunti nyingi?" %}</summary>
+        <p>{% translate "Hapana. Akaunti moja inasimamia routers zako zote." %}</p>
+      </details>
+    </div>
   </div>
 </section>
 
 {# ================= Mwisho ================= #}
 <section class="lp-final">
-  <div class="lp-aurora" aria-hidden="true"></div>
-  <div class="wrap lp-final-inner reveal">
+  <div class="wrap lp-final-inner">
     <h2>{% translate "WiFi yako iko tayari kukuletea pesa." %}</h2>
     <p>{% translate "Fungua akaunti kwa dakika moja. Hakuna kadi, hakuna mkataba." %}</p>
     <div class="lp-actions lp-actions-center">
@@ -356,7 +206,6 @@
 {% endblock %}
 
 {% block scripts %}
-  <script src="{% url 'javascript-catalog' %}"></script>
-  <script src="{% static 'ui/live.js' %}" defer></script>
+  {{ landing_i18n|json_script:"landing-i18n" }}
   <script src="{% static 'js/landing.js' %}" defer></script>
 {% endblock %}

@@ -3,13 +3,20 @@
 // 1. Tukio la mtaa wa usiku (canvas): watu wanapita na simu, wanaingia kwenye
 //    WiFi ya kibanda, wanalipa, na pesa inaruka kwenda simu ya mmiliki.
 // 2. Simulator ya mteja: mgeni anagusa simu na kupitia hatua halisi za mteja.
-// 3. Ulinganisho, kikokotoo cha mapato, na kuonekana kwa sehemu unaposhuka.
-// Haya yote ni maigizo ya kuonyesha jinsi mfumo unavyofanya kazi.
+// 3. Safari ya packet: gusa kifaa uone packet ikisafiri na kilichomo ndani.
+// 4. Tabs, ulinganisho na kikokotoo cha mapato.
+// Sehemu nzito zinaanza tu zinapoonekana, ili ukurasa ufunguke haraka.
 (function () {
   "use strict";
 
-  var _ = window.gettext || function (s) { return s; };
-  var ngettext = window.ngettext || function (one, many, n) { return n === 1 ? one : many; };
+  var I18N = {};
+  try { I18N = JSON.parse(document.getElementById("landing-i18n").textContent) || {}; } catch (e) { /* Kiswahili */ }
+  var _ = function (s) { return typeof I18N[s] === "string" ? I18N[s] : s; };
+  var ngettext = function (one, many, n) {
+    var pair = I18N[one];
+    if (Array.isArray(pair)) return n === 1 ? pair[0] : pair[1];
+    return n === 1 ? one : many;
+  };
   var fmt = function (s, v) { return s.replace(/%\((\w+)\)s/g, function (m, k) { return v[k]; }); };
   var money = function (n) { return Math.round(n).toLocaleString("en-US"); };
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -58,22 +65,7 @@
   }
 
   // ======================================================================
-  // 1. Kuonekana unaposhuka
-  // ======================================================================
-  var reveals = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window && !reduceMotion) {
-    var ro = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add("is-in"); ro.unobserve(e.target); }
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-    reveals.forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 70 + "ms"; ro.observe(el); });
-  } else {
-    reveals.forEach(function (el) { el.classList.add("is-in"); });
-  }
-
-  // ======================================================================
-  // 2. Tukio la mtaa wa usiku
+  // 1. Tukio la mtaa wa usiku
   // ======================================================================
   function Scene(root) {
     this.root = root;
@@ -388,7 +380,7 @@
   document.querySelectorAll("[data-scene]").forEach(function (el) { new Scene(el); });
 
   // ======================================================================
-  // 3. Simulator ya mteja
+  // 2. Simulator ya mteja
   // ======================================================================
   function Sim(root) {
     this.root = root;
@@ -418,13 +410,46 @@
     this.reset();
     feedItem(this.ownerFeed, "💰", _("Siku 1") + " · 0754…221", 1000, 5);
     feedItem(this.ownerFeed, "📶", _("Mteja ameingia · Neema WiFi"), 0, 5);
+    this.fits = root.querySelectorAll(".sim-fit");
+    this.scale = 1;
+    this.fit();
+    window.addEventListener("resize", function () { self.fit(); });
+    // Onyesho la kiotomatiki linaanza simu ikionekana, na linasubiri ikifichwa.
     if ("IntersectionObserver" in window && this.auto) {
-      var started = false;
       new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting && !started) { started = true; setTimeout(function () { self.tour(); }, 900); }
-      }, { threshold: 0.45 }).observe(root);
+        self.inView = entries[0].isIntersecting;
+        if (self.inView) { self.fit(); self.startTour(); }
+      }, { threshold: 0.35 }).observe(root);
     }
   }
+
+  // Simu zinapunguzwa ukubwa zitoshee skrini, bila kubadilisha mpangilio wa ndani.
+  Sim.prototype.fit = function () {
+    var stage = this.root.querySelector("[data-sim-stage]");
+    if (!stage || !stage.clientWidth) return;
+    var narrow = window.innerWidth < 760;
+    var gap = narrow ? 0 : 64;
+    var phones = narrow ? 1 : this.fits.length;
+    var room = (stage.clientWidth - gap) / phones;
+    var tall = Math.max(320, window.innerHeight - 150);
+    var self = this;
+    this.fits.forEach(function (box) {
+      var phone = box.firstElementChild;
+      var w = phone.offsetWidth, h = phone.offsetHeight;
+      var k = Math.min(1, room / w, tall / h);
+      box.style.setProperty("--sim-scale", k.toFixed(3));
+      box.style.width = Math.floor(w * k) + "px";
+      box.style.height = Math.floor(h * k) + "px";
+      if (phone === self.phone) self.scale = k;
+    });
+  };
+
+  Sim.prototype.startTour = function () {
+    if (this.touring || !this.auto) return;
+    var self = this;
+    this.touring = true;
+    setTimeout(function () { self.tour().then(function () { self.touring = false; }); }, 700);
+  };
 
   Sim.prototype.$ = function (sel) { return this.root.querySelector(sel); };
 
@@ -483,7 +508,7 @@
       this.show("portal");
     } else if (name === "restart") {
       this.reset();
-      if (!this.auto && !reduceMotion) { this.auto = true; this.root.classList.remove("is-manual"); this.tour(); }
+      if (!this.auto && !reduceMotion) { this.auto = true; this.root.classList.remove("is-manual"); this.startTour(); }
     }
   };
 
@@ -549,10 +574,10 @@
   Sim.prototype.tap = async function (selector, pause) {
     if (!this.auto) throw new Error("manual");
     var el = typeof selector === "string" ? this.$(selector) : selector;
-    var box = this.phone.getBoundingClientRect(), r = el.getBoundingClientRect();
+    var box = this.phone.getBoundingClientRect(), r = el.getBoundingClientRect(), k = this.scale || 1;
     this.finger.classList.add("is-on");
-    this.finger.style.left = (r.left - box.left + r.width / 2) + "px";
-    this.finger.style.top = (r.top - box.top + r.height / 2) + "px";
+    this.finger.style.left = (r.left - box.left + r.width / 2) / k + "px";
+    this.finger.style.top = (r.top - box.top + r.height / 2) / k + "px";
     await sleep(750);
     if (!this.auto) throw new Error("manual");
     this.finger.classList.remove("is-tap"); void this.finger.offsetWidth; this.finger.classList.add("is-tap");
@@ -567,10 +592,15 @@
     }
   };
 
+  Sim.prototype.whileHidden = async function () {
+    while (this.inView === false || document.hidden) await sleep(400);
+  };
+
   Sim.prototype.tour = async function () {
     var self = this;
     try {
       while (this.auto) {
+        await this.whileHidden();
         this.reset();
         await sleep(900);
         await this.tap('[data-sim-action="locked"]', 900);
@@ -597,14 +627,14 @@
   document.querySelectorAll("[data-sim]").forEach(function (el) { new Sim(el); });
 
   // ======================================================================
-  // 4. Bila / Na JamiiLite
+  // 3. Bila / Na JamiiLite
   // ======================================================================
   document.querySelectorAll("[data-compare]").forEach(function (root) {
     var tabs = root.querySelectorAll("[data-compare-tab]");
     var touched = false;
     function set(which) {
       root.classList.toggle("is-after", which === "after");
-      tabs.forEach(function (t) { t.setAttribute("aria-selected", String(t.dataset.compareTab === which)); });
+      tabs.forEach(function (t) { t.setAttribute("aria-pressed", String(t.dataset.compareTab === which)); });
       root.querySelectorAll("[data-compare-panel]").forEach(function (p) { p.hidden = p.dataset.comparePanel !== which; });
     }
     tabs.forEach(function (t) { t.addEventListener("click", function () { touched = true; set(t.dataset.compareTab); }); });
@@ -618,7 +648,7 @@
   });
 
   // ======================================================================
-  // 5. Kikokotoo cha mapato
+  // 4. Kikokotoo cha mapato
   // ======================================================================
   document.querySelectorAll("[data-calc]").forEach(function (root) {
     var fee = parseInt(root.dataset.fee, 10) || 10000;
@@ -650,13 +680,151 @@
   });
 
   // ======================================================================
-  // 6. Mwanga unaofuata kipanya kwenye vipengele
+  // 5. Safari ya packet
   // ======================================================================
-  document.querySelectorAll(".lp-feature").forEach(function (card) {
-    card.addEventListener("pointermove", function (e) {
-      var r = card.getBoundingClientRect();
-      card.style.setProperty("--mx", (e.clientX - r.left) + "px");
-      card.style.setProperty("--my", (e.clientY - r.top) + "px");
+  function Journey(root) {
+    this.root = root;
+    this.map = root.querySelector("[data-jr-map]");
+    this.packet = root.querySelector("[data-jr-packet]");
+    this.tag = root.querySelector("[data-jr-tag]");
+    this.bar = root.querySelector("[data-jr-bar]");
+    this.count = root.querySelector("[data-jr-count]");
+    this.playBtn = root.querySelector('[data-jr="play"]');
+    this.steps = Array.prototype.slice.call(root.querySelectorAll("[data-jr-steps] > li"));
+    this.nodes = {};
+    var self = this;
+    root.querySelectorAll("[data-node]").forEach(function (n) { self.nodes[n.dataset.node] = n; });
+    this.index = 0;
+    this.playing = !reduceMotion;
+    this.inView = false;
+
+    root.addEventListener("click", function (e) {
+      var node = e.target.closest("[data-node]");
+      var btn = e.target.closest("[data-jr]");
+      if (node) {
+        self.pause();
+        self.go(self.nextTo(node.dataset.node));
+      } else if (btn) {
+        var what = btn.dataset.jr;
+        if (what === "play") { self.playing ? self.pause() : self.play(); return; }
+        self.pause();
+        self.go((self.index + (what === "next" ? 1 : -1) + self.steps.length) % self.steps.length);
+      }
+    });
+    window.addEventListener("resize", function () { self.place(false); });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        self.inView = entries[0].isIntersecting;
+        if (self.inView) { self.place(false); self.schedule(); }
+      }, { threshold: 0.3 }).observe(root);
+    }
+    this.go(0);
+    this.renderPlay();
+  }
+
+  // Hatua ya kwanza (kuanzia inayofuata) ambayo packet yake inafika kwenye kifaa hiki.
+  Journey.prototype.nextTo = function (name) {
+    for (var k = 1; k <= this.steps.length; k++) {
+      var i = (this.index + k) % this.steps.length;
+      if (this.steps[i].dataset.to === name) return i;
+    }
+    for (var j = 0; j < this.steps.length; j++) if (this.steps[j].dataset.from === name) return j;
+    return this.index;
+  };
+
+  // Katikati ya ikoni ya kifaa, ukilinganisha na ramani.
+  Journey.prototype.center = function (name) {
+    var box = this.map.getBoundingClientRect();
+    var r = this.nodes[name].querySelector(".jr-ico").getBoundingClientRect();
+    return { x: r.left - box.left + r.width / 2, y: r.top - box.top + r.height / 2 };
+  };
+
+  Journey.prototype.place = function (animate) {
+    var step = this.steps[this.index];
+    if (!step || !this.map.offsetWidth) return;
+    var a = this.center(step.dataset.from), b = this.center(step.dataset.to);
+    var p = this.packet;
+    clearTimeout(this.arrive);
+    if (animate && !reduceMotion) {
+      p.classList.remove("is-moving", "is-arrived");
+      p.style.transform = "translate(" + a.x + "px," + a.y + "px)";
+      void p.offsetWidth;
+      p.classList.add("is-moving");
+      // Ikifika, nukta inafifia ili ikoni ya kifaa ionekane; lebo inabaki.
+      this.arrive = setTimeout(function () { p.classList.add("is-arrived"); }, 1200);
+    } else {
+      p.classList.add("is-arrived");
+    }
+    p.style.transform = "translate(" + b.x + "px," + b.y + "px)";
+  };
+
+  Journey.prototype.go = function (i) {
+    var self = this;
+    this.index = i;
+    var step = this.steps[i];
+    this.steps.forEach(function (li, k) { li.classList.toggle("is-active", k === i); });
+    Object.keys(this.nodes).forEach(function (name) {
+      self.nodes[name].classList.toggle("is-from", name === step.dataset.from);
+      self.nodes[name].classList.toggle("is-to", name === step.dataset.to);
+    });
+    this.root.style.setProperty("--jr-color", step.dataset.color);
+    this.tag.textContent = step.dataset.tag;
+    this.bar.style.width = ((i + 1) / this.steps.length * 100) + "%";
+    this.count.textContent = (i + 1) + " / " + this.steps.length;
+    this.place(true);
+    this.schedule();
+  };
+
+  Journey.prototype.schedule = function () {
+    var self = this;
+    clearTimeout(this.timer);
+    if (!this.playing) return;
+    this.timer = setTimeout(function () {
+      if (self.inView && !document.hidden) self.go((self.index + 1) % self.steps.length);
+      else self.schedule();
+    }, 3200);
+  };
+
+  Journey.prototype.renderPlay = function () {
+    this.playBtn.textContent = this.playing ? "❚❚" : "▶";
+    this.playBtn.setAttribute("aria-label", this.playing ? _("Simamisha") : _("Cheza"));
+    this.root.classList.toggle("is-playing", this.playing);
+  };
+  Journey.prototype.play = function () { this.playing = true; this.renderPlay(); this.go((this.index + 1) % this.steps.length); };
+  Journey.prototype.pause = function () { this.playing = false; clearTimeout(this.timer); this.renderPlay(); };
+
+  document.querySelectorAll("[data-journey]").forEach(function (el) { new Journey(el); });
+
+  // ======================================================================
+  // 6. Tabs: sehemu zinafunguka unapogusa
+  // ======================================================================
+  document.querySelectorAll("[data-tabs]").forEach(function (root) {
+    var tabs = Array.prototype.slice.call(root.querySelectorAll("[data-tab]"));
+    function select(name, focus) {
+      tabs.forEach(function (t) {
+        var on = t.dataset.tab === name;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        if (on && focus) t.focus();
+        if (on && t.scrollIntoView && t.parentNode.scrollWidth > t.parentNode.clientWidth) {
+          t.parentNode.scrollTo({ left: t.offsetLeft - 16, behavior: reduceMotion ? "auto" : "smooth" });
+        }
+      });
+      root.querySelectorAll("[data-panel]").forEach(function (p) { p.hidden = p.dataset.panel !== name; });
+      // Sehemu iliyofunguka inapima upya ukubwa wake (simu, njia za packet).
+      window.dispatchEvent(new Event("resize"));
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { select(t.dataset.tab); });
+      t.addEventListener("keydown", function (e) {
+        var to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (to === undefined) return;
+        e.preventDefault();
+        select(tabs[(to + tabs.length) % tabs.length].dataset.tab, true);
+      });
+    });
+    document.querySelectorAll("[data-open-tab]").forEach(function (link) {
+      link.addEventListener("click", function () { select(link.dataset.openTab); });
     });
   });
 })();

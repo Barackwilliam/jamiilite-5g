@@ -49,3 +49,16 @@ class LandingLanguageTests(TestCase):
                 response = self.client.get(reverse(name), HTTP_ACCEPT_LANGUAGE="en")
                 self.assertContains(response, text)
                 self.assertContains(response, '<html lang="en">')
+
+    def test_landing_has_packet_journey_and_tabs(self):
+        response = self.client.get(reverse("pages:home"))
+        self.assertContains(response, "data-journey")
+        self.assertContains(response, 'role="tablist"')
+        self.assertContains(response, "Access-Request")
+        self.assertNotContains(response, "si data halisi")
+
+    def test_landing_scripts_are_embedded_without_extra_requests(self):
+        response = self.client.get(reverse("pages:home"), HTTP_ACCEPT_LANGUAGE="en")
+        self.assertContains(response, 'id="landing-i18n"')
+        self.assertContains(response, "1 hour")
+        self.assertNotContains(response, reverse("javascript-catalog"))
