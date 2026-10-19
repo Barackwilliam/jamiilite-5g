@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 21:35+0300\n"
+"POT-Creation-Date: 2026-10-19 21:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,7 +147,7 @@ msgstr "Trial days cannot exceed 90."
 msgid "Andika namba kamili, mfano 255712345678."
 msgstr "Enter the full number, e.g. 255712345678."
 
-#: control/forms.py:76 pages/templates/pages/mwongozo.html:73
+#: control/forms.py:76
 msgid "Jina"
 msgstr "Name"
 
@@ -2887,7 +2887,6 @@ msgstr[0] "Start free, %(days)s day"
 msgstr[1] "Start free, %(days)s days"
 
 #: pages/templates/pages/home.html:22 pages/templates/pages/home.html:62
-#: pages/templates/pages/mwongozo.html:160
 msgid "Jaribu kama mteja"
 msgstr "Try it as a customer"
 
@@ -3511,11 +3510,11 @@ msgstr "Connect your router in 7 steps"
 
 #: pages/templates/pages/mwongozo.html:12
 msgid ""
-"Inachukua kama dakika 10. Bonyeza ▶ kuanza, au gusa upande wa kulia na "
-"kushoto kwenda mbele na nyuma."
+"Kazi hii inachukua takribani dakika 10. Bonyeza ▶ kuanza, au tumia mishale "
+"ya kushoto na kulia kwenda hatua iliyotangulia au inayofuata."
 msgstr ""
-"It takes about 10 minutes. Press ▶ to start, or tap right and left to go "
-"forward and back."
+"It takes about 10 minutes. Press ▶ to start, or use the left and right "
+"arrows to go to the previous or next step."
 
 #: pages/templates/pages/mwongozo.html:18
 msgid "mwongozo wa hatua"
@@ -3538,7 +3537,7 @@ msgid "Washa MikroTik"
 msgstr "Turn on the MikroTik"
 
 #: pages/templates/pages/mwongozo.html:39
-msgid "Hatua 1 kati ya 7"
+msgid "Hatua ya 1 kati ya 7"
 msgstr "Step 1 of 7"
 
 #: pages/templates/pages/mwongozo.html:40
@@ -3547,26 +3546,26 @@ msgstr "Connect the devices"
 
 #: pages/templates/pages/mwongozo.html:41
 msgid ""
-"Unganisha waya kutoka router yako ya internet kwenda <strong>port ya kwanza "
-"(ether1)</strong> ya MikroTik, kisha iwashe."
+"Unganisha waya kutoka kwenye router yako ya intaneti hadi kwenye "
+"<strong>port ya kwanza (ether1)</strong> ya MikroTik, kisha washa kifaa."
 msgstr ""
-"Run a cable from your internet router to the MikroTik's <strong>first port "
-"(ether1)</strong>, then switch it on."
+"Run a cable from your internet router to the MikroTik’s <strong>first port "
+"(ether1)</strong>, then switch the device on."
 
 #: pages/templates/pages/mwongozo.html:42
 msgid ""
-"Una MiFi isiyo na port ya waya? Wasiliana nasi, tutakuelekeza kuiunganisha "
-"MikroTik na WiFi ya MiFi yako."
+"Kama una MiFi isiyo na sehemu ya kuunganisha waya, wasiliana nasi "
+"tukuelekeze jinsi ya kuunganisha MikroTik kwenye WiFi ya MiFi yako."
 msgstr ""
-"Have a MiFi without a cable port? Contact us and we'll show you how to "
-"connect the MikroTik to your MiFi's WiFi."
+"If your MiFi has no cable port, contact us and we’ll show you how to connect"
+" the MikroTik to your MiFi’s WiFi."
 
 #: pages/templates/pages/mwongozo.html:48
 msgid "Simu ikipakua app ya MikroTik"
 msgstr "A phone downloading the MikroTik app"
 
 #: pages/templates/pages/mwongozo.html:59
-msgid "Hatua 2 kati ya 7"
+msgid "Hatua ya 2 kati ya 7"
 msgstr "Step 2 of 7"
 
 #: pages/templates/pages/mwongozo.html:60
@@ -3577,15 +3576,17 @@ msgstr "Download the MikroTik app"
 msgid ""
 "Kwenye simu yako, fungua <strong>Play Store</strong> au <strong>App "
 "Store</strong>, tafuta <strong>“MikroTik”</strong>, kisha pakua app rasmi ya"
-" MikroTik (ni bure)."
+" MikroTik bila malipo."
 msgstr ""
 "On your phone, open the <strong>Play Store</strong> or <strong>App "
-"Store</strong>, search for <strong>“MikroTik”</strong> and download the "
-"official MikroTik app (it's free)."
+"Store</strong>, search for <strong>“MikroTik”</strong>, and download the "
+"official MikroTik app for free."
 
 #: pages/templates/pages/mwongozo.html:62
-msgid "Una kompyuta? Unaweza kutumia programu ya Winbox badala ya app."
-msgstr "Have a computer? You can use the Winbox program instead of the app."
+msgid ""
+"Kama unatumia kompyuta, unaweza kutumia programu ya Winbox badala ya app ya "
+"simu."
+msgstr "If you’re on a computer, you can use Winbox instead of the phone app."
 
 #: pages/templates/pages/mwongozo.html:68
 msgid "Fomu ya kuingia kwenye router"
@@ -3594,6 +3595,10 @@ msgstr "The router login form"
 #: pages/templates/pages/mwongozo.html:70
 msgid "Anwani"
 msgstr "Address"
+
+#: pages/templates/pages/mwongozo.html:73
+msgid "Jina la mtumiaji"
+msgstr "Username"
 
 #: pages/templates/pages/mwongozo.html:75
 msgid "admin"
@@ -3604,7 +3609,7 @@ msgid "Connect"
 msgstr "Connect"
 
 #: pages/templates/pages/mwongozo.html:81
-msgid "Hatua 3 kati ya 7"
+msgid "Hatua ya 3 kati ya 7"
 msgstr "Step 3 of 7"
 
 #: pages/templates/pages/mwongozo.html:82
@@ -3613,25 +3618,26 @@ msgstr "Log in to the MikroTik"
 
 #: pages/templates/pages/mwongozo.html:83
 msgid ""
-"Unganisha simu kwenye WiFi ya MikroTik (jina linaanza na "
-"<strong>MikroTik-</strong>). Fungua app, weka anwani "
-"<strong>192.168.88.1</strong> na jina <strong>admin</strong>."
+"Unganisha simu yako kwenye WiFi ya MikroTik (jina lake kwa kawaida huanza na"
+" <strong>MikroTik-</strong>). Fungua app, weka anwani "
+"<strong>192.168.88.1</strong> na jina la mtumiaji <strong>admin</strong>."
 msgstr ""
-"Connect your phone to the MikroTik's WiFi (its name starts with "
+"Connect your phone to the MikroTik’s WiFi (its name usually starts with "
 "<strong>MikroTik-</strong>). Open the app and enter the address "
-"<strong>192.168.88.1</strong> and the user <strong>admin</strong>."
+"<strong>192.168.88.1</strong> and the username <strong>admin</strong>."
 
 #: pages/templates/pages/mwongozo.html:84
 msgid ""
-"Password iko kwenye stika iliyo chini ya MikroTik. Kwa MikroTik za zamani, "
-"iache wazi."
+"Nenosiri linaweza kupatikana kwenye kibandiko kilicho chini ya kifaa cha "
+"MikroTik. Kwa baadhi ya modeli za zamani, sehemu ya nenosiri inaweza kuachwa"
+" wazi."
 msgstr ""
-"The password is on the sticker under the MikroTik. On older MikroTiks, leave"
-" it empty."
+"The password is on the sticker under the MikroTik. On some older models, the"
+" password field can be left empty."
 
 #: pages/templates/pages/mwongozo.html:90
-msgid "Menyu ya IP, Hotspot, kitufe cha Hotspot Setup"
-msgstr "The IP menu, Hotspot, and the Hotspot Setup button"
+msgid "Menyu ya IP, Hotspot na kitufe cha Hotspot Setup"
+msgstr "The IP and Hotspot menu, and the Hotspot Setup button"
 
 #: pages/templates/pages/mwongozo.html:93
 msgid "IP"
@@ -3650,23 +3656,24 @@ msgid "interface: bridge → Next…"
 msgstr "interface: bridge → Next…"
 
 #: pages/templates/pages/mwongozo.html:102
-msgid "Hatua 4 kati ya 7"
+msgid "Hatua ya 4 kati ya 7"
 msgstr "Step 4 of 7"
 
 #: pages/templates/pages/mwongozo.html:103
-msgid "Washa hotspot"
-msgstr "Turn on the hotspot"
+msgid "Sanidi hotspot"
+msgstr "Set up the hotspot"
 
 #: pages/templates/pages/mwongozo.html:104
 msgid ""
-"Nenda <strong>IP → Hotspot</strong>, bonyeza <strong>Hotspot Setup</strong>."
-" Chagua interface <strong>bridge</strong>, kisha endelea kubonyeza "
-"<strong>Next</strong> hadi mwisho, ukikubali kilichojazwa tayari."
+"Nenda kwenye <strong>IP → Hotspot</strong>, kisha bonyeza <strong>Hotspot "
+"Setup</strong>. Chagua interface ya <strong>bridge</strong>, halafu endelea "
+"kubonyeza <strong>Next</strong> hadi mwisho bila kubadilisha mipangilio "
+"iliyojazwa tayari."
 msgstr ""
-"Go to <strong>IP → Hotspot</strong> and press <strong>Hotspot "
-"Setup</strong>. Choose the <strong>bridge</strong> interface, then keep "
-"pressing <strong>Next</strong> to the end, accepting what's already filled "
-"in."
+"Go to <strong>IP → Hotspot</strong>, then tap <strong>Hotspot "
+"Setup</strong>. Pick the <strong>bridge</strong> interface, then keep "
+"tapping <strong>Next</strong> to the end without changing the pre-filled "
+"settings."
 
 #: pages/templates/pages/mwongozo.html:110
 msgid "Terminal ikibandikiwa mstari wa JamiiLite"
@@ -3689,27 +3696,30 @@ msgid "✓ JamiiLite: usanidi umekamilika"
 msgstr "✓ JamiiLite: setup complete"
 
 #: pages/templates/pages/mwongozo.html:120
-msgid "Hatua 5 kati ya 7"
+msgid "Hatua ya 5 kati ya 7"
 msgstr "Step 5 of 7"
 
 #: pages/templates/pages/mwongozo.html:121
-msgid "Bandika mstari wako wa JamiiLite"
-msgstr "Paste your JamiiLite line"
+msgid "Weka msimbo wa usanidi wa JamiiLite"
+msgstr "Add your JamiiLite setup code"
 
 #: pages/templates/pages/mwongozo.html:122
 msgid ""
-"Fungua <strong>Terminal</strong> kwenye app. Nakili <strong>mstari wako wa "
-"usanidi</strong> kutoka JamiiLite, ubandike, kisha bonyeza Enter."
+"Fungua <strong>Terminal</strong> ndani ya app. Nakili <strong>mstari wa "
+"usanidi</strong> uliopewa kwenye akaunti yako ya JamiiLite, ubandike kwenye "
+"Terminal, kisha bonyeza Enter."
 msgstr ""
-"Open the <strong>Terminal</strong> in the app. Copy <strong>your setup "
-"line</strong> from JamiiLite, paste it and press Enter."
+"Open <strong>Terminal</strong> in the app. Copy the <strong>setup "
+"line</strong> from your JamiiLite account, paste it into the Terminal, then "
+"press Enter."
 
 #: pages/templates/pages/mwongozo.html:123
-msgid "Kila router ina mstari wake wa siri. Usimpe mtu mwingine."
-msgstr "Every router has its own secret line. Don't share it."
+msgid ""
+"Kila router ina msimbo wake wa siri. Usimshirikishe mtu mwingine msimbo huo."
+msgstr "Each router has its own secret code. Don’t share it with anyone."
 
 #: pages/templates/pages/mwongozo.html:129
-msgid "Dashboard inaonyesha router iko online"
+msgid "Dashibodi inaonyesha router iko hewani"
 msgstr "The dashboard shows the router is online"
 
 #: pages/templates/pages/mwongozo.html:131
@@ -3717,24 +3727,25 @@ msgid "Neema WiFi · Duka"
 msgstr "Neema WiFi · Shop"
 
 #: pages/templates/pages/mwongozo.html:134
-msgid "Wateja online: 0 · RouterOS 7"
-msgstr "Customers online: 0 · RouterOS 7"
+msgid "Wateja waliounganishwa: 0 · RouterOS 7"
+msgstr "Connected customers: 0 · RouterOS 7"
 
 #: pages/templates/pages/mwongozo.html:138
-msgid "Hatua 6 kati ya 7"
+msgid "Hatua ya 6 kati ya 7"
 msgstr "Step 6 of 7"
 
 #: pages/templates/pages/mwongozo.html:139
-msgid "Subiri dakika 1"
-msgstr "Wait 1 minute"
+msgid "Subiri kwa dakika moja"
+msgstr "Wait one minute"
 
 #: pages/templates/pages/mwongozo.html:140
 msgid ""
-"Router yako itaripoti kwa JamiiLite yenyewe. Ukiona <strong>🟢 "
-"Online</strong> kwenye akaunti yako, umemaliza kuunganisha!"
+"Router yako itaunganishwa na JamiiLite na kutuma taarifa zake yenyewe. "
+"Ukiona alama ya <strong>🟢 Online</strong> kwenye akaunti yako, maana yake "
+"router imeunganishwa kikamilifu."
 msgstr ""
-"Your router reports to JamiiLite by itself. When you see <strong>🟢 "
-"Online</strong> in your account, you're connected!"
+"Your router will connect to JamiiLite and report in by itself. When you see "
+"<strong>🟢 Online</strong> in your account, the router is fully connected."
 
 #: pages/templates/pages/mwongozo.html:146
 msgid "Simu ya mteja ikinunua kifurushi na kuunganishwa"
@@ -3753,24 +3764,28 @@ msgid "✓ Umeunganishwa"
 msgstr "✓ Connected"
 
 #: pages/templates/pages/mwongozo.html:159
-msgid "Hatua 7 kati ya 7"
+msgid "Hatua ya 7 kati ya 7"
 msgstr "Step 7 of 7"
+
+#: pages/templates/pages/mwongozo.html:160
+msgid "Jaribu huduma kama mteja"
+msgstr "Try it as a customer"
 
 #: pages/templates/pages/mwongozo.html:161
 msgid ""
-"Unganisha simu nyingine kwenye WiFi ya hotspot. Ukurasa wako wa vifurushi "
-"utafunguka wenyewe. Nunua kifurushi kidogo kuthibitisha kila kitu kinafanya "
-"kazi. 🎉"
+"Tumia simu nyingine kuunganisha kwenye WiFi ya hotspot. Ukurasa wa vifurushi"
+" utafunguka wenyewe. Nunua kifurushi cha bei nafuu ili kuthibitisha kuwa "
+"kila kitu kinafanya kazi vizuri. 🎉"
 msgstr ""
-"Connect another phone to the hotspot WiFi. Your package page opens by "
-"itself. Buy a small package to confirm everything works. 🎉"
+"Use another phone to join the hotspot WiFi. The packages page will open by "
+"itself. Buy the cheapest package to confirm everything works. 🎉"
 
 #: pages/templates/pages/mwongozo.html:179
-msgid "Umekwama kwenye hatua yoyote? Tunakusaidia."
-msgstr "Stuck on any step? We'll help you."
+msgid "Umekwama kwenye hatua yoyote? Tupo tayari kukusaidia."
+msgstr "Stuck on any step? We’re ready to help."
 
 #: pages/templates/pages/mwongozo.html:180
-msgid "Pata msaada kwa WhatsApp"
+msgid "Pata msaada kupitia WhatsApp"
 msgstr "Get help on WhatsApp"
 
 #: pages/views.py:19 ui/templates/ui/auth_base.html:70

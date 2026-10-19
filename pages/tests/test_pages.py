@@ -7,7 +7,7 @@ class PublicPagesTests(TestCase):
         for name, text in [
             ("pages:home", "Uza WiFi yako kiotomatiki"),
             ("pages:mahitaji", "Una router gani sasa hivi?"),
-            ("pages:mwongozo", "Bandika mstari wako wa JamiiLite"),
+            ("pages:mwongozo", "Weka msimbo wa usanidi wa JamiiLite"),
         ]:
             with self.subTest(name):
                 self.assertContains(self.client.get(reverse(name)), text)
