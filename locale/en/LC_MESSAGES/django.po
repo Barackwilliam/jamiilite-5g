@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 14:53+0300\n"
+"POT-Creation-Date: 2026-10-19 20:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,7 +145,7 @@ msgstr "Trial days cannot exceed 90."
 msgid "Andika namba kamili, mfano 255712345678."
 msgstr "Enter the full number, e.g. 255712345678."
 
-#: control/forms.py:76
+#: control/forms.py:76 pages/templates/pages/mwongozo.html:73
 msgid "Jina"
 msgstr "Name"
 
@@ -190,7 +190,7 @@ msgstr "Trial"
 msgid "Amelipia"
 msgstr "Paid"
 
-#: control/queries.py:14
+#: control/queries.py:14 pages/templates/pages/home.html:96
 msgid "Muda umeisha"
 msgstr "Expired"
 
@@ -328,6 +328,7 @@ msgstr "In use"
 
 #: control/status.py:119 control/templates/control/routers.html:6
 #: control/templates/control/routers.html:33 control/views.py:223
+#: pages/templates/pages/mwongozo.html:133
 msgid "Online"
 msgstr "Online"
 
@@ -966,7 +967,7 @@ msgid "Inaisha"
 msgstr "Ends"
 
 #: control/templates/control/owners.html:23 dashboard/views.py:49
-#: dashboard/views.py:425
+#: dashboard/views.py:425 pages/templates/pages/home.html:172
 msgid "Salio"
 msgstr "Balance"
 
@@ -998,6 +999,7 @@ msgstr "Router"
 
 #: control/templates/control/payments.html:18 dashboard/forms.py:164
 #: dashboard/templates/dashboard/sales.html:34
+#: pages/templates/pages/home.html:93
 msgid "Kifurushi"
 msgstr "Package"
 
@@ -1477,7 +1479,8 @@ msgstr "Payment failed"
 msgid "Agizo"
 msgstr "Command"
 
-#: dashboard/forms.py:21 portal/forms.py:12
+#: dashboard/forms.py:21 pages/templates/pages/home.html:122
+#: portal/forms.py:12
 msgid "Namba ya simu"
 msgstr "Phone number"
 
@@ -1557,7 +1560,7 @@ msgstr "Hours"
 msgid "Siku"
 msgstr "Days"
 
-#: dashboard/forms.py:111
+#: dashboard/forms.py:111 pages/templates/pages/home.html:121
 msgid "Wiki"
 msgstr "Weeks"
 
@@ -1760,6 +1763,7 @@ msgid "Ona mstari"
 msgstr "See the line"
 
 #: dashboard/templates/dashboard/home.html:28
+#: pages/templates/pages/home.html:206
 msgid "Weka vifurushi na bei"
 msgstr "Set packages and prices"
 
@@ -1779,7 +1783,8 @@ msgstr "Make your first sale"
 msgid "Unganisha simu kwenye WiFi na ujaribu kununua."
 msgstr "Connect a phone to the WiFi and try buying."
 
-#: dashboard/templates/dashboard/home.html:50 ui/templates/ui/_live.html:7
+#: dashboard/templates/dashboard/home.html:50
+#: pages/templates/pages/home.html:39 ui/templates/ui/_live.html:7
 msgid "Mapato ya leo"
 msgstr "Today's revenue"
 
@@ -1880,6 +1885,7 @@ msgid "Mauzo yakianza, utayaona hapa papo hapo."
 msgstr "When sales start, you'll see them here instantly."
 
 #: dashboard/templates/dashboard/live.html:5
+#: pages/templates/pages/home.html:112
 msgid "Inaunganisha…"
 msgstr "Connecting…"
 
@@ -1887,6 +1893,7 @@ msgstr "Connecting…"
 #: dashboard/templates/dashboard/login.html:14
 #: dashboard/templates/dashboard/signup.html:27
 #: dashboard/templates/dashboard/signup_closed.html:10
+#: pages/templates/pages/base.html:31 pages/templates/pages/base.html:54
 msgid "Ingia"
 msgstr "Log in"
 
@@ -2132,6 +2139,7 @@ msgstr ""
 " number, contact us."
 
 #: dashboard/templates/dashboard/signup.html:3
+#: pages/templates/pages/base.html:53
 msgid "Jisajili"
 msgstr "Sign up"
 
@@ -2442,6 +2450,1234 @@ msgstr "Thank you! You paid for %(months)s month(s)."
 msgid "Mipangilio imehifadhiwa."
 msgstr "Settings saved."
 
+#: pages/templates/pages/_cta.html:4
+msgid "Anza sasa kwa WhatsApp"
+msgstr "Start now on WhatsApp"
+
+#: pages/templates/pages/_cta.html:7
+msgid "Anza sasa"
+msgstr "Start now"
+
+#: pages/templates/pages/base.html:7
+msgid ""
+"Uza WiFi yako kiotomatiki: wateja wanalipa kwa simu, wanapata vocha, na "
+"wanakatwa muda ukiisha. Wewe unaona mapato kwenye simu yako."
+msgstr ""
+"Sell your WiFi automatically: customers pay by phone, get a voucher and are "
+"cut off when time runs out. You see the income on your phone."
+
+#: pages/templates/pages/base.html:8 pages/templates/pages/home.html:4
+msgid "JamiiLite 5G: uza WiFi yako kiotomatiki"
+msgstr "JamiiLite 5G: sell your WiFi automatically"
+
+#: pages/templates/pages/base.html:9
+msgid ""
+"Wateja wanalipa kwa M-Pesa, Mixx by Yas na Airtel Money. Wewe unaona mapato "
+"kwenye simu."
+msgstr ""
+"Customers pay with M-Pesa, Mixx by Yas and Airtel Money. You see the income "
+"on your phone."
+
+#: pages/templates/pages/base.html:17
+msgid "JamiiLite 5G, mwanzo"
+msgstr "JamiiLite 5G, home"
+
+#: pages/templates/pages/base.html:24 ui/templates/ui/app_base.html:13
+msgid "Menyu"
+msgstr "Menu"
+
+#: pages/templates/pages/base.html:25 ui/templates/ui/_pager.html:3
+msgid "Kurasa"
+msgstr "Pages"
+
+#: pages/templates/pages/base.html:26
+msgid "Jaribu"
+msgstr "Try it"
+
+#: pages/templates/pages/base.html:27 pages/templates/pages/home.html:287
+msgid "Bei"
+msgstr "Pricing"
+
+#: pages/templates/pages/base.html:28 pages/templates/pages/base.html:51
+#: pages/templates/pages/mahitaji.html:4
+#: pages/templates/pages/mahitaji.html:10
+msgid "Mahitaji"
+msgstr "Requirements"
+
+#: pages/templates/pages/base.html:29 pages/templates/pages/mwongozo.html:10
+msgid "Mwongozo"
+msgstr "Guide"
+
+#: pages/templates/pages/base.html:32
+msgid "Anza bure"
+msgstr "Start free"
+
+#: pages/templates/pages/base.html:46
+msgid "Mfumo wa kuuza WiFi kwa vifurushi, kwa wamiliki wa WiFi Tanzania."
+msgstr "The system for selling WiFi in packages, for WiFi owners in Tanzania."
+
+#: pages/templates/pages/base.html:49
+msgid "Viungo"
+msgstr "Links"
+
+#: pages/templates/pages/base.html:50
+msgid "Mwanzo"
+msgstr "Home"
+
+#: pages/templates/pages/base.html:52 pages/templates/pages/mwongozo.html:4
+msgid "Mwongozo wa kuunganisha"
+msgstr "Setup guide"
+
+#: pages/templates/pages/home.html:17
+msgid "Mfumo wa WiFi za kulipia, Tanzania"
+msgstr "Pay-as-you-go WiFi, made for Tanzania"
+
+#: pages/templates/pages/home.html:18
+msgid ""
+"Geuza WiFi yako kuwa <span class=\"lp-grad-text\">biashara "
+"inayojiendesha</span> yenyewe"
+msgstr ""
+"Turn your WiFi into a <span class=\"lp-grad-text\">business that runs</span>"
+" itself"
+
+#: pages/templates/pages/home.html:19
+msgid ""
+"Wateja wanagusa jina la WiFi yako, wanalipa kwa simu, na wanaunganishwa papo"
+" hapo. Muda ukiisha, wanakatwa wenyewe. Wewe unaona kila shilingi ikiingia."
+msgstr ""
+"Customers tap your WiFi name, pay by phone and are online in seconds. When "
+"their time is up, they're cut off automatically. You watch every shilling "
+"come in."
+
+#: pages/templates/pages/home.html:21 pages/templates/pages/home.html:347
+#, python-format
+msgid "Anza bure, siku %(days)s"
+msgid_plural "Anza bure, siku %(days)s"
+msgstr[0] "Start free, %(days)s day"
+msgstr[1] "Start free, %(days)s days"
+
+#: pages/templates/pages/home.html:22 pages/templates/pages/mwongozo.html:160
+msgid "Jaribu kama mteja"
+msgstr "Try it as a customer"
+
+#: pages/templates/pages/home.html:24
+msgid "Njia za malipo"
+msgstr "Payment methods"
+
+#: pages/templates/pages/home.html:31
+msgid "Mfano wa jinsi inavyofanya kazi"
+msgstr "A demo of how it works"
+
+#: pages/templates/pages/home.html:33 pages/templates/pages/home.html:174
+msgid "online"
+msgstr "online"
+
+#: pages/templates/pages/home.html:34
+msgid "mauzo"
+msgstr "sales"
+
+#: pages/templates/pages/home.html:36
+msgid "Simu ya mmiliki"
+msgstr "Owner's phone"
+
+#: pages/templates/pages/home.html:47
+msgid "Dakika 5"
+msgstr "5 minutes"
+
+#: pages/templates/pages/home.html:47
+msgid "kuunganisha router"
+msgstr "to connect a router"
+
+#: pages/templates/pages/home.html:48
+msgid "inauza hata ukiwa umelala"
+msgstr "selling even while you sleep"
+
+#: pages/templates/pages/home.html:49
+msgid "kwa mwezi, bila kamisheni"
+msgstr "a month, no commission"
+
+#: pages/templates/pages/home.html:50
+#, python-format
+msgid "Siku %(days)s"
+msgid_plural "Siku %(days)s"
+msgstr[0] "%(days)s day"
+msgstr[1] "%(days)s days"
+
+#: pages/templates/pages/home.html:50
+msgid "za kujaribu bure"
+msgstr "free trial"
+
+#: pages/templates/pages/home.html:57
+msgid "Tofauti yake"
+msgstr "The difference"
+
+#: pages/templates/pages/home.html:58
+msgid "Bado unafanya hivi?"
+msgstr "Still doing it this way?"
+
+#: pages/templates/pages/home.html:60
+msgid "Linganisha"
+msgstr "Compare"
+
+#: pages/templates/pages/home.html:61
+msgid "Bila JamiiLite"
+msgstr "Without JamiiLite"
+
+#: pages/templates/pages/home.html:62
+msgid "Na JamiiLite"
+msgstr "With JamiiLite"
+
+#: pages/templates/pages/home.html:67
+msgid "Password moja kwa wote"
+msgstr "One password for everyone"
+
+#: pages/templates/pages/home.html:67
+msgid "Inasambaa, na watu wanatumia bure."
+msgstr "It spreads, and people use it for free."
+
+#: pages/templates/pages/home.html:68
+msgid "Daftari la nani amelipa"
+msgstr "A notebook of who paid"
+
+#: pages/templates/pages/home.html:68
+msgid "Unakumbuka kwa kichwa, unapoteza pesa."
+msgstr "You rely on memory and lose money."
+
+#: pages/templates/pages/home.html:69
+msgid "Unazima watu mmoja mmoja"
+msgstr "Cutting people off one by one"
+
+#: pages/templates/pages/home.html:69
+msgid "Muda ukiisha lazima uwepo."
+msgstr "You have to be there when time runs out."
+
+#: pages/templates/pages/home.html:70
+msgid "Pesa taslimu na chenji"
+msgstr "Cash and change"
+
+#: pages/templates/pages/home.html:70
+msgid "Hujui umepata kiasi gani leo."
+msgstr "You don't know how much you made today."
+
+#: pages/templates/pages/home.html:73
+msgid "Kila mteja na vocha yake"
+msgstr "Every customer gets their own voucher"
+
+#: pages/templates/pages/home.html:73
+msgid "Inafanya kazi kwenye simu alizolipia tu."
+msgstr "It only works on the phones they paid for."
+
+#: pages/templates/pages/home.html:74
+msgid "Kila malipo yanarekodiwa"
+msgstr "Every payment is recorded"
+
+#: pages/templates/pages/home.html:74
+msgid "Unaona jina la kifurushi, saa na kiasi."
+msgstr "You see the package, the time and the amount."
+
+#: pages/templates/pages/home.html:75
+msgid "Anakatwa mwenyewe muda ukiisha"
+msgstr "Cut off automatically when time is up"
+
+#: pages/templates/pages/home.html:75
+msgid "Hata ukiwa safarini."
+msgstr "Even while you're travelling."
+
+#: pages/templates/pages/home.html:76
+msgid "Malipo kwa simu, salio kwenye dashboard"
+msgstr "Mobile payments, balance on your dashboard"
+
+#: pages/templates/pages/home.html:76
+msgid "Unatoa pesa kwenda namba yako wakati wowote."
+msgstr "Withdraw to your number any time."
+
+#: pages/templates/pages/home.html:86
+msgid "Jaribu sasa hivi"
+msgstr "Try it right now"
+
+#: pages/templates/pages/home.html:87
+msgid "Kuwa mteja wako kwa dakika moja"
+msgstr "Be your own customer for a minute"
+
+#: pages/templates/pages/home.html:88
+msgid ""
+"Gusa simu ya kushoto. Chagua WiFi, lipa, utumie internet, na uone muda "
+"ukiisha. Simu ya kulia ni yako: inapokea pesa papo hapo."
+msgstr ""
+"Tap the phone on the left. Pick the WiFi, pay, browse, and watch the time "
+"run out. The phone on the right is yours: it receives the money instantly."
+
+#: pages/templates/pages/home.html:91
+msgid "Hatua"
+msgstr "Steps"
+
+#: pages/templates/pages/home.html:92
+msgid "Chagua WiFi"
+msgstr "Pick WiFi"
+
+#: pages/templates/pages/home.html:94
+msgid "PIN"
+msgstr "PIN"
+
+#: pages/templates/pages/home.html:95
+msgid "Internet"
+msgstr "Internet"
+
+#: pages/templates/pages/home.html:106
+msgid "Mitandao inayopatikana"
+msgstr "Available networks"
+
+#: pages/templates/pages/home.html:107
+msgid "Wazi"
+msgstr "Open"
+
+#: pages/templates/pages/home.html:111
+msgid "Mtandao huu una password"
+msgstr "This network needs a password"
+
+#: pages/templates/pages/home.html:116
+msgid "Ingia kwenye mtandao"
+msgstr "Sign in to network"
+
+#: pages/templates/pages/home.html:118 pages/templates/pages/mwongozo.html:148
+#: portal/templates/portal/home.html:18
+msgid "Nunua kifurushi"
+msgstr "Buy a package"
+
+#: pages/templates/pages/home.html:119
+msgid "Saa 1"
+msgstr "1 hour"
+
+#: pages/templates/pages/home.html:119
+msgid "kasi 2 Mbps"
+msgstr "speed 2 Mbps"
+
+#: pages/templates/pages/home.html:120
+msgid "Siku 1"
+msgstr "1 day"
+
+#: pages/templates/pages/home.html:120
+msgid "kasi 5 Mbps"
+msgstr "speed 5 Mbps"
+
+#: pages/templates/pages/home.html:121
+msgid "simu 2"
+msgstr "2 phones"
+
+#: pages/templates/pages/home.html:124 pages/templates/pages/mwongozo.html:154
+#: portal/templates/portal/home.html:49
+msgid "Lipa kwa simu"
+msgstr "Pay by phone"
+
+#: pages/templates/pages/home.html:141 portal/templates/portal/status.html:26
+msgid "Asante! Malipo yamepokelewa"
+msgstr "Thank you! Payment received"
+
+#: pages/templates/pages/home.html:142 portal/templates/portal/status.html:28
+msgid "Namba yako ya vocha"
+msgstr "Your voucher code"
+
+#: pages/templates/pages/home.html:144
+msgid "Unaunganishwa…"
+msgstr "Connecting you…"
+
+#: pages/templates/pages/home.html:148
+msgid "Umeunganishwa"
+msgstr "Connected"
+
+#: pages/templates/pages/home.html:149
+msgid "muda uliobaki"
+msgstr "time left"
+
+#: pages/templates/pages/home.html:151
+msgid "Video"
+msgstr "Video"
+
+#: pages/templates/pages/home.html:151
+msgid "Ujumbe"
+msgstr "Chat"
+
+#: pages/templates/pages/home.html:151
+msgid "Muziki"
+msgstr "Music"
+
+#: pages/templates/pages/home.html:151
+msgid "Habari"
+msgstr "News"
+
+#: pages/templates/pages/home.html:154
+msgid "Ruka mpaka muda uishe ⏩"
+msgstr "Skip to the end ⏩"
+
+#: pages/templates/pages/home.html:159
+msgid "Muda wako umeisha"
+msgstr "Your time is up"
+
+#: pages/templates/pages/home.html:160
+msgid "Internet imesimama yenyewe. Mmiliki hakuhitaji kufanya kitu."
+msgstr "The internet stopped by itself. The owner didn't have to do anything."
+
+#: pages/templates/pages/home.html:161
+msgid "Nunua tena"
+msgstr "Buy again"
+
+#: pages/templates/pages/home.html:171 pages/templates/pages/home.html:224
+msgid "Dashboard yako"
+msgstr "Your dashboard"
+
+#: pages/templates/pages/home.html:174
+msgid "mauzo leo"
+msgstr "sales today"
+
+#: pages/templates/pages/home.html:180
+msgid "Inajiendesha yenyewe. Gusa simu kuendesha wewe."
+msgstr "Playing by itself. Tap the phone to take over."
+
+#: pages/templates/pages/home.html:181
+msgid "Anza upya"
+msgstr "Start over"
+
+#: pages/templates/pages/home.html:190
+msgid "Inavyofanya kazi"
+msgstr "How it works"
+
+#: pages/templates/pages/home.html:191
+msgid "Hatua 3, unaanza kuuza leo"
+msgstr "3 steps, and you start selling today"
+
+#: pages/templates/pages/home.html:198
+msgid "Unganisha router yako"
+msgstr "Connect your router"
+
+#: pages/templates/pages/home.html:199
+msgid ""
+"Bandika mstari mmoja kwenye MikroTik yako. Router mpya? Mfumo unaweka "
+"hotspot wenyewe."
+msgstr ""
+"Paste one line into your MikroTik. New router? The system sets up the "
+"hotspot itself."
+
+#: pages/templates/pages/home.html:207
+msgid ""
+"Saa 1, siku, wiki: wewe unaamua bei, kasi na simu ngapi kwa vocha moja."
+msgstr ""
+"An hour, a day, a week: you decide the price, the speed and how many phones "
+"per voucher."
+
+#: pages/templates/pages/home.html:214
+msgid "Pokea malipo"
+msgstr "Get paid"
+
+#: pages/templates/pages/home.html:215
+msgid ""
+"Wateja wanalipa kwa simu. Unaona mauzo live na unatoa pesa kwenda namba "
+"yako."
+msgstr ""
+"Customers pay by phone. You watch sales live and withdraw to your number."
+
+#: pages/templates/pages/home.html:225
+msgid "Ona kila packet ikisafiri, live"
+msgstr "Watch every packet travel, live"
+
+#: pages/templates/pages/home.html:226
+msgid ""
+"Kwenye dashboard yako, kila mteja anayeingia, anayelipa na anavyotumia data "
+"unaviona kwa wakati huo huo. Hapa chini ni mfano."
+msgstr ""
+"On your dashboard you see every customer logging in, paying and using data, "
+"as it happens. Below is a demo."
+
+#: pages/templates/pages/home.html:234
+msgid "Kila kitu ndani"
+msgstr "Everything included"
+
+#: pages/templates/pages/home.html:235
+msgid "Kila kitu unachohitaji kuuza WiFi"
+msgstr "Everything you need to sell WiFi"
+
+#: pages/templates/pages/home.html:237
+msgid "Vocha za kiotomatiki"
+msgstr "Automatic vouchers"
+
+#: pages/templates/pages/home.html:237
+msgid ""
+"Mteja analipa, anapata vocha yake na anaunganishwa bila wewe kugusa kitu."
+msgstr ""
+"The customer pays, gets a voucher and connects without you lifting a finger."
+
+#: pages/templates/pages/home.html:238
+msgid "Muda unahesabiwa wenyewe"
+msgstr "Time is counted for you"
+
+#: pages/templates/pages/home.html:238
+msgid "Saa moja ni saa moja. Ikiisha, internet ya mteja inasimama."
+msgstr "One hour means one hour. When it's over, their internet stops."
+
+#: pages/templates/pages/home.html:239
+msgid "Hakuna kugawana password"
+msgstr "No password sharing"
+
+#: pages/templates/pages/home.html:239
+msgid "Kila vocha inafanya kazi kwenye idadi ya simu uliyoruhusu tu."
+msgstr "Each voucher works only on the number of phones you allow."
+
+#: pages/templates/pages/home.html:240
+msgid "Kasi kwa kila kifurushi"
+msgstr "Speed per package"
+
+#: pages/templates/pages/home.html:240
+msgid "Internet yako haimalizwi na mtu mmoja anayepakua sana."
+msgstr "One heavy downloader can't eat up your whole connection."
+
+#: pages/templates/pages/home.html:241
+msgid "Simamia ukiwa popote"
+msgstr "Manage from anywhere"
+
+#: pages/templates/pages/home.html:241
+msgid "Ona router iko hai, wateja walio online, na uiwashe upya ukiwa mbali."
+msgstr "See that the router is alive, who's online, and restart it remotely."
+
+#: pages/templates/pages/home.html:242
+msgid "Vocha za kuchapisha"
+msgstr "Printable vouchers"
+
+#: pages/templates/pages/home.html:242
+msgid ""
+"Kwa wateja wasio na pesa kwenye simu: chapisha vocha, uziuze kwa mkono."
+msgstr ""
+"For customers without mobile money: print vouchers and sell them by hand."
+
+#: pages/templates/pages/home.html:252
+msgid "Kikokotoo cha mapato"
+msgstr "Earnings calculator"
+
+#: pages/templates/pages/home.html:253
+msgid "WiFi yako inaweza kukuingizia kiasi gani?"
+msgstr "How much could your WiFi earn you?"
+
+#: pages/templates/pages/home.html:255
+msgid "Wateja kwa siku"
+msgstr "Customers per day"
+
+#: pages/templates/pages/home.html:259
+msgid "Wastani wa bei ya kifurushi"
+msgstr "Average package price"
+
+#: pages/templates/pages/home.html:263
+msgid "Siku za kazi kwa mwezi"
+msgstr "Open days per month"
+
+#: pages/templates/pages/home.html:268
+msgid "Mauzo kwa mwezi"
+msgstr "Sales per month"
+
+#: pages/templates/pages/home.html:272
+msgid "Ada ya JamiiLite"
+msgstr "JamiiLite fee"
+
+#: pages/templates/pages/home.html:273
+msgid "Unabaki na"
+msgstr "You keep"
+
+#: pages/templates/pages/home.html:274
+msgid "Ada inarudi ndani ya"
+msgstr "Fee earned back in"
+
+#: pages/templates/pages/home.html:276
+msgid "Hesabu ya makadirio tu, kutokana na namba ulizochagua."
+msgstr "An estimate only, based on the numbers you chose."
+
+#: pages/templates/pages/home.html:277
+msgid "Anza kuuza bure"
+msgstr "Start selling free"
+
+#: pages/templates/pages/home.html:288
+msgid "Bei moja, rahisi"
+msgstr "One simple price"
+
+#: pages/templates/pages/home.html:289
+#, python-format
+msgid ""
+"Siku <strong>%(days)s za kwanza ni bure</strong>. Kisha ni <strong>Tsh "
+"%(fee)s kwa mwezi</strong>, chini ya Tsh %(daily)s kwa siku. Mauzo yako yote"
+" ni yako."
+msgstr ""
+"The first <strong>%(days)s days are free</strong>. Then it's <strong>Tsh "
+"%(fee)s a month</strong>, less than Tsh %(daily)s a day. All your sales are "
+"yours."
+
+#: pages/templates/pages/home.html:290
+msgid ""
+"Ada inalipwa yenyewe kutoka kwenye mauzo yako, kwa hiyo hutoi pesa mfukoni."
+msgstr ""
+"The fee is paid from your sales automatically, so nothing comes out of your "
+"pocket."
+
+#: pages/templates/pages/home.html:293
+msgid "mwezi"
+msgstr "month"
+
+#: pages/templates/pages/home.html:295
+#, python-format
+msgid "Siku %(days)s za majaribio bure"
+msgid_plural "Siku %(days)s za majaribio bure"
+msgstr[0] "%(days)s-day free trial"
+msgstr[1] "%(days)s-day free trial"
+
+#: pages/templates/pages/home.html:296
+msgid "Routers na vifurushi bila kikomo"
+msgstr "Unlimited routers and packages"
+
+#: pages/templates/pages/home.html:297
+msgid "Vocha za kiotomatiki na za kuchapisha"
+msgstr "Automatic and printable vouchers"
+
+#: pages/templates/pages/home.html:298
+msgid "Dashboard ya mapato na ramani ya Live"
+msgstr "Earnings dashboard and live network map"
+
+#: pages/templates/pages/home.html:299
+msgid "Kiswahili na English"
+msgstr "Kiswahili and English"
+
+#: pages/templates/pages/home.html:301
+#, python-format
+msgid ""
+"Ukiuza vifurushi <strong>%(n)s</strong> tu vya Tsh %(price)s kwa mwezi, ada "
+"imeshalipika."
+msgstr ""
+"Sell just <strong>%(n)s</strong> packages of Tsh %(price)s a month and the "
+"fee is covered."
+
+#: pages/templates/pages/home.html:302
+msgid "Fungua akaunti bure"
+msgstr "Create a free account"
+
+#: pages/templates/pages/home.html:310
+msgid "Maswali"
+msgstr "Questions"
+
+#: pages/templates/pages/home.html:311
+msgid "Maswali yanayoulizwa mara nyingi"
+msgstr "Frequently asked questions"
+
+#: pages/templates/pages/home.html:314
+msgid "Nina router ya kawaida (MiFi, 4G au fiber). Inafaa?"
+msgstr "I have a regular router (MiFi, 4G or fiber). Will it work?"
+
+#: pages/templates/pages/home.html:315
+#, python-format
+msgid ""
+"Ndiyo, kama chanzo cha internet. Utahitaji kuongeza router ndogo ya MikroTik"
+" nyuma yake, ambayo ndiyo inayowaonyesha wateja ukurasa wa kulipia. Ukurasa "
+"wa <a href=\"%(mahitaji_url)s\">Mahitaji</a> unakuonyesha hasa unachohitaji."
+msgstr ""
+"Yes, as the internet source. You'll add a small MikroTik router behind it, "
+"which shows customers the payment page. The <a "
+"href=\"%(mahitaji_url)s\">Requirements</a> page shows exactly what you need."
+
+#: pages/templates/pages/home.html:318
+msgid "Sijui mambo ya kompyuta. Nitaweza?"
+msgstr "I'm not good with computers. Can I do it?"
+
+#: pages/templates/pages/home.html:319
+#, python-format
+msgid ""
+"Ndiyo. Unabandika mstari mmoja tu ukifuata <a "
+"href=\"%(mwongozo_url)s\">mwongozo wetu</a>. Ukikwama, tunakusaidia."
+msgstr ""
+"Yes. You paste a single line by following <a href=\"%(mwongozo_url)s\">our "
+"guide</a>. If you get stuck, we help you."
+
+#: pages/templates/pages/home.html:322
+msgid "Pesa za wateja zinanifikiaje?"
+msgstr "How does customers' money reach me?"
+
+#: pages/templates/pages/home.html:323
+#, python-format
+msgid ""
+"Wateja wanalipa kwa simu, na kila mauzo yanaongezwa kwenye salio lako. "
+"Unaliona kwenye dashboard, na unatoa pesa kwenda namba yako ya simu wakati "
+"wowote unaotaka. Ada ya mwezi (Tsh %(fee)s) inakatwa yenyewe kutoka kwenye "
+"salio hilo."
+msgstr ""
+"Customers pay by phone and every sale is added to your balance. You see it "
+"on your dashboard and withdraw to your phone number whenever you like. The "
+"monthly fee (Tsh %(fee)s) is deducted from that balance automatically."
+
+#: pages/templates/pages/home.html:326
+msgid "Nisipolipa ada ya mwezi itakuwaje?"
+msgstr "What happens if I don't pay the monthly fee?"
+
+#: pages/templates/pages/home.html:327
+msgid ""
+"Mauzo mapya yanasimama hadi ada ilipwe. Wateja waliokwisha kununua vifurushi"
+" wanaendelea kutumia hadi muda wao uishe. Salio likitosha, ada inalipwa "
+"yenyewe."
+msgstr ""
+"New sales pause until the fee is paid. Customers who already bought packages"
+" keep browsing until their time runs out. If your balance is enough, the fee"
+" pays itself."
+
+#: pages/templates/pages/home.html:330
+msgid "Internet ikikatika au umeme ukikatika?"
+msgstr "What if the internet or power goes out?"
+
+#: pages/templates/pages/home.html:331
+msgid ""
+"Router ikiwaka tena, inajiunganisha yenyewe. Vocha za wateja hazipotei, na "
+"muda wao unaendelea kama ulivyokuwa."
+msgstr ""
+"When the router comes back on, it reconnects by itself. Customers' vouchers "
+"aren't lost and their time carries on."
+
+#: pages/templates/pages/home.html:334
+msgid "Nina maeneo mengi ya WiFi. Je, ninahitaji akaunti nyingi?"
+msgstr "I have several WiFi spots. Do I need several accounts?"
+
+#: pages/templates/pages/home.html:335
+msgid "Hapana. Akaunti moja inasimamia routers zako zote."
+msgstr "No. One account manages all your routers."
+
+#: pages/templates/pages/home.html:344
+msgid "WiFi yako iko tayari kukuletea pesa."
+msgstr "Your WiFi is ready to make you money."
+
+#: pages/templates/pages/home.html:345
+msgid "Fungua akaunti kwa dakika moja. Hakuna kadi, hakuna mkataba."
+msgstr "Open an account in a minute. No card, no contract."
+
+#: pages/templates/pages/home.html:349
+msgid "Tuulize WhatsApp"
+msgstr "Ask us on WhatsApp"
+
+#: pages/templates/pages/home.html:351
+msgid "Ona mahitaji"
+msgstr "See requirements"
+
+#: pages/templates/pages/mahitaji.html:5
+msgid ""
+"Unachohitaji ili kuanza kuuza WiFi kwa JamiiLite 5G: chanzo cha internet, "
+"router ya MikroTik, na simu."
+msgstr ""
+"What you need to start selling WiFi with JamiiLite 5G: an internet source, a"
+" MikroTik router and a phone."
+
+#: pages/templates/pages/mahitaji.html:11
+msgid "Unachohitaji ili kuanza"
+msgstr "What you need to get started"
+
+#: pages/templates/pages/mahitaji.html:12
+msgid "Vitu vinne tu. Huenda tayari una vingi kati ya hivyo."
+msgstr "Just four things. You may already have most of them."
+
+#: pages/templates/pages/mahitaji.html:24
+msgid "1. Chanzo cha internet"
+msgstr "1. An internet source"
+
+#: pages/templates/pages/mahitaji.html:25
+msgid ""
+"MiFi, router ya 4G/5G yenye laini, au fiber. Ile ile unayoitumia sasa "
+"inatosha. Kwa wateja wengi, chagua kifurushi kikubwa au kisicho na kikomo."
+msgstr ""
+"A MiFi, a 4G/5G router with a SIM, or fiber. The one you use now is enough. "
+"For many customers, choose a big or unlimited data plan."
+
+#: pages/templates/pages/mahitaji.html:33
+msgid "2. Router ya MikroTik"
+msgstr "2. A MikroTik router"
+
+#: pages/templates/pages/mahitaji.html:34
+msgid ""
+"Hii ndiyo inayowaonyesha wateja ukurasa wa kulipia na kuwakata muda ukiisha."
+" Inahitaji <strong>RouterOS 7.15 au zaidi</strong>."
+msgstr ""
+"This is what shows customers the payment page and cuts them off when time "
+"runs out. It needs <strong>RouterOS 7.15 or newer</strong>."
+
+#: pages/templates/pages/mahitaji.html:36
+msgid "hAP lite"
+msgstr "hAP lite"
+
+#: pages/templates/pages/mahitaji.html:36
+msgid "Bei nafuu zaidi. Inafaa kwa duka dogo au nyumbani."
+msgstr "The cheapest option. Good for a small shop or a home."
+
+#: pages/templates/pages/mahitaji.html:37
+msgid "hAP ac lite / hAP ax lite"
+msgstr "hAP ac lite / hAP ax lite"
+
+#: pages/templates/pages/mahitaji.html:37
+msgid "Kasi zaidi na wateja wengi zaidi."
+msgstr "More speed and more customers."
+
+#: pages/templates/pages/mahitaji.html:38
+msgid "LtAP mini LTE, hAP ac³ LTE6"
+msgstr "LtAP mini LTE, hAP ac³ LTE6"
+
+#: pages/templates/pages/mahitaji.html:38
+msgid "Unaweka laini ndani yake moja kwa moja, bila MiFi."
+msgstr "Put the SIM card straight into it, no MiFi needed."
+
+#: pages/templates/pages/mahitaji.html:47
+msgid "3. Simu janja"
+msgstr "3. A smartphone"
+
+#: pages/templates/pages/mahitaji.html:48
+msgid ""
+"Ya kusimamia biashara yako: kuona mapato, kubadilisha vifurushi na bei, na "
+"kuona router iko hai."
+msgstr ""
+"To run your business: see income, change packages and prices, and check the "
+"router is alive."
+
+#: pages/templates/pages/mahitaji.html:56
+msgid "4. Namba ya pesa kwa simu"
+msgstr "4. A mobile money number"
+
+#: pages/templates/pages/mahitaji.html:57
+msgid ""
+"M-Pesa, Mixx by Yas (Tigo Pesa), Airtel Money au HaloPesa, kwa ajili ya "
+"kupokea mapato yako."
+msgstr ""
+"M-Pesa, Mixx by Yas (Tigo Pesa), Airtel Money or HaloPesa, to receive your "
+"income."
+
+#: pages/templates/pages/mahitaji.html:66
+msgid "Una router gani sasa hivi?"
+msgstr "Which router do you have right now?"
+
+#: pages/templates/pages/mahitaji.html:67
+msgid "Chagua, nasi tutakuambia hasa unachohitaji."
+msgstr "Pick one and we'll tell you exactly what you need."
+
+#: pages/templates/pages/mahitaji.html:69
+msgid "Router uliyonayo"
+msgstr "Your router"
+
+#: pages/templates/pages/mahitaji.html:70
+#: pages/templates/pages/mahitaji.html:86
+#: pages/templates/pages/mahitaji.html:92
+#: pages/templates/pages/mahitaji.html:97
+#: pages/templates/pages/mwongozo.html:30
+#: pages/templates/pages/mwongozo.html:52
+msgid "MikroTik"
+msgstr "MikroTik"
+
+#: pages/templates/pages/mahitaji.html:71
+msgid "MiFi ya mfukoni"
+msgstr "Pocket MiFi"
+
+#: pages/templates/pages/mahitaji.html:72
+msgid "Router ya 4G/5G ya mezani"
+msgstr "Desktop 4G/5G router"
+
+#: pages/templates/pages/mahitaji.html:73
+msgid "Fiber au cable"
+msgstr "Fiber or cable"
+
+#: pages/templates/pages/mahitaji.html:74
+msgid "Sina router"
+msgstr "I don't have a router"
+
+#: pages/templates/pages/mahitaji.html:79
+msgid "🎉 Uko tayari!"
+msgstr "🎉 You're ready!"
+
+#: pages/templates/pages/mahitaji.html:80
+msgid ""
+"Huhitaji kununua kitu. Hakikisha RouterOS yako ni 7.15 au zaidi, kisha "
+"bandika mstari mmoja wa JamiiLite."
+msgstr ""
+"You don't need to buy anything. Make sure your RouterOS is 7.15 or newer, "
+"then paste the one JamiiLite line."
+
+#: pages/templates/pages/mahitaji.html:81
+msgid "Fuata mwongozo →"
+msgstr "Follow the guide →"
+
+#: pages/templates/pages/mahitaji.html:84
+#: pages/templates/pages/mahitaji.html:90
+#: pages/templates/pages/mahitaji.html:95
+msgid "Ongeza MikroTik hAP lite"
+msgstr "Add a MikroTik hAP lite"
+
+#: pages/templates/pages/mahitaji.html:85
+msgid ""
+"MiFi haina port ya waya, kwa hiyo MikroTik itajiunganisha kwenye WiFi ya "
+"MiFi yako, kisha itatoa WiFi ya hotspot kwa wateja."
+msgstr ""
+"A MiFi has no cable port, so the MikroTik connects to your MiFi's WiFi and "
+"then broadcasts the hotspot WiFi for customers."
+
+#: pages/templates/pages/mahitaji.html:86
+msgid "MiFi"
+msgstr "MiFi"
+
+#: pages/templates/pages/mahitaji.html:86
+msgid "→ WiFi →"
+msgstr "→ WiFi →"
+
+#: pages/templates/pages/mahitaji.html:86
+#: pages/templates/pages/mahitaji.html:92
+#: pages/templates/pages/mahitaji.html:97
+#: pages/templates/pages/mahitaji.html:102
+msgid "Simu za wateja"
+msgstr "Customer phones"
+
+#: pages/templates/pages/mahitaji.html:87
+msgid ""
+"Ungependa kuacha MiFi kabisa? Chagua MikroTik yenye LTE na uweke laini ndani"
+" yake."
+msgstr ""
+"Want to drop the MiFi altogether? Choose a MikroTik with LTE and put the SIM"
+" inside it."
+
+#: pages/templates/pages/mahitaji.html:91
+msgid ""
+"Hii ndiyo hali rahisi kuliko zote: unganisha waya kutoka port ya LAN ya "
+"router yako kwenda port ya kwanza ya MikroTik."
+msgstr ""
+"This is the easiest setup of all: run a cable from your router's LAN port to"
+" the MikroTik's first port."
+
+#: pages/templates/pages/mahitaji.html:92
+msgid "Router ya 4G/5G"
+msgstr "4G/5G router"
+
+#: pages/templates/pages/mahitaji.html:92
+#: pages/templates/pages/mahitaji.html:97
+msgid "→ waya →"
+msgstr "→ cable →"
+
+#: pages/templates/pages/mahitaji.html:96
+msgid ""
+"Unganisha waya kutoka router yako ya fiber kwenda port ya kwanza ya "
+"MikroTik. Kwa wateja wengi, chagua hAP ac lite au zaidi."
+msgstr ""
+"Run a cable from your fiber router to the MikroTik's first port. For many "
+"customers, choose a hAP ac lite or better."
+
+#: pages/templates/pages/mahitaji.html:97
+msgid "Router ya fiber"
+msgstr "Fiber router"
+
+#: pages/templates/pages/mahitaji.html:100
+msgid "Anza na MikroTik yenye LTE"
+msgstr "Start with a MikroTik that has LTE"
+
+#: pages/templates/pages/mahitaji.html:101
+msgid ""
+"Unahitaji kifaa kimoja tu: MikroTik yenye nafasi ya laini (mfano LtAP mini "
+"LTE). Weka laini yenye kifurushi kikubwa cha internet, washa, kisha "
+"unganisha na JamiiLite."
+msgstr ""
+"You need just one device: a MikroTik with a SIM slot (e.g. LtAP mini LTE). "
+"Insert a SIM with a big data plan, switch it on, then connect it to "
+"JamiiLite."
+
+#: pages/templates/pages/mahitaji.html:102
+msgid "Laini"
+msgstr "SIM card"
+
+#: pages/templates/pages/mahitaji.html:102
+msgid "MikroTik LTE"
+msgstr "MikroTik LTE"
+
+#: pages/templates/pages/mahitaji.html:107
+msgid "Niulize swali kwa WhatsApp"
+msgstr "Ask me on WhatsApp"
+
+#: pages/templates/pages/mwongozo.html:5
+msgid ""
+"Hatua 7 za kuunganisha router yako ya MikroTik na JamiiLite 5G, kwa michoro "
+"inayosogea."
+msgstr "7 animated steps to connect your MikroTik router to JamiiLite 5G."
+
+#: pages/templates/pages/mwongozo.html:11
+msgid "Unganisha router yako kwa hatua 7"
+msgstr "Connect your router in 7 steps"
+
+#: pages/templates/pages/mwongozo.html:12
+msgid ""
+"Inachukua kama dakika 10. Bonyeza ▶ kuanza, au gusa upande wa kulia na "
+"kushoto kwenda mbele na nyuma."
+msgstr ""
+"It takes about 10 minutes. Press ▶ to start, or tap right and left to go "
+"forward and back."
+
+#: pages/templates/pages/mwongozo.html:18
+msgid "mwongozo wa hatua"
+msgstr "step-by-step guide"
+
+#: pages/templates/pages/mwongozo.html:24
+msgid "MiFi au router ya 4G imeunganishwa na MikroTik, kisha simu za wateja"
+msgstr "A MiFi or 4G router connected to the MikroTik, then customer phones"
+
+#: pages/templates/pages/mwongozo.html:26
+msgid "MiFi /"
+msgstr "MiFi /"
+
+#: pages/templates/pages/mwongozo.html:27
+msgid "4G / fiber"
+msgstr "4G / fiber"
+
+#: pages/templates/pages/mwongozo.html:35
+msgid "Washa MikroTik"
+msgstr "Turn on the MikroTik"
+
+#: pages/templates/pages/mwongozo.html:39
+msgid "Hatua 1 kati ya 7"
+msgstr "Step 1 of 7"
+
+#: pages/templates/pages/mwongozo.html:40
+msgid "Unganisha vifaa"
+msgstr "Connect the devices"
+
+#: pages/templates/pages/mwongozo.html:41
+msgid ""
+"Unganisha waya kutoka router yako ya internet kwenda <strong>port ya kwanza "
+"(ether1)</strong> ya MikroTik, kisha iwashe."
+msgstr ""
+"Run a cable from your internet router to the MikroTik's <strong>first port "
+"(ether1)</strong>, then switch it on."
+
+#: pages/templates/pages/mwongozo.html:42
+msgid ""
+"Una MiFi isiyo na port ya waya? Wasiliana nasi, tutakuelekeza kuiunganisha "
+"MikroTik na WiFi ya MiFi yako."
+msgstr ""
+"Have a MiFi without a cable port? Contact us and we'll show you how to "
+"connect the MikroTik to your MiFi's WiFi."
+
+#: pages/templates/pages/mwongozo.html:48
+msgid "Simu ikipakua app ya MikroTik"
+msgstr "A phone downloading the MikroTik app"
+
+#: pages/templates/pages/mwongozo.html:59
+msgid "Hatua 2 kati ya 7"
+msgstr "Step 2 of 7"
+
+#: pages/templates/pages/mwongozo.html:60
+msgid "Pakua app ya MikroTik"
+msgstr "Download the MikroTik app"
+
+#: pages/templates/pages/mwongozo.html:61
+msgid ""
+"Kwenye simu yako, fungua <strong>Play Store</strong> au <strong>App "
+"Store</strong>, tafuta <strong>“MikroTik”</strong>, kisha pakua app rasmi ya"
+" MikroTik (ni bure)."
+msgstr ""
+"On your phone, open the <strong>Play Store</strong> or <strong>App "
+"Store</strong>, search for <strong>“MikroTik”</strong> and download the "
+"official MikroTik app (it's free)."
+
+#: pages/templates/pages/mwongozo.html:62
+msgid "Una kompyuta? Unaweza kutumia programu ya Winbox badala ya app."
+msgstr "Have a computer? You can use the Winbox program instead of the app."
+
+#: pages/templates/pages/mwongozo.html:68
+msgid "Fomu ya kuingia kwenye router"
+msgstr "The router login form"
+
+#: pages/templates/pages/mwongozo.html:70
+msgid "Anwani"
+msgstr "Address"
+
+#: pages/templates/pages/mwongozo.html:75
+msgid "admin"
+msgstr "admin"
+
+#: pages/templates/pages/mwongozo.html:77
+msgid "Connect"
+msgstr "Connect"
+
+#: pages/templates/pages/mwongozo.html:81
+msgid "Hatua 3 kati ya 7"
+msgstr "Step 3 of 7"
+
+#: pages/templates/pages/mwongozo.html:82
+msgid "Ingia kwenye MikroTik"
+msgstr "Log in to the MikroTik"
+
+#: pages/templates/pages/mwongozo.html:83
+msgid ""
+"Unganisha simu kwenye WiFi ya MikroTik (jina linaanza na "
+"<strong>MikroTik-</strong>). Fungua app, weka anwani "
+"<strong>192.168.88.1</strong> na jina <strong>admin</strong>."
+msgstr ""
+"Connect your phone to the MikroTik's WiFi (its name starts with "
+"<strong>MikroTik-</strong>). Open the app and enter the address "
+"<strong>192.168.88.1</strong> and the user <strong>admin</strong>."
+
+#: pages/templates/pages/mwongozo.html:84
+msgid ""
+"Password iko kwenye stika iliyo chini ya MikroTik. Kwa MikroTik za zamani, "
+"iache wazi."
+msgstr ""
+"The password is on the sticker under the MikroTik. On older MikroTiks, leave"
+" it empty."
+
+#: pages/templates/pages/mwongozo.html:90
+msgid "Menyu ya IP, Hotspot, kitufe cha Hotspot Setup"
+msgstr "The IP menu, Hotspot, and the Hotspot Setup button"
+
+#: pages/templates/pages/mwongozo.html:93
+msgid "IP"
+msgstr "IP"
+
+#: pages/templates/pages/mwongozo.html:95
+msgid "Hotspot"
+msgstr "Hotspot"
+
+#: pages/templates/pages/mwongozo.html:97
+msgid "Hotspot Setup"
+msgstr "Hotspot Setup"
+
+#: pages/templates/pages/mwongozo.html:98
+msgid "interface: bridge → Next…"
+msgstr "interface: bridge → Next…"
+
+#: pages/templates/pages/mwongozo.html:102
+msgid "Hatua 4 kati ya 7"
+msgstr "Step 4 of 7"
+
+#: pages/templates/pages/mwongozo.html:103
+msgid "Washa hotspot"
+msgstr "Turn on the hotspot"
+
+#: pages/templates/pages/mwongozo.html:104
+msgid ""
+"Nenda <strong>IP → Hotspot</strong>, bonyeza <strong>Hotspot Setup</strong>."
+" Chagua interface <strong>bridge</strong>, kisha endelea kubonyeza "
+"<strong>Next</strong> hadi mwisho, ukikubali kilichojazwa tayari."
+msgstr ""
+"Go to <strong>IP → Hotspot</strong> and press <strong>Hotspot "
+"Setup</strong>. Choose the <strong>bridge</strong> interface, then keep "
+"pressing <strong>Next</strong> to the end, accepting what's already filled "
+"in."
+
+#: pages/templates/pages/mwongozo.html:110
+msgid "Terminal ikibandikiwa mstari wa JamiiLite"
+msgstr "A terminal with the JamiiLite line pasted in"
+
+#: pages/templates/pages/mwongozo.html:113
+msgid "[admin@MikroTik] &gt;"
+msgstr "[admin@MikroTik] &gt;"
+
+#: pages/templates/pages/mwongozo.html:114
+msgid "/tool fetch url=\"https://…/setup.rsc\""
+msgstr "/tool fetch url=\"https://…/setup.rsc\""
+
+#: pages/templates/pages/mwongozo.html:115
+msgid "; /import file-name=\"jamiilite-setup.rsc\""
+msgstr "; /import file-name=\"jamiilite-setup.rsc\""
+
+#: pages/templates/pages/mwongozo.html:116
+msgid "✓ JamiiLite: usanidi umekamilika"
+msgstr "✓ JamiiLite: setup complete"
+
+#: pages/templates/pages/mwongozo.html:120
+msgid "Hatua 5 kati ya 7"
+msgstr "Step 5 of 7"
+
+#: pages/templates/pages/mwongozo.html:121
+msgid "Bandika mstari wako wa JamiiLite"
+msgstr "Paste your JamiiLite line"
+
+#: pages/templates/pages/mwongozo.html:122
+msgid ""
+"Fungua <strong>Terminal</strong> kwenye app. Nakili <strong>mstari wako wa "
+"usanidi</strong> kutoka JamiiLite, ubandike, kisha bonyeza Enter."
+msgstr ""
+"Open the <strong>Terminal</strong> in the app. Copy <strong>your setup "
+"line</strong> from JamiiLite, paste it and press Enter."
+
+#: pages/templates/pages/mwongozo.html:123
+msgid "Kila router ina mstari wake wa siri. Usimpe mtu mwingine."
+msgstr "Every router has its own secret line. Don't share it."
+
+#: pages/templates/pages/mwongozo.html:129
+msgid "Dashboard inaonyesha router iko online"
+msgstr "The dashboard shows the router is online"
+
+#: pages/templates/pages/mwongozo.html:131
+msgid "Neema WiFi · Duka"
+msgstr "Neema WiFi · Shop"
+
+#: pages/templates/pages/mwongozo.html:134
+msgid "Wateja online: 0 · RouterOS 7"
+msgstr "Customers online: 0 · RouterOS 7"
+
+#: pages/templates/pages/mwongozo.html:138
+msgid "Hatua 6 kati ya 7"
+msgstr "Step 6 of 7"
+
+#: pages/templates/pages/mwongozo.html:139
+msgid "Subiri dakika 1"
+msgstr "Wait 1 minute"
+
+#: pages/templates/pages/mwongozo.html:140
+msgid ""
+"Router yako itaripoti kwa JamiiLite yenyewe. Ukiona <strong>🟢 "
+"Online</strong> kwenye akaunti yako, umemaliza kuunganisha!"
+msgstr ""
+"Your router reports to JamiiLite by itself. When you see <strong>🟢 "
+"Online</strong> in your account, you're connected!"
+
+#: pages/templates/pages/mwongozo.html:146
+msgid "Simu ya mteja ikinunua kifurushi na kuunganishwa"
+msgstr "A customer's phone buying a package and connecting"
+
+#: pages/templates/pages/mwongozo.html:150
+msgid "Saa 1 · Tsh 500"
+msgstr "1 hour · Tsh 500"
+
+#: pages/templates/pages/mwongozo.html:152
+msgid "Siku 1 · Tsh 1,500"
+msgstr "1 day · Tsh 1,500"
+
+#: pages/templates/pages/mwongozo.html:155
+msgid "✓ Umeunganishwa"
+msgstr "✓ Connected"
+
+#: pages/templates/pages/mwongozo.html:159
+msgid "Hatua 7 kati ya 7"
+msgstr "Step 7 of 7"
+
+#: pages/templates/pages/mwongozo.html:161
+msgid ""
+"Unganisha simu nyingine kwenye WiFi ya hotspot. Ukurasa wako wa vifurushi "
+"utafunguka wenyewe. Nunua kifurushi kidogo kuthibitisha kila kitu kinafanya "
+"kazi. 🎉"
+msgstr ""
+"Connect another phone to the hotspot WiFi. Your package page opens by "
+"itself. Buy a small package to confirm everything works. 🎉"
+
+#: pages/templates/pages/mwongozo.html:172
+msgid "Hatua iliyopita"
+msgstr "Previous step"
+
+#: pages/templates/pages/mwongozo.html:173
+msgid "Cheza"
+msgstr "Play"
+
+#: pages/templates/pages/mwongozo.html:174
+msgid "Hatua inayofuata"
+msgstr "Next step"
+
+#: pages/templates/pages/mwongozo.html:179
+msgid "Umekwama kwenye hatua yoyote? Tunakusaidia."
+msgstr "Stuck on any step? We'll help you."
+
+#: pages/templates/pages/mwongozo.html:180
+msgid "Pata msaada kwa WhatsApp"
+msgstr "Get help on WhatsApp"
+
+#: pages/views.py:20
+msgid "Habari, nataka kuanza kutumia JamiiLite 5G kwenye WiFi yangu."
+msgstr "Hello, I'd like to start using JamiiLite 5G on my WiFi."
+
 #: portal/forms.py:10
 msgid "Chagua kifurushi."
 msgstr "Choose a package."
@@ -2479,10 +3715,6 @@ msgstr ""
 "Your <strong>%(name)s</strong> package still has time: "
 "<strong>%(left)s</strong>. Connecting you now…"
 
-#: portal/templates/portal/home.html:18
-msgid "Nunua kifurushi"
-msgstr "Buy a package"
-
 #: portal/templates/portal/home.html:20
 msgid ""
 "Mauzo ya vifurushi yamesimama kwa muda. Kama una vocha, bado unaweza "
@@ -2490,10 +3722,6 @@ msgid ""
 msgstr ""
 "Package sales are paused for now. If you have a voucher, you can still use "
 "it below."
-
-#: portal/templates/portal/home.html:49
-msgid "Lipa kwa simu"
-msgstr "Pay by phone"
 
 #: portal/templates/portal/home.html:50
 msgid "Utapokea ombi la kulipia kwenye simu yako. Weka PIN kuthibitisha."
@@ -2534,14 +3762,6 @@ msgstr "Please try again."
 #: portal/templates/portal/status.html:21
 msgid "Jaribu tena"
 msgstr "Try again"
-
-#: portal/templates/portal/status.html:26
-msgid "Asante! Malipo yamepokelewa"
-msgstr "Thank you! Payment received"
-
-#: portal/templates/portal/status.html:28
-msgid "Namba yako ya vocha"
-msgstr "Your voucher code"
 
 #: portal/templates/portal/status.html:30
 msgid "Ihifadhi. Utaihitaji ukiunganishwa upya."
@@ -2667,10 +3887,6 @@ msgstr ""
 "Waiting for the first event… When a customer logs in or pays, you'll see it "
 "here instantly."
 
-#: ui/templates/ui/_pager.html:3
-msgid "Kurasa"
-msgstr "Pages"
-
 #: ui/templates/ui/_pager.html:4
 msgid "Nyuma"
 msgstr "Previous"
@@ -2683,10 +3899,6 @@ msgstr "Page %(number)s of %(total)s"
 #: ui/templates/ui/_pager.html:6
 msgid "Mbele"
 msgstr "Next"
-
-#: ui/templates/ui/app_base.html:13
-msgid "Menyu"
-msgstr "Menu"
 
 #: ui/templates/ui/app_base.html:39
 msgid "Usajili umeisha"

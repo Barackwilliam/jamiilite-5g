@@ -29,4 +29,23 @@ class PublicPagesTests(TestCase):
         self.assertContains(response, "Tsh 10,000<span>/mwezi</span>")
         self.assertContains(response, "Siku 14 za majaribio bure")
         self.assertContains(response, "vifurushi <strong>20</strong> tu")
-        self.assertNotContains(response, "kamisheni")
+        self.assertContains(response, "bila kamisheni")
+
+
+class LandingLanguageTests(TestCase):
+    def test_landing_has_simulator_and_language_switch(self):
+        response = self.client.get(reverse("pages:home"))
+        self.assertContains(response, "data-sim")
+        self.assertContains(response, "data-scene")
+        self.assertContains(response, 'name="language" value="en"')
+
+    def test_public_pages_in_english(self):
+        for name, text in [
+            ("pages:home", "Turn your WiFi into a"),
+            ("pages:mahitaji", "Which router do you have right now?"),
+            ("pages:mwongozo", "Connect your router in 7 steps"),
+        ]:
+            with self.subTest(name):
+                response = self.client.get(reverse(name), HTTP_ACCEPT_LANGUAGE="en")
+                self.assertContains(response, text)
+                self.assertContains(response, '<html lang="en">')

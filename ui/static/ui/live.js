@@ -450,7 +450,7 @@
   };
 
   Live.prototype.tick = function (now) {
-    var dt = Math.min(64, now - this.last);
+    var dt = Math.max(0, Math.min(64, now - this.last));
     this.last = now;
     var self = this;
     this.packets = this.packets.filter(function (p) {

@@ -280,3 +280,32 @@ p { margin: 0 0 12px; }
     animation-iteration-count: 1 !important;
   }
 }
+
+/* --- Kichwa: menyu ya simu, kitufe cha kuanza, lugha --- */
+.nav { align-items: center; }
+.nav a.nav-cta { color: #fff; background: linear-gradient(120deg, #2f7cf0, #6f55e6); padding: 8px 14px; border-radius: 10px; box-shadow: 0 8px 20px -10px rgba(47, 124, 240, 0.9); }
+.nav a.nav-cta:hover { color: #fff; filter: brightness(1.08); background: linear-gradient(120deg, #2f7cf0, #6f55e6); }
+.nav-lang { display: inline-flex; margin: 0 4px; }
+.lang-switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--border); }
+.lang-switch button { font: inherit; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.04em; padding: 4px 10px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--brand); box-shadow: 0 1px 3px rgba(16, 26, 51, 0.15); }
+.page-landing .lang-switch { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12); }
+.page-landing .lang-switch button { color: #9fb0d0; }
+.page-landing .lang-switch button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.14); color: #fff; box-shadow: none; }
+.menu-toggle { position: absolute; opacity: 0; pointer-events: none; }
+.menu-button { display: none; width: 42px; height: 42px; border-radius: 11px; cursor: pointer; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
+.menu-button span { width: 20px; height: 2px; border-radius: 2px; background: currentColor; transition: transform 0.25s, opacity 0.2s; }
+.footer-brand { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.footer-brand p { margin: 0; }
+
+@media (max-width: 900px) {
+  .menu-button { display: inline-flex; color: inherit; }
+  .topbar-inner { flex-wrap: wrap; }
+  .nav { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 4px; padding: 6px 0 14px; }
+  .nav a { padding: 12px; }
+  .nav-lang { margin: 6px 0; }
+  .menu-toggle:checked ~ .nav { display: flex; }
+  .menu-toggle:checked + .menu-button span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle:checked + .menu-button span:nth-child(2) { opacity: 0; }
+  .menu-toggle:checked + .menu-button span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}

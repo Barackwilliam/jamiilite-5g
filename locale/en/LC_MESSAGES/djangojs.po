@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 14:52+0300\n"
+"POT-Creation-Date: 2026-10-19 20:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,49 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: static/js/guide.js:61
+msgid "Simamisha"
+msgstr "Pause"
+
+#: static/js/guide.js:61
+msgid "Anza upya"
+msgstr "Start over"
+
+#: static/js/guide.js:61
+msgid "Cheza"
+msgstr "Play"
+
+#: static/js/landing.js:20 static/js/landing.js:108 ui/static/ui/live.js:34
+msgid "Saa 1"
+msgstr "1 hour"
+
+#: static/js/landing.js:20 static/js/landing.js:107 static/js/landing.js:419
+#: ui/static/ui/live.js:34
+msgid "Siku 1"
+msgstr "1 day"
+
+#: static/js/landing.js:20 ui/static/ui/live.js:34
+msgid "Wiki"
+msgstr "Weeks"
+
+#: static/js/landing.js:239 static/js/landing.js:537
+msgid "Muda umeisha · mteja ametoka"
+msgstr "Time's up · customer left"
+
+#: static/js/landing.js:420 static/js/landing.js:514
+msgid "Mteja ameingia · Neema WiFi"
+msgstr "Customer connected · Neema WiFi"
+
+#: static/js/landing.js:476
+msgid "Lipa Tsh %(amount)s kwa NEEMA WIFI? Weka PIN yako ya M-Pesa."
+msgstr "Pay Tsh %(amount)s to NEEMA WIFI? Enter your M-Pesa PIN."
+
+#: static/js/landing.js:645
+msgid "siku %(n)s"
+msgid_plural "siku %(n)s"
+msgstr[0] "%(n)s day"
+msgstr[1] "%(n)s days"
 
 #: ui/static/ui/live.js:33
 msgid "Duka la Kati"
@@ -29,18 +72,6 @@ msgstr "Bus Stand Kiosk"
 #: ui/static/ui/live.js:33
 msgid "Saluni ya Mama Asha"
 msgstr "Mama Asha's Salon"
-
-#: ui/static/ui/live.js:34
-msgid "Saa 1"
-msgstr "1 hour"
-
-#: ui/static/ui/live.js:34
-msgid "Siku 1"
-msgstr "1 day"
-
-#: ui/static/ui/live.js:34
-msgid "Wiki"
-msgstr "Weeks"
 
 #: ui/static/ui/live.js:70
 msgid "Malipo"

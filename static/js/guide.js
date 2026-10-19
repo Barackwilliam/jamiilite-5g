@@ -2,6 +2,7 @@
 // na mtumiaji anagusa kulia/kushoto kwenda mbele/nyuma. Bila JavaScript,
 // hatua zote zinaonekana kama orodha ya kawaida.
 (function () {
+  var _ = window.gettext || function (s) { return s; };
   var player = document.getElementById("player");
   if (!player) return;
 
@@ -57,7 +58,7 @@
     playing = value;
     player.classList.toggle("is-paused", !playing);
     playBtn.textContent = playing ? "❚❚" : finished ? "↺" : "▶";
-    playBtn.setAttribute("aria-label", playing ? "Simamisha" : finished ? "Anza upya" : "Cheza");
+    playBtn.setAttribute("aria-label", playing ? _("Simamisha") : finished ? _("Anza upya") : _("Cheza"));
     lastTime = null;
   }
 

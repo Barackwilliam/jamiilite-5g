@@ -1,6 +1,7 @@
 import math
 from urllib.parse import quote
 
+from django.utils.translation import gettext
 from django.views.generic import TemplateView
 
 from core import config
@@ -16,11 +17,12 @@ class PublicPage(TemplateView):
         context = super().get_context_data(**kwargs)
         cfg = config.current()
         number = cfg.whatsapp_number
-        message = quote("Habari, nataka kuanza kutumia JamiiLite 5G kwenye WiFi yangu.")
+        message = quote(gettext("Habari, nataka kuanza kutumia JamiiLite 5G kwenye WiFi yangu."))
         fee = cfg.monthly_fee
         context.update(
             whatsapp_url=f"https://wa.me/{number}?text={message}" if number else "",
             monthly_fee=f"{fee:,}",
+            monthly_fee_value=fee,
             trial_days=cfg.trial_days,
             daily_fee=f"{math.ceil(fee / 30):,}",
             example_package_price=f"{EXAMPLE_PACKAGE_PRICE:,}",
