@@ -1,0 +1,4 @@
+{% load i18n %}{% if state == "paid" %}<span class="pill pill-good">{{ state_labels.paid }}</span>
+{% elif state == "trial" %}<span class="pill pill-info">{{ state_labels.trial }}</span>
+{% elif state == "expired" %}<span class="pill pill-warn">{{ state_labels.expired }}</span>
+{% else %}<span class="pill pill-bad">{{ state_labels.suspended }}</span>{% endif %}

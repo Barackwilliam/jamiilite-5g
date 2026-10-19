@@ -1,0 +1,101 @@
+{% load static i18n ui_tags %}{% get_current_language as LANG %}<!doctype html>
+<html lang="{{ LANG }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ page_title }}{% endblock %} · JamiiLite 5G</title>
+  <link rel="stylesheet" href="{% static 'ui/app.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body class="app app-{{ area }}">
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
+
+  <aside class="sidebar" aria-label="{% translate 'Menyu' %}">
+    <div class="sidebar-deco" aria-hidden="true"></div>
+    <div class="sidebar-head">
+      <a class="app-logo" href="{{ home_url }}">
+        <span class="app-logo-mark">{% icon "wifi" 18 %}</span>
+        <span>JamiiLite <b>5G</b></span>
+      </a>
+      {% if area == "control" %}<span class="area-badge">Super Admin</span>{% endif %}
+    </div>
+
+    <nav class="side-nav">
+      {% for item in nav %}
+        {% if item.section %}
+          <p class="side-section">{{ item.section }}</p>
+        {% else %}
+          <a href="{{ item.url }}" class="side-link{% if item.active %} is-active{% endif %}"{% if item.active %} aria-current="page"{% endif %}>
+            <span class="side-icon">{% icon item.icon %}</span><span>{{ item.label }}</span>
+            {% if item.badge %}<span class="side-badge">{{ item.badge }}</span>{% endif %}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </nav>
+
+    {% if area == "dashboard" and sub %}
+      <a class="sub-widget sub-widget-{{ sub.state }}" href="{% url 'dashboard:subscription' %}">
+        <span class="sub-widget-top">
+          <strong>{% if sub.state == "expired" %}{% translate "Usajili umeisha" %}{% elif sub.state == "trial" %}{% translate "Majaribio bure" %}{% else %}{% translate "Usajili hai" %}{% endif %}</strong>
+          <small>{% if sub.state == "expired" %}{% translate "Lipia sasa" %}{% else %}{% blocktranslate count days=sub.days_left %}siku {{ days }}{% plural %}siku {{ days }}{% endblocktranslate %}{% endif %}</small>
+        </span>
+        <span class="sub-widget-meter" aria-hidden="true"><span style="width: {{ sub_meter }}%"></span></span>
+      </a>
+    {% endif %}
+
+    <div class="sidebar-lang">{% include "ui/_lang_switch.html" with variant="dark" %}</div>
+
+    <div class="sidebar-foot">
+      <div class="who">
+        <span class="avatar" aria-hidden="true">{{ who_initial }}</span>
+        <span class="who-text"><strong>{{ who_name }}</strong><small>{{ who_detail }}</small></span>
+      </div>
+      <form method="post" action="{% url 'dashboard:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="icon-btn" title="{% translate 'Toka' %}" aria-label="{% translate 'Toka' %}">{% icon "logout" %}</button>
+      </form>
+    </div>
+  </aside>
+  <label for="nav-toggle" class="scrim" aria-hidden="true"></label>
+
+  <div class="main">
+    <div class="main-deco" aria-hidden="true"></div>
+    <header class="appbar">
+      <label for="nav-toggle" class="icon-btn menu-btn" aria-label="{% translate 'Fungua menyu' %}">{% icon "menu" 22 %}</label>
+      <div class="appbar-title">
+        {% block breadcrumb %}{% endblock %}
+        <h1>{% block heading %}{{ page_title }}{% endblock %}</h1>
+      </div>
+      <div class="appbar-actions">{% block actions %}{% endblock %}<span class="appbar-lang">{% include "ui/_lang_switch.html" %}</span></div>
+    </header>
+
+    {% if messages %}
+      <div class="flash-stack" role="status">
+        {% for message in messages %}
+          <div class="flash flash-{{ message.tags }}">{% if message.tags == "error" %}{% icon "alert" 18 %}{% else %}{% icon "check" 18 %}{% endif %}<span>{{ message }}</span></div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if announcement %}
+      <div class="banner banner-announce" role="note">{% icon "megaphone" %}<p><strong>{% translate "Tangazo:" %}</strong> {{ announcement }}</p></div>
+    {% endif %}
+    {% block banner %}{% endblock %}
+
+    <main class="content">{% block content %}{% endblock %}</main>
+  </div>
+
+  <nav class="bottom-nav" aria-label="{% translate 'Menyu ya haraka' %}">
+    {% for item in nav %}{% if item.bottom %}
+      <a href="{{ item.url }}" class="{% if item.active %}is-active{% endif %}"{% if item.active %} aria-current="page"{% endif %}>
+        <span class="bottom-icon">{% icon item.icon 22 %}{% if item.badge %}<span class="bottom-badge">{{ item.badge }}</span>{% endif %}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    {% endif %}{% endfor %}
+    <label for="nav-toggle"><span class="bottom-icon">{% icon "grid" 22 %}</span><span>{% translate "Zaidi" %}</span></label>
+  </nav>
+
+  <script src="{% static 'ui/app.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

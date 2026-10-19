@@ -1,0 +1,7 @@
+{% load i18n %}{% get_current_language as LANG %}
+<form method="post" action="{% url 'ui:set_language' %}" class="lang-switch{% if variant %} lang-switch-{{ variant }}{% endif %}" aria-label="{% translate 'Lugha' %} / Language">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+  <button type="submit" name="language" value="sw"{% if LANG == "sw" %} aria-pressed="true"{% endif %} lang="sw" title="Kiswahili">SW</button>
+  <button type="submit" name="language" value="en"{% if LANG == "en" %} aria-pressed="true"{% endif %} lang="en" title="English">EN</button>
+</form>

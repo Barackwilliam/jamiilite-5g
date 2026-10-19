@@ -1,0 +1,47 @@
+{% extends "ui/app_base.html" %}
+{% load i18n ui_tags %}
+
+{% block content %}
+<section class="stats-grid stats-grid-3">
+  <article class="card stat"><p class="stat-label">{% translate "Online" %}</p><p class="stat-value stat-money">{{ counts.online }}</p><p class="stat-sub">{% blocktranslate with n=counts.clients %}Wateja {{ n }}{% endblocktranslate %}</p></article>
+  <article class="card stat"><p class="stat-label">{% translate "Offline" %}</p><p class="stat-value">{{ counts.offline }}</p><p class="stat-sub">{% blocktranslate with n=counts.total %}Kati ya {{ n }}{% endblocktranslate %}</p></article>
+  <article class="card stat"><p class="stat-label">{% translate "Hazijawahi kuunganishwa" %}</p><p class="stat-value">{{ counts.never }}</p></article>
+</section>
+
+<section class="card">
+  <form method="get" class="toolbar">
+    <input class="input" type="search" name="q" value="{{ q }}" placeholder="{% translate 'Tafuta router, mmiliki au NAS id' %}" aria-label="{% translate 'Tafuta' %}">
+    {% if state %}<input type="hidden" name="hali" value="{{ state }}">{% endif %}
+    <button class="btn btn-small" type="submit">{% translate "Tafuta" %}</button>
+  </form>
+  <div class="toolbar chips">
+    <a class="chip{% if not state %} is-active{% endif %}" href="?q={{ q|urlencode }}">{% translate "Zote" %}</a>
+    {% for key, label in filters %}<a class="chip{% if state == key %} is-active{% endif %}" href="?hali={{ key }}&q={{ q|urlencode }}">{{ label }}</a>{% endfor %}
+  </div>
+</section>
+
+<section class="card">
+  {% if page.object_list %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">{% translate "Router" %}</th><th scope="col">{% translate "Mmiliki" %}</th><th scope="col">{% translate "Hali" %}</th><th scope="col">{% translate "NAS id" %}</th><th scope="col">{% translate "RouterOS" %}</th><th scope="col" class="num">{% translate "Wateja" %}</th></tr></thead>
+        <tbody>
+          {% for r in page.object_list %}
+            <tr>
+              <td><a href="{% url 'control:router_detail' r.pk %}">{{ r.name }}</a>{% if not r.is_active %} <span class="pill pill-bad">{% translate "Imezimwa" %}</span>{% endif %}</td>
+              <td><a href="{% url 'control:owner_detail' r.owner_id %}">{{ r.owner.business_name }}</a></td>
+              <td>{% if r.online %}<span class="pill pill-good"><span class="status-dot is-online"></span> {% translate "Online" %}</span>{% elif r.last_seen_at %}<span class="pill"><span class="status-dot is-offline"></span> {{ r.last_seen_at|ago }}</span>{% else %}<span class="pill">{% translate "Bado" %}</span>{% endif %}</td>
+              <td>{{ r.nas_identifier|default:"—" }}</td>
+              <td>{{ r.routeros_version|default:"—" }}</td>
+              <td class="num">{% if r.online %}{{ r.active_clients }}{% else %}—{% endif %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "ui/_pager.html" %}
+  {% else %}
+    <p class="empty">{% translate "Hakuna routers." %}</p>
+  {% endif %}
+</section>
+{% endblock %}

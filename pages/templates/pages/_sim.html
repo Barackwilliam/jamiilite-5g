@@ -1,0 +1,95 @@
+{% load i18n %}
+    <div class="sim" data-sim>
+      <ol class="sim-steps" aria-label="{% translate 'Hatua' %}">
+        <li data-step="wifi">{% translate "Chagua WiFi" %}</li>
+        <li data-step="portal">{% translate "Kifurushi" %}</li>
+        <li data-step="stk">{% translate "PIN" %}</li>
+        <li data-step="online">{% translate "Internet" %}</li>
+        <li data-step="expired">{% translate "Muda umeisha" %}</li>
+      </ol>
+
+      <div class="sim-stage" data-sim-stage>
+        <div class="sim-fit"><div class="sim-phone" data-sim-phone>
+          <div class="sim-status"><span data-sim-clock>20:41</span><span class="sim-status-icons"><i class="sim-signal"></i><i class="sim-wifi-ico" data-sim-wifi></i><i class="sim-battery"></i></span></div>
+
+          <div class="sim-screen is-active" data-screen="wifi">
+            <p class="sim-h">Wi‑Fi</p>
+            <div class="sim-toggle-row"><span>Wi‑Fi</span><span class="sim-toggle"></span></div>
+            <p class="sim-small">{% translate "Mitandao inayopatikana" %}</p>
+            <button type="button" class="sim-net is-open" data-sim-action="join"><span class="sim-bars b4"></span><span class="sim-net-name">Neema WiFi</span><span class="sim-net-tag">{% translate "Wazi" %}</span></button>
+            <button type="button" class="sim-net" data-sim-action="locked"><span class="sim-bars b3"></span><span class="sim-net-name">TTCL-Home</span><span class="sim-lock">🔒</span></button>
+            <button type="button" class="sim-net" data-sim-action="locked"><span class="sim-bars b2"></span><span class="sim-net-name">Juma_5G</span><span class="sim-lock">🔒</span></button>
+            <button type="button" class="sim-net" data-sim-action="locked"><span class="sim-bars b1"></span><span class="sim-net-name">MiFi-7A21</span><span class="sim-lock">🔒</span></button>
+            <p class="sim-toast" data-sim-toast hidden>{% translate "Mtandao huu una password" %}</p>
+            <p class="sim-joining" data-sim-joining hidden><span class="sim-spin"></span>{% translate "Inaunganisha…" %}</p>
+          </div>
+
+          <div class="sim-screen sim-sheet" data-screen="portal">
+            <p class="sim-sheet-bar">{% translate "Ingia kwenye mtandao" %}<small>neema-wifi.jamiilite.co.tz</small></p>
+            <div class="sim-brand"><span>N</span><div><strong>Neema WiFi</strong><small>Sinza</small></div></div>
+            <p class="sim-label">{% translate "Nunua kifurushi" %}</p>
+            <button type="button" class="sim-pkg is-picked" data-sim-pkg="500" data-sim-mins="60" data-sim-name="{% translate 'Saa 1' %}"><span>{% translate "Saa 1" %}<small>{% translate "kasi 2 Mbps" %}</small></span><b>Tsh 500</b></button>
+            <button type="button" class="sim-pkg" data-sim-pkg="1000" data-sim-mins="1440" data-sim-name="{% translate 'Siku 1' %}"><span>{% translate "Siku 1" %}<small>{% translate "kasi 5 Mbps" %}</small></span><b>Tsh 1,000</b></button>
+            <button type="button" class="sim-pkg" data-sim-pkg="5000" data-sim-mins="10080" data-sim-name="{% translate 'Wiki' %}"><span>{% translate "Wiki" %}<small>{% translate "simu 2" %}</small></span><b>Tsh 5,000</b></button>
+            <p class="sim-label">{% translate "Namba ya simu" %}</p>
+            <p class="sim-input">0712 345 678</p>
+            <button type="button" class="sim-pay" data-sim-action="pay">{% translate "Lipa kwa simu" %}</button>
+          </div>
+
+          <div class="sim-screen sim-stk" data-screen="stk">
+            <div class="sim-stk-card">
+              <p class="sim-stk-title">M-Pesa</p>
+              <p class="sim-stk-text" data-sim-stk-text></p>
+              <p class="sim-pin" data-sim-pin><i></i><i></i><i></i><i></i></p>
+              <div class="sim-keypad">
+                {% for k in "123456789" %}<button type="button" data-sim-key="{{ k }}">{{ k }}</button>{% endfor %}
+                <span></span><button type="button" data-sim-key="0">0</button><span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sim-screen sim-center" data-screen="paid">
+            <span class="sim-big-check">✓</span>
+            <p class="sim-h">{% translate "Asante! Malipo yamepokelewa" %}</p>
+            <p class="sim-small">{% translate "Namba yako ya vocha" %}</p>
+            <p class="sim-code">7K4QX9MP</p>
+            <p class="sim-joining"><span class="sim-spin"></span>{% translate "Unaunganishwa…" %}</p>
+          </div>
+
+          <div class="sim-screen" data-screen="online">
+            <p class="sim-online-head"><span class="lp-live-dot"></span>{% translate "Umeunganishwa" %} · Neema WiFi</p>
+            <div class="sim-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="sim-ring-track"/><circle cx="60" cy="60" r="52" class="sim-ring-fill" data-sim-ring/></svg><div><b data-sim-left>59:59</b><small>{% translate "muda uliobaki" %}</small></div></div>
+            <div class="sim-apps">
+              <span><i>▶</i>{% translate "Video" %}</span><span><i>✉</i>{% translate "Ujumbe" %}</span><span><i>♫</i>{% translate "Muziki" %}</span><span><i>☰</i>{% translate "Habari" %}</span>
+            </div>
+            <p class="sim-data">↓ <b data-sim-down>0.0</b> MB · ↑ <b data-sim-up>0.0</b> MB</p>
+            <button type="button" class="sim-ghost" data-sim-action="skip">{% translate "Ruka mpaka muda uishe ⏩" %}</button>
+          </div>
+
+          <div class="sim-screen sim-center" data-screen="expired">
+            <span class="sim-big-clock">⏰</span>
+            <p class="sim-h">{% translate "Muda wako umeisha" %}</p>
+            <p class="sim-small">{% translate "Internet imesimama yenyewe. Mmiliki hakuhitaji kufanya kitu." %}</p>
+            <button type="button" class="sim-pay" data-sim-action="again">{% translate "Nunua tena" %}</button>
+          </div>
+
+          <span class="sim-finger" data-sim-finger aria-hidden="true"></span>
+        </div></div>
+
+        <div class="sim-link" aria-hidden="true"><span></span><span></span><span></span></div>
+
+        <div class="sim-fit sim-fit-owner"><div class="sim-phone sim-owner">
+          <div class="sim-status"><span>20:41</span><span class="sim-status-icons"><i class="sim-signal"></i><i class="sim-battery"></i></span></div>
+          <p class="owner-app">{% translate "Dashboard yako" %}</p>
+          <p class="owner-label">{% translate "Salio" %}</p>
+          <p class="owner-balance">Tsh <span data-sim-owner-balance>146,000</span></p>
+          <div class="sim-owner-stats"><span><b data-sim-owner-online>6</b>{% translate "online" %}</span><span><b data-sim-owner-today>21</b>{% translate "mauzo leo" %}</span></div>
+          <ol class="owner-feed" data-sim-owner-feed></ol>
+        </div></div>
+      </div>
+
+      <div class="sim-controls">
+        <span class="sim-auto" data-sim-auto><span class="lp-live-dot"></span>{% translate "Gusa simu kuendesha mwenyewe" %}</span>
+        <button type="button" class="lp-btn lp-btn-small lp-btn-glass" data-sim-action="restart">↺ {% translate "Anza upya" %}</button>
+      </div>
+    </div>

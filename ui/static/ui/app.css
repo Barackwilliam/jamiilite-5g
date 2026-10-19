@@ -1,0 +1,749 @@
+/* JamiiLite 5G: dashboards (mmiliki na Super Admin) */
+
+:root {
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --surface-2: #eef3fb;
+  --text: #101a33;
+  --muted: #56627a;
+  --faint: #8a95aa;
+  --border: #dde4ef;
+  --hairline: #e8edf5;
+  --brand: #0b5cd6;
+  --brand-strong: #0847a8;
+  --brand-text: #ffffff;
+  --brand-soft: #e3edfc;
+  --money: #12a150;
+  --money-soft: #e3f6eb;
+  --warn: #9a6200;
+  --warn-soft: #fdf1d8;
+  --danger: #c43d2f;
+  --danger-soft: #fbe7e4;
+  --sidebar: #0f1a33;
+  --sidebar-text: #c6d1e6;
+  --sidebar-active: #1c2c50;
+  --code-bg: #0f172a;
+  --code-text: #dbe4f3;
+  --chart-bar: #0b5cd6;
+  --shadow: 0 1px 2px rgba(16, 26, 51, 0.05), 0 6px 20px rgba(16, 26, 51, 0.05);
+  --radius: 14px;
+  --sidebar-w: 248px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a1120;
+    --surface: #111a2d;
+    --surface-2: #17223a;
+    --text: #e8eef9;
+    --muted: #9eabc4;
+    --faint: #6f7d98;
+    --border: #24314c;
+    --hairline: #1c2740;
+    --brand: #4c95f5;
+    --brand-strong: #79b0fa;
+    --brand-text: #0a1120;
+    --brand-soft: #182a4a;
+    --money: #3ccf7e;
+    --money-soft: #12302a;
+    --warn: #f0b54a;
+    --warn-soft: #33270f;
+    --danger: #f08b80;
+    --danger-soft: #3a1c1b;
+    --sidebar: #070d19;
+    --sidebar-text: #b4c0d8;
+    --sidebar-active: #15223d;
+    --code-bg: #060b16;
+    --chart-bar: #4c95f5;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
+}
+a { color: var(--brand); }
+h1, h2, h3 { margin: 0; line-height: 1.25; }
+p { margin: 0 0 10px; }
+hr { border: 0; border-top: 1px solid var(--border); margin: 20px 0; }
+img { max-width: 100%; }
+.icon { flex-shrink: 0; vertical-align: middle; }
+.muted { color: var(--muted); }
+.small { font-size: 0.86rem; }
+
+/* --- Mpangilio: sidebar + main --- */
+.nav-toggle { position: absolute; opacity: 0; pointer-events: none; }
+
+.sidebar {
+  position: fixed; inset: 0 auto 0 0; z-index: 30;
+  width: var(--sidebar-w);
+  display: flex; flex-direction: column;
+  background: var(--sidebar); color: var(--sidebar-text);
+  padding: 18px 14px;
+}
+.sidebar-head { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 2px 6px 18px; }
+.app-logo { white-space: nowrap; display: inline-flex; align-items: center; gap: 9px; color: #fff; text-decoration: none; font-weight: 800; font-size: 1.05rem; }
+.app-logo b { color: #79b0fa; }
+.app-logo-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; background: #0b5cd6; color: #fff; }
+.area-badge { margin-left: 41px; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 99px; background: #f0b54a; color: #2b1d00; }
+
+.side-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; overflow-y: auto; }
+.side-section { margin: 14px 10px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #6f7d98; }
+.side-link {
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 10px; border-radius: 10px;
+  color: var(--sidebar-text); text-decoration: none; font-weight: 550;
+}
+.side-link:hover { background: var(--sidebar-active); color: #fff; }
+.side-link.is-active { background: var(--sidebar-active); color: #fff; box-shadow: inset 3px 0 0 #4c95f5; }
+.side-link.is-active .icon { color: #79b0fa; }
+.side-badge { margin-left: auto; min-width: 22px; padding: 1px 7px; border-radius: 99px; background: #f0b54a; color: #2b1d00; font-size: 0.75rem; font-weight: 700; text-align: center; }
+
+.sidebar-foot { display: flex; align-items: center; gap: 8px; padding: 12px 6px 0; border-top: 1px solid #1f2b47; }
+.who { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+.avatar { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #1c2c50; color: #fff; font-weight: 700; flex-shrink: 0; }
+.who-text { display: flex; flex-direction: column; min-width: 0; }
+.who-text strong, .who-text small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.who-text strong { color: #fff; font-size: 0.9rem; }
+.who-text small { color: #8593ae; font-size: 0.78rem; }
+.icon-btn {
+  display: inline-grid; place-items: center; width: 38px; height: 38px;
+  border: 0; border-radius: 10px; background: transparent; color: inherit; cursor: pointer;
+}
+.icon-btn:hover { background: rgba(127, 140, 170, 0.16); }
+.sidebar .icon-btn { color: var(--sidebar-text); }
+
+.scrim { display: none; }
+.main { margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; }
+
+.appbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 28px; min-height: 68px;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--hairline);
+}
+.menu-btn { display: none; color: var(--text); }
+.appbar-title { flex: 1; min-width: 0; }
+.appbar-title h1 { font-size: 1.35rem; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb { display: inline-block; font-size: 0.82rem; color: var(--muted); text-decoration: none; margin-bottom: 2px; }
+.crumb::before { content: "← "; }
+.crumb:hover { color: var(--brand); }
+.appbar-actions { display: flex; gap: 8px; align-items: center; }
+
+.content { padding: 22px 28px 48px; display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 1200px; }
+
+/* --- Ujumbe na mabango --- */
+.flash-stack { padding: 16px 28px 0; display: flex; flex-direction: column; gap: 8px; max-width: 1200px; }
+.flash { display: flex; align-items: flex-start; gap: 10px; padding: 11px 14px; border-radius: 12px; background: var(--money-soft); color: var(--text); border: 1px solid color-mix(in srgb, var(--money) 30%, transparent); }
+.flash .icon { color: var(--money); margin-top: 1px; }
+.flash-error { background: var(--danger-soft); border-color: color-mix(in srgb, var(--danger) 30%, transparent); }
+.flash-error .icon { color: var(--danger); }
+.flash-warning { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 30%, transparent); }
+
+.banner {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin: 16px 28px 0; max-width: calc(1200px - 56px);
+  padding: 12px 16px; border-radius: 12px; border: 1px solid;
+}
+.banner p { margin: 0; flex: 1; min-width: 200px; }
+.banner-info { background: var(--brand-soft); border-color: color-mix(in srgb, var(--brand) 25%, transparent); }
+.banner-info > .icon { color: var(--brand); }
+.banner-warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 30%, transparent); }
+.banner-warn > .icon { color: var(--warn); }
+.banner-danger { background: var(--danger-soft); border-color: color-mix(in srgb, var(--danger) 35%, transparent); }
+.banner-danger > .icon { color: var(--danger); }
+
+/* --- Kadi --- */
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow); min-width: 0;
+}
+.card-narrow { max-width: 560px; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+.card-head h2 { font-size: 1.02rem; }
+.link { font-size: 0.88rem; font-weight: 600; text-decoration: none; }
+.link:hover { text-decoration: underline; }
+
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+.two-col-wide { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+
+/* --- Takwimu --- */
+.stats-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) repeat(2, minmax(0, 1fr)); gap: 14px; }
+.stats-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.stats-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.stat { padding: 16px 18px; display: flex; flex-direction: column; }
+.stat-hero { grid-row: span 2; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(160deg, var(--brand) 0%, var(--brand-strong) 100%); color: var(--brand-text); border: 0; }
+.stat-hero .stat-label, .stat-hero .muted { color: color-mix(in srgb, var(--brand-text) 78%, transparent); }
+.stat-label { font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.stat-value { font-size: 1.45rem; font-weight: 750; letter-spacing: -0.01em; margin: 0; font-variant-numeric: tabular-nums; }
+.stat-text { font-size: 1.05rem; }
+.stat-sub { font-size: 0.82rem; color: var(--muted); margin: 4px 0 0; display: inline-flex; align-items: center; gap: 4px; }
+.stat-money { color: var(--money); }
+.stat-link { text-decoration: none; color: inherit; transition: border-color 0.15s, transform 0.15s; }
+.stat-link:hover { border-color: var(--brand); transform: translateY(-1px); }
+.stat-link .stat-sub { color: var(--brand); font-weight: 600; }
+.hero-figure { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; margin: 2px 0 6px; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.balance-card { display: flex; flex-direction: column; justify-content: center; min-height: 100%; }
+
+/* --- Orodha --- */
+.list { list-style: none; margin: 0 -8px; padding: 0; }
+.list > li + li { border-top: 1px solid var(--hairline); }
+.list-row { display: flex; align-items: center; gap: 12px; padding: 11px 8px; color: inherit; text-decoration: none; border-radius: 10px; }
+a.list-row:hover { background: var(--surface-2); }
+a.list-row > .icon:last-child { color: var(--faint); }
+.list-main { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.list-main strong { font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+.list-main small { color: var(--muted); font-size: 0.82rem; overflow: hidden; text-overflow: ellipsis; }
+.list-compact .list-row { padding: 8px; }
+.list-amount { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.amount-in { color: var(--money); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.amount-out { color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.empty { color: var(--muted); margin: 0; padding: 8px 0; }
+.empty-state { text-align: center; padding: 26px 10px; }
+.empty-state p { margin-bottom: 4px; }
+.empty-icon { display: inline-grid; place-items: center; width: 54px; height: 54px; border-radius: 16px; background: var(--brand-soft); color: var(--brand); margin-bottom: 10px; }
+
+.status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.status-dot.is-online { background: var(--money); box-shadow: 0 0 0 4px var(--money-soft); }
+.status-dot.is-offline { background: var(--faint); box-shadow: 0 0 0 4px var(--surface-2); }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; font-size: 0.78rem; font-weight: 650; white-space: nowrap; background: var(--surface-2); color: var(--muted); }
+.pill .status-dot { width: 8px; height: 8px; box-shadow: none; }
+.pill-good { background: var(--money-soft); color: var(--money); }
+.pill-warn { background: var(--warn-soft); color: var(--warn); }
+.pill-bad { background: var(--danger-soft); color: var(--danger); }
+.pill-info { background: var(--brand-soft); color: var(--brand); }
+
+.meter { width: 70px; height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; flex-shrink: 0; }
+.meter span { display: block; height: 100%; background: var(--brand); border-radius: 99px; }
+
+/* --- Hatua za kuanza --- */
+.onboarding h2 { font-size: 1.02rem; margin-bottom: 10px; }
+.checklist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.checklist li { display: flex; flex-direction: column; gap: 8px; padding: 14px; border-radius: 12px; background: var(--surface-2); }
+.checklist li div { display: flex; flex-direction: column; }
+.checklist small { color: var(--muted); font-size: 0.82rem; }
+.checklist .btn { align-self: flex-start; margin-top: auto; }
+.check-dot { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border); color: transparent; background: var(--surface); }
+.checklist li.is-done { background: var(--money-soft); }
+.checklist li.is-done .check-dot { background: var(--money); border-color: var(--money); color: #fff; }
+.checklist li.is-done strong { text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--text) 40%, transparent); }
+
+.steps { margin: 0 0 14px; padding-left: 20px; }
+.steps li { margin-bottom: 6px; }
+
+/* --- Vitufe --- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 42px; padding: 9px 16px; border-radius: 11px;
+  border: 1px solid transparent; background: var(--brand); color: var(--brand-text);
+  font: inherit; font-weight: 650; text-decoration: none; cursor: pointer; white-space: nowrap;
+}
+.btn:hover { background: var(--brand-strong); }
+.btn:focus-visible, .side-link:focus-visible, .list-row:focus-visible, .pay-option:focus-visible { outline: 3px solid color-mix(in srgb, var(--brand) 45%, transparent); outline-offset: 2px; }
+.btn-primary { background: var(--brand); }
+.btn-ghost { background: var(--surface); color: var(--text); border-color: var(--border); }
+.btn-ghost:hover { background: var(--surface-2); }
+.btn-danger-ghost { background: var(--surface); color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, var(--border)); }
+.btn-danger-ghost:hover { background: var(--danger-soft); }
+.btn-good { background: var(--money); color: #fff; }
+.btn-good:hover { background: color-mix(in srgb, var(--money) 85%, #000); }
+.btn-small { min-height: 34px; padding: 6px 12px; font-size: 0.86rem; border-radius: 9px; }
+.btn-block { width: 100%; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.pay-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.pay-option {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  padding: 14px; border-radius: 12px; border: 2px solid var(--border); background: var(--surface);
+  color: var(--text); font: inherit; cursor: pointer; text-align: left;
+}
+.pay-option span { color: var(--brand); font-weight: 700; }
+.pay-option:hover:not([disabled]) { border-color: var(--brand); background: var(--brand-soft); }
+.pay-option[disabled] { opacity: 0.5; cursor: not-allowed; }
+.sub-card.sub-expired { border-color: color-mix(in srgb, var(--danger) 40%, var(--border)); }
+.sub-card.sub-expired .hero-figure { color: var(--danger); }
+.sub-card.sub-active .hero-figure { color: var(--money); }
+
+/* --- Fomu --- */
+.form-stack { display: flex; flex-direction: column; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.field label { font-size: 0.86rem; font-weight: 600; }
+.field input:not([type=checkbox]), .field select, .field textarea, .input {
+  width: 100%; min-height: 44px; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--surface); color: var(--text); font: inherit;
+}
+.field input[type=file] { padding: 8px; }
+.field input:focus, .field select:focus, .field textarea:focus, .input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent); }
+.field-check label { display: flex; align-items: center; gap: 10px; font-weight: 550; cursor: pointer; }
+.field-check input { width: 18px; height: 18px; accent-color: var(--brand); }
+.field-help { color: var(--muted); font-size: 0.8rem; }
+.field-error { color: var(--danger); font-size: 0.82rem; font-weight: 600; }
+.has-error input, .has-error select { border-color: var(--danger); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.logo-preview { width: 72px; height: 72px; object-fit: contain; border-radius: 12px; border: 1px solid var(--border); background: var(--surface-2); }
+.inline-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.inline-form .input { width: auto; flex: 1; min-width: 140px; min-height: 36px; padding: 6px 10px; }
+
+/* --- Msimbo wa kunakili --- */
+.code-box {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 12px 12px 16px; border-radius: 12px; margin-bottom: 12px;
+  background: var(--code-bg); color: var(--code-text);
+}
+.code-box code { flex: 1; min-width: 0; font: 0.84rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+.code-box-light { background: var(--surface-2); color: var(--text); }
+.code-box .btn.is-copied { background: var(--money); color: #fff; }
+
+/* --- Jedwali --- */
+.table-wrap { overflow-x: auto; margin: 0 -4px; }
+.table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.table th, .table td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--hairline); white-space: nowrap; }
+.table th { font-size: 0.76rem; font-weight: 650; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.table tbody tr:hover { background: var(--surface-2); }
+.table a { font-weight: 600; text-decoration: none; }
+.pager { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.toolbar .input { width: auto; min-width: 200px; flex: 1; min-height: 40px; }
+.chip { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none; font-size: 0.86rem; font-weight: 600; }
+.chip.is-active { background: var(--text); color: var(--surface); border-color: var(--text); }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; margin: 0; }
+.kv dt { color: var(--muted); font-size: 0.86rem; }
+.kv dd { margin: 0; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+
+/* --- Chati --- */
+.chart { position: relative; margin: 0; container-type: inline-size; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart-grid { stroke: var(--hairline); stroke-width: 1; }
+.chart-tick, .chart-day { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.chart-peak { fill: var(--text); font-size: 11px; font-weight: 700; }
+.chart-mark { fill: var(--chart-bar); transition: opacity 0.12s; }
+.chart-hit { fill: transparent; }
+.chart-bar { cursor: default; outline: none; }
+.chart-bar:hover .chart-hit, .chart-bar:focus .chart-hit { fill: color-mix(in srgb, var(--chart-bar) 8%, transparent); }
+.chart:has(.chart-bar:hover) .chart-mark, .chart:has(.chart-bar:focus) .chart-mark { opacity: 0.45; }
+.chart .chart-bar:hover .chart-mark, .chart .chart-bar:focus .chart-mark { opacity: 1; }
+.chart-tooltip {
+  position: absolute; z-index: 5; pointer-events: none; transform: translate(-50%, calc(-100% - 10px));
+  padding: 7px 10px; border-radius: 9px; background: var(--text); color: var(--surface);
+  font-size: 0.8rem; line-height: 1.35; white-space: nowrap; box-shadow: var(--shadow);
+}
+.chart-tooltip strong, .chart-tooltip span { display: block; }
+.chart-tooltip strong { font-weight: 600; opacity: 0.8; }
+.chart-tooltip span { font-weight: 750; font-variant-numeric: tabular-nums; }
+/* SVG inapungua pamoja na kadi; ongeza ukubwa wa maandishi ili yabaki ~11px. */
+@container (max-width: 560px) {
+  .chart-tick, .chart-day, .chart-peak { font-size: 15px; }
+}
+@container (max-width: 400px) {
+  .chart-tick, .chart-day, .chart-peak { font-size: 19px; }
+}
+.content > .banner { margin: 0; max-width: none; }
+.chart-empty { display: grid; place-items: center; text-align: center; min-height: 160px; border-radius: 12px; background: var(--surface-2); padding: 20px; }
+.chart-empty p { margin: 0 0 2px; }
+.chart-table { margin-top: 8px; font-size: 0.86rem; }
+.chart-table summary { cursor: pointer; color: var(--muted); font-weight: 600; width: max-content; }
+.chart-table table { width: 100%; max-width: 360px; border-collapse: collapse; margin-top: 8px; }
+.chart-table th, .chart-table td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--hairline); font-variant-numeric: tabular-nums; }
+
+/* --- Kuingia / kujisajili --- */
+
+/* --- Vocha za kuchapisha --- */
+.print-page { background: var(--bg); }
+.print-bar { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.print-bar p { margin: 0; }
+.voucher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; padding: 16px; max-width: 1000px; margin: 0 auto; }
+.voucher-card { position: relative; padding: 14px; border: 1.5px dashed #9aa6bd; border-radius: 12px; background: #fff; color: #101a33; break-inside: avoid; }
+.voucher-card p { margin: 0; }
+.voucher-biz { font-weight: 800; font-size: 0.95rem; }
+.voucher-pkg { color: #0b5cd6; font-weight: 700; font-size: 0.86rem; }
+.voucher-code { font: 800 1.5rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.12em; margin: 10px 0 8px !important; }
+.voucher-how { font-size: 0.72rem; color: #56627a; line-height: 1.35; }
+.voucher-card.is-used { opacity: 0.45; }
+.voucher-used { position: absolute; top: 10px; right: 10px; font-size: 0.68rem; font-weight: 700; color: #c43d2f; }
+
+@media print {
+  .print-bar { display: none; }
+  body.print-page { background: #fff; }
+  .voucher-grid { grid-template-columns: repeat(3, 1fr); padding: 0; gap: 6px; }
+  .voucher-card { border-color: #555; }
+}
+
+/* --- Super Admin --- */
+a.banner-link { color: inherit; text-decoration: none; }
+a.banner-link:hover { filter: brightness(0.98); }
+.segments { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.segment { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 12px; background: var(--surface-2); color: inherit; text-decoration: none; }
+.segment:hover { background: var(--brand-soft); }
+.segment strong { font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+.segment small { color: var(--muted); }
+.seg-dot { width: 10px; height: 10px; border-radius: 3px; }
+.seg-paid { background: var(--money); }
+.seg-trial { background: var(--brand); }
+.seg-expired { background: var(--warn); }
+.seg-suspended { background: var(--danger); }
+.sub-h { font-size: 0.9rem; margin: 18px 0 6px; color: var(--muted); }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.withdraw-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.withdraw-head p { margin: 0; }
+.withdraw-amount { font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.withdraw-card > .small { margin: 8px 0 12px; }
+.withdraw-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pay-options-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.chips { margin-top: 12px; }
+.card > .toolbar.chips:first-child { margin-top: 0; }
+
+@media (max-width: 860px) {
+  .segments, .pay-options-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .withdraw-actions { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* --- Muhtasari wa mmiliki --- */
+.appbar-date { margin: 0 0 2px; font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+.overview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: auto auto; gap: 14px; }
+.hero-card {
+  grid-column: span 2; grid-row: span 2;
+  position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 14px;
+  padding: 24px; border: 0; color: #fff;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.16) 0 90px, transparent 91px),
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.08) 0 170px, transparent 171px),
+    linear-gradient(150deg, #0b5cd6 0%, #083f96 100%);
+}
+.hero-card .stat-label { color: rgba(255, 255, 255, 0.8); margin: 0; }
+.hero-card .hero-figure { font-size: clamp(2.2rem, 5vw, 3.2rem); margin: 0; }
+.hero-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.hero-foot { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 0.88rem; color: rgba(255, 255, 255, 0.85); }
+.hero-foot span { display: inline-flex; align-items: center; gap: 6px; }
+.hero-card .trend { background: rgba(255, 255, 255, 0.16); color: #fff; }
+.hero-week { display: flex; align-items: flex-end; gap: 8px; height: 92px; }
+.hero-day { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; }
+.hero-bar { width: 100%; max-width: 28px; border-radius: 4px 4px 0 0; background: rgba(255, 255, 255, 0.28); }
+.hero-day.is-today .hero-bar { background: #fff; }
+.hero-day small { font-size: 0.68rem; color: rgba(255, 255, 255, 0.75); }
+.stat .trend { white-space: normal; }
+.trend { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 99px; font-size: 0.76rem; font-weight: 700; white-space: nowrap; }
+.trend-up { color: var(--money); background: var(--money-soft); }
+.trend-down { color: var(--danger); background: var(--danger-soft); }
+.stat-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--brand-soft); color: var(--brand); margin-bottom: 10px; }
+.stat-icon-money { background: var(--money-soft); color: var(--money); }
+.hide-sm { }
+
+.bar-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.bar-list-text { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 6px; font-size: 0.9rem; }
+.bar-list-label { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-list-value { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar-list-value small { color: var(--muted); font-weight: 500; }
+.bar-list-track { display: block; height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+.bar-list-track span { display: block; height: 100%; min-width: 4px; border-radius: 99px; background: var(--chart-bar); }
+
+.router-badge { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--surface-2); color: var(--faint); flex-shrink: 0; }
+.router-badge.is-online { background: var(--money-soft); color: var(--money); }
+.status-dot-sm { display: inline-block; width: 7px; height: 7px; margin-right: 6px; vertical-align: 1px; box-shadow: none !important; }
+.list-amount small { display: block; text-align: right; font-size: 0.72rem; color: var(--muted); font-weight: 500; }
+.sale-avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); font-weight: 800; flex-shrink: 0; }
+
+/* Usajili kwenye sidebar */
+.sub-widget { display: block; margin: 10px 4px 12px; padding: 12px; border-radius: 12px; background: #16233f; color: #fff; text-decoration: none; }
+.sub-widget:hover { background: #1c2c50; }
+.sub-widget-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; font-size: 0.84rem; }
+.sub-widget-top small { color: #9fb2d4; }
+.sub-widget-meter { display: block; height: 6px; border-radius: 99px; background: #0b1426; overflow: hidden; }
+.sub-widget-meter span { display: block; height: 100%; background: #4c95f5; border-radius: 99px; }
+.sub-widget-active .sub-widget-meter span { background: #3ccf7e; }
+.sub-widget-expired { background: #3a1c1b; }
+.sub-widget-expired small { color: #f08b80; font-weight: 700; }
+
+.banner-announce { background: var(--surface); border-color: var(--border); border-left: 4px solid var(--brand); }
+.banner-announce > .icon { color: var(--brand); }
+
+/* Menyu ya chini kwenye simu */
+.bottom-nav { display: none; }
+
+/* --- Hali ya mfumo --- */
+.check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.check { --tone: var(--money); --tone-soft: var(--money-soft); border-top: 3px solid var(--tone); }
+.check-warn { --tone: var(--warn); --tone-soft: var(--warn-soft); }
+.check-bad { --tone: var(--danger); --tone-soft: var(--danger-soft); }
+.check-info { --tone: var(--brand); --tone-soft: var(--brand-soft); }
+.check-ok { --tone: var(--money); --tone-soft: var(--money-soft); }
+.check-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.check-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--tone-soft); color: var(--tone); flex-shrink: 0; }
+li .check-icon { width: 28px; height: 28px; border-radius: 8px; }
+.check-title { flex: 1; min-width: 0; }
+.check-title h2 { font-size: 0.86rem; color: var(--muted); font-weight: 600; }
+.check-value { margin: 2px 0 0; font-size: 1.1rem; font-weight: 750; }
+.check-pill { background: var(--tone-soft); color: var(--tone); }
+.check-detail { font-size: 0.9rem; margin-bottom: 8px; }
+.check-fix { font-size: 0.86rem; padding: 8px 10px; border-radius: 10px; background: var(--tone-soft); }
+.kv-compact { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--hairline); font-size: 0.86rem; gap: 6px 14px; }
+.system-hero { display: flex; align-items: center; gap: 16px; }
+.system-hero h2 { font-size: 1.2rem; margin-bottom: 4px; }
+.system-hero p { margin: 0; }
+.system-hero-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; flex-shrink: 0; background: var(--money-soft); color: var(--money); }
+.system-warn .system-hero-icon { background: var(--warn-soft); color: var(--warn); }
+.system-bad .system-hero-icon { background: var(--danger-soft); color: var(--danger); }
+.system-info .system-hero-icon { background: var(--brand-soft); color: var(--brand); }
+.system-bad.system-hero, .system-bad.system-strip { border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); }
+.system-strip .card-head h2 { display: inline-flex; align-items: center; gap: 8px; }
+.system-ok-strip { display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: inherit; text-decoration: none; }
+.system-ok-strip > .icon { color: var(--money); }
+.log-list .list-main strong { font-weight: 500; font-size: 0.84rem; white-space: normal; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.action-tile {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left;
+  padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); font: inherit; cursor: pointer;
+}
+.action-tile > .icon { color: var(--brand); margin-bottom: 4px; }
+.action-tile small { color: var(--muted); font-size: 0.8rem; }
+.action-tile:hover { border-color: var(--brand); background: var(--brand-soft); }
+.action-danger > .icon { color: var(--danger); }
+.action-danger:hover { border-color: var(--danger); background: var(--danger-soft); }
+.action-good > .icon { color: var(--money); }
+.form-section { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-top: 6px; }
+.form-section:first-of-type { margin-top: 0; }
+
+/* --- Jinsi WiFi inavyofanya kazi kwa mteja --- */
+.flow { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.flow li { display: flex; gap: 12px; align-items: flex-start; }
+.flow li div { display: flex; flex-direction: column; }
+.flow small { color: var(--muted); font-size: 0.84rem; }
+.flow-num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--brand); color: var(--brand-text); font-weight: 800; font-size: 0.86rem; flex-shrink: 0; }
+
+/* ============================================================
+   Mapambo: rangi, mandhari na vielelezo
+   ============================================================ */
+:root {
+  --violet: #6d4fd8; --violet-soft: #ede8fd;
+  --amber: #c27c0e; --amber-soft: #fdf1d8;
+  --teal: #0e9fb3; --teal-soft: #ddf4f7;
+  --grad-brand: linear-gradient(135deg, #0b5cd6 0%, #3b6ff0 55%, #6d4fd8 100%);
+  --shadow-lift: 0 2px 4px rgba(16, 26, 51, 0.06), 0 16px 36px -12px rgba(11, 92, 214, 0.28);
+  --radius: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --violet: #9b7be6; --violet-soft: #251d45;
+    --amber: #f0b54a; --amber-soft: #33270f;
+    --teal: #3cc6d9; --teal-soft: #11303a;
+    --grad-brand: linear-gradient(135deg, #2f6fe0 0%, #4c7ff0 55%, #7d5fe0 100%);
+    --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.3), 0 16px 36px -12px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Sidebar yenye mng'ao */
+.sidebar { background: linear-gradient(180deg, #0c1734 0%, #0a1229 100%); overflow: hidden; }
+.sidebar > *:not(.sidebar-deco) { position: relative; z-index: 1; }
+.sidebar-deco {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(260px 200px at 0% 0%, rgba(76, 149, 245, 0.32), transparent 70%),
+    radial-gradient(240px 220px at 100% 100%, rgba(109, 79, 216, 0.28), transparent 70%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1.3px) 0 0 / 18px 18px;
+}
+.app-logo-mark { background: var(--grad-brand); box-shadow: 0 6px 16px -4px rgba(76, 149, 245, 0.6); }
+.side-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: rgba(255, 255, 255, 0.05); transition: background 0.15s; }
+.side-link { padding: 7px 10px; }
+.side-link:hover .side-icon { background: rgba(255, 255, 255, 0.1); }
+.side-link.is-active { background: linear-gradient(90deg, rgba(76, 149, 245, 0.28), rgba(76, 149, 245, 0.06)); box-shadow: inset 3px 0 0 #79b0fa; }
+.side-link.is-active .side-icon { background: var(--grad-brand); color: #fff; box-shadow: 0 6px 14px -6px rgba(76, 149, 245, 0.9); }
+.side-link.is-active .icon { color: #fff; }
+.app-control .sidebar { background: linear-gradient(180deg, #17112f 0%, #0d0b1f 100%); }
+.app-control .sidebar-deco { background:
+    radial-gradient(260px 200px at 0% 0%, rgba(240, 181, 74, 0.22), transparent 70%),
+    radial-gradient(240px 220px at 100% 100%, rgba(109, 79, 216, 0.35), transparent 70%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1.3px) 0 0 / 18px 18px; }
+.app-control .side-link.is-active { background: linear-gradient(90deg, rgba(240, 181, 74, 0.24), rgba(240, 181, 74, 0.04)); box-shadow: inset 3px 0 0 #f0b54a; }
+.app-control .side-link.is-active .side-icon { background: linear-gradient(135deg, #f0b54a, #e07b39); }
+.sidebar-lang { padding: 0 6px 12px; }
+
+/* Kubadilisha lugha */
+.lang-switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--border); }
+.lang-switch button { font: inherit; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.04em; padding: 4px 10px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--brand); box-shadow: 0 1px 3px rgba(16, 26, 51, 0.15); }
+.lang-switch-dark { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.1); }
+.lang-switch-dark button { color: #9fb2d4; }
+.lang-switch-dark button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.14); color: #fff; box-shadow: none; }
+.appbar-lang { display: none; }
+
+/* Mandhari ya eneo kuu */
+.main { position: relative; isolation: isolate; }
+.main-deco {
+  position: absolute; inset: 0 0 auto 0; height: 420px; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(520px 260px at 92% -40px, color-mix(in srgb, var(--brand) 16%, transparent), transparent 70%),
+    radial-gradient(420px 240px at 40% -80px, color-mix(in srgb, var(--violet) 12%, transparent), transparent 70%);
+}
+.appbar { background: color-mix(in srgb, var(--bg) 75%, transparent); }
+
+/* Kadi */
+.card { border-radius: var(--radius); }
+.card-head h2 { display: inline-flex; align-items: center; gap: 8px; }
+.card-accent { position: relative; overflow: hidden; }
+.card-accent::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--grad-brand); }
+a.card:hover, .stat-link:hover { box-shadow: var(--shadow-lift); }
+
+/* Takwimu zenye rangi zao */
+.stat { position: relative; overflow: hidden; }
+.stat::after { content: ""; position: absolute; width: 120px; height: 120px; right: -40px; top: -40px; border-radius: 50%; background: var(--tone-soft, var(--brand-soft)); opacity: 0.7; z-index: 0; }
+.stat > * { position: relative; z-index: 1; }
+.tone-blue { --tone: var(--brand); --tone-soft: var(--brand-soft); }
+.tone-violet { --tone: var(--violet); --tone-soft: var(--violet-soft); }
+.tone-green { --tone: var(--money); --tone-soft: var(--money-soft); }
+.tone-amber { --tone: var(--amber); --tone-soft: var(--amber-soft); }
+.stat .stat-icon { background: var(--tone, var(--brand)); color: #fff; box-shadow: 0 8px 16px -8px var(--tone, var(--brand)); }
+
+/* Kadi kuu ya mapato */
+.hero-card { background: var(--grad-brand); box-shadow: 0 20px 40px -18px rgba(11, 92, 214, 0.65); }
+.hero-card > *:not(.hero-deco) { position: relative; z-index: 1; }
+.hero-deco { position: absolute; right: -24px; bottom: -30px; width: 210px; height: 210px; color: #fff; opacity: 0.18; z-index: 0; animation: hero-float 7s ease-in-out infinite; }
+@keyframes hero-float { 50% { transform: translateY(-8px) rotate(-2deg); } }
+
+/* Vitufe */
+.btn-primary { background: var(--grad-brand); box-shadow: 0 8px 18px -10px rgba(11, 92, 214, 0.9); }
+.btn-primary:hover { background: var(--grad-brand); filter: brightness(1.06); transform: translateY(-1px); }
+.btn { transition: transform 0.12s, filter 0.12s, background 0.12s; }
+.btn-lg { min-height: 50px; font-size: 1rem; border-radius: 13px; }
+
+/* Msimbo kama terminal */
+.code-box { position: relative; padding-top: 34px; border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04); }
+.code-box-light { padding-top: 12px; border-color: var(--border); }
+.code-dots { position: absolute; left: 14px; top: 12px; display: flex; gap: 6px; }
+.code-dots i { width: 10px; height: 10px; border-radius: 50%; background: #f05a5a; }
+.code-dots i:nth-child(2) { background: #f0b54a; }
+.code-dots i:nth-child(3) { background: #3ccf7e; }
+.code-box code::before { content: "> "; color: #3ccf7e; }
+.code-box-light code::before { content: none; }
+
+/* Hali tupu zenye kielelezo */
+.empty-art { position: relative; display: inline-grid; place-items: center; width: 96px; height: 70px; margin-bottom: 8px; }
+.empty-blob { position: absolute; inset: 0; width: 100%; height: 100%; fill: var(--brand-soft); }
+.empty-art .empty-icon { position: relative; background: var(--grad-brand); color: #fff; width: 48px; height: 48px; border-radius: 14px; margin: 0; box-shadow: 0 10px 20px -10px rgba(11, 92, 214, 0.8); }
+.empty-state .btn { margin-top: 8px; }
+
+/* Vifurushi kama vigae */
+.package-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.package-tile { display: flex; flex-direction: column; gap: 4px; height: 100%; padding: 14px; border-radius: 14px; border: 1px solid var(--border); background: linear-gradient(160deg, var(--surface) 55%, var(--brand-soft)); color: inherit; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+.package-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: color-mix(in srgb, var(--brand) 40%, var(--border)); }
+.package-tile.is-off { opacity: 0.6; background: var(--surface-2); }
+.package-tile-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.package-tile-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--grad-brand); color: #fff; }
+.package-tile-price { font-size: 1.25rem; font-weight: 800; color: var(--brand); font-variant-numeric: tabular-nums; }
+.package-tile small { color: var(--muted); font-size: 0.8rem; }
+
+/* Salio */
+.balance-card { position: relative; overflow: hidden; color: #fff; border: 0; background: linear-gradient(140deg, #0f9b4d 0%, #12a150 40%, #0e7c8f 100%); box-shadow: 0 20px 40px -20px rgba(18, 161, 80, 0.7); }
+.balance-card .stat-label { color: rgba(255, 255, 255, 0.85); }
+.balance-card .hero-figure { color: #fff; }
+.balance-deco { position: absolute; right: -40px; top: -40px; width: 200px; height: 200px; fill: none; stroke: #fff; stroke-width: 2; opacity: 0.18; }
+.ledger-dot { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; font-weight: 800; flex-shrink: 0; }
+.ledger-dot.is-in { background: var(--money-soft); color: var(--money); }
+.ledger-dot.is-out { background: var(--surface-2); color: var(--muted); }
+.pay-option-best { position: relative; border-color: color-mix(in srgb, var(--brand) 45%, var(--border)); }
+
+/* Chaguo za vidonge (lugha) */
+.field-label { font-size: 0.86rem; font-weight: 600; }
+.choice-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.choice-pill { position: relative; cursor: pointer; }
+.choice-pill input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.choice-pill span { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 8px 12px; border-radius: 12px; border: 2px solid var(--border); background: var(--surface); font-weight: 650; }
+.choice-pill input:checked + span { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
+.choice-pill input:focus-visible + span { outline: 3px solid color-mix(in srgb, var(--brand) 45%, transparent); outline-offset: 2px; }
+
+/* Kuingia / kujisajili: angalia auth.css */
+
+/* Vocha za kuchapisha */
+.voucher-card { overflow: hidden; }
+.voucher-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, #0b5cd6, #6d4fd8); }
+.voucher-wifi { position: absolute; right: 12px; bottom: 10px; color: #0b5cd6; opacity: 0.35; }
+
+@media (max-width: 860px) {
+  .appbar-lang { display: inline-flex; }
+  .main-deco { height: 260px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-deco { animation: none; }
+}
+
+/* --- Simu na tablet --- */
+@media (max-width: 1100px) {
+  .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-hero { grid-column: 1 / -1; grid-row: auto; }
+  .checklist { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-card { grid-column: 1 / -1; grid-row: auto; }
+}
+
+@media (max-width: 860px) {
+  .sidebar { transform: translateX(-100%); transition: transform 0.22s ease; box-shadow: 0 0 40px rgba(0, 0, 0, 0.35); }
+  .nav-toggle:checked ~ .sidebar { transform: none; }
+  .nav-toggle:checked ~ .scrim { display: block; position: fixed; inset: 0; z-index: 20; background: rgba(5, 10, 20, 0.5); }
+  .main { margin-left: 0; }
+  .menu-btn { display: inline-grid; margin-left: -8px; }
+  .appbar { padding: 10px 16px; min-height: 60px; }
+  .appbar-title h1 { font-size: 1.15rem; }
+  .content { padding: 16px 16px 40px; gap: 14px; }
+  .flash-stack { padding: 12px 16px 0; }
+  .banner { margin: 12px 16px 0; }
+  .two-col, .two-col-wide { grid-template-columns: minmax(0, 1fr); }
+  .stats-grid-3, .stats-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stats-grid-3 > :first-child { grid-column: 1 / -1; }
+  .card { padding: 16px; }
+
+  /* Simu: menyu ya chini kama app, na "Zaidi" inafungua menyu kamili. */
+  .menu-btn { display: none; }
+  .bottom-nav {
+    position: fixed; inset: auto 0 0 0; z-index: 25;
+    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px);
+    border-top: 1px solid var(--border);
+  }
+  .bottom-nav a, .bottom-nav label {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    padding: 4px 2px; border-radius: 10px; cursor: pointer;
+    color: var(--muted); text-decoration: none; font-size: 0.7rem; font-weight: 600;
+  }
+  .bottom-nav .is-active { color: var(--brand); }
+  .bottom-nav .is-active .bottom-icon { background: var(--brand-soft); }
+  .bottom-icon { position: relative; display: grid; place-items: center; width: 52px; height: 30px; border-radius: 99px; }
+  .bottom-badge { position: absolute; top: -2px; right: 6px; min-width: 18px; padding: 0 5px; border-radius: 99px; background: #f0b54a; color: #2b1d00; font-size: 0.66rem; font-weight: 800; line-height: 18px; text-align: center; }
+  .main { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  .action-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .hide-sm { display: none !important; }
+  .hero-week { height: 64px; }
+  .hero-card { padding: 18px; }
+  .checklist { grid-template-columns: minmax(0, 1fr); }
+  .checklist li { flex-direction: row; align-items: center; }
+  .checklist li div { flex: 1; }
+  .checklist .btn { margin-top: 0; }
+  .stat-value { font-size: 1.2rem; }
+  .code-box { flex-direction: column; align-items: stretch; }
+  .field-row { grid-template-columns: 1fr; }
+  .appbar-actions .pill { padding: 3px 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar, .stat-link, .chart-mark { transition: none; }
+}
+
+/* Kadi kuu ya Super Admin */
+.stat-hero { background: var(--grad-brand); box-shadow: 0 20px 40px -18px rgba(11, 92, 214, 0.65); }

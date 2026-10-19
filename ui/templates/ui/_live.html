@@ -1,0 +1,38 @@
+{% load i18n %}{% comment %}
+Ramani ya Live. `endpoint` tupu = hali ya mfano peke yake (ukurasa wa hadhara).
+`demo` = anza na mfano (mfano mmiliki asiye na router bado).
+{% endcomment %}
+<div class="live" data-live data-endpoint="{{ endpoint|default:'' }}" data-demo="{% if demo %}1{% endif %}">
+  <section class="live-stats" aria-label="{% translate 'Takwimu za sasa' %}">
+    <div class="live-stat"><span class="live-stat-label">{% translate "Mapato ya leo" %}</span><strong data-stat="today_amount">Tsh 0</strong></div>
+    <div class="live-stat"><span class="live-stat-label">{% translate "Wateja online" %}</span><strong data-stat="clients">0</strong></div>
+    <div class="live-stat"><span class="live-stat-label">{% translate "Wameingia leo" %}</span><strong data-stat="accepts">0</strong></div>
+    <div class="live-stat"><span class="live-stat-label">{% translate "Wamekataliwa leo" %}</span><strong data-stat="rejects">0</strong></div>
+    <div class="live-stat"><span class="live-stat-label">{% translate "Packets dakika hii" %}</span><strong data-stat="per_minute">0</strong></div>
+  </section>
+
+  <div class="live-grid">
+    <section class="live-panel live-map-panel">
+      <div class="live-panel-head">
+        <h2>{% translate "Ramani ya mtandao" %}</h2>
+        {% if endpoint %}<button type="button" class="live-toggle" data-demo-toggle>{% translate "Onyesha mfano" %}</button>{% endif %}
+      </div>
+      <p class="live-demo-banner" data-demo-banner hidden><strong>{% translate "Hivi ndivyo ramani yako itakavyoonekana." %}</strong> {% translate "Ukiunganisha router, hapa utaona kila mteja, kila malipo na kila packet ya router yako papo hapo." %}</p>
+      <svg class="live-map" data-live-map role="img" aria-label="{% translate 'Ramani ya mtandao: simu za wateja, routers, JamiiLite na malipo. Matukio yameandikwa kwenye orodha ya packets.' %}"></svg>
+      <ul class="live-legend" aria-label="{% translate 'Maana ya rangi' %}">
+        <li><span class="lg-swatch pk-request"></span>{% translate "Ombi (Access-Request)" %}</li>
+        <li><span class="lg-swatch pk-accept"></span>{% translate "Amekubaliwa" %}</li>
+        <li><span class="lg-swatch lg-diamond pk-pay"></span>{% translate "Malipo" %}</li>
+        <li><span class="lg-swatch pk-acct"></span>{% translate "Matumizi (accounting)" %}</li>
+        <li><span class="lg-swatch lg-ring pk-reject"></span>{% translate "Amekataliwa" %}</li>
+        <li><span class="lg-swatch pk-checkin"></span>{% translate "Ripoti ya router" %}</li>
+      </ul>
+    </section>
+
+    <section class="live-panel live-log-panel">
+      <div class="live-panel-head"><h2>{% translate "Packets za karibuni" %}</h2></div>
+      <p class="live-log-empty" data-log-empty>{% translate "Inasubiri tukio la kwanza… Mteja akiingia au kulipa, utaliona hapa papo hapo." %}</p>
+      <ol class="live-log" data-live-log></ol>
+    </section>
+  </div>
+</div>

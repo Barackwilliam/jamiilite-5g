@@ -1,0 +1,43 @@
+{% extends "ui/app_base.html" %}
+{% load i18n ui_tags %}
+
+{% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
+
+{% block content %}
+<div class="two-col two-col-wide">
+  <section class="card">
+    <div class="card-head"><h2>{% translate "Maeneo yako" %}</h2></div>
+    {% if routers %}
+      <ul class="list">
+        {% for router in routers %}
+          <li>
+            <a class="list-row" href="{% url 'dashboard:router_detail' router.pk %}">
+              <span class="router-badge {% if router.is_online %}is-online{% endif %}">{% icon "router" 18 %}</span>
+              <span class="list-main">
+                <strong>{{ router.name }}</strong>
+                <small>{% if router.location %}{{ router.location }} · {% endif %}{% if router.is_online %}{% blocktranslate with n=router.active_clients %}Online · wateja {{ n }}{% endblocktranslate %}{% elif router.last_seen_at %}{% blocktranslate with ago=router.last_seen_at|ago %}Offline · ilionekana {{ ago }}{% endblocktranslate %}{% else %}{% translate "Bado haijaunganishwa" %}{% endif %}</small>
+              </span>
+              {% icon "arrow-right" 16 %}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      {% translate "Bado hujaongeza router." as title %}{% translate "Kila eneo unalouzia WiFi ni router moja. Anza na la kwanza upande huu." as text %}
+      {% include "ui/_empty.html" with icon="router" title=title text=text %}
+    {% endif %}
+  </section>
+
+  <section class="card card-accent">
+    <div class="card-head"><h2>{% translate "Ongeza router" %}</h2></div>
+    <form method="post" class="form-stack" novalidate>
+      {% csrf_token %}
+      {% include "dashboard/_field.html" with field=form.name %}
+      {% include "dashboard/_field.html" with field=form.location %}
+      {% include "dashboard/_field.html" with field=form.wifi_name %}
+      <button type="submit" class="btn btn-primary btn-block">{% icon "plus" 18 %} {% translate "Ongeza" %}</button>
+    </form>
+    <p class="muted small">{% translate "Ukishaongeza, utapewa mstari mmoja wa kubandika kwenye MikroTik yako." %}</p>
+  </section>
+</div>
+{% endblock %}

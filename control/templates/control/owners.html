@@ -1,0 +1,43 @@
+{% extends "ui/app_base.html" %}
+{% load i18n ui_tags %}
+
+{% block content %}
+<section class="card">
+  <form method="get" class="toolbar">
+    <input class="input" type="search" name="q" value="{{ q }}" placeholder="{% translate 'Tafuta jina au namba ya simu' %}" aria-label="{% translate 'Tafuta' %}">
+    {% if state %}<input type="hidden" name="hali" value="{{ state }}">{% endif %}
+    <button class="btn btn-small" type="submit">{% translate "Tafuta" %}</button>
+  </form>
+  <div class="toolbar chips">
+    <a class="chip{% if not state %} is-active{% endif %}" href="?q={{ q|urlencode }}">{% translate "Wote" %} · {{ counts.total }}</a>
+    {% for key, label in state_labels.items %}
+      <a class="chip{% if state == key %} is-active{% endif %}" href="?hali={{ key }}&q={{ q|urlencode }}">{{ label }} · {% if key == "paid" %}{{ counts.paid }}{% elif key == "trial" %}{{ counts.trial }}{% elif key == "expired" %}{{ counts.expired }}{% else %}{{ counts.suspended }}{% endif %}</a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="card">
+  {% if page.object_list %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">{% translate "Biashara" %}</th><th scope="col">{% translate "Simu" %}</th><th scope="col">{% translate "Hali" %}</th><th scope="col">{% translate "Inaisha" %}</th><th scope="col" class="num">{% translate "Salio" %}</th><th scope="col">{% translate "Alijiunga" %}</th></tr></thead>
+        <tbody>
+          {% for o in page.object_list %}
+            <tr>
+              <td><a href="{% url 'control:owner_detail' o.pk %}">{{ o.business_name }}</a></td>
+              <td>{{ o.phone|phone_display }}</td>
+              <td>{% include "control/_state_pill.html" with state=o.state %}</td>
+              <td>{{ o.ends_at|date:"d/m/Y"|default:"—" }}</td>
+              <td class="num">{{ o.balance|tsh }}</td>
+              <td>{{ o.created_at|date:"d/m/Y" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "ui/_pager.html" %}
+  {% else %}
+    <p class="empty">{% translate "Hakuna mmiliki anayelingana na utafutaji huu." %}</p>
+  {% endif %}
+</section>
+{% endblock %}

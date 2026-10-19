@@ -1,0 +1,18 @@
+{% load i18n ui_tags %}
+<article class="card check check-{{ c.state }}">
+  <div class="check-head">
+    <span class="check-icon">{% icon c.icon 18 %}</span>
+    <div class="check-title">
+      <h2>{{ c.title }}</h2>
+      <p class="check-value">{{ c.value }}</p>
+    </div>
+    <span class="pill check-pill">{{ c.label }}</span>
+  </div>
+  {% if c.detail %}<p class="check-detail">{{ c.detail }}</p>{% endif %}
+  {% if c.fix %}<p class="check-fix"><strong>{% translate "Cha kufanya:" %}</strong> {{ c.fix }}</p>{% endif %}
+  {% if c.facts and full %}
+    <dl class="kv kv-compact">
+      {% for k, v in c.facts %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}
+    </dl>
+  {% endif %}
+</article>

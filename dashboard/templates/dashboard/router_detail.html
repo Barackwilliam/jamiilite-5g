@@ -1,0 +1,102 @@
+{% extends "ui/app_base.html" %}
+{% load i18n ui_tags %}
+
+{% block breadcrumb %}<a class="crumb" href="{% url 'dashboard:routers' %}">{% translate "Routers" %}</a>{% endblock %}
+{% block actions %}
+  <span class="pill {% if router.is_online %}pill-good{% else %}pill-muted{% endif %}">
+    <span class="status-dot {% if router.is_online %}is-online{% else %}is-offline{% endif %}"></span>
+    {% if router.is_online %}Online{% else %}Offline{% endif %}
+  </span>
+{% endblock %}
+
+{% block content %}
+<section class="stats-grid stats-grid-4">
+  <article class="card stat tone-green"><span class="stat-icon">{% icon "users" 18 %}</span>
+    <p class="stat-label">{% translate "Wateja online" %}</p>
+    <p class="stat-value">{% if router.is_online %}{{ router.active_clients }}{% else %}0{% endif %}</p>
+  </article>
+  <article class="card stat tone-blue"><span class="stat-icon">{% icon "pulse" 18 %}</span>
+    <p class="stat-label">{% translate "Ilionekana mwisho" %}</p>
+    <p class="stat-value stat-text">{{ router.last_seen_at|ago }}</p>
+  </article>
+  <article class="card stat tone-violet"><span class="stat-icon">{% icon "router" 18 %}</span>
+    <p class="stat-label">RouterOS</p>
+    <p class="stat-value stat-text">{{ router.routeros_version|default:"—" }}</p>
+  </article>
+  <article class="card stat tone-amber"><span class="stat-icon">{% icon "clock" 18 %}</span>
+    <p class="stat-label">{% translate "Imewaka kwa muda" %}</p>
+    <p class="stat-value stat-text">{{ router.uptime|default:"—" }}</p>
+  </article>
+</section>
+
+<section class="card card-accent">
+  <div class="card-head"><h2>{% translate "Iunganishe na JamiiLite" %}</h2></div>
+  <ol class="steps">
+    <li>{% blocktranslate %}Fungua <strong>Winbox</strong> au ingia kwa SSH kwenye MikroTik yako, kisha fungua <strong>New Terminal</strong>.{% endblocktranslate %}</li>
+    <li>{% translate "Kama router ni mpya (bado ina usanidi wa kiwandani), hakuna cha ziada: mfumo utaweka hotspot wenyewe." %}</li>
+    <li>{% translate "Bandika mstari huu, bonyeza Enter, subiri sekunde chache." %}</li>
+  </ol>
+  {% if setup_command %}
+    <div class="code-box">
+      <span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <code id="setup-cmd">{{ setup_command }}</code>
+      <button type="button" class="btn btn-small" data-copy="#setup-cmd" data-copied="{% translate 'Imenakiliwa' %}">{% icon "copy" 16 %} <span>{% translate "Nakili" %}</span></button>
+    </div>
+  {% endif %}
+  <p class="muted small">{% blocktranslate %}Router ikishaunganishwa, hali hapo juu itabadilika kuwa <strong>Online</strong> ndani ya dakika 1. Mstari huu ni siri yako: usimpe mtu.{% endblocktranslate %}</p>
+  <p class="small"><a href="{% url 'pages:mwongozo' %}" target="_blank" rel="noopener">{% translate "Ona mwongozo wa hatua kwa hatua" %} {% icon "external" 14 %}</a></p>
+</section>
+
+<section class="card wifi-card">
+  <div class="card-head"><h2>{% translate "WiFi yako kwa wateja" %}</h2></div>
+  <div class="two-col">
+    <div>
+      <ol class="flow">
+        <li><span class="flow-num">1</span><div><strong>{% if router.wifi_name %}{% blocktranslate with name=router.wifi_name %}Mteja anaona “{{ name }}”{% endblocktranslate %}{% else %}{% translate "Mteja anaona jina la WiFi yako" %}{% endif %}</strong><small>{% translate "Kwenye orodha ya WiFi ya simu yake. Haina password." %}</small></div></li>
+        <li><span class="flow-num">2</span><div><strong>{% translate "Anagusa, ukurasa wa kulipia unajifungua wenyewe" %}</strong><small>{% translate "Simu inaona kuwa WiFi inahitaji kulipiwa na inaufungua bila yeye kufungua browser." %}</small></div></li>
+        <li><span class="flow-num">3</span><div><strong>{% translate "Analipa kwa simu, anaunganishwa papo hapo" %}</strong><small>{% translate "Akirudi baadaye akiwa bado na muda, anaunganishwa tena bila kuandika vocha." %}</small></div></li>
+      </ol>
+    </div>
+    <form method="post" class="form-stack" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="action" value="wifi">
+      {% include "dashboard/_field.html" with field=wifi_form.wifi_name %}
+      <button type="submit" class="btn btn-primary">{% icon "wifi" 18 %} {% translate "Hifadhi jina la WiFi" %}</button>
+      <p class="muted small">{% translate "Router ikiwa online, jina jipya linaonekana ndani ya dakika 1. Wateja walioko wataondolewa kwenye WiFi kwa sekunde chache." %}</p>
+    </form>
+  </div>
+</section>
+
+<div class="two-col">
+  <section class="card">
+    <div class="card-head"><h2>{% translate "Ukurasa wa kulipia" %}</h2></div>
+    <p class="muted">{% translate "Wateja wako wanauona wanapounganisha WiFi. Unaweza pia kuufungua hapa kujaribu." %}</p>
+    <div class="code-box code-box-light">
+      <code id="portal-url">{{ portal_url }}</code>
+      <button type="button" class="btn btn-small btn-ghost" data-copy="#portal-url" data-copied="{% translate 'Imenakiliwa' %}">{% icon "copy" 16 %} <span>{% translate "Nakili" %}</span></button>
+    </div>
+    <a class="btn btn-ghost" href="{{ portal_url }}" target="_blank" rel="noopener">{% icon "external" 16 %} {% translate "Fungua" %}</a>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>{% translate "Simamia ukiwa mbali" %}</h2></div>
+    <form method="post" class="btn-row">
+      {% csrf_token %}
+      <button type="submit" name="action" value="reapply" class="btn btn-ghost">{% icon "refresh" 16 %} {% translate "Weka upya usanidi" %}</button>
+      <button type="submit" name="action" value="reboot" class="btn btn-danger-ghost" data-confirm="{% translate 'Router izimwe na kuwashwa upya? Wateja watakatika kwa dakika 1–2.' %}">{% icon "power" 16 %} Reboot</button>
+    </form>
+    {% if commands %}
+      <ul class="list list-compact">
+        {% for cmd in commands %}
+          <li class="list-row">
+            <span class="list-main"><strong>{{ cmd.get_action_display }}</strong><small>{% blocktranslate with ago=cmd.created_at|ago %}Limetumwa {{ ago }}{% endblocktranslate %}</small></span>
+            {% if cmd.delivered_at %}<span class="pill pill-good">{% translate "Limetekelezwa" %}</span>{% else %}<span class="pill pill-muted">{% translate "Linasubiri" %}</span>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted small">{% translate "Maagizo utakayotuma yataonekana hapa." %}</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

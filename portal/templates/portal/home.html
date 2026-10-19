@@ -1,0 +1,63 @@
+{% extends "portal/base.html" %}
+{% load i18n %}
+
+{% block content %}
+  {% if hotspot_error %}
+    <p class="alert">{{ hotspot_error }}</p>
+  {% endif %}
+
+  {% if returning and login_target %}
+    <section class="welcome-back">
+      <h2>{% translate "Karibu tena!" %}</h2>
+      <p>{% blocktranslate with name=returning.package.name left=returning_left %}Kifurushi chako cha <strong>{{ name }}</strong> bado kina muda: <strong>{{ left }}</strong>. Tunakuunganisha sasa hivi…{% endblocktranslate %}</p>
+      {% include "portal/_voucher_login.html" with code=returning.code autosubmit=True %}
+    </section>
+  {% endif %}
+
+  <section{% if returning and login_target %} class="divider"{% endif %}>
+    <h2>{% translate "Nunua kifurushi" %}</h2>
+    {% if selling_paused %}
+      <p class="alert">{% translate "Mauzo ya vifurushi yamesimama kwa muda. Kama una vocha, bado unaweza kuitumia hapa chini." %}</p>
+    {% elif form.package.field.queryset.exists %}
+      <form method="post" action="{% url 'portal:pay' router.slug %}" class="stack">
+        {% csrf_token %}
+        {% if form.non_field_errors %}<p class="alert">{{ form.non_field_errors|join:" " }}</p>{% endif %}
+
+        <fieldset class="packages">
+          <legend class="sr-only">{% translate "Vifurushi" %}</legend>
+          {% for choice in form.package %}
+            {% with pkg=choice.data.value.instance %}
+              <label class="package">
+                {{ choice.tag }}
+                <span class="package-body">
+                  <span class="package-name">{{ pkg.name }}</span>
+                  {% if pkg.summary %}<span class="package-meta">{{ pkg.summary }}</span>{% endif %}
+                </span>
+                <span class="package-price">Tsh {{ pkg.price_display }}</span>
+              </label>
+            {% endwith %}
+          {% endfor %}
+          {% for error in form.package.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </fieldset>
+
+        <label class="field">
+          <span>{{ form.phone.label }}</span>
+          {{ form.phone }}
+          {% for error in form.phone.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </label>
+
+        <button type="submit" class="btn">{% translate "Lipa kwa simu" %}</button>
+        <p class="muted small">{% translate "Utapokea ombi la kulipia kwenye simu yako. Weka PIN kuthibitisha." %}</p>
+      </form>
+    {% else %}
+      <p class="muted">{% translate "Hakuna kifurushi kinachouzwa kwa sasa." %}</p>
+    {% endif %}
+  </section>
+
+  {% if login_target %}
+    <section class="divider">
+      <h2>{% translate "Una vocha tayari?" %}</h2>
+      {% include "portal/_voucher_login.html" with code="" %}
+    </section>
+  {% endif %}
+{% endblock %}

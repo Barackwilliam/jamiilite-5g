@@ -1,0 +1,63 @@
+{% extends "ui/app_base.html" %}
+{% load i18n ui_tags %}
+
+{% block content %}
+<div class="two-col two-col-wide">
+  <section class="card balance-card">
+    <svg class="balance-deco" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="70"/><circle cx="80" cy="80" r="48"/><circle cx="80" cy="80" r="26"/></svg>
+    <p class="stat-label">{% translate "Salio linaloweza kutolewa" %}</p>
+    <p class="hero-figure">{{ balance|tsh }}</p>
+    <p class="small">{% blocktranslate with fee=monthly_fee|tsh %}Mauzo yote ya WiFi yanaingia hapa papo hapo. Ada ya mwezi ({{ fee }}) inakatwa hapa yenyewe.{% endblocktranslate %}</p>
+  </section>
+
+  <section class="card card-accent">
+    <div class="card-head"><h2>{% translate "Toa pesa" %}</h2></div>
+    <form method="post" class="form-stack" novalidate>
+      {% csrf_token %}
+      {% include "dashboard/_field.html" with field=form.amount %}
+      {% include "dashboard/_field.html" with field=form.phone %}
+      <button type="submit" class="btn btn-primary btn-block">{% icon "send" 18 %} {% translate "Omba kutoa" %}</button>
+    </form>
+    <p class="muted small">{% blocktranslate with min=min_withdrawal|tsh %}Kiasi cha chini ni {{ min }}. Pesa inatumwa M-Pesa, Tigo Pesa au Airtel Money.{% endblocktranslate %}</p>
+  </section>
+</div>
+
+{% if withdrawals %}
+<section class="card">
+  <div class="card-head"><h2>{% translate "Maombi ya kutoa pesa" %}</h2></div>
+  <ul class="list">
+    {% for w in withdrawals %}
+      <li class="list-row">
+        <span class="router-badge {% if w.status == 'paid' %}is-online{% endif %}">{% icon "send" 18 %}</span>
+        <span class="list-main">
+          <strong>{{ w.amount|tsh }} → {{ w.phone|phone_display }}</strong>
+          <small>{{ w.created_at|date:"d/m/Y H:i" }}{% if w.reference %} · {% translate "Kumb:" %} {{ w.reference }}{% endif %}{% if w.note %} · {{ w.note }}{% endif %}</small>
+        </span>
+        {% if w.status == "paid" %}<span class="pill pill-good">{% icon "check" 14 %} {{ w.get_status_display }}</span>
+        {% elif w.status == "rejected" %}<span class="pill pill-bad">{{ w.get_status_display }}</span>
+        {% else %}<span class="pill pill-warn">{{ w.get_status_display }}</span>{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+<section class="card">
+  <div class="card-head"><h2>{% translate "Historia ya salio" %}</h2></div>
+  {% if page.object_list %}
+    <ul class="list">
+      {% for entry in page.object_list %}
+        <li class="list-row">
+          <span class="ledger-dot {% if entry.amount > 0 %}is-in{% else %}is-out{% endif %}" aria-hidden="true">{% if entry.amount > 0 %}+{% else %}−{% endif %}</span>
+          <span class="list-main"><strong>{{ entry.get_kind_display }}</strong><small>{{ entry.description|default:"" }}{% if entry.description %} · {% endif %}{{ entry.created_at|date:"d/m/Y H:i" }}</small></span>
+          <span class="{% if entry.amount > 0 %}amount-in{% else %}amount-out{% endif %}">{{ entry.amount|signed_tsh }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+    {% include "ui/_pager.html" %}
+  {% else %}
+    {% translate "Bado hakuna miamala." as text %}
+    {% include "ui/_empty.html" with icon="wallet" text=text %}
+  {% endif %}
+</section>
+{% endblock %}

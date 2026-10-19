@@ -1,0 +1,39 @@
+{% extends "ui/app_base.html" %}
+{% load i18n ui_tags %}
+
+{% block content %}
+<section class="card">
+  <div class="toolbar chips">
+    {% for key, label in statuses %}
+      <a class="chip{% if status == key %} is-active{% endif %}" href="?hali={{ key }}">{{ label }}</a>
+    {% endfor %}
+    <a class="chip{% if status == 'all' %} is-active{% endif %}" href="?hali=all">{% translate "Yote" %}</a>
+  </div>
+</section>
+
+<section class="card">
+  {% if page.object_list %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">{% translate "Muda" %}</th><th scope="col">{% translate "Mmiliki" %}</th><th scope="col">{% translate "Router" %}</th><th scope="col">{% translate "Kifurushi" %}</th><th scope="col">{% translate "Mteja" %}</th><th scope="col">{% translate "Hali" %}</th><th scope="col" class="num">{% translate "Kiasi" %}</th></tr></thead>
+        <tbody>
+          {% for p in page.object_list %}
+            <tr>
+              <td>{{ p.created_at|date:"d/m H:i" }}</td>
+              <td><a href="{% url 'control:owner_detail' p.router.owner_id %}">{{ p.router.owner.business_name }}</a></td>
+              <td>{{ p.router.name }}</td>
+              <td>{{ p.package.name }}</td>
+              <td>{{ p.phone|phone_display }}</td>
+              <td>{% if p.status == "paid" %}<span class="pill pill-good">{{ p.get_status_display }}</span>{% elif p.status == "failed" %}<span class="pill pill-bad" title="{{ p.failure_reason }}">{{ p.get_status_display }}</span>{% else %}<span class="pill pill-warn">{{ p.get_status_display }}</span>{% endif %}</td>
+              <td class="num">{{ p.amount|tsh }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "ui/_pager.html" %}
+  {% else %}
+    <p class="empty">{% translate "Hakuna malipo kwenye kundi hili." %}</p>
+  {% endif %}
+</section>
+{% endblock %}

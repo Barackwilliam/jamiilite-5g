@@ -1,0 +1,11 @@
+{% extends "ui/auth_base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Usajili umefungwa kwa muda" %}{% endblock %}
+{% block content %}
+  <h1>{% translate "Usajili umefungwa kwa muda" %}</h1>
+  <p class="muted">{% translate "Kwa sasa hatupokei wamiliki wapya. Tutafungua tena hivi karibuni." %}</p>
+  {% if whatsapp %}<a class="btn btn-primary btn-block" href="https://wa.me/{{ whatsapp }}" rel="noopener">{% translate "Tuandikie WhatsApp tukuweke kwenye orodha" %}</a>{% endif %}
+{% endblock %}
+{% block below %}
+  <p class="auth-switch">{% translate "Una akaunti tayari?" %} <a href="{% url 'dashboard:login' %}">{% translate "Ingia" %}</a></p>
+{% endblock %}

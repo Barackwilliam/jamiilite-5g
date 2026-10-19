@@ -1,0 +1,127 @@
+{% extends "pages/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Mahitaji" %} · JamiiLite 5G{% endblock %}
+{% block description %}{% translate "Unachohitaji ili kuanza kuuza WiFi kwa JamiiLite 5G: chanzo cha internet, router ya MikroTik, na simu." %}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap narrow">
+    <p class="eyebrow">{% translate "Mahitaji" %}</p>
+    <h1>{% translate "Unachohitaji ili kuanza" %}</h1>
+    <p class="lead">{% translate "Vitu vinne tu. Huenda tayari una vingi kati ya hivyo." %}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap narrow">
+    <ol class="needs">
+      <li class="need">
+        <span class="need-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5.5 12.5a10 10 0 0 1 13 0"/><path d="M9 16a5 5 0 0 1 6 0"/><circle cx="12" cy="19.5" r="1.3" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <div>
+          <h2>{% translate "1. Chanzo cha internet" %}</h2>
+          <p>{% translate "MiFi, router ya 4G/5G yenye laini, au fiber. Ile ile unayoitumia sasa inatosha. Kwa wateja wengi, chagua kifurushi kikubwa au kisicho na kikomo." %}</p>
+        </div>
+      </li>
+      <li class="need">
+        <span class="need-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 13V9m10 4V9"/><circle cx="7" cy="16.5" r="1" fill="currentColor" stroke="none"/><circle cx="11" cy="16.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <div>
+          <h2>{% translate "2. Router ya MikroTik" %}</h2>
+          <p>{% blocktranslate %}Hii ndiyo inayowaonyesha wateja ukurasa wa kulipia na kuwakata muda ukiisha. Inahitaji <strong>RouterOS 7.15 au zaidi</strong>.{% endblocktranslate %}</p>
+          <ul class="models">
+            <li><b>{% translate "hAP lite" %}</b> <span>{% translate "Bei nafuu zaidi. Inafaa kwa duka dogo au nyumbani." %}</span></li>
+            <li><b>{% translate "hAP ac lite / hAP ax lite" %}</b> <span>{% translate "Kasi zaidi na wateja wengi zaidi." %}</span></li>
+            <li><b>{% translate "LtAP mini LTE, hAP ac³ LTE6" %}</b> <span>{% translate "Unaweka laini ndani yake moja kwa moja, bila MiFi." %}</span></li>
+          </ul>
+        </div>
+      </li>
+      <li class="need">
+        <span class="need-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3" stroke-linecap="round"/></svg>
+        </span>
+        <div>
+          <h2>{% translate "3. Simu janja" %}</h2>
+          <p>{% translate "Ya kusimamia biashara yako: kuona mapato, kubadilisha vifurushi na bei, na kuona router iko hai." %}</p>
+        </div>
+      </li>
+      <li class="need">
+        <span class="need-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><path d="M6 15h4" stroke-linecap="round"/></svg>
+        </span>
+        <div>
+          <h2>{% translate "4. Namba ya pesa kwa simu" %}</h2>
+          <p>{% translate "M-Pesa, Mixx by Yas (Tigo Pesa), Airtel Money au HaloPesa, kwa ajili ya kupokea mapato yako." %}</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section-alt" id="router-yangu">
+  <div class="wrap narrow">
+    <h2 class="section-title">{% translate "Una router gani sasa hivi?" %}</h2>
+    <p class="center muted">{% translate "Chagua, nasi tutakuambia hasa unachohitaji." %}</p>
+
+    <div class="picker" role="radiogroup" aria-label="{% translate 'Router uliyonayo' %}">
+      <label class="pick"><input type="radio" name="router" value="mikrotik"><span>{% translate "MikroTik" %}</span></label>
+      <label class="pick"><input type="radio" name="router" value="mifi"><span>{% translate "MiFi ya mfukoni" %}</span></label>
+      <label class="pick"><input type="radio" name="router" value="lte"><span>{% translate "Router ya 4G/5G ya mezani" %}</span></label>
+      <label class="pick"><input type="radio" name="router" value="fiber"><span>{% translate "Fiber au cable" %}</span></label>
+      <label class="pick"><input type="radio" name="router" value="none"><span>{% translate "Sina router" %}</span></label>
+    </div>
+
+    <div class="answers">
+      <article class="answer" data-for="mikrotik">
+        <h3>{% translate "🎉 Uko tayari!" %}</h3>
+        <p>{% translate "Huhitaji kununua kitu. Hakikisha RouterOS yako ni 7.15 au zaidi, kisha bandika mstari mmoja wa JamiiLite." %}</p>
+        <a class="link-arrow" href="{% url 'pages:mwongozo' %}">{% translate "Fuata mwongozo →" %}</a>
+      </article>
+      <article class="answer" data-for="mifi">
+        <h3>{% translate "Ongeza MikroTik hAP lite" %}</h3>
+        <p>{% translate "MiFi haina port ya waya, kwa hiyo MikroTik itajiunganisha kwenye WiFi ya MiFi yako, kisha itatoa WiFi ya hotspot kwa wateja." %}</p>
+        <p class="diagram">{% translate "MiFi" %} <span>{% translate "→ WiFi →" %}</span> {% translate "MikroTik" %} <span>→</span> {% translate "Simu za wateja" %}</p>
+        <p class="muted small">{% translate "Ungependa kuacha MiFi kabisa? Chagua MikroTik yenye LTE na uweke laini ndani yake." %}</p>
+      </article>
+      <article class="answer" data-for="lte">
+        <h3>{% translate "Ongeza MikroTik hAP lite" %}</h3>
+        <p>{% translate "Hii ndiyo hali rahisi kuliko zote: unganisha waya kutoka port ya LAN ya router yako kwenda port ya kwanza ya MikroTik." %}</p>
+        <p class="diagram">{% translate "Router ya 4G/5G" %} <span>{% translate "→ waya →" %}</span> {% translate "MikroTik" %} <span>→</span> {% translate "Simu za wateja" %}</p>
+      </article>
+      <article class="answer" data-for="fiber">
+        <h3>{% translate "Ongeza MikroTik hAP lite" %}</h3>
+        <p>{% translate "Unganisha waya kutoka router yako ya fiber kwenda port ya kwanza ya MikroTik. Kwa wateja wengi, chagua hAP ac lite au zaidi." %}</p>
+        <p class="diagram">{% translate "Router ya fiber" %} <span>{% translate "→ waya →" %}</span> {% translate "MikroTik" %} <span>→</span> {% translate "Simu za wateja" %}</p>
+      </article>
+      <article class="answer" data-for="none">
+        <h3>{% translate "Anza na MikroTik yenye LTE" %}</h3>
+        <p>{% translate "Unahitaji kifaa kimoja tu: MikroTik yenye nafasi ya laini (mfano LtAP mini LTE). Weka laini yenye kifurushi kikubwa cha internet, washa, kisha unganisha na JamiiLite." %}</p>
+        <p class="diagram">{% translate "Laini" %} <span>→</span> {% translate "MikroTik LTE" %} <span>→</span> {% translate "Simu za wateja" %}</p>
+      </article>
+    </div>
+
+    <div class="center cta-under">
+      {% translate "Niulize swali kwa WhatsApp" as cta_label %}{% include "pages/_cta.html" with label=cta_label %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    var answers = document.querySelectorAll(".answer");
+    var picks = document.querySelectorAll(".picker input");
+    document.documentElement.classList.add("js");
+    picks.forEach(function (input) {
+      input.addEventListener("change", function () {
+        answers.forEach(function (a) { a.hidden = a.dataset.for !== input.value; });
+      });
+    });
+    answers.forEach(function (a) { a.hidden = true; });
+  })();
+</script>
+{% endblock %}

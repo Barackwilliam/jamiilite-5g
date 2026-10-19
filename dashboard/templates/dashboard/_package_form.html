@@ -1,0 +1,14 @@
+{% load i18n ui_tags %}
+<form method="post" class="form-stack" novalidate>
+  {% csrf_token %}
+  {% include "dashboard/_field.html" with field=form.name %}
+  {% include "dashboard/_field.html" with field=form.price %}
+  <div class="field-row">
+    {% include "dashboard/_field.html" with field=form.duration_value %}
+    {% include "dashboard/_field.html" with field=form.duration_unit %}
+  </div>
+  {% include "dashboard/_field.html" with field=form.rate_limit %}
+  {% include "dashboard/_field.html" with field=form.shared_users %}
+  {% include "dashboard/_field.html" with field=form.is_active %}
+  <button type="submit" class="btn btn-primary btn-block">{{ button }}</button>
+</form>

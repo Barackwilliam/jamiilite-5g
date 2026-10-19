@@ -1,0 +1,11 @@
+{% extends "ui/app_base.html" %}
+{% load static i18n %}
+
+{% block head %}<link rel="stylesheet" href="{% static 'ui/live.css' %}">{% endblock %}
+{% block actions %}<span class="live-badge" data-live-status data-state="connecting"><span class="live-dot" aria-hidden="true"></span><span data-live-label>{% translate "Inaunganisha…" %}</span></span>{% endblock %}
+
+{% block content %}
+  {% include "ui/_live.html" with endpoint=live_url demo=start_demo %}
+{% endblock %}
+
+{% block scripts %}<script src="{% url 'javascript-catalog' %}"></script><script src="{% static 'ui/live.js' %}" defer></script>{% endblock %}

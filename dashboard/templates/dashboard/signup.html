@@ -1,0 +1,38 @@
+{% extends "ui/auth_base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Jisajili" %}{% endblock %}
+{% block content %}
+  <ol class="auth-steps" aria-label="{% translate 'Hatua' %}">
+    <li class="is-current"><b>1</b>{% translate "Akaunti" %}</li>
+    <li><b>2</b>{% translate "Router" %}</li>
+    <li><b>3</b>{% translate "Mauzo" %}</li>
+  </ol>
+  <p class="auth-eyebrow"><span class="auth-dot"></span>{% blocktranslate count days=trial_days %}Siku {{ days }} bure{% plural %}Siku {{ days }} bure{% endblocktranslate %}</p>
+  <h1>{% translate "Anza kuuza WiFi yako" %}</h1>
+  <p class="muted">{% translate "Huhitaji kadi wala kulipa chochote sasa." %}</p>
+  <form method="post" class="form-stack" novalidate data-strength="{% translate 'Dhaifu' %}|{% translate 'Wastani' %}|{% translate 'Nzuri' %}|{% translate 'Imara sana' %}">
+    {% csrf_token %}
+    <div class="field">
+      <span class="field-label">{{ form.language.label }}</span>
+      <div class="choice-pills" role="radiogroup" aria-label="{{ form.language.label }}">
+        {% for choice in form.language %}
+          <label class="choice-pill">{{ choice.tag }}<span>{% if choice.data.value == "sw" %}🇹🇿 {% else %}🇬🇧 {% endif %}{{ choice.choice_label }}</span></label>
+        {% endfor %}
+      </div>
+      <small class="field-help">{{ form.language.help_text }}</small>
+    </div>
+    {% include "dashboard/_field.html" with field=form.business_name %}
+    {% include "dashboard/_field.html" with field=form.phone %}
+    {% include "dashboard/_field.html" with field=form.password1 %}
+    {% include "dashboard/_field.html" with field=form.password2 %}
+    <button type="submit" class="btn btn-primary btn-block btn-lg auth-submit">{% translate "Fungua akaunti" %} <span aria-hidden="true">→</span></button>
+  </form>
+  <ul class="auth-trust">
+    <li>💳 {% translate "Hakuna kadi" %}</li>
+    <li>📄 {% translate "Hakuna mkataba" %}</li>
+    <li>⚡ {% translate "Dakika 5 kuanza" %}</li>
+  </ul>
+{% endblock %}
+{% block below %}
+  <p class="auth-switch">{% translate "Una akaunti tayari?" %} <a href="{% url 'dashboard:login' %}">{% translate "Ingia" %}</a></p>
+{% endblock %}

@@ -1,0 +1,162 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-19 18:10+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: static/js/guide.js:61 static/js/landing.js:785
+msgid "Simamisha"
+msgstr "Pause"
+
+#: static/js/guide.js:61
+msgid "Anza upya"
+msgstr "Start over"
+
+#: static/js/guide.js:61 static/js/landing.js:785
+msgid "Cheza"
+msgstr "Play"
+
+#: static/js/landing.js:27 static/js/landing.js:100 ui/static/ui/live.js:34
+msgid "Saa 1"
+msgstr "1 hour"
+
+#: static/js/landing.js:27 static/js/landing.js:99 static/js/landing.js:411
+#: ui/static/ui/live.js:34
+msgid "Siku 1"
+msgstr "1 day"
+
+#: static/js/landing.js:27 ui/static/ui/live.js:34
+msgid "Wiki"
+msgstr "Weeks"
+
+#: static/js/landing.js:231 static/js/landing.js:562
+msgid "Muda umeisha · mteja ametoka"
+msgstr "Time's up · customer left"
+
+#: static/js/landing.js:412 static/js/landing.js:539
+msgid "Mteja ameingia · Neema WiFi"
+msgstr "Customer connected · Neema WiFi"
+
+#: static/js/landing.js:501
+msgid "Lipa Tsh %(amount)s kwa NEEMA WIFI? Weka PIN yako ya M-Pesa."
+msgstr "Pay Tsh %(amount)s to NEEMA WIFI? Enter your M-Pesa PIN."
+
+#: static/js/landing.js:675
+msgid "siku %(n)s"
+msgid_plural "siku %(n)s"
+msgstr[0] "%(n)s day"
+msgstr[1] "%(n)s days"
+
+#: ui/static/ui/live.js:33
+msgid "Duka la Kati"
+msgstr "Main Shop"
+
+#: ui/static/ui/live.js:33
+msgid "Kibanda cha Stendi"
+msgstr "Bus Stand Kiosk"
+
+#: ui/static/ui/live.js:33
+msgid "Saluni ya Mama Asha"
+msgstr "Mama Asha's Salon"
+
+#: ui/static/ui/live.js:70
+msgid "Malipo"
+msgstr "Payments"
+
+#: ui/static/ui/live.js:105
+msgid "Rudi kwenye data halisi"
+msgstr "Back to real data"
+
+#: ui/static/ui/live.js:105
+msgid "Onyesha mfano"
+msgstr "Show a demo"
+
+#: ui/static/ui/live.js:144
+msgid "Ingia tena"
+msgstr "Log in again"
+
+#: ui/static/ui/live.js:144
+msgid "Imekatika, inajaribu tena…"
+msgstr "Disconnected, retrying…"
+
+#: ui/static/ui/live.js:196
+msgid "Mfano"
+msgstr "Demo"
+
+#: ui/static/ui/live.js:198
+msgid "M-Pesa (mfano)"
+msgstr "M-Pesa (demo)"
+
+#: ui/static/ui/live.js:200
+msgid "MFANO"
+msgstr "DEMO"
+
+#: ui/static/ui/live.js:223
+msgid "Ombi la malipo"
+msgstr "Payment request"
+
+#: ui/static/ui/live.js:228
+msgid "Amelipa"
+msgstr "Paid"
+
+#: ui/static/ui/live.js:233 ui/static/ui/live.js:242
+msgid "Ameingia"
+msgstr "Logged in"
+
+#: ui/static/ui/live.js:233 ui/static/ui/live.js:242
+msgid "vocha"
+msgstr "voucher"
+
+#: ui/static/ui/live.js:239
+msgid "Matumizi"
+msgstr "Usage"
+
+#: ui/static/ui/live.js:245
+msgid "Amekataliwa"
+msgstr "Rejected"
+
+#: ui/static/ui/live.js:245
+msgid "Vocha si sahihi"
+msgstr "Invalid voucher"
+
+#: ui/static/ui/live.js:245
+msgid "Muda wa vocha umeisha"
+msgstr "This voucher has expired"
+
+#: ui/static/ui/live.js:248
+msgid "Ametoka"
+msgstr "Logged out"
+
+#: ui/static/ui/live.js:336
+msgid "RADIUS · Mfumo"
+msgstr "RADIUS · System"
+
+#: ui/static/ui/live.js:346
+msgid "Ongeza router ili uone mtandao wako hapa"
+msgstr "Add a router to see your network here"
+
+#: ui/static/ui/live.js:349
+msgid "+ routers %(n)s zaidi"
+msgstr "+ %(n)s more routers"
+
+#: ui/static/ui/live.js:395
+msgid "mteja 1"
+msgstr "1 customer"
+
+#: ui/static/ui/live.js:395
+msgid "wateja %(n)s"
+msgstr "%(n)s customers"

@@ -1,0 +1,8 @@
+{% load i18n ui_tags %}
+{% if page.has_other_pages %}
+  <nav class="pager" aria-label="{% translate 'Kurasa' %}">
+    {% if page.has_previous %}<a class="btn btn-small btn-ghost" href="{% page_url page.previous_page_number %}">← {% translate "Nyuma" %}</a>{% else %}<span></span>{% endif %}
+    <span class="muted small">{% blocktranslate with number=page.number total=page.paginator.num_pages %}Ukurasa {{ number }} kati ya {{ total }}{% endblocktranslate %}</span>
+    {% if page.has_next %}<a class="btn btn-small btn-ghost" href="{% page_url page.next_page_number %}">{% translate "Mbele" %} →</a>{% else %}<span></span>{% endif %}
+  </nav>
+{% endif %}

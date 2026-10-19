@@ -1,0 +1,91 @@
+{% load static i18n ui_tags %}{% get_current_language as LANG %}<!doctype html>
+<html lang="{{ LANG }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#050b1a">
+  <title>{% block title %}{% endblock %} · JamiiLite 5G</title>
+  <link rel="stylesheet" href="{% static 'ui/app.css' %}">
+  <link rel="stylesheet" href="{% static 'ui/auth.css' %}">
+</head>
+<body class="auth" data-show-label="{% translate 'Onyesha password' %}" data-hide-label="{% translate 'Ficha password' %}">
+  {# Upande wa kushoto: WiFi ikiuza yenyewe. Kwenye simu unakuwa ukanda mfupi juu ya fomu. #}
+  <aside class="auth-art" aria-hidden="true">
+    <div class="auth-aurora"></div>
+    <div class="auth-art-inner">
+      <a class="app-logo auth-art-logo" href="{% url 'pages:home' %}" tabindex="-1">
+        <span class="app-logo-mark">{% icon "wifi" 18 %}</span>
+        <span>JamiiLite <b>5G</b></span>
+      </a>
+
+      <div class="as-scene">
+        <svg class="as-lines" viewBox="0 0 400 300">
+          <ellipse cx="200" cy="150" rx="150" ry="104" class="as-orbit"/>
+          <ellipse cx="200" cy="150" rx="92" ry="64" class="as-orbit as-orbit-2"/>
+          <path id="as-p1" d="M62 68 Q110 140 200 150" class="as-path"/>
+          <path id="as-p2" d="M200 150 Q290 140 340 62" class="as-path"/>
+          <path id="as-p3" d="M50 232 Q120 160 200 150" class="as-path"/>
+          <path id="as-p4" d="M200 150 Q280 170 350 230" class="as-path"/>
+          <circle r="4.5" class="as-pk as-pk-blue"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#as-p1"/></animateMotion></circle>
+          <circle r="4.5" class="as-pk as-pk-green"><animateMotion dur="2.4s" begin="0.8s" repeatCount="indefinite"><mpath href="#as-p2"/></animateMotion></circle>
+          <circle r="4.5" class="as-pk as-pk-amber"><animateMotion dur="2.9s" begin="0.4s" repeatCount="indefinite"><mpath href="#as-p3"/></animateMotion></circle>
+          <circle r="4.5" class="as-pk as-pk-green"><animateMotion dur="2.9s" begin="1.6s" repeatCount="indefinite"><mpath href="#as-p4"/></animateMotion></circle>
+        </svg>
+        <div class="as-router">
+          <span class="as-ring"></span><span class="as-ring r2"></span><span class="as-ring r3"></span>
+          <span class="as-router-core">{% icon "wifi" 30 %}</span>
+          <b>Neema WiFi</b>
+        </div>
+        <span class="as-dev d1">📱<i></i></span>
+        <span class="as-dev d2">📱<i></i></span>
+        <span class="as-dev d3">💻<i></i></span>
+        <span class="as-dev d4">📱<i></i></span>
+      </div>
+
+      <div class="as-owner">
+        <div class="as-owner-balance">
+          <small>{% translate "Mapato ya leo" %}</small>
+          <p>Tsh <b data-auth-balance>128,500</b></p>
+        </div>
+        <ol class="as-feed" data-auth-feed>
+          <li><i>💰</i><span>{% translate "Siku 1" %} · 0754…221</span><b>+Tsh 1,000</b></li>
+          <li><i>📶</i><span>{% translate "Mteja ameingia · Neema WiFi" %}</span></li>
+        </ol>
+      </div>
+
+      <h2>{% translate "Uza WiFi yako kiotomatiki" %}</h2>
+      <ul class="auth-points">
+        <li>{% icon "check" 16 %} {% translate "Wateja wanalipa kwa M-Pesa, Mixx by Yas na Airtel Money" %}</li>
+        <li>{% icon "check" 16 %} {% translate "Wanakatwa wenyewe muda ukiisha" %}</li>
+        <li>{% icon "check" 16 %} {% translate "Unaona kila shilingi kwenye simu yako, papo hapo" %}</li>
+      </ul>
+    </div>
+
+    {# Matukio yanayozunguka kwenye simu ya mmiliki #}
+    <template data-auth-events>
+      <li data-amount="500"><i>💰</i><span>{% translate "Saa 1" %} · 0712…678</span><b>+Tsh 500</b></li>
+      <li><i>📶</i><span>{% translate "Mteja ameingia · Neema WiFi" %}</span></li>
+      <li data-amount="1000"><i>💰</i><span>{% translate "Siku 1" %} · 0688…904</span><b>+Tsh 1,000</b></li>
+      <li><i>⏰</i><span>{% translate "Muda umeisha · mteja ametoka" %}</span></li>
+      <li data-amount="5000"><i>💰</i><span>{% translate "Wiki" %} · 0765…310</span><b>+Tsh 5,000</b></li>
+      <li data-amount="500"><i>💰</i><span>{% translate "Saa 1" %} · 0621…457</span><b>+Tsh 500</b></li>
+    </template>
+  </aside>
+
+  <main class="auth-wrap">
+    <div class="auth-top">
+      <a class="app-logo auth-logo" href="{% url 'pages:home' %}">
+        <span class="app-logo-mark">{% icon "wifi" 18 %}</span>
+        <span>JamiiLite <b>5G</b></span>
+      </a>
+      {% include "ui/_lang_switch.html" %}
+    </div>
+    <section class="auth-card">
+      {% block content %}{% endblock %}
+    </section>
+    {% block below %}{% endblock %}
+  </main>
+  <script src="{% static 'ui/auth.js' %}" defer></script>
+</body>
+</html>

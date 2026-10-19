@@ -1,0 +1,19 @@
+{% extends "ui/auth_base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Ingia" %}{% endblock %}
+{% block content %}
+  <p class="auth-eyebrow"><span class="auth-dot"></span>{% translate "Karibu tena" %} 👋</p>
+  <h1>{% translate "Ingia kwenye dashboard yako" %}</h1>
+  <p class="muted">{% translate "Simamia WiFi yako, mauzo na pesa zako kutoka popote." %}</p>
+  <form method="post" class="form-stack" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% if form.non_field_errors %}<div class="flash flash-error">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+    {% include "dashboard/_field.html" with field=form.phone %}
+    {% include "dashboard/_field.html" with field=form.password %}
+    <button type="submit" class="btn btn-primary btn-block btn-lg auth-submit">{% translate "Ingia" %} <span aria-hidden="true">→</span></button>
+  </form>
+{% endblock %}
+{% block below %}
+  <p class="auth-switch">{% translate "Huna akaunti?" %} <a href="{% url 'dashboard:signup' %}">{% translate "Jisajili bure" %}</a></p>
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends "pages/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% translate "Mwongozo wa kuunganisha" %} · JamiiLite 5G{% endblock %}
+{% block description %}{% translate "Hatua 7 za kuunganisha router yako ya MikroTik na JamiiLite 5G, kwa michoro inayosogea." %}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap narrow">
+    <p class="eyebrow">{% translate "Mwongozo" %}</p>
+    <h1>{% translate "Unganisha router yako kwa hatua 7" %}</h1>
+    <p class="lead">{% translate "Kazi hii inachukua takribani dakika 10. Bonyeza ▶ kuanza, au tumia mishale ya kushoto na kulia kwenda hatua iliyotangulia au inayofuata." %}</p>
+  </div>
+</section>
+
+<section class="section guide-section">
+  <div class="wrap">
+    <div class="player" id="player" aria-roledescription="{% translate 'mwongozo wa hatua' %}">
+      <div class="player-bars" aria-hidden="true"></div>
+
+      <ol class="scenes">
+        <li class="scene" data-duration="8000">
+          <div class="scene-art">
+            <svg viewBox="0 0 320 180" role="img" aria-label="{% translate 'MiFi au router ya 4G imeunganishwa na MikroTik, kisha simu za wateja' %}">
+              <rect class="art-box" x="12" y="62" width="74" height="56" rx="10"/>
+              <text class="art-label" x="49" y="88" text-anchor="middle">{% translate "MiFi /" %}</text>
+              <text class="art-label" x="49" y="104" text-anchor="middle">{% translate "4G / fiber" %}</text>
+              <path class="art-flow" d="M86 90 H128"/>
+              <rect class="art-box art-hero" x="128" y="58" width="78" height="64" rx="12"/>
+              <text class="art-label art-on-hero" x="167" y="94" text-anchor="middle">{% translate "MikroTik" %}</text>
+              <path class="art-flow" d="M206 90 H244"/>
+              <rect class="art-phone" x="250" y="40" width="28" height="48" rx="6"/>
+              <rect class="art-phone" x="282" y="64" width="28" height="48" rx="6"/>
+              <rect class="art-phone" x="252" y="96" width="28" height="48" rx="6"/>
+              <text class="art-small" x="167" y="148" text-anchor="middle">{% translate "Washa MikroTik" %}</text>
+            </svg>
+          </div>
+          <div class="scene-text">
+            <p class="scene-step">{% translate "Hatua ya 1 kati ya 7" %}</p>
+            <h2>{% translate "Unganisha vifaa" %}</h2>
+            <p>{% blocktranslate %}Unganisha waya kutoka kwenye router yako ya intaneti hadi kwenye <strong>port ya kwanza (ether1)</strong> ya MikroTik, kisha washa kifaa.{% endblocktranslate %}</p>
+            <p class="muted small">{% translate "Kama una MiFi isiyo na sehemu ya kuunganisha waya, wasiliana nasi tukuelekeze jinsi ya kuunganisha MikroTik kwenye WiFi ya MiFi yako." %}</p>
+          </div>
+        </li>
+
+        <li class="scene" data-duration="7000">
+          <div class="scene-art">
+            <svg viewBox="0 0 320 180" role="img" aria-label="{% translate 'Simu ikipakua app ya MikroTik' %}">
+              <rect class="art-phone-big" x="112" y="10" width="96" height="160" rx="14"/>
+              <rect class="art-app" x="138" y="52" width="44" height="44" rx="11"/>
+              <text class="art-app-letter" x="160" y="82" text-anchor="middle">M</text>
+              <text class="art-small" x="160" y="114" text-anchor="middle">{% translate "MikroTik" %}</text>
+              <g class="art-bounce">
+                <path class="art-arrow" d="M160 124 v20 m-8 -8 l8 8 l8 -8"/>
+              </g>
+            </svg>
+          </div>
+          <div class="scene-text">
+            <p class="scene-step">{% translate "Hatua ya 2 kati ya 7" %}</p>
+            <h2>{% translate "Pakua app ya MikroTik" %}</h2>
+            <p>{% blocktranslate %}Kwenye simu yako, fungua <strong>Play Store</strong> au <strong>App Store</strong>, tafuta <strong>“MikroTik”</strong>, kisha pakua app rasmi ya MikroTik bila malipo.{% endblocktranslate %}</p>
+            <p class="muted small">{% translate "Kama unatumia kompyuta, unaweza kutumia programu ya Winbox badala ya app ya simu." %}</p>
+          </div>
+        </li>
+
+        <li class="scene" data-duration="9000">
+          <div class="scene-art">
+            <svg viewBox="0 0 320 180" role="img" aria-label="{% translate 'Fomu ya kuingia kwenye router' %}">
+              <rect class="art-phone-big" x="96" y="6" width="128" height="168" rx="14"/>
+              <text class="art-small" x="112" y="38">{% translate "Anwani" %}</text>
+              <rect class="art-field" x="112" y="44" width="96" height="22" rx="5"/>
+              <text class="art-mono" x="118" y="59">192.168.88.1</text>
+              <text class="art-small" x="112" y="84">{% translate "Jina la mtumiaji" %}</text>
+              <rect class="art-field" x="112" y="90" width="96" height="22" rx="5"/>
+              <text class="art-mono" x="118" y="105">{% translate "admin" %}</text>
+              <rect class="art-btn art-pulse" x="112" y="130" width="96" height="26" rx="6"/>
+              <text class="art-btn-text" x="160" y="147" text-anchor="middle">{% translate "Connect" %}</text>
+            </svg>
+          </div>
+          <div class="scene-text">
+            <p class="scene-step">{% translate "Hatua ya 3 kati ya 7" %}</p>
+            <h2>{% translate "Ingia kwenye MikroTik" %}</h2>
+            <p>{% blocktranslate %}Unganisha simu yako kwenye WiFi ya MikroTik (jina lake kwa kawaida huanza na <strong>MikroTik-</strong>). Fungua app, weka anwani <strong>192.168.88.1</strong> na jina la mtumiaji <strong>admin</strong>.{% endblocktranslate %}</p>
+            <p class="muted small">{% translate "Nenosiri linaweza kupatikana kwenye kibandiko kilicho chini ya kifaa cha MikroTik. Kwa baadhi ya modeli za zamani, sehemu ya nenosiri inaweza kuachwa wazi." %}</p>
+          </div>
+        </li>
+
+        <li class="scene" data-duration="9000">
+          <div class="scene-art">
+            <svg viewBox="0 0 320 180" role="img" aria-label="{% translate 'Menyu ya IP, Hotspot na kitufe cha Hotspot Setup' %}">
+              <rect class="art-phone-big" x="96" y="6" width="128" height="168" rx="14"/>
+              <rect class="art-row" x="108" y="26" width="104" height="22" rx="5"/>
+              <text class="art-label" x="116" y="41">{% translate "IP" %}</text>
+              <rect class="art-row art-row-active" x="116" y="54" width="96" height="22" rx="5"/>
+              <text class="art-label art-on-hero" x="124" y="69">{% translate "Hotspot" %}</text>
+              <rect class="art-btn art-pulse" x="108" y="96" width="104" height="28" rx="6"/>
+              <text class="art-btn-text" x="160" y="114" text-anchor="middle">{% translate "Hotspot Setup" %}</text>
+              <text class="art-small" x="160" y="150" text-anchor="middle">{% translate "interface: bridge → Next…" %}</text>
+            </svg>
+          </div>
+          <div class="scene-text">
+            <p class="scene-step">{% translate "Hatua ya 4 kati ya 7" %}</p>
+            <h2>{% translate "Sanidi hotspot" %}</h2>
+            <p>{% blocktranslate %}Nenda kwenye <strong>IP → Hotspot</strong>, kisha bonyeza <strong>Hotspot Setup</strong>. Chagua interface ya <strong>bridge</strong>, halafu endelea kubonyeza <strong>Next</strong> hadi mwisho bila kubadilisha mipangilio iliyojazwa tayari.{% endblocktranslate %}</p>
+          </div>
+        </li>
+
+        <li class="scene" data-duration="11000">
+          <div class="scene-art">
+            <svg viewBox="0 0 320 180" role="img" aria-label="{% translate 'Terminal ikibandikiwa mstari wa JamiiLite' %}">
+              <rect class="art-term" x="14" y="16" width="292" height="148" rx="10"/>
+              <circle class="art-dot-r" cx="30" cy="30" r="4"/><circle class="art-dot-y" cx="42" cy="30" r="4"/><circle class="art-dot-g" cx="54" cy="30" r="4"/>
+              <text class="art-term-text" x="28" y="60">{% translate "[admin@MikroTik] &gt;" %}</text>
+              <text class="art-term-text art-type" x="28" y="80">{% translate '/tool fetch url="https://…/setup.rsc"' %}</text>
+              <text class="art-term-text art-type art-type-2" x="28" y="98">{% translate '; /import file-name="jamiilite-setup.rsc"' %}</text>
+              <text class="art-term-ok art-appear" x="28" y="132">{% translate "✓ JamiiLite: usanidi umekamilika" %}</text>
+            </svg>
+          </div>
+          <div class="scene-text">
+            <p class="scene-step">{% translate "Hatua ya 5 kati ya 7" %}</p>
+            <h2>{% translate "Weka msimbo wa usanidi wa JamiiLite" %}</h2>
+            <p>{% blocktranslate %}Fungua <strong>Terminal</strong> ndani ya app. Nakili <strong>mstari wa usanidi</strong> uliopewa kwenye akaunti yako ya JamiiLite, ubandike kwenye Terminal, kisha bonyeza Enter.{% endblocktranslate %}</p>
+            <p class="muted small">{% translate "Kila router ina msimbo wake wa siri. Usimshirikishe mtu mwingine msimbo huo." %}</p>
+          </div>
+        </li>
+
+        <li class="scene" data-duration="7000">
+          <div class="scene-art">
+            <svg viewBox="0 0 320 180" role="img" aria-label="{% translate 'Dashibodi inaonyesha router iko hewani' %}">
+              <rect class="art-card" x="40" y="30" width="240" height="120" rx="14"/>
+              <text class="art-label" x="62" y="66">{% translate "Neema WiFi · Duka" %}</text>
+              <circle class="art-online" cx="68" cy="94" r="7"/>
+              <text class="art-online-text" x="84" y="99">{% translate "Online" %}</text>
+              <text class="art-small" x="62" y="128">{% translate "Wateja waliounganishwa: 0 · RouterOS 7" %}</text>
+            </svg>
+          </div>
+          <div class="scene-text">
+            <p class="scene-step">{% translate "Hatua ya 6 kati ya 7" %}</p>
+            <h2>{% translate "Subiri kwa dakika moja" %}</h2>
+            <p>{% blocktranslate %}Router yako itaunganishwa na JamiiLite na kutuma taarifa zake yenyewe. Ukiona alama ya <strong>🟢 Online</strong> kwenye akaunti yako, maana yake router imeunganishwa kikamilifu.{% endblocktranslate %}</p>
+          </div>
+        </li>
+
+        <li class="scene" data-duration="9000">
+          <div class="scene-art">
+            <svg viewBox="0 0 320 180" role="img" aria-label="{% translate 'Simu ya mteja ikinunua kifurushi na kuunganishwa' %}">
+              <rect class="art-phone-big" x="96" y="6" width="128" height="168" rx="14"/>
+              <text class="art-label" x="112" y="34">{% translate "Nunua kifurushi" %}</text>
+              <rect class="art-row" x="108" y="44" width="104" height="24" rx="6"/>
+              <text class="art-small" x="116" y="60">{% translate "Saa 1 · Tsh 500" %}</text>
+              <rect class="art-row art-row-active" x="108" y="74" width="104" height="24" rx="6"/>
+              <text class="art-small art-on-hero" x="116" y="90">{% translate "Siku 1 · Tsh 1,500" %}</text>
+              <rect class="art-btn" x="108" y="106" width="104" height="24" rx="6"/>
+              <text class="art-btn-text" x="160" y="122" text-anchor="middle">{% translate "Lipa kwa simu" %}</text>
+              <text class="art-term-ok art-appear" x="160" y="156" text-anchor="middle">{% translate "✓ Umeunganishwa" %}</text>
+            </svg>
+          </div>
+          <div class="scene-text">
+            <p class="scene-step">{% translate "Hatua ya 7 kati ya 7" %}</p>
+            <h2>{% translate "Jaribu huduma kama mteja" %}</h2>
+            <p>{% translate "Tumia simu nyingine kuunganisha kwenye WiFi ya hotspot. Ukurasa wa vifurushi utafunguka wenyewe. Nunua kifurushi cha bei nafuu ili kuthibitisha kuwa kila kitu kinafanya kazi vizuri. 🎉" %}</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="player-tap" aria-hidden="true">
+        <button type="button" class="tap tap-prev" tabindex="-1"></button>
+        <button type="button" class="tap tap-next" tabindex="-1"></button>
+      </div>
+
+      <div class="player-controls">
+        <button type="button" class="ctrl" data-action="prev" aria-label="{% translate 'Hatua iliyopita' %}">‹</button>
+        <button type="button" class="ctrl ctrl-play" data-action="toggle" aria-label="{% translate 'Cheza' %}">▶</button>
+        <button type="button" class="ctrl" data-action="next" aria-label="{% translate 'Hatua inayofuata' %}">›</button>
+      </div>
+    </div>
+
+    <div class="guide-help center">
+      <p class="muted">{% translate "Umekwama kwenye hatua yoyote? Tupo tayari kukusaidia." %}</p>
+      {% translate "Pata msaada kupitia WhatsApp" as cta_label %}{% include "pages/_cta.html" with label=cta_label %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% url 'javascript-catalog' %}"></script>
+<script src="{% static 'js/guide.js' %}" defer></script>
+{% endblock %}
