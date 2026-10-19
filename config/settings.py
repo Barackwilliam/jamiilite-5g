@@ -52,7 +52,12 @@ INSTALLED_APPS = [
     "portal",
     "radius",
     "pages",
+    "ui",
+    "dashboard",
+    "control",
 ]
+
+LOGIN_URL = "dashboard:login"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

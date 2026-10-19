@@ -80,6 +80,7 @@ p { margin: 0 0 12px; }
 .nav { display: flex; gap: 4px; }
 .nav a { color: var(--muted); text-decoration: none; font-weight: 600; padding: 8px 10px; border-radius: 8px; }
 .nav a:hover, .nav a[aria-current="page"] { color: var(--text); background: var(--surface-2); }
+.nav a.nav-login { color: var(--brand); border: 1px solid var(--border); }
 
 /* --- Vitufe --- */
 .btn {

@@ -1,0 +1,136 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block breadcrumb %}<a class="crumb" href="{% url 'control:owners' %}">Wamiliki</a>{% endblock %}
+{% block actions %}{% include "control/_state_pill.html" with state=o.state %}{% endblock %}
+
+{% block content %}
+<section class="stats-grid stats-grid-4">
+  <article class="card stat">
+    <p class="stat-label">Salio lake</p>
+    <p class="stat-value stat-money">{{ balance|tsh }}</p>
+  </article>
+  <article class="card stat">
+    <p class="stat-label">Mauzo leo</p>
+    <p class="stat-value">{{ summary.today_amount|tsh }}</p>
+    <p class="stat-sub">Vifurushi {{ summary.today_count }}</p>
+  </article>
+  <article class="card stat">
+    <p class="stat-label">Mauzo siku 30</p>
+    <p class="stat-value">{{ summary.month_amount|tsh }}</p>
+    <p class="stat-sub">Vifurushi {{ summary.month_count }}</p>
+  </article>
+  <article class="card stat">
+    <p class="stat-label">Usajili unaisha</p>
+    <p class="stat-value stat-text">{{ o.ends_at|date:"d/m/Y H:i"|default:"—" }}</p>
+  </article>
+</section>
+
+<div class="two-col">
+  <section class="card">
+    <div class="card-head"><h2>Taarifa</h2></div>
+    <dl class="kv">
+      <dt>Biashara</dt><dd>{{ o.business_name }}</dd>
+      <dt>Anaingia kwa</dt><dd>{{ o.user.username|phone_display }}</dd>
+      <dt>Namba ya malipo</dt><dd>{{ o.phone|phone_display }}</dd>
+      <dt>Alijiunga</dt><dd>{{ o.created_at|date:"d/m/Y" }}</dd>
+      <dt>Majaribio</dt><dd>{{ o.trial_ends_at|date:"d/m/Y"|default:"—" }}</dd>
+      <dt>Amelipia hadi</dt><dd>{{ o.paid_until|date:"d/m/Y"|default:"—" }}</dd>
+    </dl>
+    <hr>
+    <form method="post" class="btn-row">
+      {% csrf_token %}
+      {% if o.is_active %}
+        <button class="btn btn-danger-ghost" name="action" value="suspend" data-confirm="Kumsitisha {{ o.business_name }}? Hataweza kuingia wala kuuza.">{% icon "power" 16 %} Sitisha akaunti</button>
+      {% else %}
+        <button class="btn btn-good" name="action" value="activate">{% icon "check" 16 %} Rudisha akaunti</button>
+      {% endif %}
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Amelipa ada kwa mkono</h2></div>
+    <p class="muted small">Ukipokea ada kwa pesa taslimu au M-Pesa yako moja kwa moja, mwongezee muda hapa. Haigusi salio lake.</p>
+    <form method="post" class="pay-options pay-options-4">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="cash">
+      {% for m in cash_months %}
+        <button type="submit" name="months" value="{{ m }}" class="pay-option" data-confirm="Kumwongezea {{ o.business_name }} miezi {{ m }}?">
+          <strong>Miezi {{ m }}</strong><span>{% widthratio monthly_fee 1 m as amount %}{{ amount|tsh }}</span>
+        </button>
+      {% endfor %}
+    </form>
+    {% if charges %}
+      <ul class="list list-compact">
+        {% for c in charges %}
+          <li class="list-row">
+            <span class="list-main"><strong>Miezi {{ c.months }} · {{ c.amount|tsh }}</strong><small>{{ c.created_at|date:"d/m/Y" }}{% if c.created_by %} · {{ c.created_by.username }}{% endif %}</small></span>
+            <span class="pill">{{ c.get_source_display }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+</div>
+
+<section class="card">
+  <div class="card-head"><h2>Mauzo yake, siku 30</h2></div>
+  {% include "ui/_bar_chart.html" with chart=chart title="Mauzo siku 30" %}
+</section>
+
+<div class="two-col">
+  <section class="card">
+    <div class="card-head"><h2>Routers ({{ routers|length }})</h2></div>
+    {% if routers %}
+      <ul class="list">
+        {% for r in routers %}
+          <li class="list-row">
+            <span class="status-dot {% if r.is_online %}is-online{% else %}is-offline{% endif %}"></span>
+            <span class="list-main"><strong>{{ r.name }}</strong><small>{{ r.nas_identifier|default:"bila NAS id" }} · {% if r.is_online %}wateja {{ r.active_clients }}{% else %}ilionekana {{ r.last_seen_at|ago }}{% endif %}</small></span>
+            <a class="link" href="{% url 'portal:home' r.slug %}" target="_blank" rel="noopener">Portal</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">Hajaongeza router.</p>
+    {% endif %}
+    <h3 class="sub-h">Vifurushi</h3>
+    {% if packages %}
+      <ul class="list list-compact">
+        {% for p in packages %}
+          <li class="list-row"><span class="list-main"><strong>{{ p.name }}</strong><small>{{ p.duration_label }}{% if not p.is_active %} · hakiuzwi{% endif %}</small></span><span class="list-amount">{{ p.price|tsh }}</span></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">Hajaweka vifurushi.</p>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Mauzo ya karibuni</h2></div>
+    {% if recent_sales %}
+      <ul class="list">
+        {% for s in recent_sales %}
+          <li class="list-row">
+            <span class="list-main"><strong>{{ s.package.name }}</strong><small>{{ s.router.name }} · {{ s.phone|phone_display }} · {{ s.paid_at|ago }}</small></span>
+            <span class="amount-in">+{{ s.amount|tsh }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">Bado hana mauzo.</p>
+    {% endif %}
+    {% if withdrawals %}
+      <h3 class="sub-h">Kutoa pesa</h3>
+      <ul class="list list-compact">
+        {% for w in withdrawals %}
+          <li class="list-row">
+            <span class="list-main"><strong>{{ w.amount|tsh }}</strong><small>{{ w.created_at|date:"d/m/Y H:i" }}{% if w.reference %} · {{ w.reference }}{% endif %}</small></span>
+            {% if w.status == "paid" %}<span class="pill pill-good">Imelipwa</span>{% elif w.status == "rejected" %}<span class="pill pill-bad">Imekataliwa</span>{% else %}<a class="pill pill-warn" href="{% url 'control:withdrawals' %}">Inasubiri</a>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

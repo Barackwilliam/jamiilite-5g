@@ -85,6 +85,9 @@ class Voucher(models.Model):
         related_name="voucher",
         verbose_name="malipo",
     )
+    # Vocha zilizotengenezwa kwa mkono na mmiliki (kuuza kwa pesa taslimu) zina
+    # kundi lake, ili zichapishwe pamoja.
+    batch = models.CharField("kundi", max_length=32, blank=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     activated_at = models.DateTimeField("ilianza kutumika", null=True, blank=True)
     expires_at = models.DateTimeField("inaisha", null=True, blank=True)

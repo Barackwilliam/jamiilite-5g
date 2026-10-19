@@ -4,6 +4,7 @@ import os
 import socket
 import struct
 from datetime import timedelta
+from unittest import mock
 
 from django.test import TestCase, override_settings
 from django.utils import timezone
@@ -224,7 +225,9 @@ class ServerSocketTests(TestCase):
         try:
             request = access_request(secret, "wifi-majaribio", voucher.code, voucher.code)
             client.sendto(request, server.addresses[0])
-            server.serve_once(timeout=5)
+            # Ndani ya transaction ya TestCase, Postgres ingefunga connection hapa.
+            with mock.patch("radius.server.close_old_connections"):
+                server.serve_once(timeout=5)
             response, _ = client.recvfrom(rp.MAX_PACKET_SIZE)
         finally:
             client.close()

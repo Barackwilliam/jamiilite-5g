@@ -22,6 +22,7 @@
       <nav class="nav" aria-label="Kurasa">
         <a href="{% url 'pages:mahitaji' %}" {% if request.resolver_match.url_name == 'mahitaji' %}aria-current="page"{% endif %}>Mahitaji</a>
         <a href="{% url 'pages:mwongozo' %}" {% if request.resolver_match.url_name == 'mwongozo' %}aria-current="page"{% endif %}>Mwongozo</a>
+        <a class="nav-login" href="{% url 'dashboard:login' %}">Ingia</a>
       </nav>
     </div>
   </header>
@@ -38,6 +39,8 @@
         <a href="{% url 'pages:home' %}">Mwanzo</a>
         <a href="{% url 'pages:mahitaji' %}">Mahitaji</a>
         <a href="{% url 'pages:mwongozo' %}">Mwongozo wa kuunganisha</a>
+        <a href="{% url 'dashboard:signup' %}">Jisajili</a>
+        <a href="{% url 'dashboard:login' %}">Ingia</a>
         {% if whatsapp_url %}<a href="{{ whatsapp_url }}" rel="noopener">WhatsApp</a>{% endif %}
       </nav>
     </div>

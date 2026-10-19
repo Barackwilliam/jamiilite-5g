@@ -1,0 +1,94 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block content %}
+{% if pending_count %}
+  <a class="banner banner-warn banner-link" href="{% url 'control:withdrawals' %}">
+    {% icon "send" %}
+    <p><strong>Maombi {{ pending_count }} ya kutoa pesa yanasubiri</strong> · jumla {{ pending_total|tsh }}</p>
+    <span class="btn btn-small btn-ghost">Shughulikia</span>
+  </a>
+{% endif %}
+
+<section class="stats-grid">
+  <article class="card stat-hero">
+    <p class="stat-label">Mauzo ya WiFi leo (jukwaa zima)</p>
+    <p class="hero-figure">{{ gmv.today_amount|tsh }}</p>
+    <p class="muted">Vifurushi {{ gmv.today_count }} · siku 30: {{ gmv.month_amount|tsh }}</p>
+  </article>
+  <article class="card stat">
+    <p class="stat-label">Mapato yako (ada) siku 30</p>
+    <p class="stat-value stat-money">{{ sub_revenue|tsh }}</p>
+    <p class="stat-sub">Ada ni {{ monthly_fee|tsh }}/mwezi</p>
+  </article>
+  <a class="card stat stat-link" href="{% url 'control:owners' %}">
+    <p class="stat-label">Wamiliki</p>
+    <p class="stat-value">{{ owners.total }}</p>
+    <p class="stat-sub">+{{ new_owners }} wiki hii {% icon "arrow-right" 14 %}</p>
+  </a>
+  <a class="card stat stat-link" href="{% url 'control:routers' %}">
+    <p class="stat-label">Routers online</p>
+    <p class="stat-value">{{ routers.online }} <small class="muted">/ {{ routers.total }}</small></p>
+    <p class="stat-sub">Wateja {{ routers.clients }} wameunganishwa {% icon "arrow-right" 14 %}</p>
+  </a>
+  <article class="card stat">
+    <p class="stat-label">Pesa za wamiliki unazoshikilia</p>
+    <p class="stat-value">{{ held|tsh }}</p>
+    <p class="stat-sub">Hakikisha ipo kwenye akaunti yako ya malipo</p>
+  </article>
+</section>
+
+<section class="card">
+  <div class="card-head"><h2>Hali ya wamiliki</h2></div>
+  <div class="segments">
+    <a class="segment" href="{% url 'control:owners' %}?hali=paid"><span class="seg-dot seg-paid"></span><strong>{{ owners.paid }}</strong><small>{{ state_labels.paid }}</small></a>
+    <a class="segment" href="{% url 'control:owners' %}?hali=trial"><span class="seg-dot seg-trial"></span><strong>{{ owners.trial }}</strong><small>{{ state_labels.trial }}</small></a>
+    <a class="segment" href="{% url 'control:owners' %}?hali=expired"><span class="seg-dot seg-expired"></span><strong>{{ owners.expired }}</strong><small>{{ state_labels.expired }}</small></a>
+    <a class="segment" href="{% url 'control:owners' %}?hali=suspended"><span class="seg-dot seg-suspended"></span><strong>{{ owners.suspended }}</strong><small>{{ state_labels.suspended }}</small></a>
+  </div>
+</section>
+
+<div class="two-col">
+  <section class="card">
+    <div class="card-head"><h2>Mauzo ya WiFi, siku 30</h2><a class="link" href="{% url 'control:payments' %}">Malipo yote</a></div>
+    {% include "ui/_bar_chart.html" with chart=gmv_chart title="Mauzo ya WiFi siku 30" %}
+  </section>
+  <section class="card">
+    <div class="card-head"><h2>Ada ulizopokea, siku 30</h2></div>
+    {% include "ui/_bar_chart.html" with chart=sub_chart title="Ada za usajili siku 30" empty="Bado hujapokea ada kwenye kipindi hiki." empty_hint="Wamiliki wakilipia usajili, malipo yataonekana hapa." %}
+  </section>
+</div>
+
+<div class="two-col">
+  <section class="card">
+    <div class="card-head"><h2>Usajili unaisha ndani ya siku 3</h2></div>
+    {% if expiring %}
+      <ul class="list">
+        {% for o in expiring %}
+          <li><a class="list-row" href="{% url 'control:owner_detail' o.pk %}">
+            <span class="list-main"><strong>{{ o.business_name }}</strong><small>{{ o.phone|phone_display }} · inaisha {{ o.ends_at|date:"d/m H:i" }}</small></span>
+            {% include "control/_state_pill.html" with state=o.state %}
+          </a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">Hakuna anayekaribia kuisha.</p>
+    {% endif %}
+  </section>
+  <section class="card">
+    <div class="card-head"><h2>Routers zilizozimika</h2><a class="link" href="{% url 'control:routers' %}">Zote</a></div>
+    {% if offline_routers %}
+      <ul class="list">
+        {% for r in offline_routers %}
+          <li class="list-row">
+            <span class="status-dot is-offline"></span>
+            <span class="list-main"><strong>{{ r.name }}</strong><small>{{ r.owner.business_name }} · ilionekana {{ r.last_seen_at|ago }}</small></span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">Routers zote zilizowahi kuunganishwa ziko online.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

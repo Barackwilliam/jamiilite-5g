@@ -1,0 +1,54 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block content %}
+<div class="two-col two-col-wide">
+  <section class="card sub-card sub-{{ sub.state }}">
+    <p class="stat-label">Hali ya usajili</p>
+    {% if sub.state == "expired" %}
+      <p class="hero-figure">Umeisha</p>
+      <p>Mauzo mapya yamesimama. Wateja wenye vocha bado wanaunganishwa mpaka muda wao uishe.</p>
+    {% elif sub.state == "trial" %}
+      <p class="hero-figure">Majaribio · siku {{ sub.days_left }}</p>
+      <p class="muted">Inaisha {{ sub.ends|date:"d/m/Y H:i" }}.</p>
+    {% else %}
+      <p class="hero-figure">Hai · siku {{ sub.days_left }}</p>
+      <p class="muted">Imelipiwa mpaka {{ sub.ends|date:"d/m/Y H:i" }}.</p>
+    {% endif %}
+    <p class="muted small">Ada ni {{ monthly_fee|tsh }} kwa mwezi. Ukiwa na salio la kutosha muda ukiisha, tunakata wenyewe ili mauzo yasisimame.</p>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Lipia sasa kutoka salio</h2></div>
+    <p class="muted">Salio lako: <strong>{{ balance|tsh }}</strong></p>
+    <form method="post" class="pay-options">
+      {% csrf_token %}
+      <button type="submit" name="months" value="1" class="pay-option"{% if balance < monthly_fee %} disabled{% endif %}>
+        <strong>Mwezi 1</strong><span>{{ monthly_fee|tsh }}</span>
+      </button>
+      <button type="submit" name="months" value="3" class="pay-option"{% if balance < fee_3 %} disabled{% endif %}>
+        <strong>Miezi 3</strong><span>{{ fee_3|tsh }}</span>
+      </button>
+    </form>
+    {% if balance < monthly_fee %}
+      <p class="muted small">Salio halitoshi bado. Unaweza pia kulipa kwa mkono kupitia WhatsApp ya JamiiLite, tukakuongezea muda.</p>
+    {% endif %}
+  </section>
+</div>
+
+<section class="card">
+  <div class="card-head"><h2>Malipo ya usajili</h2></div>
+  {% if charges %}
+    <ul class="list">
+      {% for charge in charges %}
+        <li class="list-row">
+          <span class="list-main"><strong>Miezi {{ charge.months }} · {{ charge.amount|tsh }}</strong><small>{{ charge.created_at|date:"d/m/Y" }} · mpaka {{ charge.period_end|date:"d/m/Y" }}</small></span>
+          <span class="pill {% if charge.source == cash_source %}pill-muted{% else %}pill-info{% endif %}">{{ charge.get_source_display }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">Bado hujalipia. Furahia majaribio yako.</p>
+  {% endif %}
+</section>
+{% endblock %}

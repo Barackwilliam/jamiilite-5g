@@ -11,6 +11,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("p/", include("portal.urls")),
     path("r/", include("radius.urls")),
+    path("control/", include("control.urls")),
+    path("", include("dashboard.urls")),
     path("", include("pages.urls")),
 ]
 

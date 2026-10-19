@@ -1,0 +1,42 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block content %}
+<section class="stats-grid stats-grid-3">
+  <article class="card stat"><p class="stat-label">Online</p><p class="stat-value stat-money">{{ counts.online }}</p><p class="stat-sub">Wateja {{ counts.clients }}</p></article>
+  <article class="card stat"><p class="stat-label">Offline</p><p class="stat-value">{{ counts.offline }}</p><p class="stat-sub">Kati ya {{ counts.total }}</p></article>
+  <article class="card stat"><p class="stat-label">Hazijawahi kuunganishwa</p><p class="stat-value">{{ counts.never }}</p></article>
+</section>
+
+<section class="card">
+  <form method="get" class="toolbar">
+    <input class="input" type="search" name="q" value="{{ q }}" placeholder="Tafuta router, mmiliki au NAS id" aria-label="Tafuta">
+    <button class="btn btn-small" type="submit">Tafuta</button>
+  </form>
+</section>
+
+<section class="card">
+  {% if page.object_list %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">Router</th><th scope="col">Mmiliki</th><th scope="col">Hali</th><th scope="col">NAS id</th><th scope="col">RouterOS</th><th scope="col" class="num">Wateja</th></tr></thead>
+        <tbody>
+          {% for r in page.object_list %}
+            <tr>
+              <td><strong>{{ r.name }}</strong></td>
+              <td><a href="{% url 'control:owner_detail' r.owner_id %}">{{ r.owner.business_name }}</a></td>
+              <td>{% if r.online %}<span class="pill pill-good"><span class="status-dot is-online"></span> Online</span>{% elif r.last_seen_at %}<span class="pill"><span class="status-dot is-offline"></span> {{ r.last_seen_at|ago }}</span>{% else %}<span class="pill">Bado</span>{% endif %}</td>
+              <td>{{ r.nas_identifier|default:"—" }}</td>
+              <td>{{ r.routeros_version|default:"—" }}</td>
+              <td class="num">{% if r.online %}{{ r.active_clients }}{% else %}—{% endif %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "ui/_pager.html" %}
+  {% else %}
+    <p class="empty">Hakuna routers.</p>
+  {% endif %}
+</section>
+{% endblock %}

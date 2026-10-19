@@ -1,0 +1,52 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block content %}
+<section class="stats-grid stats-grid-3">
+  <article class="card stat">
+    <p class="stat-label">Leo</p>
+    <p class="stat-value">{{ summary.today_amount|tsh }}</p>
+    <p class="stat-sub">Vifurushi {{ summary.today_count }}</p>
+  </article>
+  <article class="card stat">
+    <p class="stat-label">Siku 7</p>
+    <p class="stat-value">{{ summary.week_amount|tsh }}</p>
+    <p class="stat-sub">Vifurushi {{ summary.week_count }}</p>
+  </article>
+  <article class="card stat">
+    <p class="stat-label">Siku 30</p>
+    <p class="stat-value">{{ summary.month_amount|tsh }}</p>
+    <p class="stat-sub">Vifurushi {{ summary.month_count }}</p>
+  </article>
+</section>
+
+<section class="card">
+  <div class="card-head"><h2>Mauzo ya siku 30</h2></div>
+  {% include "ui/_bar_chart.html" with chart=chart title="Mauzo ya siku 30" %}
+</section>
+
+<section class="card">
+  <div class="card-head"><h2>Kila mauzo</h2></div>
+  {% if page.object_list %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">Muda</th><th scope="col">Kifurushi</th><th scope="col">Eneo</th><th scope="col">Mteja</th><th scope="col" class="num">Kiasi</th></tr></thead>
+        <tbody>
+          {% for sale in page.object_list %}
+            <tr>
+              <td>{{ sale.paid_at|date:"d/m H:i" }}</td>
+              <td>{{ sale.package.name }}</td>
+              <td>{{ sale.router.name }}</td>
+              <td>{{ sale.phone|phone_display }}</td>
+              <td class="num">{{ sale.amount|tsh }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "ui/_pager.html" %}
+  {% else %}
+    <p class="empty">Bado hakuna mauzo.</p>
+  {% endif %}
+</section>
+{% endblock %}

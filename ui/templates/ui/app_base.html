@@ -1,0 +1,74 @@
+{% load static ui_tags %}<!doctype html>
+<html lang="sw">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ page_title }}{% endblock %} · JamiiLite 5G</title>
+  <link rel="stylesheet" href="{% static 'ui/app.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body class="app app-{{ area }}">
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
+
+  <aside class="sidebar" aria-label="Menyu">
+    <div class="sidebar-head">
+      <a class="app-logo" href="{{ home_url }}">
+        <span class="app-logo-mark">{% icon "wifi" 18 %}</span>
+        <span>JamiiLite <b>5G</b></span>
+      </a>
+      {% if area == "control" %}<span class="area-badge">Super Admin</span>{% endif %}
+    </div>
+
+    <nav class="side-nav">
+      {% for item in nav %}
+        {% if item.section %}
+          <p class="side-section">{{ item.section }}</p>
+        {% else %}
+          <a href="{{ item.url }}" class="side-link{% if item.active %} is-active{% endif %}"{% if item.active %} aria-current="page"{% endif %}>
+            {% icon item.icon %}<span>{{ item.label }}</span>
+            {% if item.badge %}<span class="side-badge">{{ item.badge }}</span>{% endif %}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="who">
+        <span class="avatar" aria-hidden="true">{{ who_initial }}</span>
+        <span class="who-text"><strong>{{ who_name }}</strong><small>{{ who_detail }}</small></span>
+      </div>
+      <form method="post" action="{% url 'dashboard:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="icon-btn" title="Toka" aria-label="Toka">{% icon "logout" %}</button>
+      </form>
+    </div>
+  </aside>
+  <label for="nav-toggle" class="scrim" aria-hidden="true"></label>
+
+  <div class="main">
+    <header class="appbar">
+      <label for="nav-toggle" class="icon-btn menu-btn" aria-label="Fungua menyu">{% icon "menu" 22 %}</label>
+      <div class="appbar-title">
+        {% block breadcrumb %}{% endblock %}
+        <h1>{% block heading %}{{ page_title }}{% endblock %}</h1>
+      </div>
+      <div class="appbar-actions">{% block actions %}{% endblock %}</div>
+    </header>
+
+    {% if messages %}
+      <div class="flash-stack" role="status">
+        {% for message in messages %}
+          <div class="flash flash-{{ message.tags }}">{% if message.tags == "error" %}{% icon "alert" 18 %}{% else %}{% icon "check" 18 %}{% endif %}<span>{{ message }}</span></div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% block banner %}{% endblock %}
+
+    <main class="content">{% block content %}{% endblock %}</main>
+  </div>
+
+  <script src="{% static 'ui/app.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

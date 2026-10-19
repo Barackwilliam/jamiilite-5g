@@ -1,0 +1,112 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block heading %}Habari, {{ owner.business_name }} 👋{% endblock %}
+{% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
+
+{% block content %}
+{% if not routers or not has_packages or not has_sales %}
+  <section class="card onboarding">
+    <h2>Anza hapa</h2>
+    <ol class="checklist">
+      <li class="{% if routers %}is-done{% endif %}">
+        <span class="check-dot">{% icon "check" 14 %}</span>
+        <div><strong>Ongeza router yako</strong><small>Eneo unalouzia WiFi.</small></div>
+        {% if not routers %}<a class="btn btn-small" href="{% url 'dashboard:routers' %}">Ongeza</a>{% endif %}
+      </li>
+      <li class="{% if online_routers %}is-done{% endif %}">
+        <span class="check-dot">{% icon "check" 14 %}</span>
+        <div><strong>Iunganishe na JamiiLite</strong><small>Bandika mstari mmoja kwenye MikroTik.</small></div>
+        {% if routers and not online_routers %}<a class="btn btn-small btn-ghost" href="{% url 'dashboard:router_detail' routers.0.pk %}">Ona mstari</a>{% endif %}
+      </li>
+      <li class="{% if has_packages %}is-done{% endif %}">
+        <span class="check-dot">{% icon "check" 14 %}</span>
+        <div><strong>Weka vifurushi na bei</strong><small>Mfano Saa 1 kwa Tsh 500.</small></div>
+        {% if not has_packages %}<a class="btn btn-small btn-ghost" href="{% url 'dashboard:packages' %}">Weka</a>{% endif %}
+      </li>
+      <li class="{% if has_sales %}is-done{% endif %}">
+        <span class="check-dot">{% icon "check" 14 %}</span>
+        <div><strong>Pata mauzo ya kwanza</strong><small>Unganisha simu kwenye WiFi na ujaribu kununua.</small></div>
+      </li>
+    </ol>
+  </section>
+{% endif %}
+
+<section class="stats-grid">
+  <article class="card stat-hero">
+    <p class="stat-label">Mapato ya leo</p>
+    <p class="hero-figure">{{ summary.today_amount|tsh }}</p>
+    <p class="muted">Vifurushi {{ summary.today_count }} vimeuzwa leo</p>
+  </article>
+  <article class="card stat">
+    <p class="stat-label">Siku 7 zilizopita</p>
+    <p class="stat-value">{{ summary.week_amount|tsh }}</p>
+    <p class="stat-sub">Vifurushi {{ summary.week_count }}</p>
+  </article>
+  <article class="card stat">
+    <p class="stat-label">Siku 30 zilizopita</p>
+    <p class="stat-value">{{ summary.month_amount|tsh }}</p>
+    <p class="stat-sub">Vifurushi {{ summary.month_count }}</p>
+  </article>
+  <a class="card stat stat-link" href="{% url 'dashboard:wallet' %}">
+    <p class="stat-label">Salio lako</p>
+    <p class="stat-value stat-money">{{ balance|tsh }}</p>
+    <p class="stat-sub">Toa pesa {% icon "arrow-right" 14 %}</p>
+  </a>
+  <article class="card stat">
+    <p class="stat-label">Wateja online sasa</p>
+    <p class="stat-value">{{ online_clients }}</p>
+    <p class="stat-sub">Routers {{ online_routers }} kati ya {{ routers|length }} ziko online</p>
+  </article>
+</section>
+
+<section class="card">
+  <div class="card-head">
+    <h2>Mauzo ya siku 14</h2>
+    <a class="link" href="{% url 'dashboard:sales' %}">Mauzo yote</a>
+  </div>
+  {% include "ui/_bar_chart.html" with chart=chart title="Mauzo ya siku 14" %}
+</section>
+
+<div class="two-col">
+  <section class="card">
+    <div class="card-head">
+      <h2>Routers zako</h2>
+      <a class="link" href="{% url 'dashboard:routers' %}">Simamia</a>
+    </div>
+    {% if routers %}
+      <ul class="list">
+        {% for router in routers %}
+          <li>
+            <a class="list-row" href="{% url 'dashboard:router_detail' router.pk %}">
+              <span class="status-dot {% if router.is_online %}is-online{% else %}is-offline{% endif %}"></span>
+              <span class="list-main"><strong>{{ router.name }}</strong><small>{% if router.is_online %}Online · wateja {{ router.active_clients }}{% elif router.last_seen_at %}Offline · ilionekana {{ router.last_seen_at|ago }}{% else %}Bado haijaunganishwa{% endif %}</small></span>
+              {% icon "arrow-right" 16 %}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">Bado hujaongeza router. <a href="{% url 'dashboard:routers' %}">Ongeza ya kwanza</a>.</p>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Mauzo ya karibuni</h2>
+    </div>
+    {% if recent_sales %}
+      <ul class="list">
+        {% for sale in recent_sales %}
+          <li class="list-row">
+            <span class="list-main"><strong>{{ sale.package.name }}</strong><small>{{ sale.phone|phone_display }} · {{ sale.paid_at|ago }}</small></span>
+            <span class="amount-in">+{{ sale.amount|tsh }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">Mauzo yakianza, utayaona hapa papo hapo.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

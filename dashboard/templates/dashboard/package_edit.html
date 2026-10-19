@@ -1,0 +1,11 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block breadcrumb %}<a class="crumb" href="{% url 'dashboard:packages' %}">Vifurushi</a>{% endblock %}
+
+{% block content %}
+<section class="card card-narrow">
+  {% include "dashboard/_package_form.html" with button="Hifadhi mabadiliko" %}
+  <p class="muted small">Huwezi kufuta kifurushi kilichokwisha kuuzwa, ila unaweza kukizima (ondoa tiki ya “Kinauzwa”) kisionekane tena kwa wateja.</p>
+</section>
+{% endblock %}

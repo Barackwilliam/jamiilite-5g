@@ -10,7 +10,7 @@
       <h1>Uza WiFi yako kiotomatiki. Pesa inaingia yenyewe.</h1>
       <p class="lead">Wateja wako wanachagua kifurushi, wanalipa kwa simu, na wanaunganishwa papo hapo. Muda ukiisha, wanakatwa wenyewe. Wewe unaona mapato yako kwenye simu.</p>
       <div class="hero-actions">
-        {% include "pages/_cta.html" %}
+        <a class="btn btn-primary" href="{% url 'dashboard:signup' %}">Anza bure, siku {{ trial_days }}</a>
         <a class="btn btn-ghost" href="{% url 'pages:mwongozo' %}">Ona jinsi inavyofanya kazi</a>
       </div>
       <ul class="pay-chips" aria-label="Njia za malipo">
@@ -161,7 +161,7 @@
     <h2>Anza kuuza WiFi yako leo</h2>
     <p class="lead">Tuambie unatumia router gani, nasi tutakuonyesha hatua inayofuata.</p>
     <div class="hero-actions center-actions">
-      {% include "pages/_cta.html" %}
+      <a class="btn btn-primary" href="{% url 'dashboard:signup' %}">Anza bure, siku {{ trial_days }}</a>
       <a class="btn btn-ghost" href="{% url 'pages:mahitaji' %}">Ona mahitaji</a>
     </div>
   </div>

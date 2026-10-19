@@ -1,0 +1,17 @@
+{% load ui_tags %}
+<div class="withdraw-actions">
+  <form method="post" action="{% url 'control:withdrawal_action' w.pk %}" class="inline-form">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="pay">
+    <input type="hidden" name="back" value="{{ request.get_full_path }}">
+    <input class="input" name="reference" placeholder="Namba ya muamala M-Pesa" required aria-label="Namba ya muamala">
+    <button type="submit" class="btn btn-small btn-good">{% icon "check" 16 %} Nimelipa</button>
+  </form>
+  <form method="post" action="{% url 'control:withdrawal_action' w.pk %}" class="inline-form">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="reject">
+    <input type="hidden" name="back" value="{{ request.get_full_path }}">
+    <input class="input" name="note" placeholder="Sababu ya kukataa (si lazima)" aria-label="Sababu ya kukataa">
+    <button type="submit" class="btn btn-small btn-danger-ghost" data-confirm="Kukataa ombi hili? Pesa itarudi kwenye salio lake.">Kataa</button>
+  </form>
+</div>

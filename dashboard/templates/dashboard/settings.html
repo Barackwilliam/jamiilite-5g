@@ -1,0 +1,17 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block content %}
+<section class="card card-narrow">
+  <form method="post" enctype="multipart/form-data" class="form-stack" novalidate>
+    {% csrf_token %}
+    {% include "dashboard/_field.html" with field=form.business_name %}
+    {% include "dashboard/_field.html" with field=form.phone %}
+    {% if owner.logo %}<img class="logo-preview" src="{{ owner.logo.url }}" alt="Logo ya sasa">{% endif %}
+    {% include "dashboard/_field.html" with field=form.logo %}
+    <button type="submit" class="btn btn-primary btn-block">Hifadhi</button>
+  </form>
+  <hr>
+  <p class="muted small">Unaingia kwa namba <strong>{{ owner.user.username|phone_display }}</strong>. Kubadilisha password au namba ya kuingia, wasiliana nasi.</p>
+</section>
+{% endblock %}

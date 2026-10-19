@@ -1,0 +1,45 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
+
+{% block content %}
+<div class="two-col two-col-wide">
+  <section class="card">
+    <div class="card-head"><h2>Maeneo yako</h2></div>
+    {% if routers %}
+      <ul class="list">
+        {% for router in routers %}
+          <li>
+            <a class="list-row" href="{% url 'dashboard:router_detail' router.pk %}">
+              <span class="status-dot {% if router.is_online %}is-online{% else %}is-offline{% endif %}"></span>
+              <span class="list-main">
+                <strong>{{ router.name }}</strong>
+                <small>{% if router.location %}{{ router.location }} · {% endif %}{% if router.is_online %}Online · wateja {{ router.active_clients }}{% elif router.last_seen_at %}Offline · ilionekana {{ router.last_seen_at|ago }}{% else %}Bado haijaunganishwa{% endif %}</small>
+              </span>
+              {% icon "arrow-right" 16 %}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="empty-state">
+        <span class="empty-icon">{% icon "router" 28 %}</span>
+        <p><strong>Bado hujaongeza router.</strong></p>
+        <p class="muted">Kila eneo unalouzia WiFi ni router moja. Anza na la kwanza upande huu.</p>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Ongeza router</h2></div>
+    <form method="post" class="form-stack" novalidate>
+      {% csrf_token %}
+      {% include "dashboard/_field.html" with field=form.name %}
+      {% include "dashboard/_field.html" with field=form.location %}
+      <button type="submit" class="btn btn-primary btn-block">{% icon "plus" 18 %} Ongeza</button>
+    </form>
+    <p class="muted small">Ukishaongeza, utapewa mstari mmoja wa kubandika kwenye MikroTik yako.</p>
+  </section>
+</div>
+{% endblock %}

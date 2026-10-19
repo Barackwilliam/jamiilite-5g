@@ -1,0 +1,21 @@
+{% load static ui_tags %}<!doctype html>
+<html lang="sw">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %} · JamiiLite 5G</title>
+  <link rel="stylesheet" href="{% static 'ui/app.css' %}">
+</head>
+<body class="auth">
+  <main class="auth-wrap">
+    <a class="app-logo auth-logo" href="{% url 'pages:home' %}">
+      <span class="app-logo-mark">{% icon "wifi" 18 %}</span>
+      <span>JamiiLite <b>5G</b></span>
+    </a>
+    <section class="auth-card">
+      {% block content %}{% endblock %}
+    </section>
+    {% block below %}{% endblock %}
+  </main>
+</body>
+</html>

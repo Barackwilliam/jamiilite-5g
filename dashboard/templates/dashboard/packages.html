@@ -1,0 +1,39 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
+
+{% block content %}
+<div class="two-col two-col-wide">
+  <section class="card">
+    <div class="card-head"><h2>Vifurushi vyako</h2></div>
+    {% if packages %}
+      <ul class="list">
+        {% for package in packages %}
+          <li>
+            <a class="list-row" href="{% url 'dashboard:package_edit' package.pk %}">
+              <span class="list-main">
+                <strong>{{ package.name }}{% if not package.is_active %} <span class="pill pill-muted">Hakiuzwi</span>{% endif %}</strong>
+                <small>{{ package.duration_label }}{% if package.rate_limit %} · {{ package.rate_limit }}{% endif %} · simu {{ package.shared_users }}</small>
+              </span>
+              <span class="list-amount">{{ package.price|tsh }}</span>
+              {% icon "arrow-right" 16 %}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="empty-state">
+        <span class="empty-icon">{% icon "package" 28 %}</span>
+        <p><strong>Bado hakuna vifurushi.</strong></p>
+        <p class="muted">Mfano: Saa 1 Tsh 500, Siku 1 Tsh 1,000, Wiki Tsh 5,000.</p>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Ongeza kifurushi</h2></div>
+    {% include "dashboard/_package_form.html" with button="Ongeza" %}
+  </section>
+</div>
+{% endblock %}

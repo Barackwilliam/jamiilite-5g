@@ -1,0 +1,7 @@
+{% extends "ui/auth_base.html" %}
+{% block title %}Akaunti imesitishwa{% endblock %}
+{% block content %}
+  <h1>Akaunti imesitishwa</h1>
+  <p class="muted">Akaunti ya <strong>{{ owner.business_name }}</strong> imesitishwa kwa muda. Wasiliana na JamiiLite 5G kwa msaada.</p>
+  <form method="post" action="{% url 'dashboard:logout' %}">{% csrf_token %}<button class="btn btn-ghost btn-block" type="submit">Toka</button></form>
+{% endblock %}

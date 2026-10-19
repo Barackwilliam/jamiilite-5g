@@ -1,0 +1,17 @@
+{% extends "ui/auth_base.html" %}
+{% block title %}Ingia{% endblock %}
+{% block content %}
+  <h1>Karibu tena</h1>
+  <p class="muted">Ingia kusimamia WiFi yako.</p>
+  <form method="post" class="form-stack" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% if form.non_field_errors %}<div class="flash flash-error">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+    {% include "dashboard/_field.html" with field=form.phone %}
+    {% include "dashboard/_field.html" with field=form.password %}
+    <button type="submit" class="btn btn-primary btn-block">Ingia</button>
+  </form>
+{% endblock %}
+{% block below %}
+  <p class="auth-switch">Huna akaunti? <a href="{% url 'dashboard:signup' %}">Jisajili bure</a></p>
+{% endblock %}

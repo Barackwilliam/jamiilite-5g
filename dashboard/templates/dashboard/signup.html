@@ -1,0 +1,17 @@
+{% extends "ui/auth_base.html" %}
+{% block title %}Jisajili{% endblock %}
+{% block content %}
+  <h1>Anza kuuza WiFi yako</h1>
+  <p class="muted">Siku {{ trial_days }} za kwanza ni bure. Huhitaji kadi wala kulipa chochote sasa.</p>
+  <form method="post" class="form-stack" novalidate>
+    {% csrf_token %}
+    {% include "dashboard/_field.html" with field=form.business_name %}
+    {% include "dashboard/_field.html" with field=form.phone %}
+    {% include "dashboard/_field.html" with field=form.password1 %}
+    {% include "dashboard/_field.html" with field=form.password2 %}
+    <button type="submit" class="btn btn-primary btn-block">Fungua akaunti</button>
+  </form>
+{% endblock %}
+{% block below %}
+  <p class="auth-switch">Una akaunti tayari? <a href="{% url 'dashboard:login' %}">Ingia</a></p>
+{% endblock %}
