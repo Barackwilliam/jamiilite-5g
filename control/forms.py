@@ -56,9 +56,13 @@ class PlatformConfigForm(forms.ModelForm):
 class AdminRouterForm(forms.ModelForm):
     class Meta:
         model = Router
-        fields = ["name", "location", "nas_identifier", "login_url"]
-        labels = {"name": "Jina", "location": "Mahali", "nas_identifier": "NAS identifier", "login_url": "Login URL ya hotspot"}
+        fields = ["name", "location", "wifi_name", "nas_identifier", "login_url"]
+        labels = {
+            "name": "Jina", "location": "Mahali", "wifi_name": "Jina la WiFi (SSID)",
+            "nas_identifier": "NAS identifier", "login_url": "Login URL ya hotspot",
+        }
         help_texts = {
             "nas_identifier": "Ukibadilisha, router itatumiwa usanidi upya yenyewe.",
+            "wifi_name": "Ukibadilisha, router itatumiwa usanidi upya na WiFi itakuwa wazi (bila password).",
             "login_url": "Acha tupu kutumia link inayotumwa na MikroTik.",
         }

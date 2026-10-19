@@ -217,6 +217,12 @@ RADIUS_REQUIRE_MESSAGE_AUTHENTICATOR = env_bool("RADIUS_REQUIRE_MESSAGE_AUTHENTI
 # server halisi weka mfano https://jamiilite.co.tz na IP ya server.
 JAMIILITE_PUBLIC_URL = os.environ.get("JAMIILITE_PUBLIC_URL", "http://10.0.2.2:8000")
 RADIUS_PUBLIC_ADDRESS = os.environ.get("RADIUS_PUBLIC_ADDRESS", "10.0.2.2")
+# Hosts za ziada ambazo mteja anaruhusiwa kuzifikia kabla ya kulipa, mfano
+# ukurasa wa malipo wa mtoa huduma: "checkout.example.co.tz,api.example.co.tz".
+JAMIILITE_WALLED_GARDEN_EXTRA = env_list("JAMIILITE_WALLED_GARDEN_EXTRA")
+# Interface ya LAN ambayo hotspot inawekwa ikiwa router haina hotspot bado.
+# "bridge" ndiyo jina la default kwenye MikroTik mpya (hAP lite, hAP ac...).
+JAMIILITE_HOTSPOT_INTERFACE = os.environ.get("JAMIILITE_HOTSPOT_INTERFACE", "bridge")
 
 
 # --- Tovuti ya hadhara ---------------------------------------------------------

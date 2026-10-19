@@ -18,6 +18,8 @@ from core.models import RouterCommand
 COMMENT = "JamiiLite"
 CHECKIN_NAME = "jamiilite-checkin"
 SETUP_FILE = "jamiilite-setup.rsc"
+HOTSPOT_NAME = "jamiilite"
+OPEN_PROFILE = "jamiilite-open"
 COMMAND_FILE = "jamiilite-cmd.rsc"
 
 
@@ -58,15 +60,89 @@ def provision_command(router):
     return "; ".join(fetch_and_import(setup_url(router), SETUP_FILE))
 
 
-def _walled_garden_rule():
-    parts = urlsplit(_base_url())
+def _destination(url):
+    """(host-au-IP, port) ya URL, kwa ajili ya walled garden."""
+    parts = urlsplit(url if "//" in url else f"https://{url}")
     port = parts.port or (443 if parts.scheme == "https" else 80)
+    return parts.hostname, port
+
+
+def _walled_garden_rule(host, port):
     try:
-        ipaddress.ip_address(parts.hostname)
-        destination = f"dst-address={parts.hostname}"
+        ipaddress.ip_address(host)
+        destination = f"dst-address={host}"
     except ValueError:
-        destination = f"dst-host={parts.hostname}"
+        destination = f"dst-host={ros_string(host)}"
     return f"/ip hotspot walled-garden ip add {destination} protocol=tcp dst-port={port} action=accept comment={COMMENT}"
+
+
+def walled_garden_rules():
+    """
+    Anwani ambazo mteja anaweza kufungua kabla ya kulipa: ukurasa wetu wa
+    kulipia, picha (logo) zilizo Supabase, na hosts za ziada za malipo.
+    """
+    destinations = [_destination(_base_url())]
+    if settings.USE_SUPABASE_STORAGE:
+        destinations.append((f"{settings.SUPABASE_PROJECT_REF}.supabase.co", 443))
+    destinations += [_destination(host) for host in settings.JAMIILITE_WALLED_GARDEN_EXTRA]
+    unique = list(dict.fromkeys(destinations))
+    return [_walled_garden_rule(host, port) for host, port in unique]
+
+
+def _create_hotspot_if_missing():
+    """
+    Router mpya (default config) haina hotspot. Tunaiweka kwenye bridge ya LAN
+    ili mmiliki asihitaji kupitia "Hotspot Setup" mwenyewe.
+    """
+    interface = ros_string(settings.JAMIILITE_HOTSPOT_INTERFACE)
+    missing = (
+        ':error "JamiiLite: hakuna hotspot, na interface '
+        + settings.JAMIILITE_HOTSPOT_INTERFACE.replace('"', "")
+        + ' haina IP. Weka hotspot kwa mkono (IP > Hotspot > Hotspot Setup) kisha jaribu tena."'
+    )
+    return [
+        ":if ([:len [/ip hotspot find]] = 0) do={",
+        f"  :local lan [/ip address find where interface={interface} disabled=no]",
+        f"  :if ([:len $lan] = 0) do={{ {missing} }}",
+        "  :local cidr [/ip address get [:pick $lan 0] address]",
+        '  :local gw [:pick $cidr 0 [:find $cidr "/"]]',
+        f"  /ip hotspot profile remove [find name={HOTSPOT_NAME}]",
+        f"  /ip hotspot profile add name={HOTSPOT_NAME} hotspot-address=$gw login-by=http-pap use-radius=yes",
+        f"  /ip hotspot add name={HOTSPOT_NAME} interface={interface} profile={HOTSPOT_NAME} address-pool=none disabled=no",
+        # Router inatengeneza faili za ukurasa (hotspot/login.html...) ikiwasha hotspot.
+        "  :delay 3s",
+        '  :log info "JamiiLite: hotspot mpya imewekwa"',
+        "}",
+    ]
+
+
+def _wifi_name_lines(router):
+    """
+    Weka jina la WiFi na uifanye wazi (bila password), kama WiFi za kulipia
+    mtaani: mteja anagusa jina, na ukurasa wa kulipia unafunguka wenyewe.
+
+    Amri zinapitia :parse kwa sababu router zina kifurushi kimoja kati ya
+    "wireless" (hAP lite, hAP ac lite...) na "wifi" (hAP ax...), na amri ya
+    menyu isiyokuwepo ingevunja script nzima.
+    """
+    if not router.wifi_name:
+        return []
+    ssid = ros_string(router.wifi_name)
+    commands = [
+        # Kifurushi cha "wireless": badilisha AP tu, si interface inayotumika kupokea internet.
+        f"/interface wireless security-profiles remove [find name={OPEN_PROFILE}]",
+        f"/interface wireless security-profiles add name={OPEN_PROFILE} mode=none",
+        f"/interface wireless set [find where mode=ap-bridge] ssid={ssid} security-profile={OPEN_PROFILE}",
+    ]
+    wifi_package = (
+        f'/interface wifi set [find where configuration.mode="ap"] configuration.ssid={ssid} '
+        'security.authentication-types=""'
+    )
+    lines = []
+    for command in commands + [wifi_package]:
+        lines.append(f":do {{ :local run [:parse {ros_string(command)}]; $run }} on-error={{}}")
+    lines.append(f':log info ("JamiiLite: jina la WiFi ni " . {ssid})')
+    return lines
 
 
 def _login_html(router):
@@ -99,19 +175,21 @@ def setup_script(router):
     """Usanidi kamili wa router. Ni salama kuuendesha mara nyingi."""
     lines = [
         f"# JamiiLite 5G: usanidi wa {router.name}",
-        ":if ([:len [/ip hotspot find]] = 0) do={ "
-        ':error "JamiiLite: hakuna hotspot kwenye router hii. Weka hotspot kwanza." }',
+        *_create_hotspot_if_missing(),
         f"/system identity set name={ros_string(router.nas_identifier)}",
+        # Wateja ambao bado hawajalipa wanatumia DNS ya router.
+        "/ip dns set allow-remote-requests=yes",
         f"/radius remove [find comment={COMMENT}]",
         f"/radius add service=hotspot address={settings.RADIUS_PUBLIC_ADDRESS} "
         f"secret={ros_string(router.radius_secret)} timeout=3s comment={COMMENT}",
         "/ip hotspot profile set [find] use-radius=yes login-by=http-pap "
         "radius-accounting=yes radius-interim-update=5m",
         f"/ip hotspot walled-garden ip remove [find comment={COMMENT}]",
-        _walled_garden_rule(),
+        *walled_garden_rules(),
         # login.html iko "hotspot/" kwenye CHR, na "flash/hotspot/" kwenye routers zenye flash.
         ':foreach f in=[/file find where name~"hotspot/login.html\\$"] do={ '
         f"/file set $f contents={ros_string(_login_html(router))} }}",
+        *_wifi_name_lines(router),
         f"/system script remove [find name={CHECKIN_NAME}]",
         f"/system script add name={CHECKIN_NAME} source={ros_string(checkin_source(router))}",
         f"/system scheduler remove [find name={CHECKIN_NAME}]",

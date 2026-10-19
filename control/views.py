@@ -264,13 +264,13 @@ def router_detail(request, pk):
             RouterCommand.objects.create(router=router, action=RouterCommand.Action.REAPPLY_SETUP)
             messages.success(request, "Siri mpya ya RADIUS imetengenezwa na router imetumiwa usanidi mpya.")
         elif action == "edit":
-            old_nas = router.nas_identifier
+            before = (router.nas_identifier, router.wifi_name)
             form = AdminRouterForm(request.POST, instance=router)
             if form.is_valid():
                 router = form.save()
-                if router.nas_identifier != old_nas:
+                if (router.nas_identifier, router.wifi_name) != before:
                     RouterCommand.objects.create(router=router, action=RouterCommand.Action.REAPPLY_SETUP)
-                    messages.success(request, "Imehifadhiwa. NAS identifier imebadilika, router imetumiwa usanidi upya.")
+                    messages.success(request, "Imehifadhiwa, na router imetumiwa usanidi upya.")
                 else:
                     messages.success(request, "Mabadiliko yamehifadhiwa.")
                 return redirect("control:router_detail", pk=router.pk)

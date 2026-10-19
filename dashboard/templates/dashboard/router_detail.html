@@ -33,7 +33,7 @@
   <div class="card-head"><h2>Iunganishe na JamiiLite</h2></div>
   <ol class="steps">
     <li>Fungua <strong>Winbox</strong> au ingia kwa SSH kwenye MikroTik yako, kisha fungua <strong>New Terminal</strong>.</li>
-    <li>Hakikisha tayari umewasha <strong>Hotspot</strong> (IP → Hotspot → Hotspot Setup).</li>
+    <li>Kama router ni mpya (bado ina usanidi wa kiwandani), hakuna cha ziada: mfumo utaweka hotspot wenyewe.</li>
     <li>Bandika mstari huu, bonyeza Enter, subiri sekunde chache.</li>
   </ol>
   {% if setup_command %}
@@ -44,6 +44,26 @@
   {% endif %}
   <p class="muted small">Router ikishaunganishwa, hali hapo juu itabadilika kuwa <strong>Online</strong> ndani ya dakika 1. Mstari huu ni siri yako: usimpe mtu.</p>
   <p class="small"><a href="{% url 'pages:mwongozo' %}" target="_blank" rel="noopener">Ona mwongozo wa hatua kwa hatua {% icon "external" 14 %}</a></p>
+</section>
+
+<section class="card wifi-card">
+  <div class="card-head"><h2>WiFi yako kwa wateja</h2></div>
+  <div class="two-col">
+    <div>
+      <ol class="flow">
+        <li><span class="flow-num">1</span><div><strong>Mteja anaona “{{ router.wifi_name|default:"jina la WiFi yako" }}”</strong><small>Kwenye orodha ya WiFi ya simu yake. Haina password.</small></div></li>
+        <li><span class="flow-num">2</span><div><strong>Anagusa, ukurasa wa kulipia unajifungua wenyewe</strong><small>Simu inaona kuwa WiFi inahitaji kulipiwa na inaufungua bila yeye kufungua browser.</small></div></li>
+        <li><span class="flow-num">3</span><div><strong>Analipa kwa simu, anaunganishwa papo hapo</strong><small>Akirudi baadaye akiwa bado na muda, anaunganishwa tena bila kuandika vocha.</small></div></li>
+      </ol>
+    </div>
+    <form method="post" class="form-stack" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="action" value="wifi">
+      {% include "dashboard/_field.html" with field=wifi_form.wifi_name %}
+      <button type="submit" class="btn btn-primary">{% icon "wifi" 18 %} Hifadhi jina la WiFi</button>
+      <p class="muted small">Router ikiwa online, jina jipya linaonekana ndani ya dakika 1. Wateja walioko wataondolewa kwenye WiFi kwa sekunde chache.</p>
+    </form>
+  </div>
 </section>
 
 <div class="two-col">

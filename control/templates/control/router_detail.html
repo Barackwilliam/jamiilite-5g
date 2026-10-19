@@ -21,6 +21,7 @@
     <dl class="kv">
       <dt>Mmiliki</dt><dd>{{ router.owner.business_name }} · {{ router.owner.phone|phone_display }}</dd>
       <dt>Mahali</dt><dd>{{ router.location|default:"—" }}</dd>
+      <dt>Jina la WiFi</dt><dd>{{ router.wifi_name|default:"— (halibadilishwi)" }}</dd>
       <dt>NAS identifier</dt><dd class="mono">{{ router.nas_identifier|default:"—" }}</dd>
       <dt>Ukurasa wa kulipia</dt><dd><a href="{{ portal_url }}" target="_blank" rel="noopener">/p/{{ router.slug }}/ {% icon "external" 14 %}</a></dd>
       <dt>Iliongezwa</dt><dd>{{ router.created_at|date:"d/m/Y" }}</dd>
@@ -68,6 +69,7 @@
         {% include "dashboard/_field.html" with field=form.name %}
         {% include "dashboard/_field.html" with field=form.location %}
       </div>
+      {% include "dashboard/_field.html" with field=form.wifi_name %}
       {% include "dashboard/_field.html" with field=form.nas_identifier %}
       {% include "dashboard/_field.html" with field=form.login_url %}
       <button type="submit" class="btn btn-primary">Hifadhi</button>

@@ -6,7 +6,9 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods, require_POST
 
-from billing.models import Payment
+from django.utils import timezone
+
+from billing.models import Payment, VoucherDevice
 from billing.services import start_payment
 from billing.subscriptions import ensure_active
 from core.models import Router
@@ -59,6 +61,38 @@ def home(request, slug):
     return _render_home(request, router, PayForm(packages=_active_packages(router)))
 
 
+def _returning_voucher(request, router):
+    """
+    Simu iliyokwisha kulipa na bado ina muda: iunganishe tena bila kuandika
+    vocha, kama WiFi za kulipia mtaani. Inarukwa MikroTik ikirudisha kosa ili
+    tusizunguke kwenye jaribio lilelile.
+    """
+    if request.GET.get("error"):
+        return None
+    params = request.session.get(_hotspot_session_key(router), {})
+    mac = params.get("mac", "").strip().upper().replace("-", ":")[:17]
+    if not mac:
+        return None
+    device = (
+        VoucherDevice.objects.select_related("voucher__package")
+        .filter(mac_address=mac, voucher__router=router, voucher__expires_at__gt=timezone.now())
+        .order_by("-voucher__expires_at")
+        .first()
+    )
+    return device.voucher if device else None
+
+
+def _remaining_label(seconds):
+    minutes = max(1, seconds // 60)
+    days, rest = divmod(minutes, 1440)
+    hours, mins = divmod(rest, 60)
+    if days:
+        return f"siku {days}" + (f" saa {hours}" if hours else "")
+    if hours:
+        return f"saa {hours}" + (f" dakika {mins}" if mins else "")
+    return f"dakika {mins}"
+
+
 def _render_home(request, router, form, status=200):
     return render(
         request,
@@ -72,9 +106,17 @@ def _render_home(request, router, form, status=200):
             "selling_paused": not ensure_active(router.owner),
             "hotspot_error": request.GET.get("error", ""),
             **_hotspot_context(request, router),
+            **_returning_context(request, router),
         },
         status=status,
     )
+
+
+def _returning_context(request, router):
+    voucher = _returning_voucher(request, router) if request.method == "GET" else None
+    if voucher is None:
+        return {}
+    return {"returning": voucher, "returning_left": _remaining_label(voucher.remaining_seconds())}
 
 
 @require_POST

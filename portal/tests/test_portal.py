@@ -83,3 +83,46 @@ class PortalFlowTests(TestCase):
         self.router.is_active = False
         self.router.save()
         self.assertEqual(self.client.get(self.home_url).status_code, 404)
+
+
+class ReturningCustomerTests(TestCase):
+    def setUp(self):
+        from datetime import timedelta
+
+        from django.utils import timezone
+
+        from billing.models import Voucher, VoucherDevice
+
+        self.owner = make_owner()
+        self.router = make_router(self.owner)
+        package = make_package(self.owner, name="Siku 1", duration_minutes=1440)
+        self.voucher = Voucher.objects.create(
+            router=self.router, package=package,
+            activated_at=timezone.now(), expires_at=timezone.now() + timedelta(hours=3, minutes=10),
+        )
+        VoucherDevice.objects.create(voucher=self.voucher, mac_address="08:00:27:50:4C:14")
+        self.url = reverse("portal:home", args=[self.router.slug])
+        self.params = {"link-login-only": "http://login.wifi.test/login", "mac": "08-00-27-50-4c-14"}
+
+    def test_device_with_time_left_is_reconnected(self):
+        response = self.client.get(self.url, self.params)
+        self.assertContains(response, "Karibu tena")
+        self.assertContains(response, "saa 3 dakika")
+        self.assertContains(response, f'name="username" value="{self.voucher.code}"')
+        self.assertContains(response, 'data-autosubmit="1"')
+
+    def test_other_device_is_not(self):
+        response = self.client.get(self.url, {**self.params, "mac": "AA:BB:CC:DD:EE:FF"})
+        self.assertNotContains(response, "Karibu tena")
+        self.assertNotContains(response, self.voucher.code)
+
+    def test_expired_voucher_is_not_reused(self):
+        from django.utils import timezone
+
+        self.voucher.expires_at = timezone.now()
+        self.voucher.save()
+        self.assertNotContains(self.client.get(self.url, self.params), "Karibu tena")
+
+    def test_no_loop_when_router_reports_error(self):
+        response = self.client.get(self.url, {**self.params, "error": "vifaa vimezidi"})
+        self.assertNotContains(response, "Karibu tena")

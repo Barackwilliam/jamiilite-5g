@@ -78,12 +78,21 @@ class LoginForm(forms.Form):
 class RouterForm(forms.ModelForm):
     class Meta:
         model = Router
-        fields = ["name", "location"]
-        labels = {"name": "Jina la eneo", "location": "Mahali (si lazima)"}
+        fields = ["name", "location", "wifi_name"]
+        labels = {"name": "Jina la eneo", "location": "Mahali (si lazima)", "wifi_name": "Jina la WiFi (si lazima)"}
         widgets = {
             "name": forms.TextInput(attrs={"placeholder": "mfano Duka la Kati"}),
             "location": forms.TextInput(attrs={"placeholder": "mfano Sinza, Dar es Salaam"}),
+            "wifi_name": forms.TextInput(attrs={"placeholder": "mfano Neema WiFi"}),
         }
+
+
+class WifiNameForm(forms.ModelForm):
+    class Meta:
+        model = Router
+        fields = ["wifi_name"]
+        labels = {"wifi_name": "Jina la WiFi"}
+        widgets = {"wifi_name": forms.TextInput(attrs={"placeholder": "mfano Neema WiFi"})}
 
 
 DURATION_UNITS = [(1, "Dakika"), (60, "Saa"), (60 * 24, "Siku"), (60 * 24 * 7, "Wiki"), (60 * 24 * 30, "Mwezi")]

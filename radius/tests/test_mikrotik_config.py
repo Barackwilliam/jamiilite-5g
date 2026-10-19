@@ -36,6 +36,37 @@ class SetupScriptTests(TestCase):
         self.assertIn("url=http://10.0.2.2:8000/p/demo/\\?link-login-only=\\$(link-login-only-esc)", script)
         self.assertIn("/system scheduler add name=jamiilite-checkin interval=1m", script)
 
+    def test_creates_hotspot_on_bridge_when_missing(self):
+        block = self.script.split("/system identity", 1)[0]
+        self.assertIn(":if ([:len [/ip hotspot find]] = 0) do={", block)
+        self.assertIn('/ip address find where interface="bridge"', block)
+        self.assertIn("/ip hotspot add name=jamiilite interface=\"bridge\"".replace('\\"', '"'), block)
+
+    def test_wifi_name_is_left_alone_when_empty(self):
+        self.assertNotIn("ssid", self.script)
+
+    def test_wifi_name_makes_open_network(self):
+        self.router.wifi_name = 'Neema "WiFi" $1'
+        script = routeros.setup_script(self.router)
+        self.assertIn("mode=none", script)
+        self.assertIn("[find where mode=ap-bridge]", script)
+        # Imepitia ros_string mara mbili: kwa :parse, kisha kwa script yenyewe.
+        self.assertIn(r'ssid=\"Neema \\\"WiFi\\\" \\\$1\"', script)
+        self.assertEqual(script.count(":local run [:parse"), 4)
+
+    @override_settings(
+        JAMIILITE_PUBLIC_URL="https://jamiilite.co.tz",
+        JAMIILITE_WALLED_GARDEN_EXTRA=["checkout.pay.co.tz", "https://jamiilite.co.tz"],
+        USE_SUPABASE_STORAGE=True, SUPABASE_PROJECT_REF="abcd",
+    )
+    def test_walled_garden_covers_portal_images_and_payment_hosts(self):
+        rules = routeros.walled_garden_rules()
+        self.assertEqual(rules, [
+            '/ip hotspot walled-garden ip add dst-host="jamiilite.co.tz" protocol=tcp dst-port=443 action=accept comment=JamiiLite',
+            '/ip hotspot walled-garden ip add dst-host="abcd.supabase.co" protocol=tcp dst-port=443 action=accept comment=JamiiLite',
+            '/ip hotspot walled-garden ip add dst-host="checkout.pay.co.tz" protocol=tcp dst-port=443 action=accept comment=JamiiLite',
+        ])
+
     def test_checkin_script_is_stored_with_escaped_variables(self):
         source_line = next(line for line in self.script.splitlines() if line.startswith("/system script add"))
         self.assertIn("\\$data", source_line)
@@ -54,7 +85,7 @@ class SetupScriptTests(TestCase):
     @override_settings(JAMIILITE_PUBLIC_URL="https://jamiilite.example.com/")
     def test_hostname_server_uses_dst_host_on_https(self):
         script = routeros.setup_script(self.router)
-        self.assertIn("dst-host=jamiilite.example.com protocol=tcp dst-port=443", script)
+        self.assertIn("dst-host=\"jamiilite.example.com\" protocol=tcp dst-port=443", script)
         self.assertIn("url=https://jamiilite.example.com/p/demo/\\?", script)
 
 

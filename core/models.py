@@ -13,6 +13,12 @@ rate_limit_validator = RegexValidator(
 )
 
 
+ssid_validator = RegexValidator(
+    regex=r"^[\x20-\x7e]{1,32}$",
+    message="Tumia herufi za kawaida tu (bila emoji), zisizozidi 32.",
+)
+
+
 def generate_radius_secret():
     return secrets.token_urlsafe(24)
 
@@ -90,6 +96,13 @@ class Router(models.Model):
         help_text="Inatumika kwenye link ya ukurasa wa kulipia: /p/<kitambulisho>/",
     )
     location = models.CharField("mahali", max_length=120, blank=True)
+    wifi_name = models.CharField(
+        "jina la WiFi (SSID)",
+        max_length=32,
+        blank=True,
+        validators=[ssid_validator],
+        help_text="Jina linaloonekana kwenye simu za wateja. Acha tupu kutobadilisha WiFi ya router.",
+    )
     nas_identifier = models.CharField(
         "NAS identifier",
         max_length=64,

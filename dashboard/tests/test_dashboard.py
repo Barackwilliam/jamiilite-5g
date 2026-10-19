@@ -100,6 +100,22 @@ class OwnerPagesTests(TestCase):
         detail = self.client.get(reverse("dashboard:router_detail", args=[router.pk]))
         self.assertContains(detail, router.provision_token)
 
+    def test_wifi_name_change_queues_reapply(self):
+        router = make_router(self.owner)
+        url = reverse("dashboard:router_detail", args=[router.pk])
+        self.client.post(url, {"action": "wifi", "wifi_name": "Neema WiFi"})
+        router.refresh_from_db()
+        self.assertEqual(router.wifi_name, "Neema WiFi")
+        self.assertEqual(router.commands.get().action, RouterCommand.Action.REAPPLY_SETUP)
+        self.client.post(url, {"action": "wifi", "wifi_name": "Neema WiFi"})
+        self.assertEqual(router.commands.count(), 1)
+
+    def test_wifi_name_rejects_emoji(self):
+        router = make_router(self.owner)
+        response = self.client.post(reverse("dashboard:router_detail", args=[router.pk]), {"action": "wifi", "wifi_name": "WiFi 🔥"})
+        self.assertContains(response, "bila emoji")
+        self.assertFalse(router.commands.exists())
+
     def test_router_commands(self):
         router = make_router(self.owner)
         self.client.post(reverse("dashboard:router_detail", args=[router.pk]), {"action": "reboot"})

@@ -113,3 +113,7 @@ h2 { font-size: 1.05rem; margin: 0 0 12px; }
   position: absolute; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap;
 }
+
+/* Mteja anayerudi akiwa bado na muda */
+.welcome-back { background: var(--accent-soft); border-radius: 12px; padding: 14px; }
+.welcome-back h2 { margin-top: 0; }

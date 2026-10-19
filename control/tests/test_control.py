@@ -165,18 +165,18 @@ class RouterManagementTests(TestCase):
         self.assertEqual(self.router.commands.get().action, "reapply_setup")
 
     def test_edit_nas_identifier_queues_reapply(self):
-        self.client.post(self.url, {"action": "edit", "name": "Duka Jipya", "location": "", "nas_identifier": "jl-mpya", "login_url": ""})
+        self.client.post(self.url, {"action": "edit", "name": "Duka Jipya", "location": "", "nas_identifier": "jl-mpya", "login_url": "", "wifi_name": ""})
         self.router.refresh_from_db()
         self.assertEqual((self.router.name, self.router.nas_identifier), ("Duka Jipya", "jl-mpya"))
         self.assertEqual(self.router.commands.count(), 1)
 
     def test_edit_without_nas_change_sends_nothing(self):
-        self.client.post(self.url, {"action": "edit", "name": "Duka", "location": "Sinza", "nas_identifier": "jl-duka", "login_url": ""})
+        self.client.post(self.url, {"action": "edit", "name": "Duka", "location": "Sinza", "nas_identifier": "jl-duka", "login_url": "", "wifi_name": ""})
         self.assertEqual(self.router.commands.count(), 0)
 
     def test_duplicate_nas_identifier_is_refused(self):
         make_router(self.owner, name="Nyingine", nas_identifier="jl-nyingine")
-        response = self.client.post(self.url, {"action": "edit", "name": "Duka", "location": "", "nas_identifier": "jl-nyingine", "login_url": ""})
+        response = self.client.post(self.url, {"action": "edit", "name": "Duka", "location": "", "nas_identifier": "jl-nyingine", "login_url": "", "wifi_name": ""})
         self.assertEqual(response.status_code, 200)
         self.router.refresh_from_db()
         self.assertEqual(self.router.nas_identifier, "jl-duka")

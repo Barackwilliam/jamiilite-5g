@@ -30,6 +30,7 @@ from .forms import (
     RouterForm,
     SignupForm,
     VoucherBatchForm,
+    WifiNameForm,
     WithdrawForm,
 )
 from .stats import greeting, local_day_start, sales_summary, top_by, trend
@@ -233,7 +234,17 @@ def routers(request):
 @require_http_methods(["GET", "POST"])
 def router_detail(request, pk):
     router = get_object_or_404(request.owner.routers, pk=pk)
-    if request.method == "POST":
+    wifi_form = WifiNameForm(instance=router)
+    if request.method == "POST" and request.POST.get("action") == "wifi":
+        before = router.wifi_name
+        wifi_form = WifiNameForm(request.POST, instance=router)
+        if wifi_form.is_valid():
+            router = wifi_form.save()
+            if router.wifi_name != before:
+                RouterCommand.objects.create(router=router, action=RouterCommand.Action.REAPPLY_SETUP)
+                messages.success(request, f"Jina la WiFi litabadilika kuwa “{router.wifi_name}” ndani ya dakika 1.")
+            return redirect("dashboard:router_detail", pk=router.pk)
+    elif request.method == "POST":
         actions = {"reboot": RouterCommand.Action.REBOOT, "reapply": RouterCommand.Action.REAPPLY_SETUP}
         action = actions.get(request.POST.get("action"))
         if action:
@@ -247,6 +258,7 @@ def router_detail(request, pk):
             "setup_command": routeros.provision_command(router) if router.nas_identifier else "",
             "portal_url": request.build_absolute_uri(reverse("portal:home", args=[router.slug])),
             "commands": router.commands.order_by("-created_at")[:5],
+            "wifi_form": wifi_form,
         },
         "routers", router.name,
     )

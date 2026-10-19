@@ -5,7 +5,15 @@
     <p class="alert">{{ hotspot_error }}</p>
   {% endif %}
 
-  <section>
+  {% if returning and login_target %}
+    <section class="welcome-back">
+      <h2>Karibu tena!</h2>
+      <p>Kifurushi chako cha <strong>{{ returning.package.name }}</strong> bado kina muda: <strong>{{ returning_left }}</strong>. Tunakuunganisha sasa hivi…</p>
+      {% include "portal/_voucher_login.html" with code=returning.code autosubmit=True %}
+    </section>
+  {% endif %}
+
+  <section{% if returning and login_target %} class="divider"{% endif %}>
     <h2>Nunua kifurushi</h2>
     {% if selling_paused %}
       <p class="alert">Mauzo ya vifurushi yamesimama kwa muda. Kama una vocha, bado unaweza kuitumia hapa chini.</p>
