@@ -1,5 +1,5 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
 {% block content %}
 <section class="card">
@@ -7,7 +7,7 @@
     {% for key, label in statuses %}
       <a class="chip{% if status == key %} is-active{% endif %}" href="?hali={{ key }}">{{ label }}</a>
     {% endfor %}
-    <a class="chip{% if status == 'all' %} is-active{% endif %}" href="?hali=all">Yote</a>
+    <a class="chip{% if status == 'all' %} is-active{% endif %}" href="?hali=all">{% translate "Yote" %}</a>
   </div>
 </section>
 
@@ -15,7 +15,7 @@
   {% if page.object_list %}
     <div class="table-wrap">
       <table class="table">
-        <thead><tr><th scope="col">Muda</th><th scope="col">Mmiliki</th><th scope="col">Router</th><th scope="col">Kifurushi</th><th scope="col">Mteja</th><th scope="col">Hali</th><th scope="col" class="num">Kiasi</th></tr></thead>
+        <thead><tr><th scope="col">{% translate "Muda" %}</th><th scope="col">{% translate "Mmiliki" %}</th><th scope="col">{% translate "Router" %}</th><th scope="col">{% translate "Kifurushi" %}</th><th scope="col">{% translate "Mteja" %}</th><th scope="col">{% translate "Hali" %}</th><th scope="col" class="num">{% translate "Kiasi" %}</th></tr></thead>
         <tbody>
           {% for p in page.object_list %}
             <tr>
@@ -33,7 +33,7 @@
     </div>
     {% include "ui/_pager.html" %}
   {% else %}
-    <p class="empty">Hakuna malipo kwenye kundi hili.</p>
+    <p class="empty">{% translate "Hakuna malipo kwenye kundi hili." %}</p>
   {% endif %}
 </section>
 {% endblock %}

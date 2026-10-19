@@ -2,15 +2,9 @@ from datetime import timedelta
 
 from django.db.models import Count, Q, Sum
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from billing.models import Payment
-
-SWAHILI_WEEKDAYS = ["Jumatatu", "Jumanne", "Jumatano", "Alhamisi", "Ijumaa", "Jumamosi", "Jumapili"]
-SWAHILI_MONTHS = [
-    "Januari", "Februari", "Machi", "Aprili", "Mei", "Juni",
-    "Julai", "Agosti", "Septemba", "Oktoba", "Novemba", "Desemba",
-]
-
 
 def local_day_start(now=None):
     local = timezone.localtime(now or timezone.now())
@@ -62,8 +56,15 @@ def top_by(payments, field, days=30, limit=5, now=None):
 
 
 def greeting(now=None):
+    """Salamu ya wakati huu wa siku, na tarehe (template inaipanga kwa lugha husika)."""
     local = timezone.localtime(now or timezone.now())
     hour = local.hour
-    part = "asubuhi" if 4 <= hour < 12 else "mchana" if hour < 16 else "jioni" if hour < 20 else "usiku"
-    date = f"{SWAHILI_WEEKDAYS[local.weekday()]}, {local.day} {SWAHILI_MONTHS[local.month - 1]}"
-    return {"part": part, "date": date}
+    if 4 <= hour < 12:
+        text = _("Habari za asubuhi")
+    elif hour < 16:
+        text = _("Habari za mchana")
+    elif hour < 20:
+        text = _("Habari za jioni")
+    else:
+        text = _("Habari za usiku")
+    return {"text": text, "date": local}

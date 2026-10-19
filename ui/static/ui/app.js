@@ -40,7 +40,7 @@
         var span = button.querySelector("span");
         var before = span ? span.textContent : "";
         button.classList.add("is-copied");
-        if (span) span.textContent = "Imenakiliwa";
+        if (span) span.textContent = button.dataset.copied || "Imenakiliwa";
         setTimeout(function () {
           button.classList.remove("is-copied");
           if (span) span.textContent = before;

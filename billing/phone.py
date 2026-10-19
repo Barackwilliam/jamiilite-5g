@@ -1,6 +1,7 @@
 import re
 
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 
 # Namba za simu za Tanzania: 06x au 07x, zikihifadhiwa kama 255XXXXXXXXX.
 _TZ_MOBILE = re.compile(r"^255[67]\d{8}$")
@@ -14,5 +15,5 @@ def normalize_tz_phone(raw):
     elif len(digits) == 9 and digits[0] in "67":
         digits = "255" + digits
     if not _TZ_MOBILE.match(digits):
-        raise ValidationError("Weka namba sahihi ya simu, mfano 0712 345 678.")
+        raise ValidationError(_("Weka namba sahihi ya simu, mfano 0712 345 678."))
     return digits

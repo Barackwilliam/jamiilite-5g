@@ -11,15 +11,19 @@ from datetime import timedelta
 
 from django.db.models import Sum
 from django.db.models.functions import TruncDate
-from django.utils import timezone
+from django.utils import dateformat, timezone
 
-SWAHILI_DAYS = ["Jtt", "Jnn", "Jtn", "Alh", "Iju", "Jmo", "Jpl"]
 
 # Vipimo vya viewBox; SVG inapanuka kufuata upana wa kadi.
 WIDTH, HEIGHT = 600, 220
 PAD_LEFT, PAD_RIGHT, PAD_TOP, PAD_BOTTOM = 44, 8, 12, 28
 MAX_BAR = 24
 RADIUS = 4
+
+
+def day_abbr(day):
+    """Jina fupi la siku kwa lugha inayotumika (mfano "Jtatu" / "Mon")."""
+    return dateformat.format(day, "D")
 
 
 def daily_totals(queryset, date_field, value_field, days=14, now=None):
@@ -96,7 +100,7 @@ def bar_chart(points, unit="Tsh"):
                 "top_y": round(baseline - height - 6, 1),
                 "peak_label": compact(value),
                 "show_label": (len(points) - 1 - i) % label_every == 0,
-                "day_label": f"{SWAHILI_DAYS[day.weekday()]} {day.day}",
+                "day_label": f"{day_abbr(day)} {day.day}",
                 "date": day,
                 "value": value,
                 "value_display": f"{unit} {value:,}",

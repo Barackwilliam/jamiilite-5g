@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db.models import Count, F, Q, Sum
 from django.http import JsonResponse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from billing.models import Payment
 from core.models import ONLINE_THRESHOLD, NetworkEvent
@@ -16,7 +17,7 @@ FIRST_LOAD = 15  # matukio ya karibuni ya kujaza log mara ya kwanza
 MAX_BATCH = 150
 MAX_ROUTERS = 30
 
-PROVIDER_LABELS = {"sandbox": "Malipo (majaribio)"}
+PROVIDER_LABELS = {"sandbox": _("Malipo (majaribio)")}
 
 
 def _mac_tail(mac):
@@ -27,7 +28,7 @@ def _event(e):
     return {
         "id": e.id,
         "kind": e.kind,
-        "label": e.get_kind_display(),
+        "label": str(e.get_kind_display()),
         "router": e.router_id,
         "router_name": e.router.name,
         "device": _mac_tail(e.mac),
@@ -84,7 +85,7 @@ def payload(request, routers, events, payments, show_owner=False):
         "routers": router_rows,
         "router_total": routers.count(),
         "show_owner": show_owner,
-        "gateway": PROVIDER_LABELS.get(settings.PAYMENT_PROVIDER, settings.PAYMENT_PROVIDER.title()),
+        "gateway": str(PROVIDER_LABELS.get(settings.PAYMENT_PROVIDER, settings.PAYMENT_PROVIDER.title())),
         "stats": {
             "today_amount": sales["amount"] or 0,
             "today_count": sales["count"] or 0,

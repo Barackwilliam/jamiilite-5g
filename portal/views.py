@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods, require_POST
 
 from django.utils import timezone
+from django.utils.translation import gettext, ngettext
 
 from billing.models import Payment, VoucherDevice
 from billing.services import start_payment
@@ -86,11 +87,14 @@ def _remaining_label(seconds):
     minutes = max(1, seconds // 60)
     days, rest = divmod(minutes, 1440)
     hours, mins = divmod(rest, 60)
+    day_part = ngettext("siku %(n)s", "siku %(n)s", days) % {"n": days}
+    hour_part = ngettext("saa %(n)s", "saa %(n)s", hours) % {"n": hours}
+    min_part = ngettext("dakika %(n)s", "dakika %(n)s", mins) % {"n": mins}
     if days:
-        return f"siku {days}" + (f" saa {hours}" if hours else "")
+        return f"{day_part} {hour_part}" if hours else day_part
     if hours:
-        return f"saa {hours}" + (f" dakika {mins}" if mins else "")
-    return f"dakika {mins}"
+        return f"{hour_part} {min_part}" if mins else hour_part
+    return min_part
 
 
 def _render_home(request, router, form, status=200):
@@ -104,7 +108,8 @@ def _render_home(request, router, form, status=200):
             # Usajili wa mmiliki ukiisha, mauzo mapya yanasimama, lakini vocha za
             # zamani bado zinaweza kutumika.
             "selling_paused": not ensure_active(router.owner),
-            "hotspot_error": request.GET.get("error", ""),
+            # Ujumbe unaojulikana kutoka RADIUS (msgid ya Kiswahili) unatafsiriwa; mwingine unabaki kama ulivyo.
+            "hotspot_error": gettext(request.GET.get("error", "")) if request.GET.get("error") else "",
             **_hotspot_context(request, router),
             **_returning_context(request, router),
         },

@@ -8,6 +8,9 @@
   "use strict";
 
   var NS = "http://www.w3.org/2000/svg";
+  // Tafsiri kutoka /jsi18n/ (Django JavaScriptCatalog); bila hiyo maandishi yanabaki Kiswahili.
+  var _ = window.gettext || function (s) { return s; };
+  var fmt = function (s, values) { return s.replace(/%\((\w+)\)s/g, function (m, k) { return values[k]; }); };
   var POLL_MS = 3000;
   var SPEED = 0.55; // px kwa ms, ndani ya viewBox
   var MAX_LOG = 50;
@@ -27,8 +30,8 @@
     checkin: { hops: ["router", "cloud"], cls: "pk-checkin", tiny: true, reply: "pk-checkin" },
   };
 
-  var DEMO_ROUTERS = ["Duka la Kati", "Kibanda cha Stendi", "Saluni ya Mama Asha"];
-  var DEMO_PACKAGES = [["Saa 1", 500], ["Siku 1", 1000], ["Wiki", 5000]];
+  var DEMO_ROUTERS = [_("Duka la Kati"), _("Kibanda cha Stendi"), _("Saluni ya Mama Asha")];
+  var DEMO_PACKAGES = [[_("Saa 1"), 500], [_("Siku 1"), 1000], [_("Wiki"), 5000]];
 
   function el(name, attrs, parent) {
     var node = document.createElementNS(NS, name);
@@ -64,7 +67,7 @@
     this.demo = root.dataset.demo === "1" || !this.endpoint;
     this.demoOnly = !this.endpoint;
     this.routers = [];
-    this.gateway = "Malipo";
+    this.gateway = _("Malipo");
     this.stats = { today_amount: 0, accepts: 0, rejects: 0, clients: 0 };
     this.recent = []; // muda wa matukio ya dakika iliyopita, kwa "packets/dakika"
     this.packets = [];
@@ -99,7 +102,7 @@
     var banner = this.root.querySelector("[data-demo-banner]");
     if (banner) banner.hidden = !on;
     var toggle = this.root.querySelector("[data-demo-toggle]");
-    if (toggle) toggle.textContent = on ? "Rudi kwenye data halisi" : "Onyesha mfano";
+    if (toggle) toggle.textContent = on ? _("Rudi kwenye data halisi") : _("Onyesha mfano");
     this.clearLog();
     if (on) {
       this.startDemo();
@@ -138,7 +141,7 @@
       })
       .catch(function (err) {
         self.failures += 1;
-        self.status("down", err.message === "login" ? "Ingia tena" : "Imekatika, inajaribu tena…");
+        self.status("down", err.message === "login" ? _("Ingia tena") : _("Imekatika, inajaribu tena…"));
       })
       .then(function () {
         if (!self.demo) self.pollTimer = setTimeout(function () { self.poll(); }, self.failures ? Math.min(30000, POLL_MS * (1 + self.failures)) : POLL_MS);
@@ -190,11 +193,11 @@
     var self = this;
     var names = this.routers.length ? this.routers.map(function (r) { return r.name; }) : DEMO_ROUTERS;
     this.routers = names.slice(0, 4).map(function (name, i) {
-      return { id: "demo" + i, name: name, owner: "Mfano", online: true, clients: 2 + ((i * 3) % 5), seen: Date.now() };
+      return { id: "demo" + i, name: name, owner: _("Mfano"), online: true, clients: 2 + ((i * 3) % 5), seen: Date.now() };
     });
-    this.gateway = "M-Pesa (mfano)";
+    this.gateway = _("M-Pesa (mfano)");
     this.stats = { today_amount: 18500, today_count: 21, accepts: 34, rejects: 2, clients: 0 };
-    this.status("demo", "MFANO");
+    this.status("demo", _("MFANO"));
     this.layout(true);
     this.demoSeq = 1;
     var loop = function () {
@@ -217,32 +220,32 @@
     };
     if (roll < 0.22) {
       // Mteja ananunua: ombi la malipo, analipa, kisha anaingia mwenyewe.
-      this.play(make("payment_started", "Ombi la malipo", pkg[0] + " · 0712…" + Math.floor(100 + Math.random() * 899), pkg[1]));
+      this.play(make("payment_started", _("Ombi la malipo"), pkg[0] + " · 0712…" + Math.floor(100 + Math.random() * 899), pkg[1]));
       setTimeout(function () {
         if (!self.demo) return;
         self.stats.today_amount += pkg[1];
         self.stats.today_count += 1;
-        self.play(make("payment_paid", "Amelipa", pkg[0], pkg[1]));
+        self.play(make("payment_paid", _("Amelipa"), pkg[0], pkg[1]));
         setTimeout(function () {
           if (!self.demo) return;
           router.clients += 1;
           self.stats.accepts += 1;
-          self.play(make("auth_accept", "Ameingia", pkg[0] + " · vocha " + Math.random().toString(36).slice(2, 6).toUpperCase() + "…"));
+          self.play(make("auth_accept", _("Ameingia"), pkg[0] + " · " + _("vocha") + " " + Math.random().toString(36).slice(2, 6).toUpperCase() + "…"));
           self.layout(false);
         }, 1800);
       }, 2600);
     } else if (roll < 0.62) {
       var down = (Math.random() * 180).toFixed(1);
-      this.play(make("acct_update", "Matumizi", "↓ " + down + " MB · ↑ " + (down / 9).toFixed(1) + " MB"));
+      this.play(make("acct_update", _("Matumizi"), "↓ " + down + " MB · ↑ " + (down / 9).toFixed(1) + " MB"));
     } else if (roll < 0.8) {
       this.stats.accepts += 1;
-      this.play(make("auth_accept", "Ameingia", pkg[0] + " · vocha " + Math.random().toString(36).slice(2, 6).toUpperCase() + "…"));
+      this.play(make("auth_accept", _("Ameingia"), pkg[0] + " · " + _("vocha") + " " + Math.random().toString(36).slice(2, 6).toUpperCase() + "…"));
     } else if (roll < 0.88) {
       this.stats.rejects += 1;
-      this.play(make("auth_reject", "Amekataliwa", ["Vocha si sahihi", "Muda wa vocha umeisha"][Math.floor(Math.random() * 2)]));
+      this.play(make("auth_reject", _("Amekataliwa"), [_("Vocha si sahihi"), _("Muda wa vocha umeisha")][Math.floor(Math.random() * 2)]));
     } else if (roll < 0.95) {
       router.clients = Math.max(0, router.clients - 1);
-      this.play(make("acct_stop", "Ametoka", "↓ " + (Math.random() * 400).toFixed(1) + " MB"));
+      this.play(make("acct_stop", _("Ametoka"), "↓ " + (Math.random() * 400).toFixed(1) + " MB"));
       this.layout(false);
     } else {
       router.seen = Date.now();
@@ -330,7 +333,7 @@
     el("circle", { r: 40, class: "lv-halo" }, cloud);
     el("rect", { x: -80, y: -32, width: 160, height: 64, rx: 16, class: "lv-box" }, cloud);
     text(cloud, 0, -4, "JamiiLite", "lv-title");
-    text(cloud, 0, 16, "RADIUS · Mfumo", "lv-sub");
+    text(cloud, 0, 16, _("RADIUS · Mfumo"), "lv-sub");
     this.nodes.cloud = cloud;
 
     var gw = el("g", { class: "lv-node lv-gateway", transform: "translate(" + g.x + "," + g.y + ")" }, nodeLayer);
@@ -340,10 +343,10 @@
     this.nodes.gateway = gw;
 
     if (!routers.length) {
-      text(svg, W / 2, H / 2 - 70, "Ongeza router ili uone mtandao wako hapa", "lv-empty");
+      text(svg, W / 2, H / 2 - 70, _("Ongeza router ili uone mtandao wako hapa"), "lv-empty");
     }
     var hidden = (this.routerTotal || this.routers.length) - routers.length;
-    if (hidden > 0) text(svg, vertical ? W / 2 : 245, H - 10, "+ routers " + hidden + " zaidi", "lv-sub");
+    if (hidden > 0) text(svg, vertical ? W / 2 : 245, H - 10, fmt(_("+ routers %(n)s zaidi"), { n: hidden }), "lv-sub");
   };
 
   Live.prototype.phoneNode = function (layer, p, r) {
@@ -389,7 +392,7 @@
         var x = (i - (Math.max(count, 1) - 1) / 2) * spread;
         el("rect", { x: x - 5, y: -12, width: 10, height: 18, rx: 2.5, class: "lv-phone" + (count ? "" : " is-empty") }, group);
       }
-      phones._count.textContent = r.clients === 1 ? "mteja 1" : "wateja " + r.clients;
+      phones._count.textContent = r.clients === 1 ? _("mteja 1") : fmt(_("wateja %(n)s"), { n: r.clients });
     });
   };
 

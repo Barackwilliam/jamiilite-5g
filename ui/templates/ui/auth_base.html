@@ -1,5 +1,5 @@
-{% load static ui_tags %}<!doctype html>
-<html lang="sw">
+{% load static i18n ui_tags %}{% get_current_language as LANG %}<!doctype html>
+<html lang="{{ LANG }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,11 +7,48 @@
   <link rel="stylesheet" href="{% static 'ui/app.css' %}">
 </head>
 <body class="auth">
+  <aside class="auth-art" aria-hidden="true">
+    <div class="auth-art-inner">
+      <a class="app-logo" href="{% url 'pages:home' %}" tabindex="-1">
+        <span class="app-logo-mark">{% icon "wifi" 18 %}</span>
+        <span>JamiiLite <b>5G</b></span>
+      </a>
+      <svg class="auth-illustration" viewBox="0 0 420 300">
+        <defs>
+          <linearGradient id="ag-card" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".22"/><stop offset="1" stop-color="#ffffff" stop-opacity=".06"/></linearGradient>
+        </defs>
+        <g class="ai-waves" fill="none" stroke="#ffffff" stroke-linecap="round">
+          <path d="M150 120a90 90 0 0 1 120 0" stroke-width="6" opacity=".9"/>
+          <path d="M120 92a130 130 0 0 1 180 0" stroke-width="6" opacity=".55"/>
+          <path d="M90 64a170 170 0 0 1 240 0" stroke-width="6" opacity=".3"/>
+        </g>
+        <rect x="140" y="140" width="140" height="56" rx="14" fill="url(#ag-card)" stroke="#ffffff" stroke-opacity=".5"/>
+        <circle cx="166" cy="168" r="6" fill="#3ccf7e"/>
+        <rect x="182" y="160" width="76" height="8" rx="4" fill="#ffffff" opacity=".8"/>
+        <rect x="182" y="174" width="48" height="6" rx="3" fill="#ffffff" opacity=".45"/>
+        <path d="M210 196v34M110 250h200" stroke="#ffffff" stroke-opacity=".35" stroke-width="2" stroke-dasharray="3 7" stroke-linecap="round"/>
+        <g class="ai-phone"><rect x="64" y="214" width="40" height="70" rx="9" fill="url(#ag-card)" stroke="#ffffff" stroke-opacity=".6"/><rect x="72" y="226" width="24" height="10" rx="3" fill="#f0b54a"/><rect x="72" y="242" width="24" height="5" rx="2.5" fill="#ffffff" opacity=".6"/><rect x="72" y="252" width="16" height="5" rx="2.5" fill="#ffffff" opacity=".4"/></g>
+        <g class="ai-phone ai-phone-2"><rect x="316" y="214" width="40" height="70" rx="9" fill="url(#ag-card)" stroke="#ffffff" stroke-opacity=".6"/><circle cx="336" cy="240" r="9" fill="#3ccf7e"/><path d="m331 240 4 4 7-8" stroke="#0b1222" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
+        <circle class="ai-packet" r="5" fill="#f0b54a"><animateMotion dur="2.6s" repeatCount="indefinite" path="M104 250 L210 250 L210 196"/></circle>
+        <circle class="ai-packet" r="5" fill="#3ccf7e" opacity="0"><set attributeName="opacity" to="1" begin="1.3s"/><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite" path="M210 196 L210 250 L316 250"/></circle>
+      </svg>
+      <h2>{% translate "Uza WiFi yako kiotomatiki" %}</h2>
+      <ul class="auth-points">
+        <li>{% icon "check" 16 %} {% translate "Wateja wanalipa kwa M-Pesa, Tigo Pesa na Airtel Money" %}</li>
+        <li>{% icon "check" 16 %} {% translate "Wanakatwa wenyewe muda ukiisha" %}</li>
+        <li>{% icon "check" 16 %} {% translate "Unaona kila shilingi kwenye simu yako, papo hapo" %}</li>
+      </ul>
+    </div>
+  </aside>
+
   <main class="auth-wrap">
-    <a class="app-logo auth-logo" href="{% url 'pages:home' %}">
-      <span class="app-logo-mark">{% icon "wifi" 18 %}</span>
-      <span>JamiiLite <b>5G</b></span>
-    </a>
+    <div class="auth-top">
+      <a class="app-logo auth-logo" href="{% url 'pages:home' %}">
+        <span class="app-logo-mark">{% icon "wifi" 18 %}</span>
+        <span>JamiiLite <b>5G</b></span>
+      </a>
+      {% include "ui/_lang_switch.html" %}
+    </div>
     <section class="auth-card">
       {% block content %}{% endblock %}
     </section>

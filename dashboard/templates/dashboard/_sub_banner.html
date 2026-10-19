@@ -1,19 +1,19 @@
-{% load ui_tags %}
+{% load i18n ui_tags %}
 {% if sub.state == "expired" %}
   <div class="banner banner-danger">
     {% icon "alert" %}
-    <p><strong>Usajili wako umeisha.</strong> Mauzo mapya yamesimama. Lipia {{ monthly_fee|tsh }} ili kuendelea. Wateja wenye vocha bado wanaunganishwa.</p>
-    <a class="btn btn-small" href="{% url 'dashboard:subscription' %}">Lipia sasa</a>
+    <p><strong>{% translate "Usajili wako umeisha." %}</strong> {% blocktranslate with fee=monthly_fee|tsh %}Mauzo mapya yamesimama. Lipia {{ fee }} ili kuendelea. Wateja wenye vocha bado wanaunganishwa.{% endblocktranslate %}</p>
+    <a class="btn btn-small" href="{% url 'dashboard:subscription' %}">{% translate "Lipia sasa" %}</a>
   </div>
 {% elif sub.state == "trial" %}
   <div class="banner banner-info">
     {% icon "calendar" %}
-    <p><strong>Majaribio bure: zimebaki siku {{ sub.days_left }}.</strong> Baada ya hapo ni {{ monthly_fee|tsh }} kwa mwezi, inayolipwa kutoka kwenye mauzo yako.</p>
+    <p><strong>{% blocktranslate count days=sub.days_left %}Majaribio bure: imebaki siku {{ days }}.{% plural %}Majaribio bure: zimebaki siku {{ days }}.{% endblocktranslate %}</strong> {% blocktranslate with fee=monthly_fee|tsh %}Baada ya hapo ni {{ fee }} kwa mwezi, inayolipwa kutoka kwenye mauzo yako.{% endblocktranslate %}</p>
   </div>
 {% elif sub.days_left <= 3 %}
   <div class="banner banner-warn">
     {% icon "calendar" %}
-    <p><strong>Usajili unaisha baada ya siku {{ sub.days_left }}.</strong> Ukiwa na salio la kutosha, utalipwa wenyewe.</p>
-    <a class="btn btn-small btn-ghost" href="{% url 'dashboard:subscription' %}">Angalia</a>
+    <p><strong>{% blocktranslate count days=sub.days_left %}Usajili unaisha baada ya siku {{ days }}.{% plural %}Usajili unaisha baada ya siku {{ days }}.{% endblocktranslate %}</strong> {% translate "Ukiwa na salio la kutosha, utalipwa wenyewe." %}</p>
+    <a class="btn btn-small btn-ghost" href="{% url 'dashboard:subscription' %}">{% translate "Angalia" %}</a>
   </div>
 {% endif %}

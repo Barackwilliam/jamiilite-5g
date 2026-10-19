@@ -113,7 +113,7 @@ class ControlTests(TestCase):
         self.assertEqual((ctx["routers"]["online"], ctx["routers"]["clients"]), (1, 4))
         self.assertEqual(ctx["held"], 2500)
         self.assertEqual(ctx["pending_count"], 1)
-        self.assertContains(response, "Maombi 1 ya kutoa pesa")
+        self.assertContains(response, "Ombi 1 la kutoa pesa linasubiri")
 
     def test_routers_offline_first(self):
         now = timezone.now()

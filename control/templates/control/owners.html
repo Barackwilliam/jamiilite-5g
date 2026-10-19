@@ -1,15 +1,15 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
 {% block content %}
 <section class="card">
   <form method="get" class="toolbar">
-    <input class="input" type="search" name="q" value="{{ q }}" placeholder="Tafuta jina au namba ya simu" aria-label="Tafuta">
+    <input class="input" type="search" name="q" value="{{ q }}" placeholder="{% translate 'Tafuta jina au namba ya simu' %}" aria-label="{% translate 'Tafuta' %}">
     {% if state %}<input type="hidden" name="hali" value="{{ state }}">{% endif %}
-    <button class="btn btn-small" type="submit">Tafuta</button>
+    <button class="btn btn-small" type="submit">{% translate "Tafuta" %}</button>
   </form>
   <div class="toolbar chips">
-    <a class="chip{% if not state %} is-active{% endif %}" href="?q={{ q|urlencode }}">Wote · {{ counts.total }}</a>
+    <a class="chip{% if not state %} is-active{% endif %}" href="?q={{ q|urlencode }}">{% translate "Wote" %} · {{ counts.total }}</a>
     {% for key, label in state_labels.items %}
       <a class="chip{% if state == key %} is-active{% endif %}" href="?hali={{ key }}&q={{ q|urlencode }}">{{ label }} · {% if key == "paid" %}{{ counts.paid }}{% elif key == "trial" %}{{ counts.trial }}{% elif key == "expired" %}{{ counts.expired }}{% else %}{{ counts.suspended }}{% endif %}</a>
     {% endfor %}
@@ -20,7 +20,7 @@
   {% if page.object_list %}
     <div class="table-wrap">
       <table class="table">
-        <thead><tr><th scope="col">Biashara</th><th scope="col">Simu</th><th scope="col">Hali</th><th scope="col">Inaisha</th><th scope="col" class="num">Salio</th><th scope="col">Alijiunga</th></tr></thead>
+        <thead><tr><th scope="col">{% translate "Biashara" %}</th><th scope="col">{% translate "Simu" %}</th><th scope="col">{% translate "Hali" %}</th><th scope="col">{% translate "Inaisha" %}</th><th scope="col" class="num">{% translate "Salio" %}</th><th scope="col">{% translate "Alijiunga" %}</th></tr></thead>
         <tbody>
           {% for o in page.object_list %}
             <tr>
@@ -37,7 +37,7 @@
     </div>
     {% include "ui/_pager.html" %}
   {% else %}
-    <p class="empty">Hakuna mmiliki anayelingana na utafutaji huu.</p>
+    <p class="empty">{% translate "Hakuna mmiliki anayelingana na utafutaji huu." %}</p>
   {% endif %}
 </section>
 {% endblock %}

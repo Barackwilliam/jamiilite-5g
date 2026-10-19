@@ -12,6 +12,7 @@ import logging
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
+from django.utils.translation import gettext_noop
 
 from billing.models import Voucher, VoucherDevice
 from core import events
@@ -23,10 +24,11 @@ logger = logging.getLogger("jamiilite.radius")
 
 INTERIM_INTERVAL_SECONDS = 300
 
-MSG_INVALID = "Vocha si sahihi"
-MSG_EXPIRED = "Muda wa vocha umeisha"
-MSG_DEVICE_LIMIT = "Vocha hii inatumika kwenye kifaa kingine"
-MSG_USE_PAP = "Router haijawekwa login-by=http-pap"
+# Zinatumwa kwa router kwa Kiswahili; ukurasa wa kulipia unazitafsiri (portal/views.py).
+MSG_INVALID = gettext_noop("Vocha si sahihi")
+MSG_EXPIRED = gettext_noop("Muda wa vocha umeisha")
+MSG_DEVICE_LIMIT = gettext_noop("Vocha hii inatumika kwenye kifaa kingine")
+MSG_USE_PAP = gettext_noop("Router haijawekwa login-by=http-pap")
 
 
 def _router_for(request):

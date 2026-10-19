@@ -1,17 +1,25 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
 {% block content %}
 <section class="card card-narrow">
   <form method="post" enctype="multipart/form-data" class="form-stack" novalidate>
     {% csrf_token %}
+    <div class="field">
+      <span class="field-label">{{ form.language.label }}</span>
+      <div class="choice-pills" role="radiogroup" aria-label="{{ form.language.label }}">
+        {% for choice in form.language %}
+          <label class="choice-pill">{{ choice.tag }}<span>{% if choice.data.value == "sw" %}🇹🇿 {% else %}🇬🇧 {% endif %}{{ choice.choice_label }}</span></label>
+        {% endfor %}
+      </div>
+    </div>
     {% include "dashboard/_field.html" with field=form.business_name %}
     {% include "dashboard/_field.html" with field=form.phone %}
-    {% if owner.logo %}<img class="logo-preview" src="{{ owner.logo.url }}" alt="Logo ya sasa">{% endif %}
+    {% if owner.logo %}<img class="logo-preview" src="{{ owner.logo.url }}" alt="{% translate 'Logo ya sasa' %}">{% endif %}
     {% include "dashboard/_field.html" with field=form.logo %}
-    <button type="submit" class="btn btn-primary btn-block">Hifadhi</button>
+    <button type="submit" class="btn btn-primary btn-block">{% translate "Hifadhi" %}</button>
   </form>
   <hr>
-  <p class="muted small">Unaingia kwa namba <strong>{{ owner.user.username|phone_display }}</strong>. Kubadilisha password au namba ya kuingia, wasiliana nasi.</p>
+  <p class="muted small">{% blocktranslate with phone=owner.user.username|phone_display %}Unaingia kwa namba <strong>{{ phone }}</strong>. Kubadilisha password au namba ya kuingia, wasiliana nasi.{% endblocktranslate %}</p>
 </section>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
 {% block content %}
 <section class="card">
@@ -7,10 +7,10 @@
     {% for key, label in statuses %}
       <a class="chip{% if status == key %} is-active{% endif %}" href="?hali={{ key }}">{{ label }}</a>
     {% endfor %}
-    <a class="chip{% if status == 'all' %} is-active{% endif %}" href="?hali=all">Yote</a>
+    <a class="chip{% if status == 'all' %} is-active{% endif %}" href="?hali=all">{% translate "Yote" %}</a>
   </div>
   {% if status == "pending" %}
-    <p class="muted small">Tuma pesa kwenye namba husika kwanza (M-Pesa / Tigo Pesa / Airtel Money), kisha weka namba ya muamala hapa. Pesa tayari imeshikiliwa kutoka kwenye salio lake.</p>
+    <p class="muted small">{% translate "Tuma pesa kwenye namba husika kwanza (M-Pesa / Tigo Pesa / Airtel Money), kisha weka namba ya muamala hapa. Pesa tayari imeshikiliwa kutoka kwenye salio lake." %}</p>
   {% endif %}
 </section>
 
@@ -21,21 +21,21 @@
         <div class="withdraw-head">
           <div>
             <p class="withdraw-amount">{{ w.amount|tsh }}</p>
-            <p class="muted small">kwenda <strong>{{ w.phone|phone_display }}</strong> · {{ w.created_at|date:"d/m/Y H:i" }} ({{ w.created_at|ago }})</p>
+            <p class="muted small">{% translate "kwenda" %} <strong>{{ w.phone|phone_display }}</strong> · {{ w.created_at|date:"d/m/Y H:i" }} ({{ w.created_at|ago }})</p>
           </div>
-          {% if w.status == "paid" %}<span class="pill pill-good">Imelipwa</span>{% elif w.status == "rejected" %}<span class="pill pill-bad">Imekataliwa</span>{% else %}<span class="pill pill-warn">Inasubiri</span>{% endif %}
+          {% if w.status == "paid" %}<span class="pill pill-good">{% translate "Imelipwa" %}</span>{% elif w.status == "rejected" %}<span class="pill pill-bad">{% translate "Imekataliwa" %}</span>{% else %}<span class="pill pill-warn">{% translate "Inasubiri" %}</span>{% endif %}
         </div>
-        <p class="small"><a href="{% url 'control:owner_detail' w.owner_id %}">{{ w.owner.business_name }}</a> · salio lililobaki {{ w.owner_balance|tsh }}</p>
+        <p class="small"><a href="{% url 'control:owner_detail' w.owner_id %}">{{ w.owner.business_name }}</a> · {% translate "salio lililobaki" %} {{ w.owner_balance|tsh }}</p>
         {% if w.status == "pending" %}
           {% include "control/_withdrawal_actions.html" %}
         {% else %}
-          <p class="muted small">{% if w.reference %}Kumb: {{ w.reference }} · {% endif %}{% if w.note %}{{ w.note }} · {% endif %}{{ w.processed_at|date:"d/m/Y H:i" }}{% if w.processed_by %} na {{ w.processed_by.username }}{% endif %}</p>
+          <p class="muted small">{% if w.reference %}{% translate "Kumb:" %} {{ w.reference }} · {% endif %}{% if w.note %}{{ w.note }} · {% endif %}{{ w.processed_at|date:"d/m/Y H:i" }}{% if w.processed_by %} · {{ w.processed_by.username }}{% endif %}</p>
         {% endif %}
       </article>
     {% endfor %}
   </div>
   {% if page.has_other_pages %}<section class="card">{% include "ui/_pager.html" %}</section>{% endif %}
 {% else %}
-  <section class="card"><div class="empty-state"><span class="empty-icon">{% icon "check" 28 %}</span><p><strong>Hakuna kitu hapa.</strong></p><p class="muted">Maombi mapya yakiingia, yataonekana hapa na kwenye menyu.</p></div></section>
+  <section class="card"><div class="empty-state"><span class="empty-icon">{% icon "check" 28 %}</span><p><strong>{% translate "Hakuna kitu hapa." %}</strong></p><p class="muted">{% translate "Maombi mapya yakiingia, yataonekana hapa na kwenye menyu." %}</p></div></section>
 {% endif %}
 {% endblock %}

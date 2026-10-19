@@ -1,17 +1,28 @@
 {% extends "ui/auth_base.html" %}
-{% block title %}Jisajili{% endblock %}
+{% load i18n %}
+{% block title %}{% translate "Jisajili" %}{% endblock %}
 {% block content %}
-  <h1>Anza kuuza WiFi yako</h1>
-  <p class="muted">Siku {{ trial_days }} za kwanza ni bure. Huhitaji kadi wala kulipa chochote sasa.</p>
+  <p class="auth-eyebrow">{% blocktranslate count days=trial_days %}Siku {{ days }} bure{% plural %}Siku {{ days }} bure{% endblocktranslate %}</p>
+  <h1>{% translate "Anza kuuza WiFi yako" %}</h1>
+  <p class="muted">{% translate "Huhitaji kadi wala kulipa chochote sasa." %}</p>
   <form method="post" class="form-stack" novalidate>
     {% csrf_token %}
+    <div class="field">
+      <span class="field-label">{{ form.language.label }}</span>
+      <div class="choice-pills" role="radiogroup" aria-label="{{ form.language.label }}">
+        {% for choice in form.language %}
+          <label class="choice-pill">{{ choice.tag }}<span>{% if choice.data.value == "sw" %}🇹🇿 {% else %}🇬🇧 {% endif %}{{ choice.choice_label }}</span></label>
+        {% endfor %}
+      </div>
+      <small class="field-help">{{ form.language.help_text }}</small>
+    </div>
     {% include "dashboard/_field.html" with field=form.business_name %}
     {% include "dashboard/_field.html" with field=form.phone %}
     {% include "dashboard/_field.html" with field=form.password1 %}
     {% include "dashboard/_field.html" with field=form.password2 %}
-    <button type="submit" class="btn btn-primary btn-block">Fungua akaunti</button>
+    <button type="submit" class="btn btn-primary btn-block btn-lg">{% translate "Fungua akaunti" %}</button>
   </form>
 {% endblock %}
 {% block below %}
-  <p class="auth-switch">Una akaunti tayari? <a href="{% url 'dashboard:login' %}">Ingia</a></p>
+  <p class="auth-switch">{% translate "Una akaunti tayari?" %} <a href="{% url 'dashboard:login' %}">{% translate "Ingia" %}</a></p>
 {% endblock %}

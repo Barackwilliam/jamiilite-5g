@@ -1,36 +1,36 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
-{% block breadcrumb %}<p class="appbar-date">{{ greet.date }}</p>{% endblock %}
-{% block heading %}Habari za {{ greet.part }}, {{ owner.business_name }}{% endblock %}
+{% block breadcrumb %}<p class="appbar-date">{{ greet.date|date:"l, j F" }}</p>{% endblock %}
+{% block heading %}{{ greet.text }}, {{ owner.business_name }}{% endblock %}
 {% block actions %}
-  {% if has_packages and routers %}<a class="btn btn-small btn-primary hide-sm" href="{% url 'dashboard:vouchers' %}">{% icon "print" 16 %} Chapisha vocha</a>{% endif %}
+  {% if has_packages and routers %}<a class="btn btn-small btn-primary hide-sm" href="{% url 'dashboard:vouchers' %}">{% icon "print" 16 %} {% translate "Chapisha vocha" %}</a>{% endif %}
 {% endblock %}
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
 {% block content %}
 {% if not routers or not has_packages or not has_sales %}
   <section class="card onboarding">
-    <div class="card-head"><h2>Hatua 4 za kuanza kuuza</h2><span class="muted small">Zikikamilika, sehemu hii itajificha.</span></div>
+    <div class="card-head"><h2>{% translate "Hatua 4 za kuanza kuuza" %}</h2><span class="muted small">{% translate "Zikikamilika, sehemu hii itajificha." %}</span></div>
     <ol class="checklist">
       <li class="{% if routers %}is-done{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>Ongeza router yako</strong><small>Eneo unalouzia WiFi.</small></div>
-        {% if not routers %}<a class="btn btn-small" href="{% url 'dashboard:routers' %}">Ongeza</a>{% endif %}
+        <div><strong>{% translate "Ongeza router yako" %}</strong><small>{% translate "Eneo unalouzia WiFi." %}</small></div>
+        {% if not routers %}<a class="btn btn-small" href="{% url 'dashboard:routers' %}">{% translate "Ongeza" %}</a>{% endif %}
       </li>
       <li class="{% if online_routers %}is-done{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>Iunganishe na JamiiLite</strong><small>Bandika mstari mmoja kwenye MikroTik.</small></div>
-        {% if routers and not online_routers %}<a class="btn btn-small btn-ghost" href="{% url 'dashboard:router_detail' routers.0.pk %}">Ona mstari</a>{% endif %}
+        <div><strong>{% translate "Iunganishe na JamiiLite" %}</strong><small>{% translate "Bandika mstari mmoja kwenye MikroTik." %}</small></div>
+        {% if routers and not online_routers %}<a class="btn btn-small btn-ghost" href="{% url 'dashboard:router_detail' routers.0.pk %}">{% translate "Ona mstari" %}</a>{% endif %}
       </li>
       <li class="{% if has_packages %}is-done{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>Weka vifurushi na bei</strong><small>Mfano Saa 1 kwa Tsh 500.</small></div>
-        {% if not has_packages %}<a class="btn btn-small btn-ghost" href="{% url 'dashboard:packages' %}">Weka</a>{% endif %}
+        <div><strong>{% translate "Weka vifurushi na bei" %}</strong><small>{% translate "Mfano Saa 1 kwa Tsh 500." %}</small></div>
+        {% if not has_packages %}<a class="btn btn-small btn-ghost" href="{% url 'dashboard:packages' %}">{% translate "Weka" %}</a>{% endif %}
       </li>
       <li class="{% if has_sales %}is-done{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>Pata mauzo ya kwanza</strong><small>Unganisha simu kwenye WiFi na ujaribu kununua.</small></div>
+        <div><strong>{% translate "Pata mauzo ya kwanza" %}</strong><small>{% translate "Unganisha simu kwenye WiFi na ujaribu kununua." %}</small></div>
       </li>
     </ol>
   </section>
@@ -38,9 +38,18 @@
 
 <section class="overview">
   <article class="card hero-card">
+    <svg class="hero-deco" viewBox="0 0 200 200" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="10">
+        <path d="M40 120a85 85 0 0 1 120 0" opacity=".5"/>
+        <path d="M10 90a125 125 0 0 1 180 0" opacity=".28"/>
+        <path d="M70 150a42 42 0 0 1 60 0" opacity=".75"/>
+      </g>
+      <circle cx="100" cy="178" r="10" fill="currentColor"/>
+    </svg>
     <div class="hero-top">
-      <p class="stat-label">Mapato ya leo</p>
-      {% include "ui/_trend.html" with t=today_trend against="kuliko jana" %}
+      <p class="stat-label">{% translate "Mapato ya leo" %}</p>
+      {% translate "kuliko jana" as vs_yesterday %}
+      {% include "ui/_trend.html" with t=today_trend against=vs_yesterday %}
     </div>
     <p class="hero-figure">{{ summary.today_amount|tsh }}</p>
     <div class="hero-week" aria-hidden="true">
@@ -51,59 +60,62 @@
       {% endfor %}
     </div>
     <div class="hero-foot">
-      <span>{% icon "ticket" 16 %} Vifurushi {{ summary.today_count }}</span>
-      <span>{% icon "clock" 16 %} Jana {{ summary.yesterday_amount|tsh }}</span>
+      <span>{% icon "ticket" 16 %} {% blocktranslate count n=summary.today_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</span>
+      <span>{% icon "clock" 16 %} {% translate "Jana" %} {{ summary.yesterday_amount|tsh }}</span>
     </div>
   </article>
 
-  <article class="card stat">
+  <article class="card stat tone-blue">
     <span class="stat-icon">{% icon "chart" 18 %}</span>
-    <p class="stat-label">Siku 7 zilizopita</p>
+    <p class="stat-label">{% translate "Siku 7 zilizopita" %}</p>
     <p class="stat-value">{{ summary.week_amount|tsh }}</p>
-    <p class="stat-sub">{% include "ui/_trend.html" with t=week_trend against="kuliko wiki iliyopita" %}{% if not week_trend %}Vifurushi {{ summary.week_count }}{% endif %}</p>
+    {% translate "kuliko wiki iliyopita" as vs_week %}
+    <p class="stat-sub">{% include "ui/_trend.html" with t=week_trend against=vs_week %}{% if not week_trend %}{% blocktranslate count n=summary.week_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}{% endif %}</p>
   </article>
-  <article class="card stat">
+  <article class="card stat tone-violet">
     <span class="stat-icon">{% icon "calendar" 18 %}</span>
-    <p class="stat-label">Siku 30 zilizopita</p>
+    <p class="stat-label">{% translate "Siku 30 zilizopita" %}</p>
     <p class="stat-value">{{ summary.month_amount|tsh }}</p>
-    <p class="stat-sub">Vifurushi {{ summary.month_count }}</p>
+    <p class="stat-sub">{% blocktranslate count n=summary.month_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
   </article>
-  <a class="card stat stat-link" href="{% url 'dashboard:wallet' %}">
-    <span class="stat-icon stat-icon-money">{% icon "coins" 18 %}</span>
-    <p class="stat-label">Salio lako</p>
+  <a class="card stat stat-link tone-green" href="{% url 'dashboard:wallet' %}">
+    <span class="stat-icon">{% icon "coins" 18 %}</span>
+    <p class="stat-label">{% translate "Salio lako" %}</p>
     <p class="stat-value stat-money">{{ balance|tsh }}</p>
-    <p class="stat-sub">Toa pesa {% icon "arrow-right" 14 %}</p>
+    <p class="stat-sub">{% translate "Toa pesa" %} {% icon "arrow-right" 14 %}</p>
   </a>
-  <article class="card stat">
+  <a class="card stat stat-link tone-amber" href="{% url 'dashboard:live' %}">
     <span class="stat-icon">{% icon "users" 18 %}</span>
-    <p class="stat-label">Wateja online sasa</p>
+    <p class="stat-label">{% translate "Wateja online sasa" %}</p>
     <p class="stat-value">{{ online_clients }}</p>
-    <p class="stat-sub">Routers {{ online_routers }} / {{ routers|length }} online</p>
-  </article>
+    <p class="stat-sub">{% blocktranslate with on=online_routers total=routers|length %}Routers {{ on }} / {{ total }} online{% endblocktranslate %} {% icon "arrow-right" 14 %}</p>
+  </a>
 </section>
 
 <section class="card">
   <div class="card-head">
-    <h2>Mauzo ya siku 14</h2>
-    <a class="link" href="{% url 'dashboard:sales' %}">Mauzo yote</a>
+    <h2>{% translate "Mauzo ya siku 14" %}</h2>
+    <a class="link" href="{% url 'dashboard:sales' %}">{% translate "Mauzo yote" %}</a>
   </div>
-  {% include "ui/_bar_chart.html" with chart=chart title="Mauzo ya siku 14" %}
+  {% translate "Mauzo ya siku 14" as chart_title %}
+  {% include "ui/_bar_chart.html" with chart=chart title=chart_title %}
 </section>
 
 <div class="two-col">
   <section class="card">
-    <div class="card-head"><h2>Vifurushi vinavyouzwa zaidi</h2><span class="muted small">siku 30</span></div>
+    <div class="card-head"><h2>{% translate "Vifurushi vinavyouzwa zaidi" %}</h2><span class="muted small">{% translate "siku 30" %}</span></div>
     {% if top_packages %}
       {% include "ui/_bar_list.html" with rows=top_packages %}
     {% else %}
-      <p class="empty">Ukianza kuuza, utaona hapa kifurushi kipi kinapendwa zaidi.</p>
+      {% translate "Ukianza kuuza, utaona hapa kifurushi kipi kinapendwa zaidi." as empty_text %}
+      {% include "ui/_empty.html" with icon="package" text=empty_text %}
     {% endif %}
   </section>
 
   <section class="card">
     <div class="card-head">
-      <h2>Routers zako</h2>
-      <a class="link" href="{% url 'dashboard:routers' %}">Simamia</a>
+      <h2>{% translate "Routers zako" %}</h2>
+      <a class="link" href="{% url 'dashboard:routers' %}">{% translate "Simamia" %}</a>
     </div>
     {% if routers %}
       <ul class="list">
@@ -111,14 +123,15 @@
           <li>
             <a class="list-row" href="{% url 'dashboard:router_detail' router.pk %}">
               <span class="router-badge {% if router.is_online %}is-online{% endif %}">{% icon "router" 18 %}</span>
-              <span class="list-main"><strong>{{ router.name }}</strong><small><span class="status-dot status-dot-sm {% if router.is_online %}is-online{% else %}is-offline{% endif %}"></span>{% if router.is_online %}Online · wateja {{ router.active_clients }}{% elif router.last_seen_at %}Offline · ilionekana {{ router.last_seen_at|ago }}{% else %}Bado haijaunganishwa{% endif %}</small></span>
-              <span class="list-amount">{{ router.today_amount|tsh }}<small>leo</small></span>
+              <span class="list-main"><strong>{{ router.name }}</strong><small><span class="status-dot status-dot-sm {% if router.is_online %}is-online{% else %}is-offline{% endif %}"></span>{% if router.is_online %}{% blocktranslate with n=router.active_clients %}Online · wateja {{ n }}{% endblocktranslate %}{% elif router.last_seen_at %}{% blocktranslate with ago=router.last_seen_at|ago %}Offline · ilionekana {{ ago }}{% endblocktranslate %}{% else %}{% translate "Bado haijaunganishwa" %}{% endif %}</small></span>
+              <span class="list-amount">{{ router.today_amount|tsh }}<small>{% translate "leo" %}</small></span>
             </a>
           </li>
         {% endfor %}
       </ul>
     {% else %}
-      <p class="empty">Bado hujaongeza router. <a href="{% url 'dashboard:routers' %}">Ongeza ya kwanza</a>.</p>
+      {% translate "Bado hujaongeza router." as empty_text %}{% translate "Ongeza ya kwanza" as add_router_text %}{% url 'dashboard:routers' as routers_url %}
+      {% include "ui/_empty.html" with icon="router" text=empty_text link_url=routers_url link_text=add_router_text %}
     {% endif %}
   </section>
 </div>
@@ -126,12 +139,12 @@
 <div class="{% if top_routers %}two-col{% endif %}">
   {% if top_routers %}
     <section class="card">
-      <div class="card-head"><h2>Mapato kwa eneo</h2><span class="muted small">siku 30</span></div>
+      <div class="card-head"><h2>{% translate "Mapato kwa eneo" %}</h2><span class="muted small">{% translate "siku 30" %}</span></div>
       {% include "ui/_bar_list.html" with rows=top_routers %}
     </section>
   {% endif %}
   <section class="card">
-    <div class="card-head"><h2>Mauzo ya karibuni</h2><a class="link" href="{% url 'dashboard:sales' %}">Yote</a></div>
+    <div class="card-head"><h2>{% translate "Mauzo ya karibuni" %}</h2><a class="link" href="{% url 'dashboard:sales' %}">{% translate "Yote" %}</a></div>
     {% if recent_sales %}
       <ul class="list">
         {% for sale in recent_sales %}
@@ -143,7 +156,8 @@
         {% endfor %}
       </ul>
     {% else %}
-      <p class="empty">Mauzo yakianza, utayaona hapa papo hapo.</p>
+      {% translate "Mauzo yakianza, utayaona hapa papo hapo." as empty_text %}
+      {% include "ui/_empty.html" with icon="coins" text=empty_text %}
     {% endif %}
   </section>
 </div>

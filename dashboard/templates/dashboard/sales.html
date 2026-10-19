@@ -1,36 +1,37 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
 {% block content %}
 <section class="stats-grid stats-grid-3">
-  <article class="card stat">
-    <p class="stat-label">Leo</p>
+  <article class="card stat tone-blue"><span class="stat-icon">{% icon "clock" 18 %}</span>
+    <p class="stat-label">{% translate "Leo" %}</p>
     <p class="stat-value">{{ summary.today_amount|tsh }}</p>
-    <p class="stat-sub">Vifurushi {{ summary.today_count }}</p>
+    <p class="stat-sub">{% blocktranslate count n=summary.today_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
   </article>
-  <article class="card stat">
-    <p class="stat-label">Siku 7</p>
+  <article class="card stat tone-violet"><span class="stat-icon">{% icon "chart" 18 %}</span>
+    <p class="stat-label">{% translate "Siku 7" %}</p>
     <p class="stat-value">{{ summary.week_amount|tsh }}</p>
-    <p class="stat-sub">Vifurushi {{ summary.week_count }}</p>
+    <p class="stat-sub">{% blocktranslate count n=summary.week_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
   </article>
-  <article class="card stat">
-    <p class="stat-label">Siku 30</p>
+  <article class="card stat tone-green"><span class="stat-icon">{% icon "calendar" 18 %}</span>
+    <p class="stat-label">{% translate "Siku 30" %}</p>
     <p class="stat-value">{{ summary.month_amount|tsh }}</p>
-    <p class="stat-sub">Vifurushi {{ summary.month_count }}</p>
+    <p class="stat-sub">{% blocktranslate count n=summary.month_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
   </article>
 </section>
 
 <section class="card">
-  <div class="card-head"><h2>Mauzo ya siku 30</h2></div>
-  {% include "ui/_bar_chart.html" with chart=chart title="Mauzo ya siku 30" %}
+  <div class="card-head"><h2>{% translate "Mauzo ya siku 30" %}</h2></div>
+  {% translate "Mauzo ya siku 30" as chart_title %}
+  {% include "ui/_bar_chart.html" with chart=chart title=chart_title %}
 </section>
 
 <section class="card">
-  <div class="card-head"><h2>Kila mauzo</h2></div>
+  <div class="card-head"><h2>{% translate "Kila mauzo" %}</h2></div>
   {% if page.object_list %}
     <div class="table-wrap">
       <table class="table">
-        <thead><tr><th scope="col">Muda</th><th scope="col">Kifurushi</th><th scope="col">Eneo</th><th scope="col">Mteja</th><th scope="col" class="num">Kiasi</th></tr></thead>
+        <thead><tr><th scope="col">{% translate "Muda" %}</th><th scope="col">{% translate "Kifurushi" %}</th><th scope="col">{% translate "Eneo" %}</th><th scope="col">{% translate "Mteja" %}</th><th scope="col" class="num">{% translate "Kiasi" %}</th></tr></thead>
         <tbody>
           {% for sale in page.object_list %}
             <tr>
@@ -46,7 +47,8 @@
     </div>
     {% include "ui/_pager.html" %}
   {% else %}
-    <p class="empty">Bado hakuna mauzo.</p>
+    {% translate "Bado hakuna mauzo." as text %}
+    {% include "ui/_empty.html" with icon="chart" text=text %}
   {% endif %}
 </section>
 {% endblock %}

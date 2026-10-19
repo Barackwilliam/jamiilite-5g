@@ -532,6 +532,186 @@ li .check-icon { width: 28px; height: 28px; border-radius: 8px; }
 .flow small { color: var(--muted); font-size: 0.84rem; }
 .flow-num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--brand); color: var(--brand-text); font-weight: 800; font-size: 0.86rem; flex-shrink: 0; }
 
+/* ============================================================
+   Mapambo: rangi, mandhari na vielelezo
+   ============================================================ */
+:root {
+  --violet: #6d4fd8; --violet-soft: #ede8fd;
+  --amber: #c27c0e; --amber-soft: #fdf1d8;
+  --teal: #0e9fb3; --teal-soft: #ddf4f7;
+  --grad-brand: linear-gradient(135deg, #0b5cd6 0%, #3b6ff0 55%, #6d4fd8 100%);
+  --shadow-lift: 0 2px 4px rgba(16, 26, 51, 0.06), 0 16px 36px -12px rgba(11, 92, 214, 0.28);
+  --radius: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --violet: #9b7be6; --violet-soft: #251d45;
+    --amber: #f0b54a; --amber-soft: #33270f;
+    --teal: #3cc6d9; --teal-soft: #11303a;
+    --grad-brand: linear-gradient(135deg, #2f6fe0 0%, #4c7ff0 55%, #7d5fe0 100%);
+    --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.3), 0 16px 36px -12px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Sidebar yenye mng'ao */
+.sidebar { background: linear-gradient(180deg, #0c1734 0%, #0a1229 100%); overflow: hidden; }
+.sidebar > *:not(.sidebar-deco) { position: relative; z-index: 1; }
+.sidebar-deco {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(260px 200px at 0% 0%, rgba(76, 149, 245, 0.32), transparent 70%),
+    radial-gradient(240px 220px at 100% 100%, rgba(109, 79, 216, 0.28), transparent 70%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1.3px) 0 0 / 18px 18px;
+}
+.app-logo-mark { background: var(--grad-brand); box-shadow: 0 6px 16px -4px rgba(76, 149, 245, 0.6); }
+.side-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: rgba(255, 255, 255, 0.05); transition: background 0.15s; }
+.side-link { padding: 7px 10px; }
+.side-link:hover .side-icon { background: rgba(255, 255, 255, 0.1); }
+.side-link.is-active { background: linear-gradient(90deg, rgba(76, 149, 245, 0.28), rgba(76, 149, 245, 0.06)); box-shadow: inset 3px 0 0 #79b0fa; }
+.side-link.is-active .side-icon { background: var(--grad-brand); color: #fff; box-shadow: 0 6px 14px -6px rgba(76, 149, 245, 0.9); }
+.side-link.is-active .icon { color: #fff; }
+.app-control .sidebar { background: linear-gradient(180deg, #17112f 0%, #0d0b1f 100%); }
+.app-control .sidebar-deco { background:
+    radial-gradient(260px 200px at 0% 0%, rgba(240, 181, 74, 0.22), transparent 70%),
+    radial-gradient(240px 220px at 100% 100%, rgba(109, 79, 216, 0.35), transparent 70%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1.3px) 0 0 / 18px 18px; }
+.app-control .side-link.is-active { background: linear-gradient(90deg, rgba(240, 181, 74, 0.24), rgba(240, 181, 74, 0.04)); box-shadow: inset 3px 0 0 #f0b54a; }
+.app-control .side-link.is-active .side-icon { background: linear-gradient(135deg, #f0b54a, #e07b39); }
+.sidebar-lang { padding: 0 6px 12px; }
+
+/* Kubadilisha lugha */
+.lang-switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--border); }
+.lang-switch button { font: inherit; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.04em; padding: 4px 10px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--brand); box-shadow: 0 1px 3px rgba(16, 26, 51, 0.15); }
+.lang-switch-dark { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.1); }
+.lang-switch-dark button { color: #9fb2d4; }
+.lang-switch-dark button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.14); color: #fff; box-shadow: none; }
+.appbar-lang { display: none; }
+
+/* Mandhari ya eneo kuu */
+.main { position: relative; isolation: isolate; }
+.main-deco {
+  position: absolute; inset: 0 0 auto 0; height: 420px; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(520px 260px at 92% -40px, color-mix(in srgb, var(--brand) 16%, transparent), transparent 70%),
+    radial-gradient(420px 240px at 40% -80px, color-mix(in srgb, var(--violet) 12%, transparent), transparent 70%);
+}
+.appbar { background: color-mix(in srgb, var(--bg) 75%, transparent); }
+
+/* Kadi */
+.card { border-radius: var(--radius); }
+.card-head h2 { display: inline-flex; align-items: center; gap: 8px; }
+.card-accent { position: relative; overflow: hidden; }
+.card-accent::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--grad-brand); }
+a.card:hover, .stat-link:hover { box-shadow: var(--shadow-lift); }
+
+/* Takwimu zenye rangi zao */
+.stat { position: relative; overflow: hidden; }
+.stat::after { content: ""; position: absolute; width: 120px; height: 120px; right: -40px; top: -40px; border-radius: 50%; background: var(--tone-soft, var(--brand-soft)); opacity: 0.7; z-index: 0; }
+.stat > * { position: relative; z-index: 1; }
+.tone-blue { --tone: var(--brand); --tone-soft: var(--brand-soft); }
+.tone-violet { --tone: var(--violet); --tone-soft: var(--violet-soft); }
+.tone-green { --tone: var(--money); --tone-soft: var(--money-soft); }
+.tone-amber { --tone: var(--amber); --tone-soft: var(--amber-soft); }
+.stat .stat-icon { background: var(--tone, var(--brand)); color: #fff; box-shadow: 0 8px 16px -8px var(--tone, var(--brand)); }
+
+/* Kadi kuu ya mapato */
+.hero-card { background: var(--grad-brand); box-shadow: 0 20px 40px -18px rgba(11, 92, 214, 0.65); }
+.hero-card > *:not(.hero-deco) { position: relative; z-index: 1; }
+.hero-deco { position: absolute; right: -24px; bottom: -30px; width: 210px; height: 210px; color: #fff; opacity: 0.18; z-index: 0; animation: hero-float 7s ease-in-out infinite; }
+@keyframes hero-float { 50% { transform: translateY(-8px) rotate(-2deg); } }
+
+/* Vitufe */
+.btn-primary { background: var(--grad-brand); box-shadow: 0 8px 18px -10px rgba(11, 92, 214, 0.9); }
+.btn-primary:hover { background: var(--grad-brand); filter: brightness(1.06); transform: translateY(-1px); }
+.btn { transition: transform 0.12s, filter 0.12s, background 0.12s; }
+.btn-lg { min-height: 50px; font-size: 1rem; border-radius: 13px; }
+
+/* Msimbo kama terminal */
+.code-box { position: relative; padding-top: 34px; border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04); }
+.code-box-light { padding-top: 12px; border-color: var(--border); }
+.code-dots { position: absolute; left: 14px; top: 12px; display: flex; gap: 6px; }
+.code-dots i { width: 10px; height: 10px; border-radius: 50%; background: #f05a5a; }
+.code-dots i:nth-child(2) { background: #f0b54a; }
+.code-dots i:nth-child(3) { background: #3ccf7e; }
+.code-box code::before { content: "> "; color: #3ccf7e; }
+.code-box-light code::before { content: none; }
+
+/* Hali tupu zenye kielelezo */
+.empty-art { position: relative; display: inline-grid; place-items: center; width: 96px; height: 70px; margin-bottom: 8px; }
+.empty-blob { position: absolute; inset: 0; width: 100%; height: 100%; fill: var(--brand-soft); }
+.empty-art .empty-icon { position: relative; background: var(--grad-brand); color: #fff; width: 48px; height: 48px; border-radius: 14px; margin: 0; box-shadow: 0 10px 20px -10px rgba(11, 92, 214, 0.8); }
+.empty-state .btn { margin-top: 8px; }
+
+/* Vifurushi kama vigae */
+.package-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.package-tile { display: flex; flex-direction: column; gap: 4px; height: 100%; padding: 14px; border-radius: 14px; border: 1px solid var(--border); background: linear-gradient(160deg, var(--surface) 55%, var(--brand-soft)); color: inherit; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+.package-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: color-mix(in srgb, var(--brand) 40%, var(--border)); }
+.package-tile.is-off { opacity: 0.6; background: var(--surface-2); }
+.package-tile-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.package-tile-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--grad-brand); color: #fff; }
+.package-tile-price { font-size: 1.25rem; font-weight: 800; color: var(--brand); font-variant-numeric: tabular-nums; }
+.package-tile small { color: var(--muted); font-size: 0.8rem; }
+
+/* Salio */
+.balance-card { position: relative; overflow: hidden; color: #fff; border: 0; background: linear-gradient(140deg, #0f9b4d 0%, #12a150 40%, #0e7c8f 100%); box-shadow: 0 20px 40px -20px rgba(18, 161, 80, 0.7); }
+.balance-card .stat-label { color: rgba(255, 255, 255, 0.85); }
+.balance-card .hero-figure { color: #fff; }
+.balance-deco { position: absolute; right: -40px; top: -40px; width: 200px; height: 200px; fill: none; stroke: #fff; stroke-width: 2; opacity: 0.18; }
+.ledger-dot { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; font-weight: 800; flex-shrink: 0; }
+.ledger-dot.is-in { background: var(--money-soft); color: var(--money); }
+.ledger-dot.is-out { background: var(--surface-2); color: var(--muted); }
+.pay-option-best { position: relative; border-color: color-mix(in srgb, var(--brand) 45%, var(--border)); }
+
+/* Chaguo za vidonge (lugha) */
+.field-label { font-size: 0.86rem; font-weight: 600; }
+.choice-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.choice-pill { position: relative; cursor: pointer; }
+.choice-pill input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.choice-pill span { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 8px 12px; border-radius: 12px; border: 2px solid var(--border); background: var(--surface); font-weight: 650; }
+.choice-pill input:checked + span { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
+.choice-pill input:focus-visible + span { outline: 3px solid color-mix(in srgb, var(--brand) 45%, transparent); outline-offset: 2px; }
+
+/* Kuingia / kujisajili: skrini mbili */
+body.auth { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); place-items: stretch; background: var(--bg); }
+.auth-art { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 48px; color: #fff; background: var(--grad-brand); }
+.auth-art::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1.4px) 0 0 / 22px 22px; }
+.auth-art::after { content: ""; position: absolute; width: 520px; height: 520px; right: -200px; bottom: -220px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 65%); }
+.auth-art-inner { position: relative; z-index: 1; max-width: 440px; }
+.auth-art .app-logo { color: #fff; margin-bottom: 18px; }
+.auth-art .app-logo b { color: #cfe0ff; }
+.auth-art .app-logo-mark { background: rgba(255, 255, 255, 0.18); box-shadow: none; }
+.auth-illustration { width: 100%; height: auto; margin: 8px 0 18px; }
+.ai-phone { animation: hero-float 5s ease-in-out infinite; }
+.ai-phone-2 { animation-delay: -2.5s; }
+.auth-art h2 { font-size: 1.7rem; letter-spacing: -0.01em; margin-bottom: 14px; }
+.auth-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.auth-points li { display: flex; gap: 10px; align-items: flex-start; color: rgba(255, 255, 255, 0.92); }
+.auth-points .icon { flex-shrink: 0; margin-top: 3px; padding: 2px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); width: 20px; height: 20px; }
+.auth-wrap { width: min(440px, 100% - 32px); margin: 0 auto; align-self: center; padding: 32px 0; }
+.auth-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.auth-card { border-radius: 20px; padding: 28px 26px; }
+.auth-eyebrow { display: inline-block; margin: 0 0 8px; padding: 4px 10px; border-radius: 99px; background: var(--brand-soft); color: var(--brand); font-size: 0.8rem; font-weight: 750; }
+
+/* Vocha za kuchapisha */
+.voucher-card { overflow: hidden; }
+.voucher-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, #0b5cd6, #6d4fd8); }
+.voucher-wifi { position: absolute; right: 12px; bottom: 10px; color: #0b5cd6; opacity: 0.35; }
+
+@media (max-width: 900px) {
+  body.auth { grid-template-columns: minmax(0, 1fr); }
+  .auth-art { display: none; }
+  body.auth { background: radial-gradient(circle at 20% 0%, var(--brand-soft), var(--bg) 55%); }
+}
+@media (max-width: 860px) {
+  .appbar-lang { display: inline-flex; }
+  .main-deco { height: 260px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-deco, .ai-phone { animation: none; }
+  .ai-packet { display: none; }
+}
+
 /* --- Simu na tablet --- */
 @media (max-width: 1100px) {
   .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -597,3 +777,6 @@ li .check-icon { width: 28px; height: 28px; border-radius: 8px; }
 @media (prefers-reduced-motion: reduce) {
   .sidebar, .stat-link, .chart-mark { transition: none; }
 }
+
+/* Kadi kuu ya Super Admin */
+.stat-hero { background: var(--grad-brand); box-shadow: 0 20px 40px -18px rgba(11, 92, 214, 0.65); }

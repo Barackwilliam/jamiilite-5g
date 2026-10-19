@@ -1,4 +1,4 @@
-{% comment %}
+{% load i18n %}{% comment %}
 Fomu inayotuma vocha moja kwa moja kwa MikroTik (login-by=http-pap).
 Vocha inatumika kama username na password.
 {% endcomment %}
@@ -8,14 +8,14 @@ Vocha inatumika kama username na password.
     <input type="hidden" name="password" value="{{ code }}">
   {% else %}
     <label class="field">
-      <span>Namba ya vocha</span>
-      <input type="text" name="username" required autocapitalize="characters" autocomplete="off" placeholder="mfano 7K4QX9MP">
+      <span>{% translate "Namba ya vocha" %}</span>
+      <input type="text" name="username" required autocapitalize="characters" autocomplete="off" placeholder="{% translate 'mfano' %} 7K4QX9MP">
     </label>
     <input type="hidden" name="password" value="">
   {% endif %}
   {% if dst %}<input type="hidden" name="dst" value="{{ dst }}">{% endif %}
   <input type="hidden" name="popup" value="true">
-  <button type="submit" class="btn {% if not code %}btn-secondary{% endif %}">Unganisha</button>
+  <button type="submit" class="btn {% if not code %}btn-secondary{% endif %}">{% translate "Unganisha" %}</button>
 </form>
 <script>
   document.querySelectorAll("form.voucher-login").forEach(function (form) {

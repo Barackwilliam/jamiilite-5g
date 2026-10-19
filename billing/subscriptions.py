@@ -11,6 +11,7 @@ from datetime import timedelta
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from core import config
 
@@ -39,7 +40,7 @@ def pay_from_balance(owner, months=1, now=None):
     with transaction.atomic():
         owner = lock_owner(owner)
         if balance(owner) < amount:
-            raise ValidationError(f"Salio halitoshi. Unahitaji Tsh {amount:,}.")
+            raise ValidationError(_("Salio halitoshi. Unahitaji Tsh %(amount)s.") % {"amount": f"{amount:,}"})
         period_end = _extend(owner, months, now)
         LedgerEntry.objects.create(
             owner=owner,

@@ -1,54 +1,56 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
 {% block content %}
 <div class="two-col two-col-wide">
   <section class="card sub-card sub-{{ sub.state }}">
-    <p class="stat-label">Hali ya usajili</p>
+    <p class="stat-label">{% translate "Hali ya usajili" %}</p>
     {% if sub.state == "expired" %}
-      <p class="hero-figure">Umeisha</p>
-      <p>Mauzo mapya yamesimama. Wateja wenye vocha bado wanaunganishwa mpaka muda wao uishe.</p>
+      <p class="hero-figure">{% translate "Umeisha" %}</p>
+      <p>{% translate "Mauzo mapya yamesimama. Wateja wenye vocha bado wanaunganishwa mpaka muda wao uishe." %}</p>
     {% elif sub.state == "trial" %}
-      <p class="hero-figure">Majaribio · siku {{ sub.days_left }}</p>
-      <p class="muted">Inaisha {{ sub.ends|date:"d/m/Y H:i" }}.</p>
+      <p class="hero-figure">{% blocktranslate count days=sub.days_left %}Majaribio · siku {{ days }}{% plural %}Majaribio · siku {{ days }}{% endblocktranslate %}</p>
+      <p class="muted">{% blocktranslate with date=sub.ends|date:"d/m/Y H:i" %}Inaisha {{ date }}.{% endblocktranslate %}</p>
     {% else %}
-      <p class="hero-figure">Hai · siku {{ sub.days_left }}</p>
-      <p class="muted">Imelipiwa mpaka {{ sub.ends|date:"d/m/Y H:i" }}.</p>
+      <p class="hero-figure">{% blocktranslate count days=sub.days_left %}Hai · siku {{ days }}{% plural %}Hai · siku {{ days }}{% endblocktranslate %}</p>
+      <p class="muted">{% blocktranslate with date=sub.ends|date:"d/m/Y H:i" %}Imelipiwa mpaka {{ date }}.{% endblocktranslate %}</p>
     {% endif %}
-    <p class="muted small">Ada ni {{ monthly_fee|tsh }} kwa mwezi. Ukiwa na salio la kutosha muda ukiisha, tunakata wenyewe ili mauzo yasisimame.</p>
+    <p class="muted small">{% blocktranslate with fee=monthly_fee|tsh %}Ada ni {{ fee }} kwa mwezi. Ukiwa na salio la kutosha muda ukiisha, tunakata wenyewe ili mauzo yasisimame.{% endblocktranslate %}</p>
   </section>
 
-  <section class="card">
-    <div class="card-head"><h2>Lipia sasa kutoka salio</h2></div>
-    <p class="muted">Salio lako: <strong>{{ balance|tsh }}</strong></p>
+  <section class="card card-accent">
+    <div class="card-head"><h2>{% translate "Lipia sasa kutoka salio" %}</h2></div>
+    <p class="muted">{% translate "Salio lako:" %} <strong>{{ balance|tsh }}</strong></p>
     <form method="post" class="pay-options">
       {% csrf_token %}
       <button type="submit" name="months" value="1" class="pay-option"{% if balance < monthly_fee %} disabled{% endif %}>
-        <strong>Mwezi 1</strong><span>{{ monthly_fee|tsh }}</span>
+        <strong>{% translate "Mwezi 1" %}</strong><span>{{ monthly_fee|tsh }}</span>
       </button>
-      <button type="submit" name="months" value="3" class="pay-option"{% if balance < fee_3 %} disabled{% endif %}>
-        <strong>Miezi 3</strong><span>{{ fee_3|tsh }}</span>
+      <button type="submit" name="months" value="3" class="pay-option pay-option-best"{% if balance < fee_3 %} disabled{% endif %}>
+        <strong>{% translate "Miezi 3" %}</strong><span>{{ fee_3|tsh }}</span>
       </button>
     </form>
     {% if balance < monthly_fee %}
-      <p class="muted small">Salio halitoshi bado. Unaweza pia kulipa kwa mkono kupitia WhatsApp ya JamiiLite, tukakuongezea muda.</p>
+      <p class="muted small">{% translate "Salio halitoshi bado. Unaweza pia kulipa kwa mkono kupitia WhatsApp ya JamiiLite, tukakuongezea muda." %}</p>
     {% endif %}
   </section>
 </div>
 
 <section class="card">
-  <div class="card-head"><h2>Malipo ya usajili</h2></div>
+  <div class="card-head"><h2>{% translate "Malipo ya usajili" %}</h2></div>
   {% if charges %}
     <ul class="list">
       {% for charge in charges %}
         <li class="list-row">
-          <span class="list-main"><strong>Miezi {{ charge.months }} · {{ charge.amount|tsh }}</strong><small>{{ charge.created_at|date:"d/m/Y" }} · mpaka {{ charge.period_end|date:"d/m/Y" }}</small></span>
+          <span class="router-badge is-online">{% icon "calendar" 18 %}</span>
+          <span class="list-main"><strong>{% blocktranslate count n=charge.months %}Mwezi {{ n }}{% plural %}Miezi {{ n }}{% endblocktranslate %} · {{ charge.amount|tsh }}</strong><small>{{ charge.created_at|date:"d/m/Y" }} · {% blocktranslate with date=charge.period_end|date:"d/m/Y" %}mpaka {{ date }}{% endblocktranslate %}</small></span>
           <span class="pill {% if charge.source == cash_source %}pill-muted{% else %}pill-info{% endif %}">{{ charge.get_source_display }}</span>
         </li>
       {% endfor %}
     </ul>
   {% else %}
-    <p class="empty">Bado hujalipia. Furahia majaribio yako.</p>
+    {% translate "Bado hujalipia. Furahia majaribio yako." as text %}
+    {% include "ui/_empty.html" with icon="calendar" text=text %}
   {% endif %}
 </section>
 {% endblock %}

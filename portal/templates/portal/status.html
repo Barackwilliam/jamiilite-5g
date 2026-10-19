@@ -1,4 +1,5 @@
 {% extends "portal/base.html" %}
+{% load i18n %}
 
 {% block head %}
   {% if payment.status == "pending" %}<meta http-equiv="refresh" content="3">{% endif %}
@@ -8,29 +9,29 @@
   {% if payment.status == "pending" %}
     <section class="center">
       <div class="spinner" aria-hidden="true"></div>
-      <h2>Tunasubiri malipo yako</h2>
-      <p>Ombi la kulipia Tsh {{ payment.amount_display }} limetumwa kwa <strong>{{ payment.phone }}</strong>.</p>
-      <p class="muted">Weka PIN kwenye simu yako. Ukurasa huu utajisasisha wenyewe.</p>
+      <h2>{% translate "Tunasubiri malipo yako" %}</h2>
+      <p>{% blocktranslate with amount=payment.amount_display phone=payment.phone %}Ombi la kulipia Tsh {{ amount }} limetumwa kwa <strong>{{ phone }}</strong>.{% endblocktranslate %}</p>
+      <p class="muted">{% translate "Weka PIN kwenye simu yako. Ukurasa huu utajisasisha wenyewe." %}</p>
     </section>
 
   {% elif payment.status == "failed" %}
     <section class="center">
-      <h2>Malipo hayakufanikiwa</h2>
-      <p class="muted">{{ payment.failure_reason|default:"Tafadhali jaribu tena." }}</p>
-      <a class="btn" href="{% url 'portal:home' router.slug %}">Jaribu tena</a>
+      <h2>{% translate "Malipo hayakufanikiwa" %}</h2>
+      <p class="muted">{% if payment.failure_reason %}{{ payment.failure_reason }}{% else %}{% translate "Tafadhali jaribu tena." %}{% endif %}</p>
+      <a class="btn" href="{% url 'portal:home' router.slug %}">{% translate "Jaribu tena" %}</a>
     </section>
 
   {% elif voucher %}
     <section class="center">
-      <h2>Asante! Malipo yamepokelewa</h2>
+      <h2>{% translate "Asante! Malipo yamepokelewa" %}</h2>
       <p>{{ payment.package.name }}{% if payment.package.summary %} · {{ payment.package.summary }}{% endif %}</p>
-      <p class="muted small">Namba yako ya vocha</p>
+      <p class="muted small">{% translate "Namba yako ya vocha" %}</p>
       <p class="voucher-code">{{ voucher.code }}</p>
-      <p class="muted small">Ihifadhi. Utaihitaji ukiunganishwa upya.</p>
+      <p class="muted small">{% translate "Ihifadhi. Utaihitaji ukiunganishwa upya." %}</p>
       {% if login_target %}
         {% include "portal/_voucher_login.html" with code=voucher.code autosubmit=True %}
       {% else %}
-        <p class="alert">Fungua ukurasa wa WiFi tena kisha weka vocha hii kuunganishwa.</p>
+        <p class="alert">{% translate "Fungua ukurasa wa WiFi tena kisha weka vocha hii kuunganishwa." %}</p>
       {% endif %}
     </section>
   {% endif %}

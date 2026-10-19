@@ -1,21 +1,22 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
 {% block content %}
 <div class="two-col two-col-wide">
   <section class="card">
-    <div class="card-head"><h2>Vocha ulizochapisha</h2></div>
-    <p class="muted small">Kwa wateja wasio na M-Pesa: chapisha vocha, uziuze kwa mkono. Mteja anaandika namba ya vocha kwenye ukurasa wa kuingia.</p>
+    <div class="card-head"><h2>{% translate "Vocha ulizochapisha" %}</h2></div>
+    <p class="muted small">{% translate "Kwa wateja wasio na M-Pesa: chapisha vocha, uziuze kwa mkono. Mteja anaandika namba ya vocha kwenye ukurasa wa kuingia." %}</p>
     {% if batches %}
       <ul class="list">
         {% for batch in batches %}
           <li>
             <a class="list-row" href="{% url 'dashboard:voucher_print' batch.batch %}">
+              <span class="router-badge is-online">{% icon "ticket" 18 %}</span>
               <span class="list-main">
                 <strong>{{ batch.package__name }} × {{ batch.count }}</strong>
-                <small>{{ batch.created_at|date:"d/m/Y H:i" }} · zimetumika {{ batch.used }} kati ya {{ batch.count }}</small>
+                <small>{{ batch.created_at|date:"d/m/Y H:i" }} · {% blocktranslate with used=batch.used total=batch.count %}zimetumika {{ used }} kati ya {{ total }}{% endblocktranslate %}</small>
               </span>
               <span class="meter" aria-hidden="true"><span style="width: {% widthratio batch.used batch.count 100 %}%"></span></span>
               {% icon "print" 16 %}
@@ -24,26 +25,24 @@
         {% endfor %}
       </ul>
     {% else %}
-      <div class="empty-state">
-        <span class="empty-icon">{% icon "ticket" 28 %}</span>
-        <p><strong>Bado hujachapisha vocha.</strong></p>
-      </div>
+      {% translate "Bado hujachapisha vocha." as title %}{% translate "Vocha zako zitaonekana hapa, tayari kuchapishwa tena." as text %}
+      {% include "ui/_empty.html" with icon="ticket" title=title text=text %}
     {% endif %}
   </section>
 
-  <section class="card">
-    <div class="card-head"><h2>Tengeneza vocha</h2></div>
+  <section class="card card-accent">
+    <div class="card-head"><h2>{% translate "Tengeneza vocha" %}</h2></div>
     {% if not has_routers %}
-      <p class="muted">Ongeza router kwanza. <a href="{% url 'dashboard:routers' %}">Ongeza router</a></p>
+      <p class="muted">{% translate "Ongeza router kwanza." %} <a href="{% url 'dashboard:routers' %}">{% translate "Ongeza router" %}</a></p>
     {% elif not has_packages %}
-      <p class="muted">Weka kifurushi kwanza. <a href="{% url 'dashboard:packages' %}">Weka vifurushi</a></p>
+      <p class="muted">{% translate "Weka kifurushi kwanza." %} <a href="{% url 'dashboard:packages' %}">{% translate "Weka vifurushi" %}</a></p>
     {% else %}
       <form method="post" class="form-stack" novalidate>
         {% csrf_token %}
         {% include "dashboard/_field.html" with field=form.package %}
         {% include "dashboard/_field.html" with field=form.router %}
         {% include "dashboard/_field.html" with field=form.count %}
-        <button type="submit" class="btn btn-primary btn-block">{% icon "print" 18 %} Tengeneza na chapisha</button>
+        <button type="submit" class="btn btn-primary btn-block">{% icon "print" 18 %} {% translate "Tengeneza na chapisha" %}</button>
       </form>
     {% endif %}
   </section>

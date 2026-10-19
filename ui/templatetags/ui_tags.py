@@ -2,6 +2,8 @@ from django import template
 from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext
 
 register = template.Library()
 
@@ -68,17 +70,20 @@ def signed_tsh(value):
 
 @register.filter
 def ago(value):
-    """Muda uliopita kwa Kiswahili, mfano 'dakika 3 zilizopita'."""
+    """Muda uliopita kwa lugha inayotumika, mfano 'dakika 3 zilizopita'."""
     if not value:
-        return "bado"
+        return _("bado")
     seconds = int((timezone.now() - value).total_seconds())
     if seconds < 60:
-        return "sasa hivi"
-    for size, one, many in ((86400, "siku", "siku"), (3600, "saa", "saa"), (60, "dakika", "dakika")):
-        if seconds >= size:
-            count = seconds // size
-            return f"{one if count == 1 else many} {count} zilizopita"
-    return "sasa hivi"
+        return _("sasa hivi")
+    if seconds >= 86400:
+        count = seconds // 86400
+        return ngettext("siku %(n)s iliyopita", "siku %(n)s zilizopita", count) % {"n": count}
+    if seconds >= 3600:
+        count = seconds // 3600
+        return ngettext("saa %(n)s iliyopita", "saa %(n)s zilizopita", count) % {"n": count}
+    count = seconds // 60
+    return ngettext("dakika %(n)s iliyopita", "dakika %(n)s zilizopita", count) % {"n": count}
 
 
 @register.filter

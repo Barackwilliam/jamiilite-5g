@@ -1,62 +1,62 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
-{% block breadcrumb %}<a class="crumb" href="{% url 'control:owners' %}">Wamiliki</a>{% endblock %}
+{% block breadcrumb %}<a class="crumb" href="{% url 'control:owners' %}">{% translate "Wamiliki" %}</a>{% endblock %}
 {% block actions %}{% include "control/_state_pill.html" with state=o.state %}{% endblock %}
 
 {% block content %}
 <section class="stats-grid stats-grid-4">
   <article class="card stat">
-    <p class="stat-label">Salio lake</p>
+    <p class="stat-label">{% translate "Salio lake" %}</p>
     <p class="stat-value stat-money">{{ balance|tsh }}</p>
   </article>
   <article class="card stat">
-    <p class="stat-label">Mauzo leo</p>
+    <p class="stat-label">{% translate "Mauzo leo" %}</p>
     <p class="stat-value">{{ summary.today_amount|tsh }}</p>
-    <p class="stat-sub">Vifurushi {{ summary.today_count }}</p>
+    <p class="stat-sub">{% blocktranslate count n=summary.today_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
   </article>
   <article class="card stat">
-    <p class="stat-label">Mauzo siku 30</p>
+    <p class="stat-label">{% translate "Mauzo siku 30" %}</p>
     <p class="stat-value">{{ summary.month_amount|tsh }}</p>
-    <p class="stat-sub">Vifurushi {{ summary.month_count }}</p>
+    <p class="stat-sub">{% blocktranslate count n=summary.month_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
   </article>
   <article class="card stat">
-    <p class="stat-label">Usajili unaisha</p>
+    <p class="stat-label">{% translate "Usajili unaisha" %}</p>
     <p class="stat-value stat-text">{{ o.ends_at|date:"d/m/Y H:i"|default:"—" }}</p>
   </article>
 </section>
 
 <div class="two-col">
   <section class="card">
-    <div class="card-head"><h2>Taarifa</h2></div>
+    <div class="card-head"><h2>{% translate "Taarifa" %}</h2></div>
     <dl class="kv">
-      <dt>Biashara</dt><dd>{{ o.business_name }}</dd>
-      <dt>Anaingia kwa</dt><dd>{{ o.user.username|phone_display }}</dd>
-      <dt>Namba ya malipo</dt><dd>{{ o.phone|phone_display }}</dd>
-      <dt>Alijiunga</dt><dd>{{ o.created_at|date:"d/m/Y" }}</dd>
-      <dt>Majaribio</dt><dd>{{ o.trial_ends_at|date:"d/m/Y"|default:"—" }}</dd>
-      <dt>Amelipia hadi</dt><dd>{{ o.paid_until|date:"d/m/Y"|default:"—" }}</dd>
+      <dt>{% translate "Biashara" %}</dt><dd>{{ o.business_name }}</dd>
+      <dt>{% translate "Anaingia kwa" %}</dt><dd>{{ o.user.username|phone_display }}</dd>
+      <dt>{% translate "Namba ya malipo" %}</dt><dd>{{ o.phone|phone_display }}</dd>
+      <dt>{% translate "Alijiunga" %}</dt><dd>{{ o.created_at|date:"d/m/Y" }}</dd>
+      <dt>{% translate "Majaribio" %}</dt><dd>{{ o.trial_ends_at|date:"d/m/Y"|default:"—" }}</dd>
+      <dt>{% translate "Amelipia hadi" %}</dt><dd>{{ o.paid_until|date:"d/m/Y"|default:"—" }}</dd>
     </dl>
     <hr>
     <form method="post" class="btn-row">
       {% csrf_token %}
       {% if o.is_active %}
-        <button class="btn btn-danger-ghost" name="action" value="suspend" data-confirm="Kumsitisha {{ o.business_name }}? Hataweza kuingia wala kuuza.">{% icon "power" 16 %} Sitisha akaunti</button>
+        <button class="btn btn-danger-ghost" name="action" value="suspend" data-confirm="{% blocktranslate with name=o.business_name %}Kumsitisha {{ name }}? Hataweza kuingia wala kuuza.{% endblocktranslate %}">{% icon "power" 16 %} {% translate "Sitisha akaunti" %}</button>
       {% else %}
-        <button class="btn btn-good" name="action" value="activate">{% icon "check" 16 %} Rudisha akaunti</button>
+        <button class="btn btn-good" name="action" value="activate">{% icon "check" 16 %} {% translate "Rudisha akaunti" %}</button>
       {% endif %}
     </form>
   </section>
 
   <section class="card">
-    <div class="card-head"><h2>Amelipa ada kwa mkono</h2></div>
-    <p class="muted small">Ukipokea ada kwa pesa taslimu au M-Pesa yako moja kwa moja, mwongezee muda hapa. Haigusi salio lake.</p>
+    <div class="card-head"><h2>{% translate "Amelipa ada kwa mkono" %}</h2></div>
+    <p class="muted small">{% translate "Ukipokea ada kwa pesa taslimu au M-Pesa yako moja kwa moja, mwongezee muda hapa. Haigusi salio lake." %}</p>
     <form method="post" class="pay-options pay-options-4">
       {% csrf_token %}
       <input type="hidden" name="action" value="cash">
       {% for m in cash_months %}
-        <button type="submit" name="months" value="{{ m }}" class="pay-option" data-confirm="Kumwongezea {{ o.business_name }} miezi {{ m }}?">
-          <strong>Miezi {{ m }}</strong><span>{% widthratio monthly_fee 1 m as amount %}{{ amount|tsh }}</span>
+        <button type="submit" name="months" value="{{ m }}" class="pay-option" data-confirm="{% blocktranslate with name=o.business_name n=m %}Kumwongezea {{ name }} miezi {{ n }}?{% endblocktranslate %}">
+          <strong>{% blocktranslate count n=m %}Mwezi {{ n }}{% plural %}Miezi {{ n }}{% endblocktranslate %}</strong><span>{% widthratio monthly_fee 1 m as amount %}{{ amount|tsh }}</span>
         </button>
       {% endfor %}
     </form>
@@ -64,7 +64,7 @@
       <ul class="list list-compact">
         {% for c in charges %}
           <li class="list-row">
-            <span class="list-main"><strong>Miezi {{ c.months }} · {{ c.amount|tsh }}</strong><small>{{ c.created_at|date:"d/m/Y" }}{% if c.created_by %} · {{ c.created_by.username }}{% endif %}</small></span>
+            <span class="list-main"><strong>{% blocktranslate count n=c.months %}Mwezi {{ n }}{% plural %}Miezi {{ n }}{% endblocktranslate %} · {{ c.amount|tsh }}</strong><small>{{ c.created_at|date:"d/m/Y" }}{% if c.created_by %} · {{ c.created_by.username }}{% endif %}</small></span>
             <span class="pill">{{ c.get_source_display }}</span>
           </li>
         {% endfor %}
@@ -74,8 +74,9 @@
 </div>
 
 <section class="card">
-  <div class="card-head"><h2>Mauzo yake, siku 30</h2></div>
-  {% include "ui/_bar_chart.html" with chart=chart title="Mauzo siku 30" %}
+  <div class="card-head"><h2>{% translate "Mauzo yake, siku 30" %}</h2></div>
+  {% translate "Mauzo siku 30" as chart_title %}
+  {% include "ui/_bar_chart.html" with chart=chart title=chart_title %}
 </section>
 
 <div class="two-col">
@@ -86,28 +87,28 @@
         {% for r in routers %}
           <li class="list-row">
             <span class="status-dot {% if r.is_online %}is-online{% else %}is-offline{% endif %}"></span>
-            <span class="list-main"><strong><a href="{% url 'control:router_detail' r.pk %}">{{ r.name }}</a></strong><small>{{ r.nas_identifier|default:"bila NAS id" }} · {% if r.is_online %}wateja {{ r.active_clients }}{% else %}ilionekana {{ r.last_seen_at|ago }}{% endif %}</small></span>
-            <a class="link" href="{% url 'portal:home' r.slug %}" target="_blank" rel="noopener">Portal</a>
+            <span class="list-main"><strong><a href="{% url 'control:router_detail' r.pk %}">{{ r.name }}</a></strong><small>{% if r.nas_identifier %}{{ r.nas_identifier }}{% else %}{% translate "bila NAS id" %}{% endif %} · {% if r.is_online %}{% blocktranslate with n=r.active_clients %}wateja {{ n }}{% endblocktranslate %}{% else %}{% blocktranslate with ago=r.last_seen_at|ago %}ilionekana {{ ago }}{% endblocktranslate %}{% endif %}</small></span>
+            <a class="link" href="{% url 'portal:home' r.slug %}" target="_blank" rel="noopener">{% translate "Portal" %}</a>
           </li>
         {% endfor %}
       </ul>
     {% else %}
-      <p class="empty">Hajaongeza router.</p>
+      <p class="empty">{% translate "Hajaongeza router." %}</p>
     {% endif %}
-    <h3 class="sub-h">Vifurushi</h3>
+    <h3 class="sub-h">{% translate "Vifurushi" %}</h3>
     {% if packages %}
       <ul class="list list-compact">
         {% for p in packages %}
-          <li class="list-row"><span class="list-main"><strong>{{ p.name }}</strong><small>{{ p.duration_label }}{% if not p.is_active %} · hakiuzwi{% endif %}</small></span><span class="list-amount">{{ p.price|tsh }}</span></li>
+          <li class="list-row"><span class="list-main"><strong>{{ p.name }}</strong><small>{{ p.duration_label }}{% if not p.is_active %} · {% translate "hakiuzwi" %}{% endif %}</small></span><span class="list-amount">{{ p.price|tsh }}</span></li>
         {% endfor %}
       </ul>
     {% else %}
-      <p class="empty">Hajaweka vifurushi.</p>
+      <p class="empty">{% translate "Hajaweka vifurushi." %}</p>
     {% endif %}
   </section>
 
   <section class="card">
-    <div class="card-head"><h2>Mauzo ya karibuni</h2></div>
+    <div class="card-head"><h2>{% translate "Mauzo ya karibuni" %}</h2></div>
     {% if recent_sales %}
       <ul class="list">
         {% for s in recent_sales %}
@@ -118,15 +119,15 @@
         {% endfor %}
       </ul>
     {% else %}
-      <p class="empty">Bado hana mauzo.</p>
+      <p class="empty">{% translate "Bado hana mauzo." %}</p>
     {% endif %}
     {% if withdrawals %}
-      <h3 class="sub-h">Kutoa pesa</h3>
+      <h3 class="sub-h">{% translate "Kutoa pesa" %}</h3>
       <ul class="list list-compact">
         {% for w in withdrawals %}
           <li class="list-row">
             <span class="list-main"><strong>{{ w.amount|tsh }}</strong><small>{{ w.created_at|date:"d/m/Y H:i" }}{% if w.reference %} · {{ w.reference }}{% endif %}</small></span>
-            {% if w.status == "paid" %}<span class="pill pill-good">Imelipwa</span>{% elif w.status == "rejected" %}<span class="pill pill-bad">Imekataliwa</span>{% else %}<a class="pill pill-warn" href="{% url 'control:withdrawals' %}">Inasubiri</a>{% endif %}
+            {% if w.status == "paid" %}<span class="pill pill-good">{% translate "Imelipwa" %}</span>{% elif w.status == "rejected" %}<span class="pill pill-bad">{% translate "Imekataliwa" %}</span>{% else %}<a class="pill pill-warn" href="{% url 'control:withdrawals' %}">{% translate "Inasubiri" %}</a>{% endif %}
           </li>
         {% endfor %}
       </ul>

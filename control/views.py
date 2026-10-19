@@ -10,6 +10,8 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_http_methods, require_POST
 
@@ -26,12 +28,12 @@ from . import queries, status
 from .forms import AdminRouterForm, PlatformConfigForm
 
 NAV = [
-    ("home", "Muhtasari", "home"),
-    ("live", "Mtandao live", "pulse"),
-    ("owners", "Wamiliki", "users"),
-    ("withdrawals", "Kutoa pesa", "send"),
-    ("routers", "Routers", "router"),
-    ("payments", "Malipo", "chart"),
+    ("home", gettext_lazy("Muhtasari"), "home"),
+    ("live", gettext_lazy("Mtandao live"), "pulse"),
+    ("owners", gettext_lazy("Wamiliki"), "users"),
+    ("withdrawals", gettext_lazy("Kutoa pesa"), "send"),
+    ("routers", gettext_lazy("Routers"), "router"),
+    ("payments", gettext_lazy("Malipo"), "chart"),
 ]
 
 CASH_MONTHS = (1, 3, 6, 12)
@@ -62,9 +64,9 @@ def render_control(request, template, context, active, title):
         for name, label, icon in NAV
     ]
     nav += [
-        {"section": "Mfumo"},
-        {"url": reverse("control:status"), "label": "Hali ya mfumo", "icon": "pulse", "active": active == "status"},
-        {"url": reverse("control:config"), "label": "Mipangilio", "icon": "settings", "active": active == "config"},
+        {"section": _("Mfumo")},
+        {"url": reverse("control:status"), "label": _("Hali ya mfumo"), "icon": "pulse", "active": active == "status"},
+        {"url": reverse("control:config"), "label": _("Mipangilio"), "icon": "settings", "active": active == "config"},
         {"url": reverse("admin:index"), "label": "Django admin", "icon": "shield"},
     ]
     user = request.user
@@ -109,7 +111,7 @@ def home(request):
         "system_state": status.overall(checks),
         "problems": [c for c in checks if c.state in ("bad", "warn")],
     }
-    return render_control(request, "control/home.html", context, "home", "Muhtasari wa jukwaa")
+    return render_control(request, "control/home.html", context, "home", _("Muhtasari wa jukwaa"))
 
 
 @superuser_required
@@ -128,7 +130,7 @@ def owners(request):
     return render_control(
         request, "control/owners.html",
         {"page": page, "q": q, "state": state, "counts": queries.owner_counts()},
-        "owners", "Wamiliki",
+        "owners", _("Wamiliki"),
     )
 
 
@@ -141,7 +143,7 @@ def owner_detail(request, pk):
         if action in ("suspend", "activate"):
             owner.is_active = action == "activate"
             owner.save(update_fields=["is_active"])
-            messages.success(request, f"{owner.business_name} {'amerudishwa' if owner.is_active else 'amesitishwa'}.")
+            messages.success(request, (_("%(name)s amerudishwa.") if owner.is_active else _("%(name)s amesitishwa.")) % {"name": owner.business_name})
         elif action == "cash":
             try:
                 months = int(request.POST.get("months", ""))
@@ -150,10 +152,11 @@ def owner_detail(request, pk):
             if months in CASH_MONTHS:
                 charge = subscriptions.record_cash_payment(owner, months, request.user)
                 messages.success(
-                    request, f"Umemwongezea miezi {months}. Sasa amelipia mpaka {timezone.localtime(charge.period_end):%d/%m/%Y}."
+                    request, _("Umemwongezea miezi %(months)s. Sasa amelipia mpaka %(date)s.") % {
+                        "months": months, "date": f"{timezone.localtime(charge.period_end):%d/%m/%Y}"}
                 )
             else:
-                messages.error(request, "Chagua idadi sahihi ya miezi.")
+                messages.error(request, _("Chagua idadi sahihi ya miezi."))
         return redirect("control:owner_detail", pk=owner.pk)
 
     payments = Payment.objects.filter(router__owner=owner)
@@ -188,7 +191,7 @@ def withdrawals(request):
     return render_control(
         request, "control/withdrawals.html",
         {"page": page, "status": status, "statuses": Withdrawal.Status.choices},
-        "withdrawals", "Maombi ya kutoa pesa",
+        "withdrawals", _("Maombi ya kutoa pesa"),
     )
 
 
@@ -200,12 +203,12 @@ def withdrawal_action(request, pk):
         if action == "pay":
             reference = request.POST.get("reference", "").strip()
             if not reference:
-                raise ValidationError("Weka namba ya muamala (reference) uliyotumia kulipa.")
+                raise ValidationError(_("Weka namba ya muamala (reference) uliyotumia kulipa."))
             w = wallet.mark_withdrawal_paid(pk, request.user, reference)
-            messages.success(request, f"Imewekwa kuwa imelipwa: {w.owner.business_name}, Tsh {w.amount:,}.")
+            messages.success(request, _("Imewekwa kuwa imelipwa: %(name)s, Tsh %(amount)s.") % {"name": w.owner.business_name, "amount": f"{w.amount:,}"})
         elif action == "reject":
             w = wallet.reject_withdrawal(pk, request.user, request.POST.get("note", "").strip())
-            messages.success(request, f"Imekataliwa. Tsh {w.amount:,} imerudishwa kwenye salio la {w.owner.business_name}.")
+            messages.success(request, _("Imekataliwa. Tsh %(amount)s imerudishwa kwenye salio la %(name)s.") % {"name": w.owner.business_name, "amount": f"{w.amount:,}"})
     except Withdrawal.DoesNotExist:
         raise Http404
     except ValidationError as exc:
@@ -217,10 +220,10 @@ def withdrawal_action(request, pk):
 
 
 ROUTER_FILTERS = {
-    "online": ("Online", lambda qs: qs.filter(online=1)),
-    "offline": ("Offline", lambda qs: qs.filter(online=0, last_seen_at__isnull=False)),
-    "bado": ("Hazijaunganishwa", lambda qs: qs.filter(last_seen_at__isnull=True)),
-    "zimezimwa": ("Zimezimwa", lambda qs: qs.filter(is_active=False)),
+    "online": (gettext_lazy("Online"), lambda qs: qs.filter(online=1)),
+    "offline": (gettext_lazy("Offline"), lambda qs: qs.filter(online=0, last_seen_at__isnull=False)),
+    "bado": (gettext_lazy("Hazijaunganishwa"), lambda qs: qs.filter(last_seen_at__isnull=True)),
+    "zimezimwa": (gettext_lazy("Zimezimwa"), lambda qs: qs.filter(is_active=False)),
 }
 
 
@@ -238,7 +241,7 @@ def routers(request):
         request, "control/routers.html",
         {"page": page, "q": q, "state": state, "counts": queries.router_counts(),
          "filters": [(key, label) for key, (label, _) in ROUTER_FILTERS.items()]},
-        "routers", "Routers zote",
+        "routers", _("Routers zote"),
     )
 
 
@@ -252,19 +255,19 @@ def router_detail(request, pk):
         if action in ("reboot", "reapply"):
             kind = RouterCommand.Action.REBOOT if action == "reboot" else RouterCommand.Action.REAPPLY_SETUP
             RouterCommand.objects.create(router=router, action=kind)
-            messages.success(request, "Agizo limetumwa. Router italichukua ndani ya dakika 1 ikiwa online.")
+            messages.success(request, _("Agizo limetumwa. Router italichukua ndani ya dakika 1 ikiwa online."))
         elif action in ("disable", "enable"):
             router.is_active = action == "enable"
             router.save(update_fields=["is_active"])
             if router.is_active:
-                messages.success(request, f"{router.name} imewashwa tena.")
+                messages.success(request, _("%(name)s imewashwa tena.") % {"name": router.name})
             else:
-                messages.success(request, f"{router.name} imezimwa: haiwezi kuuza wala kuingiza wateja wapya.")
+                messages.success(request, _("%(name)s imezimwa: haiwezi kuuza wala kuingiza wateja wapya.") % {"name": router.name})
         elif action == "rotate_secret":
             router.radius_secret = generate_radius_secret()
             router.save(update_fields=["radius_secret"])
             RouterCommand.objects.create(router=router, action=RouterCommand.Action.REAPPLY_SETUP)
-            messages.success(request, "Siri mpya ya RADIUS imetengenezwa na router imetumiwa usanidi mpya.")
+            messages.success(request, _("Siri mpya ya RADIUS imetengenezwa na router imetumiwa usanidi mpya."))
         elif action == "edit":
             before = (router.nas_identifier, router.wifi_name)
             form = AdminRouterForm(request.POST, instance=router)
@@ -272,9 +275,9 @@ def router_detail(request, pk):
                 router = form.save()
                 if (router.nas_identifier, router.wifi_name) != before:
                     RouterCommand.objects.create(router=router, action=RouterCommand.Action.REAPPLY_SETUP)
-                    messages.success(request, "Imehifadhiwa, na router imetumiwa usanidi upya.")
+                    messages.success(request, _("Imehifadhiwa, na router imetumiwa usanidi upya."))
                 else:
-                    messages.success(request, "Mabadiliko yamehifadhiwa.")
+                    messages.success(request, _("Mabadiliko yamehifadhiwa."))
                 return redirect("control:router_detail", pk=router.pk)
         if action != "edit":
             return redirect("control:router_detail", pk=router.pk)
@@ -303,7 +306,7 @@ def live(request):
     return render_control(
         request, "dashboard/live.html",
         {"live_url": reverse("control:live_data"), "start_demo": not Router.objects.exists()},
-        "live", "Mtandao live",
+        "live", _("Mtandao live"),
     )
 
 
@@ -325,7 +328,7 @@ def system_status(request):
         request, "control/status.html",
         {"checks": checks, "system_state": status.overall(checks),
          "warnings": status.radius_warnings(), "env": status.environment_facts()},
-        "status", "Hali ya mfumo",
+        "status", _("Hali ya mfumo"),
     )
 
 
@@ -338,12 +341,12 @@ def platform_config(request):
         saved = form.save(commit=False)
         saved.updated_by = request.user
         saved.save()
-        messages.success(request, "Mipangilio imehifadhiwa na inafanya kazi sasa hivi.")
+        messages.success(request, _("Mipangilio imehifadhiwa na inafanya kazi sasa hivi."))
         return redirect("control:config")
     return render_control(
         request, "control/config.html",
         {"form": form, "row": row, "effective": config.current()},
-        "config", "Mipangilio ya jukwaa",
+        "config", _("Mipangilio ya jukwaa"),
     )
 
 
@@ -357,5 +360,5 @@ def payments(request):
     return render_control(
         request, "control/payments.html",
         {"page": page, "status": status, "statuses": Payment.Status.choices},
-        "payments", "Malipo ya wateja",
+        "payments", _("Malipo ya wateja"),
     )

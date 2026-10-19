@@ -1,25 +1,26 @@
-{% load static ui_tags %}<!doctype html>
-<html lang="sw">
+{% load static i18n ui_tags %}{% get_current_language as LANG %}<!doctype html>
+<html lang="{{ LANG }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vocha · {{ owner.business_name }}</title>
+  <title>{% translate "Vocha" %} · {{ owner.business_name }}</title>
   <link rel="stylesheet" href="{% static 'ui/app.css' %}">
 </head>
 <body class="print-page">
   <header class="print-bar">
-    <a class="btn btn-ghost" href="{% url 'dashboard:vouchers' %}">← Rudi</a>
-    <p><strong>Vocha {{ vouchers|length }}</strong> · {{ vouchers.0.package.name }}</p>
-    <button type="button" class="btn btn-primary" data-print>{% icon "print" 18 %} Chapisha</button>
+    <a class="btn btn-ghost" href="{% url 'dashboard:vouchers' %}">← {% translate "Rudi" %}</a>
+    <p><strong>{% blocktranslate count n=vouchers|length %}Vocha {{ n }}{% plural %}Vocha {{ n }}{% endblocktranslate %}</strong> · {{ vouchers.0.package.name }}</p>
+    <button type="button" class="btn btn-primary" data-print>{% icon "print" 18 %} {% translate "Chapisha" %}</button>
   </header>
   <main class="voucher-grid">
     {% for voucher in vouchers %}
       <article class="voucher-card{% if voucher.activated_at %} is-used{% endif %}">
+        <span class="voucher-wifi" aria-hidden="true">{% icon "wifi" 16 %}</span>
         <p class="voucher-biz">{{ owner.business_name }}</p>
         <p class="voucher-pkg">{{ voucher.package.name }} · {{ voucher.package.price|tsh }}</p>
         <p class="voucher-code">{{ voucher.code }}</p>
-        <p class="voucher-how">Unganisha WiFi “{{ voucher.router.name }}”, kisha andika namba hii kwenye “Una vocha tayari?”.</p>
-        {% if voucher.activated_at %}<span class="voucher-used">Imetumika</span>{% endif %}
+        <p class="voucher-how">{% blocktranslate with wifi=voucher.router.wifi_name|default:voucher.router.name %}Unganisha WiFi “{{ wifi }}”, kisha andika namba hii kwenye “Una vocha tayari?”.{% endblocktranslate %}</p>
+        {% if voucher.activated_at %}<span class="voucher-used">{% translate "Imetumika" %}</span>{% endif %}
       </article>
     {% endfor %}
   </main>

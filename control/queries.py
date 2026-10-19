@@ -3,15 +3,16 @@
 from django.db.models import Case, F, Q, Sum, Value, When
 from django.db.models.functions import Coalesce, Greatest
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from billing.models import LedgerEntry, Withdrawal
 from core.models import ONLINE_THRESHOLD, Owner, Router
 
 STATE_LABELS = {
-    "trial": "Majaribio",
-    "paid": "Amelipia",
-    "expired": "Muda umeisha",
-    "suspended": "Amesitishwa",
+    "trial": _("Majaribio"),
+    "paid": _("Amelipia"),
+    "expired": _("Muda umeisha"),
+    "suspended": _("Amesitishwa"),
 }
 
 

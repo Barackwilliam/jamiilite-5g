@@ -4,18 +4,20 @@ from datetime import timedelta
 from django.conf import settings
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
+from django.utils.translation import gettext, ngettext
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.utils.text import slugify
 
 rate_limit_validator = RegexValidator(
     regex=r"^\d+[kKmM]?/\d+[kKmM]?$",
-    message="Andika kasi kama upload/download, mfano 2M/2M au 512k/1M.",
+    message=_("Andika kasi kama upload/download, mfano 2M/2M au 512k/1M."),
 )
 
 
 ssid_validator = RegexValidator(
     regex=r"^[\x20-\x7e]{1,32}$",
-    message="Tumia herufi za kawaida tu (bila emoji), zisizozidi 32.",
+    message=_("Tumia herufi za kawaida tu (bila emoji), zisizozidi 32."),
 )
 
 
@@ -41,6 +43,10 @@ class Owner(models.Model):
         verbose_name="akaunti",
     )
     business_name = models.CharField("jina la biashara", max_length=120)
+    language = models.CharField(
+        "lugha", max_length=5, choices=settings.LANGUAGES, default="sw",
+        help_text="Lugha ya dashboard yake.",
+    )
     phone = models.CharField("namba ya simu", max_length=20)
     logo = models.ImageField("logo", upload_to="owners/logos/", blank=True)
     is_active = models.BooleanField(
@@ -101,7 +107,7 @@ class Router(models.Model):
         max_length=32,
         blank=True,
         validators=[ssid_validator],
-        help_text="Jina linaloonekana kwenye simu za wateja. Acha tupu kutobadilisha WiFi ya router.",
+        help_text=_("Jina linaloonekana kwenye simu za wateja. Acha tupu kutobadilisha WiFi ya router."),
     )
     nas_identifier = models.CharField(
         "NAS identifier",
@@ -213,29 +219,30 @@ class Package(models.Model):
         if self.name.strip().lower() != self.duration_label:
             parts.append(self.duration_label)
         if self.rate_limit:
-            parts.append(f"kasi {self.rate_limit}")
+            parts.append(gettext("kasi %(speed)s") % {"speed": self.rate_limit})
         return " · ".join(parts)
 
     @property
     def duration_label(self):
         minutes = self.duration_minutes
         if minutes % (60 * 24 * 7) == 0:
-            count, unit = minutes // (60 * 24 * 7), "wiki"
-        elif minutes % (60 * 24) == 0:
-            count, unit = minutes // (60 * 24), "siku"
-        elif minutes % 60 == 0:
-            count, unit = minutes // 60, "saa"
-        else:
-            count, unit = minutes, "dakika"
-        return f"{unit} {count}"
+            count = minutes // (60 * 24 * 7)
+            return ngettext("wiki %(n)s", "wiki %(n)s", count) % {"n": count}
+        if minutes % (60 * 24) == 0:
+            count = minutes // (60 * 24)
+            return ngettext("siku %(n)s", "siku %(n)s", count) % {"n": count}
+        if minutes % 60 == 0:
+            count = minutes // 60
+            return ngettext("saa %(n)s", "saa %(n)s", count) % {"n": count}
+        return ngettext("dakika %(n)s", "dakika %(n)s", minutes) % {"n": minutes}
 
 
 class RouterCommand(models.Model):
     """Agizo linalosubiri router ilichukue kwenye ripoti yake inayofuata."""
 
     class Action(models.TextChoices):
-        REBOOT = "reboot", "Washa upya (reboot)"
-        REAPPLY_SETUP = "reapply_setup", "Weka upya usanidi wa JamiiLite"
+        REBOOT = "reboot", _("Washa upya (reboot)")
+        REAPPLY_SETUP = "reapply_setup", _("Weka upya usanidi wa JamiiLite")
 
     router = models.ForeignKey(
         Router, on_delete=models.CASCADE, related_name="commands", verbose_name="router"
@@ -326,15 +333,15 @@ class NetworkEvent(models.Model):
     """
 
     class Kind(models.TextChoices):
-        AUTH_ACCEPT = "auth_accept", "Ameingia"
-        AUTH_REJECT = "auth_reject", "Amekataliwa"
-        ACCT_START = "acct_start", "Ameanza kutumia"
-        ACCT_UPDATE = "acct_update", "Matumizi"
-        ACCT_STOP = "acct_stop", "Ametoka"
-        PAYMENT_STARTED = "payment_started", "Ombi la malipo"
-        PAYMENT_PAID = "payment_paid", "Amelipa"
-        PAYMENT_FAILED = "payment_failed", "Malipo yameshindwa"
-        COMMAND = "command", "Agizo"
+        AUTH_ACCEPT = "auth_accept", _("Ameingia")
+        AUTH_REJECT = "auth_reject", _("Amekataliwa")
+        ACCT_START = "acct_start", _("Ameanza kutumia")
+        ACCT_UPDATE = "acct_update", _("Matumizi")
+        ACCT_STOP = "acct_stop", _("Ametoka")
+        PAYMENT_STARTED = "payment_started", _("Ombi la malipo")
+        PAYMENT_PAID = "payment_paid", _("Amelipa")
+        PAYMENT_FAILED = "payment_failed", _("Malipo yameshindwa")
+        COMMAND = "command", _("Agizo")
 
     router = models.ForeignKey(Router, on_delete=models.CASCADE, related_name="events")
     kind = models.CharField(max_length=20, choices=Kind.choices)

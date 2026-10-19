@@ -4,6 +4,7 @@ from datetime import timedelta
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
 from core.models import Package, Router
@@ -19,9 +20,9 @@ def generate_voucher_code():
 
 class Payment(models.Model):
     class Status(models.TextChoices):
-        PENDING = "pending", "Inasubiri"
-        PAID = "paid", "Imelipwa"
-        FAILED = "failed", "Imeshindwa"
+        PENDING = "pending", _("Inasubiri")
+        PAID = "paid", _("Imelipwa")
+        FAILED = "failed", _("Imeshindwa")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     router = models.ForeignKey(
@@ -152,11 +153,11 @@ class LedgerEntry(models.Model):
     """
 
     class Kind(models.TextChoices):
-        SALE = "sale", "Mauzo"
-        SUBSCRIPTION = "subscription", "Ada ya mwezi"
-        WITHDRAWAL = "withdrawal", "Kutoa pesa"
-        WITHDRAWAL_REVERSAL = "withdrawal_reversal", "Kutoa pesa kumerudishwa"
-        ADJUSTMENT = "adjustment", "Marekebisho"
+        SALE = "sale", _("Mauzo")
+        SUBSCRIPTION = "subscription", _("Ada ya mwezi")
+        WITHDRAWAL = "withdrawal", _("Kutoa pesa")
+        WITHDRAWAL_REVERSAL = "withdrawal_reversal", _("Kutoa pesa kumerudishwa")
+        ADJUSTMENT = "adjustment", _("Marekebisho")
 
     owner = models.ForeignKey(
         "core.Owner", on_delete=models.PROTECT, related_name="ledger", verbose_name="mmiliki"
@@ -184,9 +185,9 @@ class LedgerEntry(models.Model):
 
 class Withdrawal(models.Model):
     class Status(models.TextChoices):
-        PENDING = "pending", "Inasubiri"
-        PAID = "paid", "Imelipwa"
-        REJECTED = "rejected", "Imekataliwa"
+        PENDING = "pending", _("Inasubiri")
+        PAID = "paid", _("Imelipwa")
+        REJECTED = "rejected", _("Imekataliwa")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner = models.ForeignKey(
@@ -217,8 +218,8 @@ class SubscriptionCharge(models.Model):
     """Malipo ya ada ya mwezi. Ndiyo mapato ya JamiiLite."""
 
     class Source(models.TextChoices):
-        BALANCE = "balance", "Kutoka kwenye salio"
-        CASH = "cash", "Pesa taslimu / nje ya mfumo"
+        BALANCE = "balance", _("Kutoka kwenye salio")
+        CASH = "cash", _("Pesa taslimu / nje ya mfumo")
 
     owner = models.ForeignKey(
         "core.Owner", on_delete=models.PROTECT, related_name="subscription_charges", verbose_name="mmiliki"

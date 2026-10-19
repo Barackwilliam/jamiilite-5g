@@ -1,4 +1,4 @@
-{% load ui_tags %}
+{% load i18n ui_tags %}
 <form method="post" class="form-stack" novalidate>
   {% csrf_token %}
   {% include "dashboard/_field.html" with field=form.name %}

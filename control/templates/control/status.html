@@ -1,14 +1,14 @@
 {% extends "ui/app_base.html" %}
-{% load ui_tags %}
+{% load i18n ui_tags %}
 
-{% block actions %}<a class="btn btn-small btn-ghost" href="{% url 'control:status' %}">{% icon "refresh" 16 %} Kagua tena</a>{% endblock %}
+{% block actions %}<a class="btn btn-small btn-ghost" href="{% url 'control:status' %}">{% icon "refresh" 16 %} {% translate "Kagua tena" %}</a>{% endblock %}
 
 {% block content %}
 <section class="card system-hero system-{{ system_state }}">
   <span class="system-hero-icon">{% if system_state == "ok" %}{% icon "check" 28 %}{% elif system_state == "info" %}{% icon "shield" 28 %}{% else %}{% icon "alert" 28 %}{% endif %}</span>
   <div>
-    <h2>{% if system_state == "ok" %}Mfumo wote uko sawa{% elif system_state == "info" %}Mfumo unafanya kazi (hali ya majaribio){% elif system_state == "warn" %}Kuna mambo ya kuangalia{% else %}Kuna tatizo linalohitaji hatua{% endif %}</h2>
-    <p class="muted">Imekaguliwa {% now "d/m/Y H:i:s" %}. Kurasa hii inakagua kila kitu upya kila unapoifungua.</p>
+    <h2>{% if system_state == "ok" %}{% translate "Mfumo wote uko sawa" %}{% elif system_state == "info" %}{% translate "Mfumo unafanya kazi (hali ya majaribio)" %}{% elif system_state == "warn" %}{% translate "Kuna mambo ya kuangalia" %}{% else %}{% translate "Kuna tatizo linalohitaji hatua" %}{% endif %}</h2>
+    <p class="muted">{% now "d/m/Y H:i:s" as checked %}{% blocktranslate %}Imekaguliwa {{ checked }}. Kurasa hii inakagua kila kitu upya kila unapoifungua.{% endblocktranslate %}</p>
   </div>
 </section>
 
@@ -18,7 +18,7 @@
 
 <div class="two-col">
   <section class="card">
-    <div class="card-head"><h2>Maonyo ya RADIUS ya karibuni</h2></div>
+    <div class="card-head"><h2>{% translate "Maonyo ya RADIUS ya karibuni" %}</h2></div>
     {% if warnings %}
       <ul class="list list-compact log-list">
         {% for w in warnings %}
@@ -26,11 +26,11 @@
         {% endfor %}
       </ul>
     {% else %}
-      <p class="empty">Hakuna maonyo. Router ikituma siri isiyo sahihi au NAS id isiyojulikana, utaona hapa.</p>
+      <p class="empty">{% translate "Hakuna maonyo. Router ikituma siri isiyo sahihi au NAS id isiyojulikana, utaona hapa." %}</p>
     {% endif %}
   </section>
   <section class="card">
-    <div class="card-head"><h2>Mazingira ya server</h2></div>
+    <div class="card-head"><h2>{% translate "Mazingira ya server" %}</h2></div>
     <dl class="kv">{% for k, v in env %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}</dl>
   </section>
 </div>

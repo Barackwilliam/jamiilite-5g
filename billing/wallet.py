@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Sum
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from core import config
 from core.models import Owner
@@ -44,11 +45,11 @@ def credit_sale(payment):
 def request_withdrawal(owner, amount, phone):
     minimum = config.current().min_withdrawal
     if amount < minimum:
-        raise ValidationError(f"Kiasi cha chini ni Tsh {minimum:,}.")
+        raise ValidationError(_("Kiasi cha chini ni Tsh %(amount)s.") % {"amount": f"{minimum:,}"})
     with transaction.atomic():
         owner = lock_owner(owner)
         if amount > balance(owner):
-            raise ValidationError("Salio lako halitoshi kwa kiasi hicho.")
+            raise ValidationError(_("Salio lako halitoshi kwa kiasi hicho."))
         withdrawal = Withdrawal.objects.create(owner=owner, amount=amount, phone=phone)
         # Pesa inashikiliwa papo hapo ili isitumike mara mbili wakati ombi linasubiri.
         LedgerEntry.objects.create(
@@ -64,7 +65,7 @@ def request_withdrawal(owner, amount, phone):
 def _process(withdrawal_id, by, status):
     withdrawal = Withdrawal.objects.select_for_update().get(pk=withdrawal_id)
     if withdrawal.status != Withdrawal.Status.PENDING:
-        raise ValidationError("Ombi hili limeshashughulikiwa.")
+        raise ValidationError(_("Ombi hili limeshashughulikiwa."))
     withdrawal.status = status
     withdrawal.processed_at = timezone.now()
     withdrawal.processed_by = by
