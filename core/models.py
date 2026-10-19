@@ -317,3 +317,36 @@ class ServiceHeartbeat(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class NetworkEvent(models.Model):
+    """
+    Tukio moja la mtandao (packet ya RADIUS, malipo, agizo la router) kwa ajili
+    ya ramani ya "Live". Ni kumbukumbu fupi tu: zinafutwa baada ya saa 48.
+    """
+
+    class Kind(models.TextChoices):
+        AUTH_ACCEPT = "auth_accept", "Ameingia"
+        AUTH_REJECT = "auth_reject", "Amekataliwa"
+        ACCT_START = "acct_start", "Ameanza kutumia"
+        ACCT_UPDATE = "acct_update", "Matumizi"
+        ACCT_STOP = "acct_stop", "Ametoka"
+        PAYMENT_STARTED = "payment_started", "Ombi la malipo"
+        PAYMENT_PAID = "payment_paid", "Amelipa"
+        PAYMENT_FAILED = "payment_failed", "Malipo yameshindwa"
+        COMMAND = "command", "Agizo"
+
+    router = models.ForeignKey(Router, on_delete=models.CASCADE, related_name="events")
+    kind = models.CharField(max_length=20, choices=Kind.choices)
+    mac = models.CharField(max_length=17, blank=True)
+    detail = models.CharField(max_length=160, blank=True)
+    amount = models.PositiveIntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now, db_index=True)
+
+    class Meta:
+        verbose_name = "tukio la mtandao"
+        verbose_name_plural = "matukio ya mtandao"
+        ordering = ["-id"]
+
+    def __str__(self):
+        return f"{self.get_kind_display()} · {self.router_id}"

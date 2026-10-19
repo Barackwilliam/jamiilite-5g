@@ -6,6 +6,8 @@ app_name = "control"
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("live/", views.live, name="live"),
+    path("live/data/", views.live_feed, name="live_data"),
     path("wamiliki/", views.owners, name="owners"),
     path("wamiliki/<int:pk>/", views.owner_detail, name="owner_detail"),
     path("kutoa-pesa/", views.withdrawals, name="withdrawals"),

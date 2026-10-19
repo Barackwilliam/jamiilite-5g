@@ -1,6 +1,8 @@
 from django.db import transaction
 from django.utils import timezone
 
+from core import events
+
 from .models import Payment, Voucher
 from .providers import get_provider
 from .wallet import credit_sale
@@ -19,11 +21,16 @@ def start_payment(*, router, package, phone, client_mac="", client_ip=None):
         client_ip=client_ip,
     )
 
+    events.record(
+        router, events.Kind.PAYMENT_STARTED, mac=client_mac, amount=payment.amount,
+        detail=f"{package.name} · {phone[:5]}…{phone[-3:]}",
+    )
     result = provider.request_payment(payment)
     if result.error:
         payment.status = Payment.Status.FAILED
         payment.failure_reason = result.error[:255]
         payment.save(update_fields=["status", "failure_reason"])
+        events.record(router, events.Kind.PAYMENT_FAILED, mac=client_mac, amount=payment.amount, detail=payment.failure_reason)
         return payment
 
     if result.reference:
@@ -57,6 +64,10 @@ def confirm_payment(payment_id, reference=""):
         payment.save(update_fields=update_fields)
 
         credit_sale(payment)
+        events.record(
+            payment.router, events.Kind.PAYMENT_PAID, mac=payment.client_mac, amount=payment.amount,
+            detail=payment.package.name,
+        )
         return Voucher.objects.create(
             router=payment.router, package=payment.package, payment=payment
         )

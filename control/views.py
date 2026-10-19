@@ -16,9 +16,10 @@ from django.views.decorators.http import require_http_methods, require_POST
 from billing import subscriptions, wallet
 from billing.models import Payment, SubscriptionCharge, Voucher, Withdrawal
 from core import config
-from core.models import PlatformConfig, Router, RouterCommand, generate_radius_secret
+from core.models import NetworkEvent, PlatformConfig, Router, RouterCommand, generate_radius_secret
 from dashboard.stats import sales_summary
 from radius import routeros
+from ui import live as live_data
 from ui.charts import bar_chart, daily_totals
 
 from . import queries, status
@@ -26,6 +27,7 @@ from .forms import AdminRouterForm, PlatformConfigForm
 
 NAV = [
     ("home", "Muhtasari", "home"),
+    ("live", "Mtandao live", "pulse"),
     ("owners", "Wamiliki", "users"),
     ("withdrawals", "Kutoa pesa", "send"),
     ("routers", "Routers", "router"),
@@ -55,7 +57,7 @@ def render_control(request, template, context, active, title):
             "icon": icon,
             "active": name == active,
             "badge": pending if name == "withdrawals" and pending else None,
-            "bottom": name in ("home", "owners", "withdrawals", "routers"),
+            "bottom": name in ("home", "live", "withdrawals", "routers"),
         }
         for name, label, icon in NAV
     ]
@@ -294,6 +296,26 @@ def router_detail(request, pk):
         "warnings": [w for w in status.radius_warnings() if nas and f"'{nas}'" in w["message"]][:8],
     }
     return render_control(request, "control/router_detail.html", context, "routers", router.name)
+
+
+@superuser_required
+def live(request):
+    return render_control(
+        request, "dashboard/live.html",
+        {"live_url": reverse("control:live_data"), "start_demo": not Router.objects.exists()},
+        "live", "Mtandao live",
+    )
+
+
+@superuser_required
+def live_feed(request):
+    return live_data.payload(
+        request,
+        routers=Router.objects.filter(is_active=True),
+        events=NetworkEvent.objects.all(),
+        payments=Payment.objects.all(),
+        show_owner=True,
+    )
 
 
 @superuser_required

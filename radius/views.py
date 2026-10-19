@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 
+from core import events
 from core.models import Router
 
 from . import routeros
@@ -51,5 +52,7 @@ def checkin(request, token):
             router.commands.filter(pk__in=[c.pk for c in pending]).update(
                 delivered_at=timezone.now()
             )
+            for command in pending:
+                events.record(router, events.Kind.COMMAND, detail=command.get_action_display())
 
     return _script_response(routeros.command_script(pending))

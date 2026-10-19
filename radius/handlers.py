@@ -14,6 +14,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from billing.models import Voucher, VoucherDevice
+from core import events
 from core.models import Router
 
 from . import packet as rp
@@ -68,6 +69,10 @@ def handle_access_request(request, now=None):
 
     def reject(message):
         logger.info("Imekataliwa (%s): %s", router.nas_identifier, message)
+        events.record(
+            router, events.Kind.AUTH_REJECT,
+            mac=_normalize_mac(request.get_str(rp.CALLING_STATION_ID)), detail=message,
+        )
         return rp.build_response(
             rp.ACCESS_REJECT, request, secret, [(rp.REPLY_MESSAGE, message.encode())]
         )
@@ -123,6 +128,10 @@ def handle_access_request(request, now=None):
                 rp.mikrotik_attr(rp.MIKROTIK_RATE_LIMIT, voucher.package.rate_limit.encode()),
             )
         )
+    events.record(
+        router, events.Kind.AUTH_ACCEPT, mac=mac,
+        detail=f"{voucher.package.name} · vocha {code[:4]}…",
+    )
     logger.info(
         "Imekubaliwa (%s): vocha %s, kifaa %s, sekunde %s zimebaki",
         router.nas_identifier, code, mac or "-", remaining,
@@ -146,7 +155,25 @@ def handle_accounting_request(request):
             voucher__code=code, voucher__router__owner=router.owner, mac_address=mac
         ).update(last_seen_at=timezone.now())
 
+    _record_accounting(router, request, mac)
     return rp.build_response(rp.ACCOUNTING_RESPONSE, request, secret)
+
+
+ACCT_KINDS = {
+    rp.ACCT_START: events.Kind.ACCT_START,
+    rp.ACCT_STOP: events.Kind.ACCT_STOP,
+    rp.ACCT_INTERIM_UPDATE: events.Kind.ACCT_UPDATE,
+}
+
+
+def _record_accounting(router, request, mac):
+    kind = ACCT_KINDS.get(request.get_int(rp.ACCT_STATUS_TYPE))
+    if kind is None:
+        return
+    down = events.megabytes(request.get_int(rp.ACCT_OUTPUT_OCTETS), request.get_int(rp.ACCT_OUTPUT_GIGAWORDS))
+    up = events.megabytes(request.get_int(rp.ACCT_INPUT_OCTETS), request.get_int(rp.ACCT_INPUT_GIGAWORDS))
+    detail = "" if kind == events.Kind.ACCT_START else f"↓ {down:.1f} MB · ↑ {up:.1f} MB"
+    events.record(router, kind, mac=mac, detail=detail)
 
 
 def handle(data, port_kind):

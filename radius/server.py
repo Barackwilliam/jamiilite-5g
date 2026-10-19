@@ -8,6 +8,7 @@ from collections import deque
 from django.db import DatabaseError, close_old_connections
 from django.utils import timezone
 
+from core import events
 from core.models import ServiceHeartbeat
 
 from . import packet as rp
@@ -18,6 +19,7 @@ logger = logging.getLogger("jamiilite.radius")
 
 HEARTBEAT_NAME = "radius"
 HEARTBEAT_EVERY = 30  # sekunde
+PRUNE_EVERY = 600  # sekunde: futa matukio ya zamani ya ramani ya Live
 RECENT_WARNINGS = 20
 
 
@@ -49,6 +51,7 @@ class RadiusServer:
         self.warnings = _WarningBuffer()
         logger.addHandler(self.warnings)
         self._last_beat = 0.0
+        self._last_prune = 0.0
 
     @property
     def addresses(self):
@@ -84,6 +87,9 @@ class RadiusServer:
         self._last_beat = time.monotonic()
         try:
             close_old_connections()
+            if time.monotonic() - self._last_prune >= PRUNE_EVERY:
+                self._last_prune = time.monotonic()
+                events.prune()
             ServiceHeartbeat.objects.update_or_create(
                 name=HEARTBEAT_NAME,
                 defaults={

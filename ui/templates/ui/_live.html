@@ -1,0 +1,38 @@
+{% comment %}
+Ramani ya Live. `endpoint` tupu = hali ya mfano peke yake (ukurasa wa hadhara).
+`demo` = anza na mfano (mfano mmiliki asiye na router bado).
+{% endcomment %}
+<div class="live" data-live data-endpoint="{{ endpoint|default:'' }}" data-demo="{% if demo %}1{% endif %}">
+  <section class="live-stats" aria-label="Takwimu za sasa">
+    <div class="live-stat"><span class="live-stat-label">Mapato ya leo</span><strong data-stat="today_amount">Tsh 0</strong></div>
+    <div class="live-stat"><span class="live-stat-label">Wateja online</span><strong data-stat="clients">0</strong></div>
+    <div class="live-stat"><span class="live-stat-label">Wameingia leo</span><strong data-stat="accepts">0</strong></div>
+    <div class="live-stat"><span class="live-stat-label">Wamekataliwa leo</span><strong data-stat="rejects">0</strong></div>
+    <div class="live-stat"><span class="live-stat-label">Packets dakika hii</span><strong data-stat="per_minute">0</strong></div>
+  </section>
+
+  <div class="live-grid">
+    <section class="live-panel live-map-panel">
+      <div class="live-panel-head">
+        <h2>Ramani ya mtandao</h2>
+        {% if endpoint %}<button type="button" class="live-toggle" data-demo-toggle>Onyesha mfano</button>{% endif %}
+      </div>
+      <p class="live-demo-banner" data-demo-banner hidden><strong>Huu ni mfano tu.</strong> Matukio haya yanaigizwa ili kuonyesha jinsi mfumo unavyofanya kazi, si data halisi.</p>
+      <svg class="live-map" data-live-map role="img" aria-label="Ramani ya mtandao: simu za wateja, routers, JamiiLite na malipo. Matukio yameandikwa kwenye orodha ya packets."></svg>
+      <ul class="live-legend" aria-label="Maana ya rangi">
+        <li><span class="lg-swatch pk-request"></span>Ombi (Access-Request)</li>
+        <li><span class="lg-swatch pk-accept"></span>Amekubaliwa</li>
+        <li><span class="lg-swatch lg-diamond pk-pay"></span>Malipo</li>
+        <li><span class="lg-swatch pk-acct"></span>Matumizi (accounting)</li>
+        <li><span class="lg-swatch lg-ring pk-reject"></span>Amekataliwa</li>
+        <li><span class="lg-swatch pk-checkin"></span>Ripoti ya router</li>
+      </ul>
+    </section>
+
+    <section class="live-panel live-log-panel">
+      <div class="live-panel-head"><h2>Packets za karibuni</h2></div>
+      <p class="live-log-empty" data-log-empty>Inasubiri tukio la kwanza… Mteja akiingia au kulipa, utaliona hapa papo hapo.</p>
+      <ol class="live-log" data-live-log></ol>
+    </section>
+  </div>
+</div>

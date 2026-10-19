@@ -18,8 +18,9 @@ from django.views.decorators.http import require_http_methods, require_POST
 from billing import subscriptions, wallet
 from billing.models import Payment, SubscriptionCharge, Voucher
 from core import config
-from core.models import Owner, Package, RouterCommand
+from core.models import NetworkEvent, Owner, Package, RouterCommand
 from radius import routeros
+from ui import live as live_data
 from ui.charts import SWAHILI_DAYS, bar_chart, daily_totals
 
 from .accounts import create_owner_account
@@ -37,6 +38,7 @@ from .stats import greeting, local_day_start, sales_summary, top_by, trend
 
 NAV = [
     ("home", "Muhtasari", "home"),
+    ("live", "Live", "pulse"),
     ("routers", "Routers", "router"),
     ("packages", "Vifurushi", "package"),
     ("vouchers", "Vocha", "ticket"),
@@ -46,7 +48,7 @@ NAV = [
     ("settings", "Mipangilio", "settings"),
 ]
 # Kwenye simu, hizi zinakaa chini ya skrini kama app; nyingine ziko kwenye "Zaidi".
-BOTTOM_NAV = {"home", "sales", "vouchers", "wallet"}
+BOTTOM_NAV = {"home", "live", "vouchers", "wallet"}
 
 
 # --- Kuingia na kujisajili ------------------------------------------------------
@@ -207,6 +209,28 @@ def home(request):
         "has_sales": paid.exists(),
     }
     return render_owner(request, "dashboard/home.html", context, "home", "Muhtasari")
+
+
+# --- Ramani ya Live -------------------------------------------------------------------
+
+@owner_required
+def live(request):
+    return render_owner(
+        request, "dashboard/live.html",
+        {"live_url": reverse("dashboard:live_data"), "start_demo": not request.owner.routers.exists()},
+        "live", "Mtandao live",
+    )
+
+
+@owner_required
+def live_feed(request):
+    owner = request.owner
+    return live_data.payload(
+        request,
+        routers=owner.routers.filter(is_active=True),
+        events=NetworkEvent.objects.filter(router__owner=owner),
+        payments=owner_payments(owner),
+    )
 
 
 # --- Routers -----------------------------------------------------------------------

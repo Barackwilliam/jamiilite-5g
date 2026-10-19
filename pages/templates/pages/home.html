@@ -1,6 +1,9 @@
 {% extends "pages/base.html" %}
+{% load static %}
 
 {% block title %}JamiiLite 5G: uza WiFi yako kiotomatiki{% endblock %}
+
+{% block head %}<link rel="stylesheet" href="{% static 'ui/live.css' %}">{% endblock %}
 
 {% block content %}
 <section class="hero">
@@ -70,6 +73,15 @@
       </li>
     </ol>
     <p class="center"><a class="link-arrow" href="{% url 'pages:mwongozo' %}">Tazama mwongozo wa kuunganisha →</a></p>
+  </div>
+</section>
+
+<section class="section" id="live">
+  <div class="wrap">
+    <p class="eyebrow">Ona ukifanya kazi</p>
+    <h2 class="section-title">Mtandao wako, ukiwa hai</h2>
+    <p class="lead">Kwenye dashboard yako utaona kila mteja anayeingia, anayelipa na anavyotumia data, papo hapo. Hapa chini ni mfano wa jinsi inavyoonekana.</p>
+    {% include "ui/_live.html" with endpoint="" demo=True %}
   </div>
 </section>
 
@@ -167,3 +179,5 @@
   </div>
 </section>
 {% endblock %}
+
+{% block scripts %}<script src="{% static 'ui/live.js' %}" defer></script>{% endblock %}
