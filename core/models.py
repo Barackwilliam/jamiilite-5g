@@ -245,3 +245,62 @@ class RouterCommand(models.Model):
 
     def __str__(self):
         return f"{self.get_action_display()} → {self.router.name}"
+
+
+class PlatformConfig(models.Model):
+    """
+    Mipangilio ya jukwaa inayobadilishwa na Super Admin bila kugusa server.
+
+    Kuna safu moja tu (pk=1). Sehemu ikiachwa tupu, thamani ya `.env`
+    (settings.JAMIILITE_*) inatumika. Soma kupitia core.config, si moja kwa moja.
+    """
+
+    monthly_fee = models.PositiveIntegerField("ada ya mwezi (Tsh)", null=True, blank=True)
+    trial_days = models.PositiveSmallIntegerField("siku za majaribio", null=True, blank=True)
+    min_withdrawal = models.PositiveIntegerField("kiasi cha chini cha kutoa (Tsh)", null=True, blank=True)
+    sale_fee_percent = models.PositiveSmallIntegerField(
+        "makato kwa kila mauzo (%)", null=True, blank=True,
+        help_text="Kufidia ada za mtoa huduma wa malipo. 0 = mmiliki anapata kiasi chote.",
+    )
+    whatsapp_number = models.CharField("namba ya WhatsApp ya msaada", max_length=15, blank=True)
+    signups_open = models.BooleanField(
+        "usajili wa wamiliki wapya uko wazi", default=True,
+        help_text="Ukiondoa tiki, ukurasa wa kujisajili unafungwa kwa muda.",
+    )
+    announcement = models.CharField(
+        "tangazo kwa wamiliki wote", max_length=280, blank=True,
+        help_text="Linaonekana juu ya dashboard ya kila mmiliki. Acha tupu kuliondoa.",
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
+    )
+
+    class Meta:
+        verbose_name = "mipangilio ya jukwaa"
+        verbose_name_plural = "mipangilio ya jukwaa"
+
+    def __str__(self):
+        return "Mipangilio ya JamiiLite"
+
+    @classmethod
+    def load(cls):
+        return cls.objects.filter(pk=1).first() or cls(pk=1)
+
+
+class ServiceHeartbeat(models.Model):
+    """Huduma inayoendeshwa kando (mfano RADIUS server) inaripoti kuwa iko hai."""
+
+    name = models.CharField("huduma", max_length=40, unique=True)
+    host = models.CharField("kompyuta", max_length=120, blank=True)
+    pid = models.PositiveIntegerField(null=True, blank=True)
+    started_at = models.DateTimeField("ilianza")
+    last_seen_at = models.DateTimeField("ilionekana mwisho")
+    stats = models.JSONField("takwimu", default=dict, blank=True)
+
+    class Meta:
+        verbose_name = "mapigo ya huduma"
+        verbose_name_plural = "mapigo ya huduma"
+
+    def __str__(self):
+        return self.name

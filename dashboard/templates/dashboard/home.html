@@ -1,13 +1,17 @@
 {% extends "ui/app_base.html" %}
 {% load ui_tags %}
 
-{% block heading %}Habari, {{ owner.business_name }} 👋{% endblock %}
+{% block breadcrumb %}<p class="appbar-date">{{ greet.date }}</p>{% endblock %}
+{% block heading %}Habari za {{ greet.part }}, {{ owner.business_name }}{% endblock %}
+{% block actions %}
+  {% if has_packages and routers %}<a class="btn btn-small btn-primary hide-sm" href="{% url 'dashboard:vouchers' %}">{% icon "print" 16 %} Chapisha vocha</a>{% endif %}
+{% endblock %}
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
 {% block content %}
 {% if not routers or not has_packages or not has_sales %}
   <section class="card onboarding">
-    <h2>Anza hapa</h2>
+    <div class="card-head"><h2>Hatua 4 za kuanza kuuza</h2><span class="muted small">Zikikamilika, sehemu hii itajificha.</span></div>
     <ol class="checklist">
       <li class="{% if routers %}is-done{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
@@ -32,31 +36,49 @@
   </section>
 {% endif %}
 
-<section class="stats-grid">
-  <article class="card stat-hero">
-    <p class="stat-label">Mapato ya leo</p>
+<section class="overview">
+  <article class="card hero-card">
+    <div class="hero-top">
+      <p class="stat-label">Mapato ya leo</p>
+      {% include "ui/_trend.html" with t=today_trend against="kuliko jana" %}
+    </div>
     <p class="hero-figure">{{ summary.today_amount|tsh }}</p>
-    <p class="muted">Vifurushi {{ summary.today_count }} vimeuzwa leo</p>
+    <div class="hero-week" aria-hidden="true">
+      {% for d in hero_week %}
+        <span class="hero-day{% if d.today %} is-today{% endif %}" title="{{ d.label }}: {{ d.value|tsh }}">
+          <span class="hero-bar" style="height: {{ d.pct }}%"></span><small>{{ d.label }}</small>
+        </span>
+      {% endfor %}
+    </div>
+    <div class="hero-foot">
+      <span>{% icon "ticket" 16 %} Vifurushi {{ summary.today_count }}</span>
+      <span>{% icon "clock" 16 %} Jana {{ summary.yesterday_amount|tsh }}</span>
+    </div>
   </article>
+
   <article class="card stat">
+    <span class="stat-icon">{% icon "chart" 18 %}</span>
     <p class="stat-label">Siku 7 zilizopita</p>
     <p class="stat-value">{{ summary.week_amount|tsh }}</p>
-    <p class="stat-sub">Vifurushi {{ summary.week_count }}</p>
+    <p class="stat-sub">{% include "ui/_trend.html" with t=week_trend against="kuliko wiki iliyopita" %}{% if not week_trend %}Vifurushi {{ summary.week_count }}{% endif %}</p>
   </article>
   <article class="card stat">
+    <span class="stat-icon">{% icon "calendar" 18 %}</span>
     <p class="stat-label">Siku 30 zilizopita</p>
     <p class="stat-value">{{ summary.month_amount|tsh }}</p>
     <p class="stat-sub">Vifurushi {{ summary.month_count }}</p>
   </article>
   <a class="card stat stat-link" href="{% url 'dashboard:wallet' %}">
+    <span class="stat-icon stat-icon-money">{% icon "coins" 18 %}</span>
     <p class="stat-label">Salio lako</p>
     <p class="stat-value stat-money">{{ balance|tsh }}</p>
     <p class="stat-sub">Toa pesa {% icon "arrow-right" 14 %}</p>
   </a>
   <article class="card stat">
+    <span class="stat-icon">{% icon "users" 18 %}</span>
     <p class="stat-label">Wateja online sasa</p>
     <p class="stat-value">{{ online_clients }}</p>
-    <p class="stat-sub">Routers {{ online_routers }} kati ya {{ routers|length }} ziko online</p>
+    <p class="stat-sub">Routers {{ online_routers }} / {{ routers|length }} online</p>
   </article>
 </section>
 
@@ -70,6 +92,15 @@
 
 <div class="two-col">
   <section class="card">
+    <div class="card-head"><h2>Vifurushi vinavyouzwa zaidi</h2><span class="muted small">siku 30</span></div>
+    {% if top_packages %}
+      {% include "ui/_bar_list.html" with rows=top_packages %}
+    {% else %}
+      <p class="empty">Ukianza kuuza, utaona hapa kifurushi kipi kinapendwa zaidi.</p>
+    {% endif %}
+  </section>
+
+  <section class="card">
     <div class="card-head">
       <h2>Routers zako</h2>
       <a class="link" href="{% url 'dashboard:routers' %}">Simamia</a>
@@ -79,9 +110,9 @@
         {% for router in routers %}
           <li>
             <a class="list-row" href="{% url 'dashboard:router_detail' router.pk %}">
-              <span class="status-dot {% if router.is_online %}is-online{% else %}is-offline{% endif %}"></span>
-              <span class="list-main"><strong>{{ router.name }}</strong><small>{% if router.is_online %}Online · wateja {{ router.active_clients }}{% elif router.last_seen_at %}Offline · ilionekana {{ router.last_seen_at|ago }}{% else %}Bado haijaunganishwa{% endif %}</small></span>
-              {% icon "arrow-right" 16 %}
+              <span class="router-badge {% if router.is_online %}is-online{% endif %}">{% icon "router" 18 %}</span>
+              <span class="list-main"><strong>{{ router.name }}</strong><small><span class="status-dot status-dot-sm {% if router.is_online %}is-online{% else %}is-offline{% endif %}"></span>{% if router.is_online %}Online · wateja {{ router.active_clients }}{% elif router.last_seen_at %}Offline · ilionekana {{ router.last_seen_at|ago }}{% else %}Bado haijaunganishwa{% endif %}</small></span>
+              <span class="list-amount">{{ router.today_amount|tsh }}<small>leo</small></span>
             </a>
           </li>
         {% endfor %}
@@ -90,16 +121,23 @@
       <p class="empty">Bado hujaongeza router. <a href="{% url 'dashboard:routers' %}">Ongeza ya kwanza</a>.</p>
     {% endif %}
   </section>
+</div>
 
+<div class="{% if top_routers %}two-col{% endif %}">
+  {% if top_routers %}
+    <section class="card">
+      <div class="card-head"><h2>Mapato kwa eneo</h2><span class="muted small">siku 30</span></div>
+      {% include "ui/_bar_list.html" with rows=top_routers %}
+    </section>
+  {% endif %}
   <section class="card">
-    <div class="card-head">
-      <h2>Mauzo ya karibuni</h2>
-    </div>
+    <div class="card-head"><h2>Mauzo ya karibuni</h2><a class="link" href="{% url 'dashboard:sales' %}">Yote</a></div>
     {% if recent_sales %}
       <ul class="list">
         {% for sale in recent_sales %}
           <li class="list-row">
-            <span class="list-main"><strong>{{ sale.package.name }}</strong><small>{{ sale.phone|phone_display }} · {{ sale.paid_at|ago }}</small></span>
+            <span class="sale-avatar" aria-hidden="true">{{ sale.package.name|slice:":1"|upper }}</span>
+            <span class="list-main"><strong>{{ sale.package.name }}</strong><small>{{ sale.phone|phone_display }} · {{ sale.router.name }} · {{ sale.paid_at|ago }}</small></span>
             <span class="amount-in">+{{ sale.amount|tsh }}</span>
           </li>
         {% endfor %}

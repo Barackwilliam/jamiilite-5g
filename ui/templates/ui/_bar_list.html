@@ -1,0 +1,9 @@
+{% load ui_tags %}
+<ul class="bar-list">
+  {% for row in rows %}
+    <li>
+      <div class="bar-list-text"><span class="bar-list-label">{{ row.label }}</span><span class="bar-list-value">{{ row.total|tsh }}<small> · {{ row.count }}</small></span></div>
+      <span class="bar-list-track" aria-hidden="true"><span style="width: {{ row.share }}%"></span></span>
+    </li>
+  {% endfor %}
+</ul>

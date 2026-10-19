@@ -1,7 +1,6 @@
 from datetime import timedelta
 from functools import wraps
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -15,11 +14,15 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_http_methods, require_POST
 
 from billing import subscriptions, wallet
-from billing.models import Payment, SubscriptionCharge, Withdrawal
+from billing.models import Payment, SubscriptionCharge, Voucher, Withdrawal
+from core import config
+from core.models import PlatformConfig, Router, RouterCommand, generate_radius_secret
 from dashboard.stats import sales_summary
+from radius import routeros
 from ui.charts import bar_chart, daily_totals
 
-from . import queries
+from . import queries, status
+from .forms import AdminRouterForm, PlatformConfigForm
 
 NAV = [
     ("home", "Muhtasari", "home"),
@@ -52,10 +55,16 @@ def render_control(request, template, context, active, title):
             "icon": icon,
             "active": name == active,
             "badge": pending if name == "withdrawals" and pending else None,
+            "bottom": name in ("home", "owners", "withdrawals", "routers"),
         }
         for name, label, icon in NAV
     ]
-    nav += [{"section": "Zana"}, {"url": reverse("admin:index"), "label": "Django admin", "icon": "shield"}]
+    nav += [
+        {"section": "Mfumo"},
+        {"url": reverse("control:status"), "label": "Hali ya mfumo", "icon": "pulse", "active": active == "status"},
+        {"url": reverse("control:config"), "label": "Mipangilio", "icon": "settings", "active": active == "config"},
+        {"url": reverse("admin:index"), "label": "Django admin", "icon": "shield"},
+    ]
     user = request.user
     context.update(
         area="control",
@@ -76,6 +85,7 @@ def home(request):
     paid = Payment.objects.filter(status=Payment.Status.PAID)
     month_ago = now - timedelta(days=30)
     pending = queries.pending_withdrawals()
+    checks = status.run_checks(now)
     context = {
         "owners": queries.owner_counts(now),
         "routers": queries.router_counts(now),
@@ -92,7 +102,10 @@ def home(request):
         "expiring": queries.owners_with_state(now)
         .filter(is_active=True, ends_at__gt=now, ends_at__lte=now + timedelta(days=3))
         .order_by("ends_at")[:6],
-        "monthly_fee": settings.JAMIILITE_MONTHLY_FEE,
+        "monthly_fee": config.current().monthly_fee,
+        "checks": checks,
+        "system_state": status.overall(checks),
+        "problems": [c for c in checks if c.state in ("bad", "warn")],
     }
     return render_control(request, "control/home.html", context, "home", "Muhtasari wa jukwaa")
 
@@ -154,7 +167,7 @@ def owner_detail(request, pk):
         "withdrawals": owner.withdrawals.all()[:6],
         "charges": owner.subscription_charges.select_related("created_by")[:6],
         "cash_months": CASH_MONTHS,
-        "monthly_fee": settings.JAMIILITE_MONTHLY_FEE,
+        "monthly_fee": config.current().monthly_fee,
     }
     return render_control(request, "control/owner_detail.html", context, "owners", owner.business_name)
 
@@ -201,17 +214,114 @@ def withdrawal_action(request, pk):
     return redirect(back)
 
 
+ROUTER_FILTERS = {
+    "online": ("Online", lambda qs: qs.filter(online=1)),
+    "offline": ("Offline", lambda qs: qs.filter(online=0, last_seen_at__isnull=False)),
+    "bado": ("Hazijaunganishwa", lambda qs: qs.filter(last_seen_at__isnull=True)),
+    "zimezimwa": ("Zimezimwa", lambda qs: qs.filter(is_active=False)),
+}
+
+
 @superuser_required
 def routers(request):
     q = request.GET.get("q", "").strip()
+    state = request.GET.get("hali", "")
     qs = queries.routers_offline_first()
     if q:
         qs = qs.filter(Q(name__icontains=q) | Q(owner__business_name__icontains=q) | Q(nas_identifier__icontains=q))
+    if state in ROUTER_FILTERS:
+        qs = ROUTER_FILTERS[state][1](qs)
     page = Paginator(qs, 30).get_page(request.GET.get("ukurasa"))
     return render_control(
         request, "control/routers.html",
-        {"page": page, "q": q, "counts": queries.router_counts()},
+        {"page": page, "q": q, "state": state, "counts": queries.router_counts(),
+         "filters": [(key, label) for key, (label, _) in ROUTER_FILTERS.items()]},
         "routers", "Routers zote",
+    )
+
+
+@superuser_required
+@require_http_methods(["GET", "POST"])
+def router_detail(request, pk):
+    router = get_object_or_404(Router.objects.select_related("owner"), pk=pk)
+    form = AdminRouterForm(instance=router)
+    if request.method == "POST":
+        action = request.POST.get("action")
+        if action in ("reboot", "reapply"):
+            kind = RouterCommand.Action.REBOOT if action == "reboot" else RouterCommand.Action.REAPPLY_SETUP
+            RouterCommand.objects.create(router=router, action=kind)
+            messages.success(request, "Agizo limetumwa. Router italichukua ndani ya dakika 1 ikiwa online.")
+        elif action in ("disable", "enable"):
+            router.is_active = action == "enable"
+            router.save(update_fields=["is_active"])
+            if router.is_active:
+                messages.success(request, f"{router.name} imewashwa tena.")
+            else:
+                messages.success(request, f"{router.name} imezimwa: haiwezi kuuza wala kuingiza wateja wapya.")
+        elif action == "rotate_secret":
+            router.radius_secret = generate_radius_secret()
+            router.save(update_fields=["radius_secret"])
+            RouterCommand.objects.create(router=router, action=RouterCommand.Action.REAPPLY_SETUP)
+            messages.success(request, "Siri mpya ya RADIUS imetengenezwa na router imetumiwa usanidi mpya.")
+        elif action == "edit":
+            old_nas = router.nas_identifier
+            form = AdminRouterForm(request.POST, instance=router)
+            if form.is_valid():
+                router = form.save()
+                if router.nas_identifier != old_nas:
+                    RouterCommand.objects.create(router=router, action=RouterCommand.Action.REAPPLY_SETUP)
+                    messages.success(request, "Imehifadhiwa. NAS identifier imebadilika, router imetumiwa usanidi upya.")
+                else:
+                    messages.success(request, "Mabadiliko yamehifadhiwa.")
+                return redirect("control:router_detail", pk=router.pk)
+        if action != "edit":
+            return redirect("control:router_detail", pk=router.pk)
+
+    now = timezone.now()
+    paid = router.payments.filter(status=Payment.Status.PAID)
+    nas = router.nas_identifier or ""
+    context = {
+        "router": router,
+        "form": form,
+        "summary": sales_summary(router.payments.all()),
+        "chart": bar_chart(daily_totals(paid, "paid_at", "amount", days=14, now=now)),
+        "live_vouchers": Voucher.objects.filter(router=router, activated_at__isnull=False, expires_at__gt=now).count(),
+        "unused_vouchers": Voucher.objects.filter(router=router, activated_at__isnull=True).count(),
+        "commands": router.commands.order_by("-created_at")[:10],
+        "recent_sales": paid.select_related("package").order_by("-paid_at")[:6],
+        "setup_command": routeros.provision_command(router) if nas else "",
+        "portal_url": request.build_absolute_uri(reverse("portal:home", args=[router.slug])),
+        "warnings": [w for w in status.radius_warnings() if nas and f"'{nas}'" in w["message"]][:8],
+    }
+    return render_control(request, "control/router_detail.html", context, "routers", router.name)
+
+
+@superuser_required
+def system_status(request):
+    checks = status.run_checks()
+    return render_control(
+        request, "control/status.html",
+        {"checks": checks, "system_state": status.overall(checks),
+         "warnings": status.radius_warnings(), "env": status.environment_facts()},
+        "status", "Hali ya mfumo",
+    )
+
+
+@superuser_required
+@require_http_methods(["GET", "POST"])
+def platform_config(request):
+    row = PlatformConfig.load()
+    form = PlatformConfigForm(request.POST or None, instance=row)
+    if request.method == "POST" and form.is_valid():
+        saved = form.save(commit=False)
+        saved.updated_by = request.user
+        saved.save()
+        messages.success(request, "Mipangilio imehifadhiwa na inafanya kazi sasa hivi.")
+        return redirect("control:config")
+    return render_control(
+        request, "control/config.html",
+        {"form": form, "row": row, "effective": config.current()},
+        "config", "Mipangilio ya jukwaa",
     )
 
 

@@ -191,3 +191,46 @@ class OwnerPagesTests(TestCase):
         admin = get_user_model().objects.create_superuser("boss", password="x-pass-123")
         self.client.force_login(admin)
         self.assertRedirects(self.client.get(reverse("dashboard:home")), reverse("control:home"))
+
+
+@override_settings(PAYMENT_PROVIDER="sandbox", ALLOW_SANDBOX_PAYMENTS=True, **FEES)
+class OverviewInsightsTests(TestCase):
+    def test_trend_and_top_packages(self):
+        from dashboard.stats import trend
+
+        self.assertEqual(trend(150, 100), {"pct": 50, "up": True})
+        self.assertEqual(trend(50, 100), {"pct": 50, "up": False})
+        self.assertIsNone(trend(50, 0))
+
+        owner = make_owner()
+        router = make_router(owner)
+        big, small = make_package(owner, name="Wiki", price=5000), make_package(owner, name="Saa 1", price=500)
+        start_payment(router=router, package=big, phone="255712345678")
+        start_payment(router=router, package=small, phone="255712345678")
+        self.client.force_login(owner.user)
+        response = self.client.get(reverse("dashboard:home"))
+        top = response.context["top_packages"]
+        self.assertEqual([(t["label"], t["share"]) for t in top], [("Wiki", 100), ("Saa 1", 10)])
+        self.assertEqual(response.context["routers"][0].today_amount, 5500)
+        self.assertContains(response, "bottom-nav")
+
+
+class RadiusHeartbeatTests(TestCase):
+    def test_server_writes_heartbeat_with_counts_and_warnings(self):
+        import logging
+        from unittest import mock
+
+        from core.models import ServiceHeartbeat
+        from radius.server import RadiusServer
+
+        server = RadiusServer("127.0.0.1", 0, 0)
+        try:
+            server._count(None)
+            logging.getLogger("jamiilite.radius").warning("NAS-Identifier 'x' haijulikani")
+            with mock.patch("radius.server.close_old_connections"):
+                server.heartbeat()
+        finally:
+            server.close()
+        beat = ServiceHeartbeat.objects.get(name="radius")
+        self.assertEqual(beat.stats["counts"]["ignored"], 1)
+        self.assertIn("haijulikani", beat.stats["warnings"][0]["message"])

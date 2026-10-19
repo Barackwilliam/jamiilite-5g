@@ -1,9 +1,9 @@
 from django import forms
-from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, password_validation
 from django.core.exceptions import ValidationError
 
 from billing.phone import normalize_tz_phone
+from core import config
 from core.models import Owner, Package, Router
 
 
@@ -155,8 +155,9 @@ class WithdrawForm(forms.Form):
 
     def clean_amount(self):
         amount = self.cleaned_data["amount"]
-        if amount < settings.JAMIILITE_MIN_WITHDRAWAL:
-            raise forms.ValidationError(f"Kiasi cha chini ni Tsh {settings.JAMIILITE_MIN_WITHDRAWAL:,}.")
+        minimum = config.current().min_withdrawal
+        if amount < minimum:
+            raise forms.ValidationError(f"Kiasi cha chini ni Tsh {minimum:,}.")
         return amount
 
 

@@ -8,10 +8,11 @@ zinaendelea kufanya kazi hadi ziishe.
 
 from datetime import timedelta
 
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
+
+from core import config
 
 from .models import LedgerEntry, SubscriptionCharge
 from .wallet import balance, lock_owner
@@ -20,7 +21,7 @@ PERIOD = timedelta(days=30)
 
 
 def start_trial(owner, now=None):
-    owner.trial_ends_at = (now or timezone.now()) + timedelta(days=settings.JAMIILITE_TRIAL_DAYS)
+    owner.trial_ends_at = (now or timezone.now()) + timedelta(days=config.current().trial_days)
     owner.save(update_fields=["trial_ends_at"])
 
 
@@ -34,7 +35,7 @@ def _extend(owner, months, now):
 def pay_from_balance(owner, months=1, now=None):
     """Lipa ada kutoka kwenye salio. Inarudisha SubscriptionCharge."""
     now = now or timezone.now()
-    amount = settings.JAMIILITE_MONTHLY_FEE * months
+    amount = config.current().monthly_fee * months
     with transaction.atomic():
         owner = lock_owner(owner)
         if balance(owner) < amount:
@@ -59,7 +60,7 @@ def record_cash_payment(owner, months, by, now=None):
         owner = lock_owner(owner)
         period_end = _extend(owner, months, now)
         return SubscriptionCharge.objects.create(
-            owner=owner, months=months, amount=settings.JAMIILITE_MONTHLY_FEE * months,
+            owner=owner, months=months, amount=config.current().monthly_fee * months,
             source=SubscriptionCharge.Source.CASH, period_end=period_end, created_by=by,
         )
 

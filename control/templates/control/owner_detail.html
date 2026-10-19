@@ -86,7 +86,7 @@
         {% for r in routers %}
           <li class="list-row">
             <span class="status-dot {% if r.is_online %}is-online{% else %}is-offline{% endif %}"></span>
-            <span class="list-main"><strong>{{ r.name }}</strong><small>{{ r.nas_identifier|default:"bila NAS id" }} · {% if r.is_online %}wateja {{ r.active_clients }}{% else %}ilionekana {{ r.last_seen_at|ago }}{% endif %}</small></span>
+            <span class="list-main"><strong><a href="{% url 'control:router_detail' r.pk %}">{{ r.name }}</a></strong><small>{{ r.nas_identifier|default:"bila NAS id" }} · {% if r.is_online %}wateja {{ r.active_clients }}{% else %}ilionekana {{ r.last_seen_at|ago }}{% endif %}</small></span>
             <a class="link" href="{% url 'portal:home' r.slug %}" target="_blank" rel="noopener">Portal</a>
           </li>
         {% endfor %}

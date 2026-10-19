@@ -1,14 +1,13 @@
 import secrets
 from functools import wraps
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Count, Min, Q
+from django.db.models import Count, Min, Q, Sum
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -18,9 +17,10 @@ from django.views.decorators.http import require_http_methods, require_POST
 
 from billing import subscriptions, wallet
 from billing.models import Payment, SubscriptionCharge, Voucher
+from core import config
 from core.models import Owner, Package, RouterCommand
 from radius import routeros
-from ui.charts import bar_chart, daily_totals
+from ui.charts import SWAHILI_DAYS, bar_chart, daily_totals
 
 from .accounts import create_owner_account
 from .forms import (
@@ -32,7 +32,7 @@ from .forms import (
     VoucherBatchForm,
     WithdrawForm,
 )
-from .stats import sales_summary
+from .stats import greeting, local_day_start, sales_summary, top_by, trend
 
 NAV = [
     ("home", "Muhtasari", "home"),
@@ -44,6 +44,8 @@ NAV = [
     ("subscription", "Usajili", "calendar"),
     ("settings", "Mipangilio", "settings"),
 ]
+# Kwenye simu, hizi zinakaa chini ya skrini kama app; nyingine ziko kwenye "Zaidi".
+BOTTOM_NAV = {"home", "sales", "vouchers", "wallet"}
 
 
 # --- Kuingia na kujisajili ------------------------------------------------------
@@ -60,6 +62,9 @@ def _after_login_url(user, next_url, request):
 def signup(request):
     if request.user.is_authenticated:
         return redirect(_after_login_url(request.user, "", request))
+    cfg = config.current()
+    if not cfg.signups_open:
+        return render(request, "dashboard/signup_closed.html", {"whatsapp": cfg.whatsapp_number})
     form = SignupForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         owner = create_owner_account(
@@ -67,10 +72,10 @@ def signup(request):
         )
         login(request, owner.user)
         messages.success(
-            request, f"Karibu {owner.business_name}! Una siku {settings.JAMIILITE_TRIAL_DAYS} za majaribio bure."
+            request, f"Karibu {owner.business_name}! Una siku {cfg.trial_days} za majaribio bure."
         )
         return redirect("dashboard:home")
-    return render(request, "dashboard/signup.html", {"form": form, "trial_days": settings.JAMIILITE_TRIAL_DAYS})
+    return render(request, "dashboard/signup.html", {"form": form, "trial_days": cfg.trial_days})
 
 
 @require_http_methods(["GET", "POST"])
@@ -122,9 +127,12 @@ def subscription_status(owner, now=None):
 def render_owner(request, template, context, active, title):
     owner = request.owner
     nav = [
-        {"url": reverse(f"dashboard:{name}"), "label": label, "icon": icon, "active": name == active}
+        {"url": reverse(f"dashboard:{name}"), "label": label, "icon": icon, "active": name == active,
+         "bottom": name in BOTTOM_NAV}
         for name, label, icon in NAV
     ]
+    cfg = config.current()
+    sub = subscription_status(owner)
     context.update(
         owner=owner,
         area="dashboard",
@@ -134,10 +142,30 @@ def render_owner(request, template, context, active, title):
         who_name=owner.business_name,
         who_detail=owner.user.username,
         who_initial=owner.business_name[:1].upper(),
-        sub=subscription_status(owner),
-        monthly_fee=settings.JAMIILITE_MONTHLY_FEE,
+        sub=sub,
+        sub_meter=_sub_meter(sub, cfg),
+        monthly_fee=cfg.monthly_fee,
+        announcement=cfg.announcement,
     )
     return render(request, template, context)
+
+
+def _sub_meter(sub, cfg):
+    """Asilimia ya muda uliobaki, kwa mstari mdogo kwenye sidebar."""
+    if sub["state"] == "expired":
+        return 0
+    total = cfg.trial_days if sub["state"] == "trial" else 30
+    return max(4, min(100, round(sub["days_left"] * 100 / max(total, 1))))
+
+
+def _mini_bars(points):
+    """Siku 7 kama vipau vidogo ndani ya kadi ya mapato ya leo."""
+    peak = max((value for _, value in points), default=0) or 1
+    last = len(points) - 1
+    return [
+        {"label": SWAHILI_DAYS[day.weekday()], "value": value, "pct": max(4, round(value * 100 / peak)), "today": i == last}
+        for i, (day, value) in enumerate(points)
+    ]
 
 
 def owner_payments(owner):
@@ -152,11 +180,24 @@ def home(request):
     subscriptions.ensure_active(owner)
     owner.refresh_from_db()
     routers = list(owner.routers.all())
-    paid = owner_payments(owner).filter(status=Payment.Status.PAID)
+    payments = owner_payments(owner)
+    paid = payments.filter(status=Payment.Status.PAID)
+    summary = sales_summary(payments)
+    today_by_router = dict(
+        paid.filter(paid_at__gte=local_day_start()).values_list("router").annotate(total=Sum("amount"))
+    )
+    for router in routers:
+        router.today_amount = today_by_router.get(router.pk, 0)
     context = {
-        "summary": sales_summary(owner_payments(owner)),
+        "summary": summary,
+        "greet": greeting(),
+        "today_trend": trend(summary["today_amount"], summary["yesterday_amount"]),
+        "week_trend": trend(summary["week_amount"], summary["prev_week_amount"]),
+        "top_packages": top_by(payments, "package__name"),
+        "top_routers": top_by(payments, "router__name") if len(routers) > 1 else [],
         "balance": wallet.balance(owner),
         "chart": bar_chart(daily_totals(paid, "paid_at", "amount", days=14)),
+        "hero_week": _mini_bars(daily_totals(paid, "paid_at", "amount", days=7)),
         "routers": routers,
         "online_routers": sum(1 for r in routers if r.is_online),
         "online_clients": sum(r.active_clients for r in routers if r.is_online),
@@ -324,7 +365,7 @@ def wallet_view(request):
     return render_owner(
         request, "dashboard/wallet.html",
         {"balance": wallet.balance(owner), "form": form, "page": page,
-         "withdrawals": owner.withdrawals.all()[:8], "min_withdrawal": settings.JAMIILITE_MIN_WITHDRAWAL},
+         "withdrawals": owner.withdrawals.all()[:8], "min_withdrawal": config.current().min_withdrawal},
         "wallet", "Salio",
     )
 
@@ -347,7 +388,7 @@ def subscription(request):
     return render_owner(
         request, "dashboard/subscription.html",
         {"balance": wallet.balance(owner), "charges": owner.subscription_charges.all()[:12],
-         "fee_3": settings.JAMIILITE_MONTHLY_FEE * 3, "cash_source": SubscriptionCharge.Source.CASH},
+         "fee_3": config.current().monthly_fee * 3, "cash_source": SubscriptionCharge.Source.CASH},
         "subscription", "Usajili",
     )
 

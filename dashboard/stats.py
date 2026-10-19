@@ -5,6 +5,12 @@ from django.utils import timezone
 
 from billing.models import Payment
 
+SWAHILI_WEEKDAYS = ["Jumatatu", "Jumanne", "Jumatano", "Alhamisi", "Ijumaa", "Jumamosi", "Jumapili"]
+SWAHILI_MONTHS = [
+    "Januari", "Februari", "Machi", "Aprili", "Mei", "Juni",
+    "Julai", "Agosti", "Septemba", "Oktoba", "Novemba", "Desemba",
+]
+
 
 def local_day_start(now=None):
     local = timezone.localtime(now or timezone.now())
@@ -12,12 +18,15 @@ def local_day_start(now=None):
 
 
 def sales_summary(payments, now=None):
-    """Mauzo ya leo, siku 7 na siku 30 kutoka kwenye queryset ya Payment."""
+    """Mauzo ya leo, siku 7 na siku 30, pamoja na vipindi vilivyotangulia kwa kulinganisha."""
     now = now or timezone.now()
     paid = payments.filter(status=Payment.Status.PAID)
+    today = local_day_start(now)
     periods = {
-        "today": Q(paid_at__gte=local_day_start(now)),
+        "today": Q(paid_at__gte=today),
+        "yesterday": Q(paid_at__gte=today - timedelta(days=1), paid_at__lt=today),
         "week": Q(paid_at__gte=now - timedelta(days=7)),
+        "prev_week": Q(paid_at__gte=now - timedelta(days=14), paid_at__lt=now - timedelta(days=7)),
         "month": Q(paid_at__gte=now - timedelta(days=30)),
     }
     result = paid.aggregate(
@@ -25,3 +34,36 @@ def sales_summary(payments, now=None):
         **{f"{name}_count": Count("pk", filter=q) for name, q in periods.items()},
     )
     return {key: value or 0 for key, value in result.items()}
+
+
+def trend(current, previous):
+    """Mabadiliko kwa asilimia, au None ikiwa hakuna cha kulinganisha."""
+    if not previous:
+        return None
+    pct = round((current - previous) * 100 / previous)
+    return {"pct": abs(pct), "up": pct >= 0}
+
+
+def top_by(payments, field, days=30, limit=5, now=None):
+    """Orodha ya [{label, total, count, share}] kwa siku `days`, kubwa kwanza."""
+    now = now or timezone.now()
+    rows = list(
+        payments.filter(status=Payment.Status.PAID, paid_at__gte=now - timedelta(days=days))
+        .values(field)
+        .annotate(total=Sum("amount"), count=Count("pk"))
+        .order_by("-total")[:limit]
+    )
+    peak = rows[0]["total"] if rows else 0
+    return [
+        {"label": row[field], "total": row["total"], "count": row["count"],
+         "share": round(row["total"] * 100 / peak) if peak else 0}
+        for row in rows
+    ]
+
+
+def greeting(now=None):
+    local = timezone.localtime(now or timezone.now())
+    hour = local.hour
+    part = "asubuhi" if 4 <= hour < 12 else "mchana" if hour < 16 else "jioni" if hour < 20 else "usiku"
+    date = f"{SWAHILI_WEEKDAYS[local.weekday()]}, {local.day} {SWAHILI_MONTHS[local.month - 1]}"
+    return {"part": part, "date": date}

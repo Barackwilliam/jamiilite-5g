@@ -32,6 +32,16 @@
       {% endfor %}
     </nav>
 
+    {% if area == "dashboard" and sub %}
+      <a class="sub-widget sub-widget-{{ sub.state }}" href="{% url 'dashboard:subscription' %}">
+        <span class="sub-widget-top">
+          <strong>{% if sub.state == "expired" %}Usajili umeisha{% elif sub.state == "trial" %}Majaribio bure{% else %}Usajili hai{% endif %}</strong>
+          <small>{% if sub.state == "expired" %}Lipia sasa{% else %}siku {{ sub.days_left }}{% endif %}</small>
+        </span>
+        <span class="sub-widget-meter" aria-hidden="true"><span style="width: {{ sub_meter }}%"></span></span>
+      </a>
+    {% endif %}
+
     <div class="sidebar-foot">
       <div class="who">
         <span class="avatar" aria-hidden="true">{{ who_initial }}</span>
@@ -63,10 +73,23 @@
       </div>
     {% endif %}
 
+    {% if announcement %}
+      <div class="banner banner-announce" role="note">{% icon "megaphone" %}<p><strong>Tangazo:</strong> {{ announcement }}</p></div>
+    {% endif %}
     {% block banner %}{% endblock %}
 
     <main class="content">{% block content %}{% endblock %}</main>
   </div>
+
+  <nav class="bottom-nav" aria-label="Menyu ya haraka">
+    {% for item in nav %}{% if item.bottom %}
+      <a href="{{ item.url }}" class="{% if item.active %}is-active{% endif %}"{% if item.active %} aria-current="page"{% endif %}>
+        <span class="bottom-icon">{% icon item.icon 22 %}{% if item.badge %}<span class="bottom-badge">{{ item.badge }}</span>{% endif %}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    {% endif %}{% endfor %}
+    <label for="nav-toggle"><span class="bottom-icon">{% icon "grid" 22 %}</span><span>Zaidi</span></label>
+  </nav>
 
   <script src="{% static 'ui/app.js' %}" defer></script>
   {% block scripts %}{% endblock %}

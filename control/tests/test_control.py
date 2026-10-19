@@ -121,3 +121,174 @@ class ControlTests(TestCase):
         make_router(self.owner, name="Offline", last_seen_at=now - timedelta(hours=2))
         response = self.client.get(reverse("control:routers"))
         self.assertEqual([r.name for r in response.context["page"].object_list], ["Offline", "Online"])
+
+
+@override_settings(PAYMENT_PROVIDER="sandbox", ALLOW_SANDBOX_PAYMENTS=True, **FEES)
+class RouterManagementTests(TestCase):
+    def setUp(self):
+        self.admin = get_user_model().objects.create_superuser("boss", password="x-pass-123")
+        self.client.force_login(self.admin)
+        self.owner = make_owner()
+        self.router = make_router(self.owner, nas_identifier="jl-duka")
+        self.url = reverse("control:router_detail", args=[self.router.pk])
+
+    def test_admin_can_open_any_router(self):
+        response = self.client.get(self.url)
+        self.assertContains(response, self.router.provision_token)
+        self.assertContains(response, self.owner.business_name)
+
+    def test_commands(self):
+        from core.models import RouterCommand
+
+        self.client.post(self.url, {"action": "reboot"})
+        self.client.post(self.url, {"action": "reapply"})
+        self.assertEqual(
+            list(RouterCommand.objects.values_list("action", flat=True)),
+            [RouterCommand.Action.REBOOT, RouterCommand.Action.REAPPLY_SETUP],
+        )
+
+    def test_disable_stops_radius_and_checkin(self):
+        self.client.post(self.url, {"action": "disable"})
+        self.router.refresh_from_db()
+        self.assertFalse(self.router.is_active)
+        checkin = self.client.post(reverse("radius:checkin", args=[self.router.provision_token]), "v=7&up=1h&users=2", content_type="text/plain")
+        self.assertEqual(checkin.status_code, 404)
+        self.client.post(self.url, {"action": "enable"})
+        self.router.refresh_from_db()
+        self.assertTrue(self.router.is_active)
+
+    def test_rotate_secret_queues_reapply(self):
+        old = self.router.radius_secret
+        self.client.post(self.url, {"action": "rotate_secret"})
+        self.router.refresh_from_db()
+        self.assertNotEqual(self.router.radius_secret, old)
+        self.assertEqual(self.router.commands.get().action, "reapply_setup")
+
+    def test_edit_nas_identifier_queues_reapply(self):
+        self.client.post(self.url, {"action": "edit", "name": "Duka Jipya", "location": "", "nas_identifier": "jl-mpya", "login_url": ""})
+        self.router.refresh_from_db()
+        self.assertEqual((self.router.name, self.router.nas_identifier), ("Duka Jipya", "jl-mpya"))
+        self.assertEqual(self.router.commands.count(), 1)
+
+    def test_edit_without_nas_change_sends_nothing(self):
+        self.client.post(self.url, {"action": "edit", "name": "Duka", "location": "Sinza", "nas_identifier": "jl-duka", "login_url": ""})
+        self.assertEqual(self.router.commands.count(), 0)
+
+    def test_duplicate_nas_identifier_is_refused(self):
+        make_router(self.owner, name="Nyingine", nas_identifier="jl-nyingine")
+        response = self.client.post(self.url, {"action": "edit", "name": "Duka", "location": "", "nas_identifier": "jl-nyingine", "login_url": ""})
+        self.assertEqual(response.status_code, 200)
+        self.router.refresh_from_db()
+        self.assertEqual(self.router.nas_identifier, "jl-duka")
+
+    def test_router_filters(self):
+        make_router(self.owner, name="Hai", last_seen_at=timezone.now())
+        response = self.client.get(reverse("control:routers"), {"hali": "online"})
+        self.assertEqual([r.name for r in response.context["page"].object_list], ["Hai"])
+
+
+class SystemStatusTests(TestCase):
+    def setUp(self):
+        self.admin = get_user_model().objects.create_superuser("boss", password="x-pass-123")
+        self.client.force_login(self.admin)
+
+    def checks(self):
+        from control import status
+
+        return {c.key: c for c in status.run_checks()}
+
+    def test_radius_never_started(self):
+        self.assertEqual(self.checks()["radius"].state, "bad")
+
+    def test_radius_heartbeat_fresh_and_stale(self):
+        from core.models import ServiceHeartbeat
+
+        now = timezone.now()
+        beat = ServiceHeartbeat.objects.create(name="radius", started_at=now, last_seen_at=now, stats={"counts": {"accept": 5}})
+        self.assertEqual(self.checks()["radius"].state, "ok")
+        beat.last_seen_at = now - timedelta(minutes=30)
+        beat.save()
+        self.assertEqual(self.checks()["radius"].state, "bad")
+
+    @override_settings(DEBUG=False, PAYMENT_PROVIDER="sandbox")
+    def test_sandbox_in_production_is_a_problem(self):
+        self.assertEqual(self.checks()["payments"].state, "bad")
+
+    def test_status_page_renders_with_warnings(self):
+        from core.models import ServiceHeartbeat
+
+        now = timezone.now()
+        ServiceHeartbeat.objects.create(
+            name="radius", started_at=now, last_seen_at=now,
+            stats={"warnings": [{"at": now.isoformat(), "message": "Message-Authenticator batili kutoka 'jl-x'"}]},
+        )
+        response = self.client.get(reverse("control:status"))
+        self.assertContains(response, "Message-Authenticator batili")
+        self.assertContains(response, "RADIUS server")
+
+    def test_home_shows_problems(self):
+        response = self.client.get(reverse("control:home"))
+        self.assertContains(response, "Hali ya mfumo")
+        self.assertContains(response, "Haijawahi kuripoti")
+
+
+@override_settings(**FEES)
+class PlatformConfigTests(TestCase):
+    def setUp(self):
+        self.admin = get_user_model().objects.create_superuser("boss", password="x-pass-123")
+        self.client.force_login(self.admin)
+
+    def save(self, **data):
+        base = {"monthly_fee": "", "trial_days": "", "min_withdrawal": "", "sale_fee_percent": "",
+                "whatsapp_number": "", "signups_open": "on", "announcement": ""}
+        base.update(data)
+        return self.client.post(reverse("control:config"), base)
+
+    def test_empty_fields_fall_back_to_env(self):
+        from core import config
+
+        self.save()
+        self.assertEqual(config.current().monthly_fee, 10000)
+
+    def test_new_fee_is_charged(self):
+        from billing import subscriptions
+
+        self.save(monthly_fee="15000", min_withdrawal="2000")
+        owner = make_owner()
+        give_balance(owner, 20000)
+        self.assertEqual(subscriptions.pay_from_balance(owner).amount, 15000)
+        with self.assertRaises(Exception):
+            wallet.request_withdrawal(owner, 1500, "255712345678")
+
+    def test_trial_days_apply_to_new_signups(self):
+        self.save(trial_days="30")
+        self.client.logout()
+        self.client.post(reverse("dashboard:signup"), {
+            "business_name": "Mpya", "phone": "0712000111", "password1": "Sinza-wifi-2026", "password2": "Sinza-wifi-2026",
+        })
+        owner = get_user_model().objects.get(username="255712000111").owner
+        self.assertGreater(owner.trial_ends_at, timezone.now() + timedelta(days=29))
+
+    def test_closed_signups(self):
+        self.save(signups_open="")
+        self.client.logout()
+        response = self.client.post(reverse("dashboard:signup"), {
+            "business_name": "Mpya", "phone": "0712000111", "password1": "Sinza-wifi-2026", "password2": "Sinza-wifi-2026",
+        })
+        self.assertContains(response, "Usajili umefungwa")
+        self.assertFalse(get_user_model().objects.filter(username="255712000111").exists())
+
+    def test_announcement_reaches_owners(self):
+        self.save(announcement="Matengenezo kesho saa 2 usiku")
+        owner = make_owner()
+        self.client.force_login(owner.user)
+        self.assertContains(self.client.get(reverse("dashboard:home")), "Matengenezo kesho saa 2 usiku")
+
+    def test_invalid_values(self):
+        response = self.save(sale_fee_percent="50", whatsapp_number="0712")
+        self.assertContains(response, "kati ya 0 na 20")
+        self.assertContains(response, "255712345678")
+
+    def test_landing_page_uses_new_fee(self):
+        self.save(monthly_fee="12000")
+        self.assertContains(self.client.get(reverse("pages:home")), "12,000")

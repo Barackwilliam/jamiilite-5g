@@ -10,6 +10,19 @@
   </a>
 {% endif %}
 
+{% if problems %}
+  <section class="card system-strip system-{{ system_state }}">
+    <div class="card-head"><h2>{% icon "pulse" 18 %} Hali ya mfumo</h2><a class="link" href="{% url 'control:status' %}">Ona yote</a></div>
+    <ul class="list list-compact">
+      {% for c in problems %}
+        <li class="list-row check-{{ c.state }}"><span class="check-icon">{% icon c.icon 16 %}</span><span class="list-main"><strong>{{ c.title }}: {{ c.value }}</strong><small>{{ c.detail }}</small></span><span class="pill check-pill">{{ c.label }}</span></li>
+      {% endfor %}
+    </ul>
+  </section>
+{% else %}
+  <a class="card system-ok-strip" href="{% url 'control:status' %}">{% icon "check" 18 %} <span><strong>Mfumo wote uko sawa.</strong> RADIUS, database na routers zinafanya kazi.</span></a>
+{% endif %}
+
 <section class="stats-grid">
   <article class="card stat-hero">
     <p class="stat-label">Mauzo ya WiFi leo (jukwaa zima)</p>
@@ -82,7 +95,7 @@
         {% for r in offline_routers %}
           <li class="list-row">
             <span class="status-dot is-offline"></span>
-            <span class="list-main"><strong>{{ r.name }}</strong><small>{{ r.owner.business_name }} · ilionekana {{ r.last_seen_at|ago }}</small></span>
+            <span class="list-main"><strong><a href="{% url 'control:router_detail' r.pk %}">{{ r.name }}</a></strong><small>{{ r.owner.business_name }} · ilionekana {{ r.last_seen_at|ago }}</small></span>
           </li>
         {% endfor %}
       </ul>

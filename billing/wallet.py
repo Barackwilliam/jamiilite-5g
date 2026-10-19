@@ -6,12 +6,12 @@ inafunga safu ya mmiliki (select_for_update) kwanza, ili maombi mawili ya wakati
 mmoja yasimwezeshe mtu kutoa pesa zaidi ya alizonazo.
 """
 
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Sum
 from django.utils import timezone
 
+from core import config
 from core.models import Owner
 
 from .models import LedgerEntry, Withdrawal
@@ -26,7 +26,7 @@ def lock_owner(owner):
 
 
 def sale_net_amount(amount):
-    fee = amount * settings.JAMIILITE_SALE_FEE_PERCENT // 100
+    fee = amount * config.current().sale_fee_percent // 100
     return amount - fee
 
 
@@ -42,8 +42,9 @@ def credit_sale(payment):
 
 
 def request_withdrawal(owner, amount, phone):
-    if amount < settings.JAMIILITE_MIN_WITHDRAWAL:
-        raise ValidationError(f"Kiasi cha chini ni Tsh {settings.JAMIILITE_MIN_WITHDRAWAL:,}.")
+    minimum = config.current().min_withdrawal
+    if amount < minimum:
+        raise ValidationError(f"Kiasi cha chini ni Tsh {minimum:,}.")
     with transaction.atomic():
         owner = lock_owner(owner)
         if amount > balance(owner):

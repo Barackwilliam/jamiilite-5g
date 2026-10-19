@@ -1,0 +1,45 @@
+{% extends "ui/app_base.html" %}
+{% load ui_tags %}
+
+{% block content %}
+<div class="two-col two-col-wide">
+  <section class="card">
+    <form method="post" class="form-stack" novalidate>
+      {% csrf_token %}
+      <h2 class="form-section">Bei na malipo</h2>
+      <div class="field-row">
+        {% include "dashboard/_field.html" with field=form.monthly_fee %}
+        {% include "dashboard/_field.html" with field=form.trial_days %}
+      </div>
+      <div class="field-row">
+        {% include "dashboard/_field.html" with field=form.min_withdrawal %}
+        {% include "dashboard/_field.html" with field=form.sale_fee_percent %}
+      </div>
+      <h2 class="form-section">Wamiliki</h2>
+      {% include "dashboard/_field.html" with field=form.signups_open %}
+      {% include "dashboard/_field.html" with field=form.announcement %}
+      {% include "dashboard/_field.html" with field=form.whatsapp_number %}
+      <button type="submit" class="btn btn-primary">Hifadhi mipangilio</button>
+    </form>
+  </section>
+
+  <aside class="stack">
+    <section class="card">
+      <div class="card-head"><h2>Inayotumika sasa hivi</h2></div>
+      <dl class="kv">
+        <dt>Ada ya mwezi</dt><dd>{{ effective.monthly_fee|tsh }}</dd>
+        <dt>Majaribio</dt><dd>siku {{ effective.trial_days }}</dd>
+        <dt>Kutoa pesa, chini</dt><dd>{{ effective.min_withdrawal|tsh }}</dd>
+        <dt>Makato ya mauzo</dt><dd>{{ effective.sale_fee_percent }}%</dd>
+        <dt>Usajili mpya</dt><dd>{% if effective.signups_open %}Uko wazi{% else %}Umefungwa{% endif %}</dd>
+        <dt>WhatsApp</dt><dd>{{ effective.whatsapp_number|default:"—" }}</dd>
+      </dl>
+      {% if row.updated_at %}<p class="muted small">Ilibadilishwa {{ row.updated_at|ago }}{% if row.updated_by %} na {{ row.updated_by.username }}{% endif %}.</p>{% endif %}
+    </section>
+    <section class="card">
+      <p class="small"><strong>Kumbuka:</strong> ada mpya inaanza kwenye malipo yanayofuata. Wamiliki waliokwisha kulipia hawaathiriki, na siku mpya za majaribio ni kwa wanaojisajili kuanzia sasa.</p>
+      <p class="muted small">Siri na anwani za server (database, Supabase, malipo, RADIUS) zinabaki kwenye <code>.env</code> kwa usalama. Ona <a href="{% url 'control:status' %}">Hali ya mfumo</a>.</p>
+    </section>
+  </aside>
+</div>
+{% endblock %}

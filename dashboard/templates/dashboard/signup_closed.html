@@ -1,0 +1,10 @@
+{% extends "ui/auth_base.html" %}
+{% block title %}Usajili umefungwa kwa muda{% endblock %}
+{% block content %}
+  <h1>Usajili umefungwa kwa muda</h1>
+  <p class="muted">Kwa sasa hatupokei wamiliki wapya. Tutafungua tena hivi karibuni.</p>
+  {% if whatsapp %}<a class="btn btn-primary btn-block" href="https://wa.me/{{ whatsapp }}" rel="noopener">Tuandikie WhatsApp tukuweke kwenye orodha</a>{% endif %}
+{% endblock %}
+{% block below %}
+  <p class="auth-switch">Una akaunti tayari? <a href="{% url 'dashboard:login' %}">Ingia</a></p>
+{% endblock %}

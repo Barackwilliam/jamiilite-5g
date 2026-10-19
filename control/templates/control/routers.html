@@ -11,8 +11,13 @@
 <section class="card">
   <form method="get" class="toolbar">
     <input class="input" type="search" name="q" value="{{ q }}" placeholder="Tafuta router, mmiliki au NAS id" aria-label="Tafuta">
+    {% if state %}<input type="hidden" name="hali" value="{{ state }}">{% endif %}
     <button class="btn btn-small" type="submit">Tafuta</button>
   </form>
+  <div class="toolbar chips">
+    <a class="chip{% if not state %} is-active{% endif %}" href="?q={{ q|urlencode }}">Zote</a>
+    {% for key, label in filters %}<a class="chip{% if state == key %} is-active{% endif %}" href="?hali={{ key }}&q={{ q|urlencode }}">{{ label }}</a>{% endfor %}
+  </div>
 </section>
 
 <section class="card">
@@ -23,7 +28,7 @@
         <tbody>
           {% for r in page.object_list %}
             <tr>
-              <td><strong>{{ r.name }}</strong></td>
+              <td><a href="{% url 'control:router_detail' r.pk %}">{{ r.name }}</a>{% if not r.is_active %} <span class="pill pill-bad">Imezimwa</span>{% endif %}</td>
               <td><a href="{% url 'control:owner_detail' r.owner_id %}">{{ r.owner.business_name }}</a></td>
               <td>{% if r.online %}<span class="pill pill-good"><span class="status-dot is-online"></span> Online</span>{% elif r.last_seen_at %}<span class="pill"><span class="status-dot is-offline"></span> {{ r.last_seen_at|ago }}</span>{% else %}<span class="pill">Bado</span>{% endif %}</td>
               <td>{{ r.nas_identifier|default:"—" }}</td>

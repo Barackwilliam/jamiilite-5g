@@ -3,7 +3,7 @@ from django.utils.html import format_html
 
 from radius import routeros
 
-from .models import Owner, Package, Router, RouterCommand
+from .models import Owner, Package, PlatformConfig, Router, RouterCommand, ServiceHeartbeat
 
 
 class RouterInline(admin.TabularInline):
@@ -103,3 +103,17 @@ class PackageAdmin(admin.ModelAdmin):
     list_filter = ("is_active", "owner")
     search_fields = ("name", "owner__business_name")
     list_select_related = ("owner",)
+
+
+@admin.register(PlatformConfig)
+class PlatformConfigAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "monthly_fee", "trial_days", "signups_open", "updated_at")
+
+    def has_add_permission(self, request):
+        return not PlatformConfig.objects.exists()
+
+
+@admin.register(ServiceHeartbeat)
+class ServiceHeartbeatAdmin(admin.ModelAdmin):
+    list_display = ("name", "host", "started_at", "last_seen_at")
+    readonly_fields = ("name", "host", "pid", "started_at", "last_seen_at", "stats")
