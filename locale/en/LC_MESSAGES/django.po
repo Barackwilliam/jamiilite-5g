@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 21:12+0300\n"
+"POT-Creation-Date: 2026-10-19 21:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,8 @@ msgstr "Paid"
 msgid "Imeshindwa"
 msgstr "Failed"
 
-#: billing/models.py:156 dashboard/views.py:48 dashboard/views.py:401
+#: billing/models.py:156 dashboard/templates/dashboard/signup.html:8
+#: dashboard/views.py:48 dashboard/views.py:401
 #: pages/templates/pages/_journey.html:40
 msgid "Mauzo"
 msgstr "Sales"
@@ -1001,6 +1002,7 @@ msgstr "Owner"
 
 #: control/templates/control/payments.html:18
 #: control/templates/control/routers.html:27
+#: dashboard/templates/dashboard/signup.html:7
 #: pages/templates/pages/_journey.html:7
 msgid "Router"
 msgstr "Router"
@@ -1512,7 +1514,7 @@ msgid "Password"
 msgstr "Password"
 
 #: dashboard/forms.py:48
-msgid "Rudia password"
+msgid "Rudia nenosiri"
 msgstr "Repeat password"
 
 #: dashboard/forms.py:49
@@ -1568,6 +1570,7 @@ msgid "Siku"
 msgstr "Days"
 
 #: dashboard/forms.py:111 pages/templates/pages/_sim.html:33 pages/views.py:18
+#: ui/templates/ui/auth_base.html:71
 msgid "Wiki"
 msgstr "Weeks"
 
@@ -1792,6 +1795,7 @@ msgstr "Connect a phone to the WiFi and try buying."
 
 #: dashboard/templates/dashboard/home.html:50
 #: pages/templates/pages/home.html:39 ui/templates/ui/_live.html:7
+#: ui/templates/ui/auth_base.html:48
 msgid "Mapato ya leo"
 msgstr "Today's revenue"
 
@@ -1898,7 +1902,7 @@ msgstr "Connecting…"
 
 #: dashboard/templates/dashboard/login.html:3
 #: dashboard/templates/dashboard/login.html:14
-#: dashboard/templates/dashboard/signup.html:27
+#: dashboard/templates/dashboard/signup.html:37
 #: dashboard/templates/dashboard/signup_closed.html:10
 #: pages/templates/pages/base.html:31 pages/templates/pages/base.html:54
 msgid "Ingia"
@@ -2151,25 +2155,62 @@ msgid "Jisajili"
 msgstr "Sign up"
 
 #: dashboard/templates/dashboard/signup.html:5
+#: pages/templates/pages/_sim.html:3
+msgid "Hatua"
+msgstr "Steps"
+
+#: dashboard/templates/dashboard/signup.html:6
+msgid "Akaunti"
+msgstr "Account"
+
+#: dashboard/templates/dashboard/signup.html:10
 #, python-format
 msgid "Siku %(days)s bure"
 msgid_plural "Siku %(days)s bure"
 msgstr[0] "%(days)s day free"
 msgstr[1] "%(days)s days free"
 
-#: dashboard/templates/dashboard/signup.html:6
+#: dashboard/templates/dashboard/signup.html:11
 msgid "Anza kuuza WiFi yako"
 msgstr "Start selling your WiFi"
 
-#: dashboard/templates/dashboard/signup.html:7
+#: dashboard/templates/dashboard/signup.html:12
 msgid "Huhitaji kadi wala kulipa chochote sasa."
 msgstr "No card needed, nothing to pay now."
 
-#: dashboard/templates/dashboard/signup.html:23
+#: dashboard/templates/dashboard/signup.html:13
+msgid "Dhaifu"
+msgstr "Weak"
+
+#: dashboard/templates/dashboard/signup.html:13
+msgid "Wastani"
+msgstr "Fair"
+
+#: dashboard/templates/dashboard/signup.html:13
+msgid "Nzuri"
+msgstr "Good"
+
+#: dashboard/templates/dashboard/signup.html:13
+msgid "Imara sana"
+msgstr "Very strong"
+
+#: dashboard/templates/dashboard/signup.html:28
 msgid "Fungua akaunti"
 msgstr "Create account"
 
-#: dashboard/templates/dashboard/signup.html:27
+#: dashboard/templates/dashboard/signup.html:31
+msgid "Hakuna kadi"
+msgstr "No card"
+
+#: dashboard/templates/dashboard/signup.html:32
+msgid "Hakuna mkataba"
+msgstr "No contract"
+
+#: dashboard/templates/dashboard/signup.html:33
+msgid "Dakika 5 kuanza"
+msgstr "5 minutes to start"
+
+#: dashboard/templates/dashboard/signup.html:37
 #: dashboard/templates/dashboard/signup_closed.html:10
 msgid "Una akaunti tayari?"
 msgstr "Already have an account?"
@@ -2615,10 +2656,6 @@ msgstr "Next step"
 msgid "Gusa kifaa chochote uone packet inayokifikia."
 msgstr "Tap any device to see the packet that reaches it."
 
-#: pages/templates/pages/_sim.html:3
-msgid "Hatua"
-msgstr "Steps"
-
 #: pages/templates/pages/_sim.html:4
 msgid "Chagua WiFi"
 msgstr "Pick WiFi"
@@ -2653,6 +2690,7 @@ msgid "Nunua kifurushi"
 msgstr "Buy a package"
 
 #: pages/templates/pages/_sim.html:31 pages/views.py:16
+#: ui/templates/ui/auth_base.html:67 ui/templates/ui/auth_base.html:72
 msgid "Saa 1"
 msgstr "1 hour"
 
@@ -2661,6 +2699,7 @@ msgid "kasi 2 Mbps"
 msgstr "speed 2 Mbps"
 
 #: pages/templates/pages/_sim.html:32 pages/views.py:17
+#: ui/templates/ui/auth_base.html:52 ui/templates/ui/auth_base.html:69
 msgid "Siku 1"
 msgstr "1 day"
 
@@ -3734,11 +3773,12 @@ msgstr "Stuck on any step? We'll help you."
 msgid "Pata msaada kwa WhatsApp"
 msgstr "Get help on WhatsApp"
 
-#: pages/views.py:19
+#: pages/views.py:19 ui/templates/ui/auth_base.html:70
 msgid "Muda umeisha · mteja ametoka"
 msgstr "Time's up · customer left"
 
-#: pages/views.py:20
+#: pages/views.py:20 ui/templates/ui/auth_base.html:53
+#: ui/templates/ui/auth_base.html:68
 msgid "Mteja ameingia · Neema WiFi"
 msgstr "Customer connected · Neema WiFi"
 
@@ -4005,19 +4045,27 @@ msgstr "Quick menu"
 msgid "Zaidi"
 msgstr "More"
 
-#: ui/templates/ui/auth_base.html:35
+#: ui/templates/ui/auth_base.html:12
+msgid "Onyesha password"
+msgstr "Show password"
+
+#: ui/templates/ui/auth_base.html:12
+msgid "Ficha password"
+msgstr "Hide password"
+
+#: ui/templates/ui/auth_base.html:57
 msgid "Uza WiFi yako kiotomatiki"
 msgstr "Sell your WiFi automatically"
 
-#: ui/templates/ui/auth_base.html:37
-msgid "Wateja wanalipa kwa M-Pesa, Tigo Pesa na Airtel Money"
-msgstr "Customers pay with M-Pesa, Tigo Pesa and Airtel Money"
+#: ui/templates/ui/auth_base.html:59
+msgid "Wateja wanalipa kwa M-Pesa, Mixx by Yas na Airtel Money"
+msgstr "Customers pay with M-Pesa, Mixx by Yas and Airtel Money"
 
-#: ui/templates/ui/auth_base.html:38
+#: ui/templates/ui/auth_base.html:60
 msgid "Wanakatwa wenyewe muda ukiisha"
 msgstr "They're cut off automatically when time runs out"
 
-#: ui/templates/ui/auth_base.html:39
+#: ui/templates/ui/auth_base.html:61
 msgid "Unaona kila shilingi kwenye simu yako, papo hapo"
 msgstr "You see every shilling on your phone, instantly"
 

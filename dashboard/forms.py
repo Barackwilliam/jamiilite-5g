@@ -45,7 +45,7 @@ class SignupForm(forms.Form):
     )
     phone = PhoneField(help_text=_("Utaitumia kuingia, na kupokea pesa zako."))
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
-    password2 = forms.CharField(label=_("Rudia password"), widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
+    password2 = forms.CharField(label=_("Rudia nenosiri"), widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
     language = LanguageField(required=False, help_text=_("Unaweza kubadilisha baadaye wakati wowote."))
 
     def clean_phone(self):
