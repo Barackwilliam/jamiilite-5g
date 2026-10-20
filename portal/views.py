@@ -1,5 +1,8 @@
 from urllib.parse import urlsplit
 
+from datetime import timedelta
+
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
 from django.http import Http404
@@ -13,6 +16,7 @@ from billing.models import Payment, VoucherDevice
 from billing.services import start_payment
 from billing.subscriptions import ensure_active
 from core.models import Router
+from radius import localsync
 
 from .forms import PayForm
 
@@ -20,6 +24,8 @@ from .forms import PayForm
 # (kutoka login.html yake: $(link-login-only), $(link-orig), $(mac), $(ip)).
 HOTSPOT_PARAMS = ("link-login-only", "link-orig", "mac", "ip")
 SESSION_PAYMENTS_KEY = "portal_payments"
+# Njia ya "local": router ikichelewa kupokea vocha kiasi hiki, mteja anapewa kitufe cha kuunganisha mwenyewe.
+ROUTER_WAIT = timedelta(seconds=60)
 
 
 def _is_http_url(value):
@@ -158,6 +164,11 @@ def payment_status(request, slug, payment_id):
         Payment.objects.select_related("package"), pk=payment_id, router=router
     )
     voucher = getattr(payment, "voucher", None) if payment.status == Payment.Status.PAID else None
+    # Njia ya "local": vocha inaweza kutumika tu router ikishaipokea kwenye ripoti yake.
+    router_ready = True
+    if voucher and settings.JAMIILITE_AUTH_MODE == "local":
+        router_ready = localsync.is_on_router(voucher, router)
+    waited_long = bool(payment.paid_at and timezone.now() - payment.paid_at > ROUTER_WAIT)
     return render(
         request,
         "portal/status.html",
@@ -166,6 +177,8 @@ def payment_status(request, slug, payment_id):
             "owner": router.owner,
             "payment": payment,
             "voucher": voucher,
+            "router_ready": router_ready,
+            "waited_long": waited_long,
             **_hotspot_context(request, router),
         },
     )

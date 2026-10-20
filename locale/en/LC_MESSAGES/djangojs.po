@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 18:10+0000\n"
+"POT-Creation-Date: 2026-10-20 22:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: static/js/guide.js:61 static/js/landing.js:785
+#: static/js/guide.js:61 static/js/landing.js:790
 msgid "Simamisha"
 msgstr "Pause"
 
@@ -26,7 +26,7 @@ msgstr "Pause"
 msgid "Anza upya"
 msgstr "Start over"
 
-#: static/js/guide.js:61 static/js/landing.js:785
+#: static/js/guide.js:61 static/js/landing.js:790
 msgid "Cheza"
 msgstr "Play"
 
@@ -142,8 +142,8 @@ msgid "Ametoka"
 msgstr "Logged out"
 
 #: ui/static/ui/live.js:336
-msgid "RADIUS · Mfumo"
-msgstr "RADIUS · System"
+msgid "Vocha · Malipo"
+msgstr "Vouchers · Payments"
 
 #: ui/static/ui/live.js:346
 msgid "Ongeza router ili uone mtandao wako hapa"

@@ -5,7 +5,7 @@
     <div class="jr-track" aria-hidden="true"></div>
     <button type="button" class="jr-node" data-node="phone"><span class="jr-ico">📱</span><b>{% translate "Simu ya mteja" %}</b><small>0712 345 678</small></button>
     <button type="button" class="jr-node" data-node="router"><span class="jr-ico">📡</span><b>{% translate "Router" %}</b><small>MikroTik · Neema WiFi</small></button>
-    <button type="button" class="jr-node is-core" data-node="cloud"><span class="jr-ico">⚡</span><b>JamiiLite</b><small>RADIUS · {% translate "Malipo" %}</small></button>
+    <button type="button" class="jr-node is-core" data-node="cloud"><span class="jr-ico">⚡</span><b>JamiiLite</b><small>{% translate "Vocha" %} · {% translate "Malipo" %}</small></button>
     <button type="button" class="jr-node" data-node="pay"><span class="jr-ico">💳</span><b>M-Pesa</b><small>{% translate "Mtoa huduma wa malipo" %}</small></button>
     <button type="button" class="jr-node" data-node="owner"><span class="jr-ico">👤</span><b>{% translate "Simu ya mmiliki" %}</b><small>Dashboard</small></button>
     <span class="jr-packet" data-jr-packet aria-hidden="true"><i></i><em data-jr-tag>HTTP</em></span>
@@ -39,30 +39,30 @@
         <p>{% translate "Mauzo yanaonekana kwenye dashboard yako sekunde hiyo hiyo." %}</p>
         <dl><dt>{% translate "Mauzo" %}</dt><dd>+Tsh 500</dd><dt>{% translate "Salio" %}</dt><dd>Tsh 146,500</dd></dl>
       </li>
-      <li data-from="router" data-to="cloud" data-tag="RADIUS" data-color="#8b6ff0">
-        <h3>{% translate "Router inauliza: vocha hii ni halali?" %}</h3>
-        <p>{% translate "Simu inaingia yenyewe kwa vocha. Router inatuma ombi la RADIUS lililosainiwa kwa siri yake." %}</p>
-        <dl><dt>Access-Request</dt><dd>User-Name 7K4QX9MP</dd><dt>NAS-Identifier</dt><dd>jl-neema</dd><dt>Message-Auth</dt><dd>✓</dd></dl>
+      <li data-from="cloud" data-to="router" data-tag="VOCHA" data-color="#8b6ff0">
+        <h3>{% translate "Vocha inatumwa kwa router" %}</h3>
+        <p>{% translate "Router inaripoti kwa JamiiLite kila sekunde 10. Kwenye ripoti inayofuata, inapokea vocha mpya pamoja na muda na kasi yake." %}</p>
+        <dl><dt>{% translate "Vocha" %}</dt><dd>7K4QX9MP</dd><dt>limit-uptime</dt><dd>1h</dd><dt>rate-limit</dt><dd>1M/2M</dd></dl>
       </li>
-      <li data-from="cloud" data-to="router" data-tag="ACCEPT" data-color="#3ccf7e">
-        <h3>{% translate "Ruhusa: saa 1, kasi 2 Mbps" %}</h3>
-        <p>{% translate "JamiiLite inakagua vocha na idadi ya simu, kisha inaiambia router ampe mteja muda na kasi gani." %}</p>
-        <dl><dt>Access-Accept</dt><dd>✓</dd><dt>Session-Timeout</dt><dd>3600 s</dd><dt>Rate-Limit</dt><dd>1M/2M</dd></dl>
+      <li data-from="phone" data-to="router" data-tag="LOGIN" data-color="#3ccf7e">
+        <h3>{% translate "Simu inaingia kwa vocha" %}</h3>
+        <p>{% translate "Ukurasa wa kulipia unaituma vocha kwa router yenyewe. Router inaikagua ndani yake, bila kusubiri mtandao." %}</p>
+        <dl><dt>POST</dt><dd>/login</dd><dt>username</dt><dd>7K4QX9MP</dd><dt>{% translate "Jibu" %}</dt><dd>✓</dd></dl>
       </li>
       <li data-from="router" data-to="phone" data-tag="ONLINE" data-color="#3ccf7e">
         <h3>{% translate "Mteja yuko online" %}</h3>
         <p>{% translate "Internet inafunguka. Mteja anarudishwa kwenye ukurasa aliokuwa akiufungua." %}</p>
         <dl><dt>{% translate "Muda" %}</dt><dd>59:59</dd><dt>{% translate "Kasi" %}</dt><dd>2 Mbps</dd></dl>
       </li>
-      <li data-from="router" data-to="cloud" data-tag="ACCT" data-color="#1fa3b8">
-        <h3>{% translate "Kila dakika 5: ripoti ya matumizi" %}</h3>
-        <p>{% translate "Router inaripoti kiasi cha data kilichotumika, kwa hiyo unaona kila mteja anavyotumia." %}</p>
-        <dl><dt>Accounting</dt><dd>Interim-Update</dd><dt>↓</dt><dd>84.2 MB</dd><dt>↑</dt><dd>6.1 MB</dd></dl>
+      <li data-from="router" data-to="cloud" data-tag="RIPOTI" data-color="#1fa3b8">
+        <h3>{% translate "Kila sekunde 10: ripoti ya router" %}</h3>
+        <p>{% translate "Router inaripoti nani yuko online na data aliyotumia, kwa hiyo unaona kila mteja anavyotumia." %}</p>
+        <dl><dt>{% translate "Online" %}</dt><dd>7K4QX9MP</dd><dt>↓</dt><dd>84.2 MB</dd><dt>↑</dt><dd>6.1 MB</dd></dl>
       </li>
-      <li data-from="router" data-to="phone" data-tag="STOP" data-color="#f0786a">
+      <li data-from="cloud" data-to="router" data-tag="STOP" data-color="#f0786a">
         <h3>{% translate "Saa imeisha: router inamkata" %}</h3>
-        <p>{% translate "Muda ukifika, router inasimamisha internet ya mteja yenyewe na kuripoti mwisho wa matumizi." %}</p>
-        <dl><dt>Session-Timeout</dt><dd>0 s</dd><dt>Accounting</dt><dd>Stop</dd></dl>
+        <p>{% translate "Muda ukifika, JamiiLite inaiambia router imtoe mteja na kufuta vocha. Router yenyewe pia ina kikomo cha muda, hata mtandao ukikatika." %}</p>
+        <dl><dt>active remove</dt><dd>7K4QX9MP ✓</dd><dt>user remove</dt><dd>7K4QX9MP ✓</dd></dl>
       </li>
     </ol>
     <div class="jr-controls">

@@ -17,6 +17,7 @@
 </div>
 
 <div class="two-col">
+  {% if radius_mode %}
   <section class="card">
     <div class="card-head"><h2>{% translate "Maonyo ya RADIUS ya karibuni" %}</h2></div>
     {% if warnings %}
@@ -29,6 +30,7 @@
       <p class="empty">{% translate "Hakuna maonyo. Router ikituma siri isiyo sahihi au NAS id isiyojulikana, utaona hapa." %}</p>
     {% endif %}
   </section>
+  {% endif %}
   <section class="card">
     <div class="card-head"><h2>{% translate "Mazingira ya server" %}</h2></div>
     <dl class="kv">{% for k, v in env %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}</dl>

@@ -3,8 +3,8 @@ Kutengeneza script za RouterOS kwa kila router.
 
 Mmiliki (au fundi) anabandika mstari mmoja tu (`provision_command`). Mstari
 huo unapakua `setup_script` kutoka kwenye mfumo na kuuweka. Usanidi huo
-unaweka RADIUS, ukurasa wa kulipia, na ripoti ya kila dakika (check-in)
-ambayo inaleta maagizo kutoka mbali, kama reboot.
+unaweka ukurasa wa kulipia, uthibitishaji wa vocha (ndani ya router, au kwa
+RADIUS), na ripoti ya router (check-in) inayoleta vocha na maagizo kutoka mbali.
 """
 
 import ipaddress
@@ -20,7 +20,6 @@ CHECKIN_NAME = "jamiilite-checkin"
 SETUP_FILE = "jamiilite-setup.rsc"
 HOTSPOT_NAME = "jamiilite"
 OPEN_PROFILE = "jamiilite-open"
-COMMAND_FILE = "jamiilite-cmd.rsc"
 
 
 def ros_string(value):
@@ -107,13 +106,32 @@ def _create_hotspot_if_missing():
         "  :local cidr [/ip address get [:pick $lan 0] address]",
         '  :local gw [:pick $cidr 0 [:find $cidr "/"]]',
         f"  /ip hotspot profile remove [find name={HOTSPOT_NAME}]",
-        f"  /ip hotspot profile add name={HOTSPOT_NAME} hotspot-address=$gw login-by=http-pap use-radius=yes",
+        f"  /ip hotspot profile add name={HOTSPOT_NAME} hotspot-address=$gw login-by=http-pap use-radius={_use_radius()}",
         f"  /ip hotspot add name={HOTSPOT_NAME} interface={interface} profile={HOTSPOT_NAME} address-pool=none disabled=no",
         # Router inatengeneza faili za ukurasa (hotspot/login.html...) ikiwasha hotspot.
         "  :delay 3s",
         '  :log info "JamiiLite: hotspot mpya imewekwa"',
         "}",
     ]
+
+
+def _use_radius():
+    return "yes" if settings.JAMIILITE_AUTH_MODE == "radius" else "no"
+
+
+def _auth_lines(router):
+    """Router inathibitisha vocha kwa RADIUS, au kwa vocha zilizo ndani yake (local)."""
+    lines = [f"/radius remove [find comment={COMMENT}]"]
+    if settings.JAMIILITE_AUTH_MODE == "radius":
+        lines += [
+            f"/radius add service=hotspot address={settings.RADIUS_PUBLIC_ADDRESS} "
+            f"secret={ros_string(router.radius_secret)} timeout=3s comment={COMMENT}",
+            "/ip hotspot profile set [find] use-radius=yes login-by=http-pap "
+            "radius-accounting=yes radius-interim-update=5m",
+        ]
+    else:
+        lines += ["/ip hotspot profile set [find] use-radius=no login-by=http-pap"]
+    return lines
 
 
 def _wifi_name_lines(router):
@@ -156,16 +174,25 @@ def _login_html(router):
 
 
 def checkin_source(router):
-    """Script inayoendeshwa kila dakika: ripoti hali, kisha tekeleza maagizo yaliyopo."""
+    """
+    Script ya ripoti: tuma hali ya router na wateja walio online, kisha tekeleza
+    jibu (vocha na maagizo). Jibu linasomwa kwenye kumbukumbu (output=user) badala
+    ya faili, ili ripoti za mara kwa mara zisichakaze flash ya router.
+    """
     return "\n".join(
         [
+            ':local act ""',
+            ":foreach a in=[/ip hotspot active find] do={ :set act ($act . "
+            "[/ip hotspot active get $a user] . \",\" . [/ip hotspot active get $a mac-address] . \",\" . "
+            "[/ip hotspot active get $a bytes-in] . \",\" . [/ip hotspot active get $a bytes-out] . \";\") }",
             ':local data ("v=" . [/system resource get version] . "&up=" . '
-            '[/system resource get uptime] . "&users=" . [:len [/ip hotspot active find]])',
+            '[/system resource get uptime] . "&users=" . [:len [/ip hotspot active find]] . '
+            f'"&jl=" . [:len [/ip hotspot user find comment={COMMENT}]] . "&act=" . $act)',
             ":do {",
-            f"  /tool fetch url={ros_string(checkin_url(router))} http-method=post http-data=$data "
-            f'http-header-field="Content-Type: application/x-www-form-urlencoded" '
-            f"dst-path={ros_string(COMMAND_FILE)}",
-            f"  /import file-name={ros_string(COMMAND_FILE)}",
+            f"  :local r [/tool fetch url={ros_string(checkin_url(router))} http-method=post http-data=$data "
+            f'http-header-field="Content-Type: application/x-www-form-urlencoded" output=user as-value]',
+            '  :local run [:parse ($r->"data")]',
+            "  $run",
             '} on-error={ :log warning "JamiiLite: imeshindwa kuripoti kwa mfumo" }',
         ]
     )
@@ -179,11 +206,7 @@ def setup_script(router):
         f"/system identity set name={ros_string(router.nas_identifier)}",
         # Wateja ambao bado hawajalipa wanatumia DNS ya router.
         "/ip dns set allow-remote-requests=yes",
-        f"/radius remove [find comment={COMMENT}]",
-        f"/radius add service=hotspot address={settings.RADIUS_PUBLIC_ADDRESS} "
-        f"secret={ros_string(router.radius_secret)} timeout=3s comment={COMMENT}",
-        "/ip hotspot profile set [find] use-radius=yes login-by=http-pap "
-        "radius-accounting=yes radius-interim-update=5m",
+        *_auth_lines(router),
         f"/ip hotspot walled-garden ip remove [find comment={COMMENT}]",
         *walled_garden_rules(),
         # login.html iko "hotspot/" kwenye CHR, na "flash/hotspot/" kwenye routers zenye flash.
@@ -193,17 +216,20 @@ def setup_script(router):
         f"/system script remove [find name={CHECKIN_NAME}]",
         f"/system script add name={CHECKIN_NAME} source={ros_string(checkin_source(router))}",
         f"/system scheduler remove [find name={CHECKIN_NAME}]",
-        f"/system scheduler add name={CHECKIN_NAME} interval=1m "
+        f"/system scheduler add name={CHECKIN_NAME} interval={settings.JAMIILITE_CHECKIN_SECONDS}s "
         f'on-event="/system script run {CHECKIN_NAME}"',
         ':log info "JamiiLite: usanidi umekamilika"',
-        ':put "JamiiLite: usanidi umekamilika. Router itaripoti ndani ya dakika 1."',
+        ':put "JamiiLite: usanidi umekamilika. Router itaripoti ndani ya sekunde chache."',
     ]
     return "\n".join(lines) + "\n"
 
 
-def command_script(commands):
-    """Badilisha maagizo yanayosubiri kuwa script ambayo router itaitekeleza."""
-    lines = ["# JamiiLite 5G: maagizo"]
+def command_script(commands, sync=()):
+    """
+    Jibu la ripoti: amri za vocha (njia ya local), kisha maagizo yanayosubiri.
+    Linaendeshwa kwa :parse, kwa hiyo halina maoni (#) wala mistari tupu.
+    """
+    lines = list(sync)
     reboot = False
     for command in commands:
         if command.action == RouterCommand.Action.REAPPLY_SETUP:

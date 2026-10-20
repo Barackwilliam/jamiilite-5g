@@ -187,6 +187,7 @@ class RouterManagementTests(TestCase):
         self.assertEqual([r.name for r in response.context["page"].object_list], ["Hai"])
 
 
+@override_settings(JAMIILITE_AUTH_MODE="radius")
 class SystemStatusTests(TestCase):
     def setUp(self):
         self.admin = get_user_model().objects.create_superuser("boss", password="x-pass-123")
@@ -230,6 +231,28 @@ class SystemStatusTests(TestCase):
         response = self.client.get(reverse("control:home"))
         self.assertContains(response, "Hali ya mfumo")
         self.assertContains(response, "Haijawahi kuripoti")
+
+
+@override_settings(JAMIILITE_AUTH_MODE="local")
+class LocalModeStatusTests(TestCase):
+    def setUp(self):
+        self.admin = get_user_model().objects.create_superuser("boss")
+        self.client.force_login(self.admin)
+
+    def test_no_radius_server_needed(self):
+        from control import status
+
+        check = {c.key: c for c in status.run_checks()}["radius"]
+        self.assertEqual(check.state, "ok")
+        self.assertEqual(check.value, "Ndani ya router")
+
+    def test_status_page_hides_radius_warnings_and_router_shows_vouchers(self):
+        response = self.client.get(reverse("control:status"))
+        self.assertNotContains(response, "Maonyo ya RADIUS")
+        router = make_router(make_owner(), nas_identifier="wifi-x")
+        response = self.client.get(reverse("control:router_detail", args=[router.pk]))
+        self.assertContains(response, "Vocha kwenye router")
+        self.assertNotContains(response, "rotate_secret")
 
 
 @override_settings(**FEES)

@@ -1,11 +1,15 @@
+from datetime import timedelta
+
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from billing.models import Payment
 from core.tests.factories import make_owner, make_package, make_router
+from radius import localsync
 
 
-@override_settings(PAYMENT_PROVIDER="sandbox", ALLOW_SANDBOX_PAYMENTS=True)
+@override_settings(PAYMENT_PROVIDER="sandbox", ALLOW_SANDBOX_PAYMENTS=True, JAMIILITE_AUTH_MODE="local")
 class PortalFlowTests(TestCase):
     def setUp(self):
         self.owner = make_owner()
@@ -40,10 +44,40 @@ class PortalFlowTests(TestCase):
         self.assertEqual(payment.client_mac, "08:00:27:50:4C:14")
         self.assertEqual(payment.client_ip, "10.5.50.20")
 
+        # Njia ya local: tunasubiri router ipokee vocha kwenye ripoti yake.
         status = self.client.get(response.url)
         self.assertContains(status, payment.voucher.code)
+        self.assertContains(status, "Tunakuunganisha")
+        self.assertContains(status, 'http-equiv="refresh"')
+        self.assertNotContains(status, 'action="http://login.wifi.test/login"')
+
+        localsync.handle_report(self.router, {"jl": "0"}, now=timezone.now() - timedelta(seconds=5))
+        status = self.client.get(response.url)
         self.assertContains(status, 'action="http://login.wifi.test/login"')
         self.assertContains(status, 'name="dst" value="http://neverssl.com/"')
+        self.assertContains(status, 'data-autosubmit="1"')
+        self.assertNotContains(status, 'http-equiv="refresh"')
+
+    def test_slow_router_gives_manual_connect_button(self):
+        self.client.get(self.home_url, {"link-login-only": "http://login.wifi.test/login"})
+        response = self.client.post(
+            reverse("portal:pay", args=[self.router.slug]), {"package": self.package.pk, "phone": "0712345678"},
+        )
+        payment = Payment.objects.get()
+        Payment.objects.filter(pk=payment.pk).update(paid_at=timezone.now() - timedelta(minutes=2))
+        status = self.client.get(response.url)
+        self.assertContains(status, "Tunakuunganisha")
+        self.assertContains(status, 'data-autosubmit="0"')
+
+    @override_settings(JAMIILITE_AUTH_MODE="radius")
+    def test_radius_mode_logs_in_right_away(self):
+        self.client.get(self.home_url, {"link-login-only": "http://login.wifi.test/login"})
+        response = self.client.post(
+            reverse("portal:pay", args=[self.router.slug]), {"package": self.package.pk, "phone": "0712345678"},
+        )
+        status = self.client.get(response.url)
+        self.assertContains(status, 'data-autosubmit="1"')
+        self.assertNotContains(status, "Tunakuunganisha")
 
     def test_router_login_url_overrides_hotspot_param(self):
         self.router.login_url = "http://10.5.50.1/login"

@@ -147,6 +147,10 @@ class Router(models.Model):
     routeros_version = models.CharField("toleo la RouterOS", max_length=60, blank=True)
     uptime = models.CharField("muda iliowaka", max_length=40, blank=True)
     active_clients = models.PositiveIntegerField("wateja online", default=0)
+    # Njia ya "local": vipindi vilivyokuwa online kwenye ripoti iliyopita,
+    # {"VOCHA|MAC": {"down": bytes, "up": bytes, "at": iso}}. Vinatumika kujua
+    # nani ameingia au ametoka, na lini kurekodi matumizi.
+    active_sessions = models.JSONField("vipindi vilivyo online", default=dict, blank=True)
 
     class Meta:
         verbose_name = "router"

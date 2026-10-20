@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block head %}
-  {% if payment.status == "pending" %}<meta http-equiv="refresh" content="3">{% endif %}
+  {% if payment.status == "pending" or voucher and login_target and not router_ready %}<meta http-equiv="refresh" content="3">{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -28,8 +28,18 @@
       <p class="muted small">{% translate "Namba yako ya vocha" %}</p>
       <p class="voucher-code">{{ voucher.code }}</p>
       <p class="muted small">{% translate "Ihifadhi. Utaihitaji ukiunganishwa upya." %}</p>
-      {% if login_target %}
+      {% if login_target and router_ready %}
         {% include "portal/_voucher_login.html" with code=voucher.code autosubmit=True %}
+      {% elif login_target %}
+        <div class="connecting">
+          <div class="spinner" aria-hidden="true"></div>
+          <p><strong>{% translate "Tunakuunganisha…" %}</strong></p>
+          <p class="muted small">{% translate "Router ya WiFi inapokea vocha yako. Inachukua sekunde chache tu." %}</p>
+        </div>
+        {% if waited_long %}
+          <p class="muted small">{% translate "Inachelewa? Bonyeza Unganisha." %}</p>
+          {% include "portal/_voucher_login.html" with code=voucher.code autosubmit=False %}
+        {% endif %}
       {% else %}
         <p class="alert">{% translate "Fungua ukurasa wa WiFi tena kisha weka vocha hii kuunganishwa." %}</p>
       {% endif %}

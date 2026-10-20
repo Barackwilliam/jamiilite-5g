@@ -1,13 +1,14 @@
-# Render Blueprint: website ya JamiiLite 5G (dashboard, portal, superadmin).
-# RADIUS haiwezi kukaa Render (haipokei UDP); inakaa Google Cloud. Angalia docs/DEPLOY.md.
+# Render Blueprint: mfumo mzima wa JamiiLite 5G (dashboard, portal, superadmin, ripoti za routers).
+# Routers zinahifadhi vocha zenyewe (JAMIILITE_AUTH_MODE=local), kwa hiyo hakuna RADIUS server
+# wala VPS inayohitajika. Angalia docs/DEPLOY.md.
 services:
   - type: web
     name: jamiilite
     runtime: python
     plan: free
-    # Karibu na Supabase (us-east-1) na RADIUS ya Google (us-east1): kila query inachukua milisekunde chache.
+    # Karibu na Supabase (us-east-1): kila query inachukua milisekunde chache.
     region: virginia
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput && python manage.py ensure_superuser
     startCommand: gunicorn config.wsgi --workers 2 --timeout 60 --access-logfile -
     healthCheckPath: /healthz/
     envVars:
@@ -20,9 +21,11 @@ services:
       # Supabase -> Connect -> Session pooler (port 5432). Inafanya kazi kwa IPv4.
       - key: DATABASE_URL
         sync: false
-      # IP ya kudumu ya server ya RADIUS (Google Cloud)
-      - key: RADIUS_PUBLIC_ADDRESS
-        sync: false
+      # Router inathibitisha vocha zilizo ndani yake, na kuripoti kila sekunde 10.
+      - key: JAMIILITE_AUTH_MODE
+        value: local
+      - key: JAMIILITE_CHECKIN_SECONDS
+        value: "10"
       # mfano https://jamiilite.onrender.com au domain yako
       - key: JAMIILITE_PUBLIC_URL
         sync: false
@@ -48,4 +51,9 @@ services:
       - key: ALLOW_SANDBOX_PAYMENTS
         value: "True"
       - key: JAMIILITE_WHATSAPP_NUMBER
+        sync: false
+      # Super Admin wa kwanza (Render Free haina Shell). Akishatengenezwa, futa password hapa.
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
         sync: false
