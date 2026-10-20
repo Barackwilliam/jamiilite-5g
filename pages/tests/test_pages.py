@@ -54,7 +54,7 @@ class LandingLanguageTests(TestCase):
         response = self.client.get(reverse("pages:home"))
         self.assertContains(response, "data-journey")
         self.assertContains(response, 'role="tablist"')
-        self.assertContains(response, "Access-Request")
+        self.assertContains(response, "limit-uptime")
         self.assertNotContains(response, "si data halisi")
 
     def test_landing_scripts_are_embedded_without_extra_requests(self):

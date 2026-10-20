@@ -1,6 +1,6 @@
 // JamiiLite 5G: ramani ya mtandao "Live".
 //
-// Inachora simu za wateja, routers, JamiiLite (RADIUS) na mtoa huduma wa
+// Inachora simu za wateja, routers, JamiiLite na mtoa huduma wa
 // malipo, kisha inasafirisha "packets" kwenye njia zao kila tukio halisi
 // linapotokea (vocha kuingia, matumizi, malipo, ripoti za routers).
 // Hali ya "mfano" inatengeneza matukio ya kuigiza na inaandikwa wazi hivyo.
@@ -333,7 +333,7 @@
     el("circle", { r: 40, class: "lv-halo" }, cloud);
     el("rect", { x: -80, y: -32, width: 160, height: 64, rx: 16, class: "lv-box" }, cloud);
     text(cloud, 0, -4, "JamiiLite", "lv-title");
-    text(cloud, 0, 16, _("RADIUS · Mfumo"), "lv-sub");
+    text(cloud, 0, 16, _("Vocha · Malipo"), "lv-sub");
     this.nodes.cloud = cloud;
 
     var gw = el("g", { class: "lv-node lv-gateway", transform: "translate(" + g.x + "," + g.y + ")" }, nodeLayer);

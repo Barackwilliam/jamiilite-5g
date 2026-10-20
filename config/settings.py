@@ -230,6 +230,19 @@ RADIUS_REQUIRE_MESSAGE_AUTHENTICATOR = env_bool("RADIUS_REQUIRE_MESSAGE_AUTHENTI
 # server halisi weka mfano https://jamiilite.co.tz na IP ya server.
 JAMIILITE_PUBLIC_URL = os.environ.get("JAMIILITE_PUBLIC_URL", "http://10.0.2.2:8000")
 RADIUS_PUBLIC_ADDRESS = os.environ.get("RADIUS_PUBLIC_ADDRESS", "10.0.2.2")
+
+# Jinsi router inavyothibitisha vocha:
+#   "local":  router inahifadhi vocha yenyewe, na JamiiLite inazituma kupitia
+#             ripoti ya router (check-in). Haihitaji RADIUS server, kwa hiyo
+#             mfumo mzima unaweza kukaa Render peke yake.
+#   "radius": router inauliza RADIUS server (python manage.py radius_server),
+#             ambayo inahitaji server yenye UDP 1812/1813.
+JAMIILITE_AUTH_MODE = os.environ.get("JAMIILITE_AUTH_MODE", "local").strip().lower()
+if JAMIILITE_AUTH_MODE not in {"local", "radius"}:
+    raise ImproperlyConfigured("JAMIILITE_AUTH_MODE iwe 'local' au 'radius'.")
+# Router inaripoti kila baada ya sekunde hizi. Ndogo = mteja anaunganishwa haraka
+# baada ya kulipa (njia ya "local"), lakini maombi mengi zaidi kwa server.
+JAMIILITE_CHECKIN_SECONDS = max(5, int(os.environ.get("JAMIILITE_CHECKIN_SECONDS", "10")))
 # Hosts za ziada ambazo mteja anaruhusiwa kuzifikia kabla ya kulipa, mfano
 # ukurasa wa malipo wa mtoa huduma: "checkout.example.co.tz,api.example.co.tz".
 JAMIILITE_WALLED_GARDEN_EXTRA = env_list("JAMIILITE_WALLED_GARDEN_EXTRA")

@@ -83,7 +83,25 @@ def check_database():
     return Check("database", "Database", state, f"{ms:.0f} ms", _("Database inajibu."), "", facts)
 
 
+def check_vouchers_on_routers(now):
+    """Njia ya "local": hakuna RADIUS server; vocha zinatumwa kwa routers kupitia ripoti zao."""
+    from billing.models import RouterVoucher
+
+    facts = [
+        (_("Njia"), _("Ndani ya router (local)")),
+        (_("Router inaripoti kila"), _("sekunde %(n)s") % {"n": settings.JAMIILITE_CHECKIN_SECONDS}),
+        (_("Vocha zilizo kwenye routers"), f"{RouterVoucher.objects.count():,}"),
+    ]
+    return Check(
+        "radius", _("Uthibitishaji wa vocha"), "ok", _("Ndani ya router"),
+        _("Routers zinahifadhi vocha zenyewe na kuzipokea kwenye ripoti zao, kwa hiyo RADIUS server haihitajiki."),
+        "", facts,
+    )
+
+
 def check_radius(now):
+    if settings.JAMIILITE_AUTH_MODE == "local":
+        return check_vouchers_on_routers(now)
     beat = ServiceHeartbeat.objects.filter(name="radius").first()
     fix = _("Washa server ya RADIUS: python manage.py radius_server (kwenye VPS iwe service ya systemd).")
     if beat is None:
@@ -127,7 +145,7 @@ def check_routers(now):
             _("Hakuna router inayoripoti. Huenda server haifikiki kutoka kwa routers."),
             _("Hakikisha %(url)s inafunguka kutoka mtandaoni.") % {"url": settings.JAMIILITE_PUBLIC_URL}, facts,
         )
-    return Check("routers", "Routers", "ok", f"{online} / {total} online", _("Routers zinaripoti kila dakika."), "", facts)
+    return Check("routers", "Routers", "ok", f"{online} / {total} online", _("Routers zinaripoti kila baada ya sekunde chache."), "", facts)
 
 
 def check_payments(now):
@@ -259,7 +277,8 @@ def environment_facts():
     )
     return [
         (_("Anwani ya umma"), settings.JAMIILITE_PUBLIC_URL),
-        (_("Anwani ya RADIUS kwa routers"), settings.RADIUS_PUBLIC_ADDRESS),
+        (_("Uthibitishaji wa vocha"), "RADIUS · " + settings.RADIUS_PUBLIC_ADDRESS
+         if settings.JAMIILITE_AUTH_MODE == "radius" else _("Ndani ya router (local)")),
         (_("Saa za mfumo"), f"{settings.TIME_ZONE} · {timezone.localtime():%d/%m/%Y %H:%M}"),
         (_("Toleo la msimbo (git)"), _git_commit()),
         ("Django / Python", f"{django.get_version()} / {platform.python_version()}"),

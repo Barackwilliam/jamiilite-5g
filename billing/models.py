@@ -144,6 +144,31 @@ class VoucherDevice(models.Model):
         return self.mac_address
 
 
+class RouterVoucher(models.Model):
+    """
+    Njia ya "local": vocha ambayo JamiiLite imeshaituma kwa router fulani.
+    Kila ripoti ya router inalinganisha orodha hii na vocha zinazopaswa kuwepo.
+    """
+
+    router = models.ForeignKey(
+        Router, on_delete=models.CASCADE, related_name="pushed_vouchers", verbose_name="router"
+    )
+    voucher = models.ForeignKey(
+        Voucher, on_delete=models.CASCADE, related_name="router_copies", verbose_name="vocha"
+    )
+    pushed_at = models.DateTimeField("imetumwa", default=timezone.now)
+
+    class Meta:
+        verbose_name = "vocha kwenye router"
+        verbose_name_plural = "vocha kwenye routers"
+        constraints = [
+            models.UniqueConstraint(fields=["router", "voucher"], name="router_voucher_unique"),
+        ]
+
+    def __str__(self):
+        return f"{self.voucher} → {self.router_id}"
+
+
 class LedgerEntry(models.Model):
     """
     Kila mabadiliko ya salio la mmiliki. Salio = jumla ya `amount` zote.

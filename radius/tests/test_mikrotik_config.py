@@ -24,17 +24,34 @@ class SetupScriptTests(TestCase):
         self.router = make_router(make_owner(), slug="demo", nas_identifier="wifi-majaribio")
         self.script = routeros.setup_script(self.router)
 
-    def test_configures_radius_portal_and_checkin(self):
+    def test_local_mode_keeps_vouchers_on_router_and_reports_often(self):
         script = self.script
         self.assertIn(':error "JamiiLite: hakuna hotspot', script)
         self.assertIn('/system identity set name="wifi-majaribio"', script)
-        self.assertIn(f'address=10.0.2.2 secret="{self.router.radius_secret}"', script)
+        # Hakuna RADIUS: router inathibitisha vocha zilizo ndani yake.
         self.assertIn("/radius remove [find comment=JamiiLite]", script)
-        self.assertIn("login-by=http-pap", script)
+        self.assertNotIn("/radius add", script)
+        self.assertNotIn(self.router.radius_secret, script)
+        self.assertIn("/ip hotspot profile set [find] use-radius=no login-by=http-pap", script)
         self.assertIn("walled-garden ip add dst-address=10.0.2.2 protocol=tcp dst-port=8000", script)
         self.assertIn('name~"hotspot/login.html\\$"', script)
         self.assertIn("url=http://10.0.2.2:8000/p/demo/\\?link-login-only=\\$(link-login-only-esc)", script)
-        self.assertIn("/system scheduler add name=jamiilite-checkin interval=1m", script)
+        self.assertIn("/system scheduler add name=jamiilite-checkin interval=10s", script)
+
+    @override_settings(JAMIILITE_AUTH_MODE="radius")
+    def test_radius_mode_points_router_at_radius_server(self):
+        script = routeros.setup_script(self.router)
+        self.assertIn(f'address=10.0.2.2 secret="{self.router.radius_secret}"', script)
+        self.assertIn("use-radius=yes login-by=http-pap radius-accounting=yes", script)
+        self.assertIn("login-by=http-pap use-radius=yes", script)
+
+    def test_checkin_reads_reply_in_memory_not_on_flash(self):
+        source = routeros.checkin_source(self.router)
+        self.assertIn("output=user as-value", source)
+        self.assertIn('[:parse ($r->"data")]', source)
+        self.assertNotIn("dst-path", source)
+        self.assertIn('"&jl=" . [:len [/ip hotspot user find comment=JamiiLite]]', source)
+        self.assertIn("[/ip hotspot active get $a mac-address]", source)
 
     def test_creates_hotspot_on_bridge_when_missing(self):
         block = self.script.split("/system identity", 1)[0]
@@ -52,7 +69,7 @@ class SetupScriptTests(TestCase):
         self.assertIn("[find where mode=ap-bridge]", script)
         # Imepitia ros_string mara mbili: kwa :parse, kisha kwa script yenyewe.
         self.assertIn(r'ssid=\"Neema \\\"WiFi\\\" \\\$1\"', script)
-        self.assertEqual(script.count(":local run [:parse"), 4)
+        self.assertEqual(script.count(":do { :local run [:parse"), 4)
 
     @override_settings(
         JAMIILITE_PUBLIC_URL="https://jamiilite.co.tz",
@@ -107,7 +124,7 @@ class ProvisioningViewTests(TestCase):
         response = self.client.get(self.setup_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "text/plain; charset=utf-8")
-        self.assertIn(self.router.radius_secret, response.content.decode())
+        self.assertIn('/system identity set name="wifi-majaribio"', response.content.decode())
 
     def test_unknown_token_and_inactive_router_get_404(self):
         self.assertEqual(self.client.get(reverse("radius:setup_script", args=["batili"])).status_code, 404)

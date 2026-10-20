@@ -1,5 +1,7 @@
+import random
 from urllib.parse import parse_qsl
 
+from django.conf import settings
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -10,7 +12,11 @@ from django.views.decorators.http import require_GET, require_POST
 from core import events
 from core.models import Router
 
-from . import routeros
+from . import localsync, routeros
+
+# Router zinaripoti kila sekunde chache, kwa hiyo kusafisha matukio ya zamani ya
+# ramani ya Live kunafanyika mara chache tu (njia ya local haina RADIUS server ya kufanya hivyo).
+PRUNE_CHANCE = 0.002
 
 
 def _script_response(text):
@@ -55,4 +61,8 @@ def checkin(request, token):
             for command in pending:
                 events.record(router, events.Kind.COMMAND, detail=command.get_action_display())
 
-    return _script_response(routeros.command_script(pending))
+        sync = localsync.handle_report(router, report) if settings.JAMIILITE_AUTH_MODE == "local" else []
+
+    if random.random() < PRUNE_CHANCE:
+        events.prune()
+    return _script_response(routeros.command_script(pending, sync))

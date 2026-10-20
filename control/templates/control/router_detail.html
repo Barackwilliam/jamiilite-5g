@@ -34,7 +34,7 @@
       {% csrf_token %}
       <button class="action-tile" name="action" value="reapply">{% icon "refresh" 20 %}<strong>{% translate "Weka upya usanidi" %}</strong><small>{% translate "Inapakua script ya JamiiLite tena" %}</small></button>
       <button class="action-tile" name="action" value="reboot" data-confirm="Kuwasha upya {{ router.name }}? Wateja watakatika dakika 1–2.">{% icon "power" 20 %}<strong>{% translate "Reboot" %}</strong><small>{% translate "Inazima na kuwasha router" %}</small></button>
-      <button class="action-tile" name="action" value="rotate_secret" data-confirm="{% translate 'Kutengeneza siri mpya ya RADIUS? Router lazima iwe online ili ipokee usanidi mpya, la sivyo wateja hawataweza kuingia.' %}">{% icon "key" 20 %}<strong>{% translate "Badilisha siri ya RADIUS" %}</strong><small>{% translate "Ikiwa siri imevuja" %}</small></button>
+{% if radius_mode %}      <button class="action-tile" name="action" value="rotate_secret" data-confirm="{% translate 'Kutengeneza siri mpya ya RADIUS? Router lazima iwe online ili ipokee usanidi mpya, la sivyo wateja hawataweza kuingia.' %}">{% icon "key" 20 %}<strong>{% translate "Badilisha siri ya RADIUS" %}</strong><small>{% translate "Ikiwa siri imevuja" %}</small></button>{% endif %}
       {% if router.is_active %}
         <button class="action-tile action-danger" name="action" value="disable" data-confirm="Kuzima {{ router.name }}? Haitauza wala kuingiza wateja wapya.">{% icon "power" 20 %}<strong>{% translate "Zima router" %}</strong><small>{% translate "Inasimamisha mauzo yake" %}</small></button>
       {% else %}
@@ -92,6 +92,13 @@
       </ul>
     {% else %}<p class="empty">{% translate "Hakuna maagizo bado." %}</p>{% endif %}
   </section>
+  {% if not radius_mode %}
+  <section class="card">
+    <div class="card-head"><h2>{% translate "Vocha kwenye router" %}</h2></div>
+    <p class="stat-value">{{ vouchers_on_router }}</p>
+    <p class="muted small">{% translate "Router inahifadhi vocha zenyewe, na zinasasishwa kila inaporipoti: mpya zinaongezwa, zilizoisha zinaondolewa." %}</p>
+  </section>
+  {% else %}
   <section class="card">
     <div class="card-head"><h2>{% translate "Maonyo ya RADIUS" %}</h2></div>
     {% if warnings %}
@@ -104,5 +111,6 @@
       <p class="empty">{% translate "Hakuna maonyo ya router hii. Vizuri." %}</p>
     {% endif %}
   </section>
+  {% endif %}
 </div>
 {% endblock %}

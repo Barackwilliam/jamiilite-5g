@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 21:46+0300\n"
+"POT-Creation-Date: 2026-10-20 22:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: billing/models.py:23 billing/models.py:188
+#: billing/models.py:23 billing/models.py:213
 #: control/templates/control/owner_detail.html:130
 #: control/templates/control/withdrawals.html:26
 msgid "Inasubiri"
 msgstr "Pending"
 
-#: billing/models.py:24 billing/models.py:189
+#: billing/models.py:24 billing/models.py:214
 #: control/templates/control/owner_detail.html:130
 #: control/templates/control/withdrawals.html:26
 msgid "Imelipwa"
@@ -34,39 +34,39 @@ msgstr "Paid"
 msgid "Imeshindwa"
 msgstr "Failed"
 
-#: billing/models.py:156 dashboard/templates/dashboard/signup.html:8
+#: billing/models.py:181 dashboard/templates/dashboard/signup.html:8
 #: dashboard/views.py:48 dashboard/views.py:401
 #: pages/templates/pages/_journey.html:40
 msgid "Mauzo"
 msgstr "Sales"
 
-#: billing/models.py:157 control/templates/control/config.html:30
+#: billing/models.py:182 control/templates/control/config.html:30
 msgid "Ada ya mwezi"
 msgstr "Monthly fee"
 
-#: billing/models.py:158 control/templates/control/owner_detail.html:125
-#: control/views.py:34
+#: billing/models.py:183 control/templates/control/owner_detail.html:125
+#: control/views.py:35
 msgid "Kutoa pesa"
 msgstr "Withdrawals"
 
-#: billing/models.py:159
+#: billing/models.py:184
 msgid "Kutoa pesa kumerudishwa"
 msgstr "Withdrawal reversed"
 
-#: billing/models.py:160
+#: billing/models.py:185
 msgid "Marekebisho"
 msgstr "Adjustment"
 
-#: billing/models.py:190 control/templates/control/owner_detail.html:130
+#: billing/models.py:215 control/templates/control/owner_detail.html:130
 #: control/templates/control/withdrawals.html:26
 msgid "Imekataliwa"
 msgstr "Rejected"
 
-#: billing/models.py:221
+#: billing/models.py:246
 msgid "Kutoka kwenye salio"
 msgstr "From balance"
 
-#: billing/models.py:222
+#: billing/models.py:247
 msgid "Pesa taslimu / nje ya mfumo"
 msgstr "Cash / outside the system"
 
@@ -200,7 +200,7 @@ msgstr "Expired"
 msgid "Amesitishwa"
 msgstr "Suspended"
 
-#: control/status.py:29 control/status.py:195
+#: control/status.py:29 control/status.py:213
 msgid "Sawa"
 msgstr "OK"
 
@@ -221,22 +221,22 @@ msgstr "Info"
 msgid "chini ya dakika 1"
 msgstr "under a minute"
 
-#: control/status.py:60 core/models.py:237 portal/views.py:92
+#: control/status.py:60 core/models.py:241 portal/views.py:98
 #, python-format
 msgid "dakika %(n)s"
 msgid_plural "dakika %(n)s"
 msgstr[0] "%(n)s minute"
 msgstr[1] "%(n)s minutes"
 
-#: control/status.py:62 core/models.py:236 portal/views.py:91
+#: control/status.py:62 core/models.py:240 portal/views.py:97
 #, python-format
 msgid "saa %(n)s"
 msgid_plural "saa %(n)s"
 msgstr[0] "%(n)s hour"
 msgstr[1] "%(n)s hours"
 
-#: control/status.py:63 core/models.py:233 pages/views.py:28
-#: portal/views.py:90
+#: control/status.py:63 core/models.py:237 pages/views.py:28
+#: portal/views.py:96
 #, python-format
 msgid "siku %(n)s"
 msgid_plural "siku %(n)s"
@@ -267,7 +267,44 @@ msgstr "Set the Supabase DATABASE_URL in .env."
 msgid "Database inajibu."
 msgstr "The database is responding."
 
-#: control/status.py:88
+#: control/status.py:91
+msgid "Njia"
+msgstr "Mode"
+
+#: control/status.py:91 control/status.py:281
+msgid "Ndani ya router (local)"
+msgstr "On the router (local)"
+
+#: control/status.py:92
+msgid "Router inaripoti kila"
+msgstr "Router reports every"
+
+#: control/status.py:92
+#, python-format
+msgid "sekunde %(n)s"
+msgstr "%(n)s seconds"
+
+#: control/status.py:93
+msgid "Vocha zilizo kwenye routers"
+msgstr "Vouchers on routers"
+
+#: control/status.py:96 control/status.py:280
+msgid "Uthibitishaji wa vocha"
+msgstr "Voucher checks"
+
+#: control/status.py:96
+msgid "Ndani ya router"
+msgstr "On the router"
+
+#: control/status.py:97
+msgid ""
+"Routers zinahifadhi vocha zenyewe na kuzipokea kwenye ripoti zao, kwa hiyo "
+"RADIUS server haihitajiki."
+msgstr ""
+"Routers keep the vouchers themselves and receive them in their check-ins, so"
+" no RADIUS server is needed."
+
+#: control/status.py:106
 msgid ""
 "Washa server ya RADIUS: python manage.py radius_server (kwenye VPS iwe "
 "service ya systemd)."
@@ -275,279 +312,276 @@ msgstr ""
 "Start the RADIUS server: python manage.py radius_server (on the VPS, run it "
 "as a systemd service)."
 
-#: control/status.py:91
+#: control/status.py:109
 msgid "Haijawahi kuripoti"
 msgstr "Never reported"
 
-#: control/status.py:92
+#: control/status.py:110
 msgid "Bila RADIUS, wateja hawawezi kuingia kwa vocha."
 msgstr "Without RADIUS, customers cannot log in with vouchers."
 
-#: control/status.py:97
+#: control/status.py:115
 msgid "Ilianza"
 msgstr "Started"
 
-#: control/status.py:98
+#: control/status.py:116
 msgid "Kompyuta"
 msgstr "Host"
 
-#: control/status.py:99
+#: control/status.py:117
 msgid "Ports"
 msgstr "Ports"
 
-#: control/status.py:100
+#: control/status.py:118
 msgid "Zimekubaliwa"
 msgstr "Accepted"
 
-#: control/status.py:101
+#: control/status.py:119
 msgid "Zimekataliwa"
 msgstr "Rejected"
 
-#: control/status.py:103
+#: control/status.py:121
 msgid "Zimepuuzwa"
 msgstr "Ignored"
 
-#: control/status.py:106
+#: control/status.py:124
 msgid "Inafanya kazi"
 msgstr "Running"
 
-#: control/status.py:106
+#: control/status.py:124
 #, python-format
 msgid "Iliripoti %(time)s iliyopita."
 msgstr "Last reported %(time)s ago."
 
-#: control/status.py:109
+#: control/status.py:127
 msgid "Imekaa kimya"
 msgstr "Silent"
 
-#: control/status.py:110
+#: control/status.py:128
 #, python-format
 msgid "Haijaripoti kwa %(time)s. Huenda imesimama."
 msgstr "No report for %(time)s. It may have stopped."
 
-#: control/status.py:119
+#: control/status.py:137
 msgid "Zinazotumika"
 msgstr "In use"
 
-#: control/status.py:119 control/templates/control/routers.html:6
-#: control/templates/control/routers.html:33 control/views.py:223
+#: control/status.py:137 control/templates/control/routers.html:6
+#: control/templates/control/routers.html:33 control/views.py:224
+#: pages/templates/pages/_journey.html:60
 #: pages/templates/pages/mwongozo.html:133
 msgid "Online"
 msgstr "Online"
 
-#: control/status.py:119 control/templates/control/routers.html:8
+#: control/status.py:137 control/templates/control/routers.html:8
 msgid "Hazijawahi kuunganishwa"
 msgstr "Never connected"
 
-#: control/status.py:120
+#: control/status.py:138
 msgid "Zimezimwa na admin"
 msgstr "Disabled by admin"
 
-#: control/status.py:122
+#: control/status.py:140
 msgid "Hakuna bado"
 msgstr "None yet"
 
-#: control/status.py:122
+#: control/status.py:140
 msgid "Hakuna router iliyoongezwa."
 msgstr "No router has been added."
 
-#: control/status.py:127
+#: control/status.py:145
 msgid "Hakuna router inayoripoti. Huenda server haifikiki kutoka kwa routers."
 msgstr ""
 "No router is reporting. The server may be unreachable from the routers."
 
-#: control/status.py:128
+#: control/status.py:146
 #, python-format
 msgid "Hakikisha %(url)s inafunguka kutoka mtandaoni."
 msgstr "Make sure %(url)s opens from the internet."
 
-#: control/status.py:130
-msgid "Routers zinaripoti kila dakika."
-msgstr "Routers report every minute."
+#: control/status.py:148
+msgid "Routers zinaripoti kila baada ya sekunde chache."
+msgstr "Routers report every few seconds."
 
-#: control/status.py:140
+#: control/status.py:158
 msgid "Mtoa huduma"
 msgstr "Provider"
 
-#: control/status.py:141
+#: control/status.py:159
 msgid "Saa 24: yamelipwa"
 msgstr "Last 24 h: paid"
 
-#: control/status.py:142
+#: control/status.py:160
 msgid "Saa 24: yameshindwa"
 msgstr "Last 24 h: failed"
 
-#: control/status.py:143
+#: control/status.py:161
 msgid "Yamekwama (>dk 15)"
 msgstr "Stuck (>15 min)"
 
-#: control/status.py:148 control/status.py:153 control/status.py:160
-#: control/status.py:163 control/views.py:36
+#: control/status.py:166 control/status.py:171 control/status.py:178
+#: control/status.py:181 control/views.py:37
 #: pages/templates/pages/_journey.html:8 ui/templates/ui/_live.html:25
 msgid "Malipo"
 msgstr "Payments"
 
-#: control/status.py:148
+#: control/status.py:166
 msgid "Sandbox kwenye production"
 msgstr "Sandbox in production"
 
-#: control/status.py:149
+#: control/status.py:167
 msgid "Malipo yanakubaliwa bila pesa halisi: mtu yeyote anapata vocha bure."
 msgstr "Payments are accepted without real money: anyone gets free vouchers."
 
-#: control/status.py:150
+#: control/status.py:168
 msgid "Weka PAYMENT_PROVIDER ya kweli na ALLOW_SANDBOX_PAYMENTS=False."
 msgstr "Set a real PAYMENT_PROVIDER and ALLOW_SANDBOX_PAYMENTS=False."
 
-#: control/status.py:153
+#: control/status.py:171
 msgid "Sandbox (majaribio)"
 msgstr "Sandbox (testing)"
 
-#: control/status.py:154
+#: control/status.py:172
 msgid "Malipo ni ya kuigiza. Sawa kwa majaribio ya ndani."
 msgstr "Payments are simulated. Fine for local testing."
 
-#: control/status.py:160
+#: control/status.py:178
 msgid "Kuna malipo yenye shida"
 msgstr "Some payments have problems"
 
-#: control/status.py:161
+#: control/status.py:179
 msgid "Malipo mengi yameshindwa au yamekwama."
 msgstr "Many payments failed or got stuck."
 
-#: control/status.py:161
+#: control/status.py:179
 msgid "Angalia akaunti ya mtoa huduma wa malipo."
 msgstr "Check your payment provider account."
 
-#: control/status.py:163
+#: control/status.py:181
 msgid "Malipo yanapita."
 msgstr "Payments are going through."
 
-#: control/status.py:169 control/status.py:173
+#: control/status.py:187 control/status.py:191
 msgid "Hifadhi ya picha"
 msgstr "Image storage"
 
-#: control/status.py:169
+#: control/status.py:187
 msgid "Supabase Storage"
 msgstr "Supabase Storage"
 
-#: control/status.py:173
+#: control/status.py:191
 msgid "Kompyuta hii (media/)"
 msgstr "This server (media/)"
 
-#: control/status.py:174
+#: control/status.py:192
 msgid "Logo zinahifadhiwa ndani ya server. Sawa kwa majaribio."
 msgstr "Logos are stored on the server. Fine for testing."
 
-#: control/status.py:175
+#: control/status.py:193
 msgid "Weka SUPABASE_* kwenye .env kwa production."
 msgstr "Set SUPABASE_* in .env for production."
 
-#: control/status.py:182
+#: control/status.py:200
 msgid "DEBUG imewashwa"
 msgstr "DEBUG is on"
 
-#: control/status.py:184
+#: control/status.py:202
 msgid "SECRET_KEY ni ya majaribio"
 msgstr "SECRET_KEY is the test one"
 
-#: control/status.py:186
+#: control/status.py:204
 msgid "Kinga ya BlastRADIUS imezimwa"
 msgstr "BlastRADIUS protection is off"
 
-#: control/status.py:188
+#: control/status.py:206
 msgid "Anwani ya umma haitumii https"
 msgstr "The public address is not https"
 
-#: control/status.py:190
+#: control/status.py:208
 msgid "Imewashwa"
 msgstr "On"
 
-#: control/status.py:190 control/templates/control/router_detail.html:6
+#: control/status.py:208 control/templates/control/router_detail.html:6
 #: control/templates/control/routers.html:31
 msgid "Imezimwa"
 msgstr "Off"
 
-#: control/status.py:191
+#: control/status.py:209
 msgid "Inahitajika"
 msgstr "Required"
 
-#: control/status.py:191
+#: control/status.py:209
 msgid "Haihitajiki"
 msgstr "Not required"
 
-#: control/status.py:195 control/status.py:198
+#: control/status.py:213 control/status.py:216
 msgid "Usalama"
 msgstr "Security"
 
-#: control/status.py:195
+#: control/status.py:213
 msgid "Mipangilio ya usalama ya production iko sawa."
 msgstr "Production security settings look good."
 
-#: control/status.py:198
+#: control/status.py:216
 #, python-format
 msgid "Mambo %(n)s ya kuangalia"
 msgstr "%(n)s things to check"
 
-#: control/status.py:199
+#: control/status.py:217
 msgid "Kwenye VPS: DEBUG=False, SECRET_KEY ndefu ya siri, na https."
 msgstr "On the VPS: DEBUG=False, a long secret SECRET_KEY, and https."
 
-#: control/status.py:210
+#: control/status.py:228
 msgid "Maagizo ya routers yaliyokwama"
 msgstr "Stuck router commands"
 
-#: control/status.py:210
+#: control/status.py:228
 msgid "Maombi ya pesa > saa 48"
 msgstr "Withdrawals > 48 h"
 
-#: control/status.py:213 control/status.py:218 control/status.py:221
+#: control/status.py:231 control/status.py:236 control/status.py:239
 msgid "Foleni"
 msgstr "Queues"
 
-#: control/status.py:213
+#: control/status.py:231
 #, python-format
 msgid "Maombi %(n)s yamechelewa"
 msgstr "%(n)s requests are late"
 
-#: control/status.py:214
+#: control/status.py:232
 msgid "Wamiliki wanasubiri pesa zao kwa zaidi ya saa 48."
 msgstr "Owners have been waiting more than 48 hours for their money."
 
-#: control/status.py:214
+#: control/status.py:232
 msgid "Fungua ukurasa wa Kutoa pesa."
 msgstr "Open the Withdrawals page."
 
-#: control/status.py:218
+#: control/status.py:236
 #, python-format
 msgid "Maagizo %(n)s hayajafika"
 msgstr "%(n)s commands not delivered"
 
-#: control/status.py:219
+#: control/status.py:237
 msgid "Routers husika ziko offline, maagizo yatafika zikirudi."
 msgstr "Those routers are offline; commands will arrive when they come back."
 
-#: control/status.py:221
+#: control/status.py:239
 msgid "Hakuna kilichokwama"
 msgstr "Nothing stuck"
 
-#: control/status.py:261
+#: control/status.py:279
 msgid "Anwani ya umma"
 msgstr "Public address"
 
-#: control/status.py:262
-msgid "Anwani ya RADIUS kwa routers"
-msgstr "RADIUS address for routers"
-
-#: control/status.py:263
+#: control/status.py:282
 msgid "Saa za mfumo"
 msgstr "System time"
 
-#: control/status.py:264
+#: control/status.py:283
 msgid "Toleo la msimbo (git)"
 msgstr "Code version (git)"
 
-#: control/status.py:266
+#: control/status.py:285
 msgid "RouterOS kwenye routers"
 msgstr "RouterOS on routers"
 
@@ -589,8 +623,8 @@ msgstr "Pricing and payments"
 
 #: control/templates/control/config.html:18
 #: control/templates/control/home.html:38
-#: control/templates/control/owner_detail.html:4 control/views.py:33
-#: control/views.py:133
+#: control/templates/control/owner_detail.html:4 control/views.py:34
+#: control/views.py:134
 msgid "Wamiliki"
 msgstr "Owners"
 
@@ -681,8 +715,8 @@ msgstr "total"
 msgid "Shughulikia"
 msgstr "Handle"
 
-#: control/templates/control/home.html:15 control/views.py:68
-#: control/views.py:331
+#: control/templates/control/home.html:15 control/views.py:69
+#: control/views.py:335
 msgid "Hali ya mfumo"
 msgstr "System status"
 
@@ -695,8 +729,8 @@ msgid "Mfumo wote uko sawa."
 msgstr "Everything is running fine."
 
 #: control/templates/control/home.html:23
-msgid "RADIUS, database na routers zinafanya kazi."
-msgstr "RADIUS, the database and routers are working."
+msgid "Vocha, database na routers zinafanya kazi."
+msgstr "Vouchers, the database and routers are working."
 
 #: control/templates/control/home.html:28
 msgid "Mauzo ya WiFi leo (jukwaa zima)"
@@ -1028,7 +1062,7 @@ msgstr "Amount"
 msgid "Hakuna malipo kwenye kundi hili."
 msgstr "No payments in this group."
 
-#: control/templates/control/router_detail.html:4 control/views.py:35
+#: control/templates/control/router_detail.html:4 control/views.py:36
 #: dashboard/templates/dashboard/router_detail.html:4 dashboard/views.py:45
 #: dashboard/views.py:273
 msgid "Routers"
@@ -1187,15 +1221,27 @@ msgstr "Waiting"
 msgid "Hakuna maagizo bado."
 msgstr "No commands yet."
 
-#: control/templates/control/router_detail.html:96
+#: control/templates/control/router_detail.html:97
+msgid "Vocha kwenye router"
+msgstr "Vouchers on this router"
+
+#: control/templates/control/router_detail.html:99
+msgid ""
+"Router inahifadhi vocha zenyewe, na zinasasishwa kila inaporipoti: mpya "
+"zinaongezwa, zilizoisha zinaondolewa."
+msgstr ""
+"The router keeps the vouchers itself, and they are updated every time it "
+"reports: new ones are added, expired ones removed."
+
+#: control/templates/control/router_detail.html:103
 msgid "Maonyo ya RADIUS"
 msgstr "RADIUS warnings"
 
-#: control/templates/control/router_detail.html:102
+#: control/templates/control/router_detail.html:109
 msgid "Router hii haina NAS identifier, kwa hiyo haiwezi kutumia RADIUS."
 msgstr "This router has no NAS identifier, so it cannot use RADIUS."
 
-#: control/templates/control/router_detail.html:104
+#: control/templates/control/router_detail.html:111
 msgid "Hakuna maonyo ya router hii. Vizuri."
 msgstr "No warnings for this router. Good."
 
@@ -1204,7 +1250,7 @@ msgstr "No warnings for this router. Good."
 msgid "Wateja %(n)s"
 msgstr "%(n)s customers"
 
-#: control/templates/control/routers.html:7 control/views.py:224
+#: control/templates/control/routers.html:7 control/views.py:225
 msgid "Offline"
 msgstr "Offline"
 
@@ -1261,11 +1307,11 @@ msgid ""
 msgstr ""
 "Checked %(checked)s. This page re-checks everything each time you open it."
 
-#: control/templates/control/status.html:21
+#: control/templates/control/status.html:22
 msgid "Maonyo ya RADIUS ya karibuni"
 msgstr "Recent RADIUS warnings"
 
-#: control/templates/control/status.html:29
+#: control/templates/control/status.html:30
 msgid ""
 "Hakuna maonyo. Router ikituma siri isiyo sahihi au NAS id isiyojulikana, "
 "utaona hapa."
@@ -1273,7 +1319,7 @@ msgstr ""
 "No warnings. If a router sends a wrong secret or an unknown NAS id, you will"
 " see it here."
 
-#: control/templates/control/status.html:33
+#: control/templates/control/status.html:35
 msgid "Mazingira ya server"
 msgstr "Server environment"
 
@@ -1308,112 +1354,112 @@ msgstr "Nothing here."
 msgid "Maombi mapya yakiingia, yataonekana hapa na kwenye menyu."
 msgstr "New requests will show up here and in the menu."
 
-#: control/views.py:31 dashboard/views.py:43 dashboard/views.py:231
+#: control/views.py:32 dashboard/views.py:43 dashboard/views.py:231
 msgid "Muhtasari"
 msgstr "Overview"
 
-#: control/views.py:32 control/views.py:309 dashboard/views.py:241
+#: control/views.py:33 control/views.py:312 dashboard/views.py:241
 msgid "Mtandao live"
 msgstr "Live network"
 
-#: control/views.py:67
+#: control/views.py:68
 msgid "Mfumo"
 msgstr "System"
 
-#: control/views.py:69 dashboard/views.py:51 dashboard/views.py:463
+#: control/views.py:70 dashboard/views.py:51 dashboard/views.py:463
 msgid "Mipangilio"
 msgstr "Settings"
 
-#: control/views.py:114
+#: control/views.py:115
 msgid "Muhtasari wa jukwaa"
 msgstr "Platform overview"
 
-#: control/views.py:146
+#: control/views.py:147
 #, python-format
 msgid "%(name)s amerudishwa."
 msgstr "%(name)s has been restored."
 
-#: control/views.py:146
+#: control/views.py:147
 #, python-format
 msgid "%(name)s amesitishwa."
 msgstr "%(name)s has been suspended."
 
-#: control/views.py:155
+#: control/views.py:156
 #, python-format
 msgid "Umemwongezea miezi %(months)s. Sasa amelipia mpaka %(date)s."
 msgstr "Added %(months)s month(s). They are now paid until %(date)s."
 
-#: control/views.py:159
+#: control/views.py:160
 msgid "Chagua idadi sahihi ya miezi."
 msgstr "Choose a valid number of months."
 
-#: control/views.py:194 dashboard/templates/dashboard/wallet.html:27
+#: control/views.py:195 dashboard/templates/dashboard/wallet.html:27
 msgid "Maombi ya kutoa pesa"
 msgstr "Withdrawal requests"
 
-#: control/views.py:206
+#: control/views.py:207
 msgid "Weka namba ya muamala (reference) uliyotumia kulipa."
 msgstr "Enter the transaction ID (reference) you paid with."
 
-#: control/views.py:208
+#: control/views.py:209
 #, python-format
 msgid "Imewekwa kuwa imelipwa: %(name)s, Tsh %(amount)s."
 msgstr "Marked as paid: %(name)s, Tsh %(amount)s."
 
-#: control/views.py:211
+#: control/views.py:212
 #, python-format
 msgid "Imekataliwa. Tsh %(amount)s imerudishwa kwenye salio la %(name)s."
 msgstr "Rejected. Tsh %(amount)s returned to %(name)s's balance."
 
-#: control/views.py:225
+#: control/views.py:226
 msgid "Hazijaunganishwa"
 msgstr "Not connected"
 
-#: control/views.py:226
+#: control/views.py:227
 msgid "Zimezimwa"
 msgstr "Disabled"
 
-#: control/views.py:244
+#: control/views.py:245
 msgid "Routers zote"
 msgstr "All routers"
 
-#: control/views.py:258
+#: control/views.py:259
 msgid "Agizo limetumwa. Router italichukua ndani ya dakika 1 ikiwa online."
 msgstr ""
 "Command sent. The router will pick it up within a minute if it is online."
 
-#: control/views.py:263
+#: control/views.py:264
 #, python-format
 msgid "%(name)s imewashwa tena."
 msgstr "%(name)s is enabled again."
 
-#: control/views.py:265
+#: control/views.py:266
 #, python-format
 msgid "%(name)s imezimwa: haiwezi kuuza wala kuingiza wateja wapya."
 msgstr "%(name)s is disabled: it cannot sell or let new customers in."
 
-#: control/views.py:270
+#: control/views.py:271
 msgid "Siri mpya ya RADIUS imetengenezwa na router imetumiwa usanidi mpya."
 msgstr ""
 "A new RADIUS secret was created and the router was sent the new setup."
 
-#: control/views.py:278
+#: control/views.py:279
 msgid "Imehifadhiwa, na router imetumiwa usanidi upya."
 msgstr "Saved, and the router was sent a fresh setup."
 
-#: control/views.py:280
+#: control/views.py:281
 msgid "Mabadiliko yamehifadhiwa."
 msgstr "Changes saved."
 
-#: control/views.py:344
+#: control/views.py:348
 msgid "Mipangilio imehifadhiwa na inafanya kazi sasa hivi."
 msgstr "Settings saved and in effect right now."
 
-#: control/views.py:349
+#: control/views.py:353
 msgid "Mipangilio ya jukwaa"
 msgstr "Platform settings"
 
-#: control/views.py:363
+#: control/views.py:367
 msgid "Malipo ya wateja"
 msgstr "Customer payments"
 
@@ -1433,59 +1479,59 @@ msgstr ""
 "The name customers see on their phones. Leave empty to keep the router's "
 "WiFi as it is."
 
-#: core/models.py:222
+#: core/models.py:226
 #, python-format
 msgid "kasi %(speed)s"
 msgstr "speed %(speed)s"
 
-#: core/models.py:230
+#: core/models.py:234
 #, python-format
 msgid "wiki %(n)s"
 msgid_plural "wiki %(n)s"
 msgstr[0] "%(n)s week"
 msgstr[1] "%(n)s weeks"
 
-#: core/models.py:244
+#: core/models.py:248
 msgid "Washa upya (reboot)"
 msgstr "Restart (reboot)"
 
-#: core/models.py:245
+#: core/models.py:249
 msgid "Weka upya usanidi wa JamiiLite"
 msgstr "Re-apply JamiiLite setup"
 
-#: core/models.py:336
+#: core/models.py:340
 msgid "Ameingia"
 msgstr "Logged in"
 
-#: core/models.py:337 ui/templates/ui/_live.html:27
+#: core/models.py:341 ui/templates/ui/_live.html:27
 msgid "Amekataliwa"
 msgstr "Rejected"
 
-#: core/models.py:338
+#: core/models.py:342
 msgid "Ameanza kutumia"
 msgstr "Session started"
 
-#: core/models.py:339
+#: core/models.py:343
 msgid "Matumizi"
 msgstr "Usage"
 
-#: core/models.py:340
+#: core/models.py:344
 msgid "Ametoka"
 msgstr "Logged out"
 
-#: core/models.py:341
+#: core/models.py:345
 msgid "Ombi la malipo"
 msgstr "Payment request"
 
-#: core/models.py:342
+#: core/models.py:346
 msgid "Amelipa"
 msgstr "Paid"
 
-#: core/models.py:343
+#: core/models.py:347
 msgid "Malipo yameshindwa"
 msgstr "Payment failed"
 
-#: core/models.py:344
+#: core/models.py:348
 msgid "Agizo"
 msgstr "Command"
 
@@ -2334,7 +2380,9 @@ msgid "Toka"
 msgstr "Log out"
 
 #: dashboard/templates/dashboard/voucher_print.html:6 dashboard/views.py:47
-#: dashboard/views.py:378 pages/templates/pages/_journey.html:35
+#: dashboard/views.py:378 pages/templates/pages/_journey.html:8
+#: pages/templates/pages/_journey.html:35
+#: pages/templates/pages/_journey.html:45
 msgid "Vocha"
 msgstr "Vouchers"
 
@@ -2531,6 +2579,7 @@ msgstr ""
 "the payment page, so the page opens by itself."
 
 #: pages/templates/pages/_journey.html:20
+#: pages/templates/pages/_journey.html:50
 msgid "Jibu"
 msgstr "Reply"
 
@@ -2579,28 +2628,28 @@ msgid "Mauzo yanaonekana kwenye dashboard yako sekunde hiyo hiyo."
 msgstr "The sale shows up on your dashboard that same second."
 
 #: pages/templates/pages/_journey.html:43
-msgid "Router inauliza: vocha hii ni halali?"
-msgstr "The router asks: is this voucher valid?"
+msgid "Vocha inatumwa kwa router"
+msgstr "The voucher is sent to the router"
 
 #: pages/templates/pages/_journey.html:44
 msgid ""
-"Simu inaingia yenyewe kwa vocha. Router inatuma ombi la RADIUS lililosainiwa"
-" kwa siri yake."
+"Router inaripoti kwa JamiiLite kila sekunde 10. Kwenye ripoti inayofuata, "
+"inapokea vocha mpya pamoja na muda na kasi yake."
 msgstr ""
-"The phone logs in with the voucher automatically. The router sends a RADIUS "
-"request signed with its secret."
+"The router reports to JamiiLite every 10 seconds. On its next report it "
+"receives the new voucher, with its time and speed."
 
 #: pages/templates/pages/_journey.html:48
-msgid "Ruhusa: saa 1, kasi 2 Mbps"
-msgstr "Access granted: 1 hour, 2 Mbps"
+msgid "Simu inaingia kwa vocha"
+msgstr "The phone logs in with the voucher"
 
 #: pages/templates/pages/_journey.html:49
 msgid ""
-"JamiiLite inakagua vocha na idadi ya simu, kisha inaiambia router ampe mteja"
-" muda na kasi gani."
+"Ukurasa wa kulipia unaituma vocha kwa router yenyewe. Router inaikagua ndani"
+" yake, bila kusubiri mtandao."
 msgstr ""
-"JamiiLite checks the voucher and the number of phones, then tells the router"
-" how much time and speed to give."
+"The payment page hands the voucher to the router by itself. The router "
+"checks it locally, without waiting on the internet."
 
 #: pages/templates/pages/_journey.html:53
 msgid "Mteja yuko online"
@@ -2614,16 +2663,16 @@ msgstr ""
 "opening."
 
 #: pages/templates/pages/_journey.html:58
-msgid "Kila dakika 5: ripoti ya matumizi"
-msgstr "Every 5 minutes: a usage report"
+msgid "Kila sekunde 10: ripoti ya router"
+msgstr "Every 10 seconds: the router reports"
 
 #: pages/templates/pages/_journey.html:59
 msgid ""
-"Router inaripoti kiasi cha data kilichotumika, kwa hiyo unaona kila mteja "
-"anavyotumia."
+"Router inaripoti nani yuko online na data aliyotumia, kwa hiyo unaona kila "
+"mteja anavyotumia."
 msgstr ""
-"The router reports how much data was used, so you can see each customer’s "
-"usage."
+"The router reports who is online and how much data they used, so you can see"
+" each customer’s usage."
 
 #: pages/templates/pages/_journey.html:63
 msgid "Saa imeisha: router inamkata"
@@ -2631,11 +2680,12 @@ msgstr "Time’s up: the router disconnects them"
 
 #: pages/templates/pages/_journey.html:64
 msgid ""
-"Muda ukifika, router inasimamisha internet ya mteja yenyewe na kuripoti "
-"mwisho wa matumizi."
+"Muda ukifika, JamiiLite inaiambia router imtoe mteja na kufuta vocha. Router"
+" yenyewe pia ina kikomo cha muda, hata mtandao ukikatika."
 msgstr ""
-"When the time runs out, the router stops the customer’s internet by itself "
-"and reports the final usage."
+"When the time is up, JamiiLite tells the router to disconnect the customer "
+"and delete the voucher. The router also enforces its own time limit, even if"
+" the internet drops."
 
 #: pages/templates/pages/_journey.html:69
 #: pages/templates/pages/mwongozo.html:172
@@ -3899,7 +3949,20 @@ msgstr "Try again"
 msgid "Ihifadhi. Utaihitaji ukiunganishwa upya."
 msgstr "Keep it. You'll need it to reconnect."
 
-#: portal/templates/portal/status.html:34
+#: portal/templates/portal/status.html:36
+msgid "Tunakuunganisha…"
+msgstr "Connecting you…"
+
+#: portal/templates/portal/status.html:37
+msgid "Router ya WiFi inapokea vocha yako. Inachukua sekunde chache tu."
+msgstr ""
+"The WiFi router is receiving your voucher. It only takes a few seconds."
+
+#: portal/templates/portal/status.html:40
+msgid "Inachelewa? Bonyeza Unganisha."
+msgstr "Taking long? Tap Connect."
+
+#: portal/templates/portal/status.html:44
 msgid "Fungua ukurasa wa WiFi tena kisha weka vocha hii kuunganishwa."
 msgstr "Open the WiFi page again and enter this voucher to connect."
 
@@ -3992,8 +4055,8 @@ msgid "Maana ya rangi"
 msgstr "Colour key"
 
 #: ui/templates/ui/_live.html:23
-msgid "Ombi (Access-Request)"
-msgstr "Request (Access-Request)"
+msgid "Ombi la kuingia"
+msgstr "Login request"
 
 #: ui/templates/ui/_live.html:24
 msgid "Amekubaliwa"

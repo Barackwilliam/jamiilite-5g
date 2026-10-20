@@ -22,8 +22,8 @@ Kinachofuata: malipo halisi (Selcom / AzamPay / ClickPesa) na dashboard ya mmili
 
 ## Kuweka hewani
 
-Render (website) + Google Cloud e2-micro (RADIUS), vyote bure: angalia
-[`docs/DEPLOY.md`](docs/DEPLOY.md).
+Render + Supabase, bure na bila kadi: routers zinahifadhi vocha zenyewe, kwa hiyo
+hakuna RADIUS server inayohitajika. Angalia [`docs/DEPLOY.md`](docs/DEPLOY.md).
 
 ## Kuanza (local)
 

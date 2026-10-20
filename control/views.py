@@ -1,6 +1,7 @@
 from datetime import timedelta
 from functools import wraps
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -297,6 +298,8 @@ def router_detail(request, pk):
         "setup_command": routeros.provision_command(router) if nas else "",
         "portal_url": request.build_absolute_uri(reverse("portal:home", args=[router.slug])),
         "warnings": [w for w in status.radius_warnings() if nas and f"'{nas}'" in w["message"]][:8],
+        "radius_mode": settings.JAMIILITE_AUTH_MODE == "radius",
+        "vouchers_on_router": router.pushed_vouchers.count(),
     }
     return render_control(request, "control/router_detail.html", context, "routers", router.name)
 
@@ -327,7 +330,8 @@ def system_status(request):
     return render_control(
         request, "control/status.html",
         {"checks": checks, "system_state": status.overall(checks),
-         "warnings": status.radius_warnings(), "env": status.environment_facts()},
+         "warnings": status.radius_warnings(), "env": status.environment_facts(),
+         "radius_mode": settings.JAMIILITE_AUTH_MODE == "radius"},
         "status", _("Hali ya mfumo"),
     )
 
