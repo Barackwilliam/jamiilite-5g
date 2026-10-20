@@ -88,6 +88,35 @@ Kitu kikianza kutozwa kwa bahati mbaya, utajua siku hiyo hiyo.
 
 ---
 
+## Hatua 2 (njia mbadala): Oracle Cloud Always Free
+
+Tumia hii badala ya Google, kama Google inakuomba prepayment au inakataa kadi.
+
+1. Fungua akaunti <https://signup.cloud.oracle.com>. **Home region** chagua
+   **US East (Ashburn)**. Huwezi kuibadilisha baadaye, na VM za bure zinakaa home
+   region tu. Ashburn iko karibu na Supabase `us-east-1` na Render `virginia`.
+2. **Compute → Instances → Create instance**:
+   - **Image:** Canonical **Ubuntu 24.04**
+   - **Shape:** `VM.Standard.E2.1.Micro` (AMD, Always Free). Au `VM.Standard.A1.Flex`
+     (ARM, 1 OCPU / 6GB) kama inapatikana. Ikisema "Out of capacity", jaribu
+     Availability Domain nyingine au shape nyingine.
+   - **Networking:** acha VCN mpya na subnet ya public, na weka **Assign a public IPv4 address**.
+   - **SSH keys:** **Generate a key pair** → pakua *private key* (utaihitaji kuingia).
+3. **IP ya kudumu:** fungua instance → **Attached VNICs** → VNIC → **IPv4 Addresses** →
+   kwenye IP ya umma chagua **Edit** → **Reserved public IP** → tengeneza mpya.
+   Hii ndiyo `RADIUS_PUBLIC_ADDRESS`.
+4. **Fungua port kwenye Oracle:** instance → subnet → **Security Lists** → Default →
+   **Add Ingress Rules**: Source CIDR `0.0.0.0/0`, IP Protocol **UDP**,
+   Destination Port Range `1812-1813`.
+5. **Ingia kwenye VM** (kutoka PowerShell ya Windows):
+   ```powershell
+   ssh -i C:\njia\ya\ssh-key.key ubuntu@<IP-YA-VM>
+   ```
+6. Endelea na **2.3 Weka RADIUS** hapo juu, kwa amri zile zile. `install.sh` inafungua
+   pia firewall ya ndani ya Ubuntu ya Oracle (iptables) yenyewe.
+
+---
+
 ## Hatua 3: Render (website)
 
 1. <https://dashboard.render.com> → **New → Blueprint** → unganisha GitHub, chagua repo hii.

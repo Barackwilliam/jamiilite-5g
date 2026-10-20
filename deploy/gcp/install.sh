@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Inaweka RADIUS ya JamiiLite 5G kwenye VM ya Google Cloud (Ubuntu 24.04).
+# Inaweka RADIUS ya JamiiLite 5G kwenye VM ya Ubuntu 24.04 (Google Cloud, Oracle Cloud au VPS yoyote).
 # Matumizi:  sudo bash install.sh [REPO_URL] [BRANCH]
 # Ni salama kuiendesha tena: inasasisha code na kuwasha huduma upya.
 set -euo pipefail
@@ -24,6 +24,20 @@ if ! swapon --show | grep -q /swapfile; then
   mkswap /swapfile >/dev/null
   swapon /swapfile
   grep -q /swapfile /etc/fstab || echo "/swapfile none swap sw 0 0" >> /etc/fstab
+fi
+
+# Picha za Ubuntu za Oracle Cloud zina iptables inayokataa kila port isipokuwa SSH.
+# Kwenye Google na VPS nyingi faili hili halipo, kwa hiyo hatua hii inarukwa.
+if [ -f /etc/iptables/rules.v4 ] && command -v iptables >/dev/null; then
+  if ! iptables -C INPUT -p udp --dport 1812:1813 -j ACCEPT 2>/dev/null; then
+    echo "==> Firewall ya ndani: fungua UDP 1812-1813"
+    iptables -I INPUT -p udp --dport 1812:1813 -j ACCEPT
+    if command -v netfilter-persistent >/dev/null; then
+      netfilter-persistent save >/dev/null
+    else
+      iptables-save > /etc/iptables/rules.v4
+    fi
+  fi
 fi
 
 id jamiilite >/dev/null 2>&1 || useradd --system --home "$APP_DIR" --shell /usr/sbin/nologin jamiilite
