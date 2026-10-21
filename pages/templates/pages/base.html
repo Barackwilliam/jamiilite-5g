@@ -3,13 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>document.documentElement.classList.add("js")</script>
   <title>{% block title %}JamiiLite 5G{% endblock %}</title>
   <meta name="description" content="{% block description %}{% translate 'Uza WiFi yako kiotomatiki: wateja wanalipa kwa simu, wanapata vocha, na wanakatwa muda ukiisha. Wewe unaona mapato kwenye simu yako.' %}{% endblock %}">
+  {% if seo %}
+  <link rel="canonical" href="{{ seo.canonical }}">
+  {% for alt in seo.alternates %}<link rel="alternate" hreflang="{{ alt.code }}" href="{{ alt.url }}">
+  {% endfor %}<link rel="alternate" hreflang="x-default" href="{{ seo.x_default }}">
+  <meta property="og:url" content="{{ seo.canonical }}">
+  <meta property="og:image" content="{{ seo.image }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="{{ seo.og_locale }}">
+  <meta property="og:locale:alternate" content="{{ seo.og_locale_alt }}">
+  <meta name="twitter:image" content="{{ seo.image }}">
+  {% endif %}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="JamiiLite 5G">
   <meta property="og:title" content="{% block og_title %}{% translate 'JamiiLite 5G: uza WiFi yako kiotomatiki' %}{% endblock %}">
   <meta property="og:description" content="{% translate 'Wateja wanalipa kwa M-Pesa, Mixx by Yas na Airtel Money. Wewe unaona mapato kwenye simu.' %}">
-  <meta name="theme-color" content="#050b1a">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0A2245">
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  <link rel="icon" href="{% static 'img/favicon-32.png' %}" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
+  <link rel="preload" as="font" type="font/woff2" href="{% static 'fonts/sora-800.woff2' %}" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="{% static 'fonts/inter-400.woff2' %}" crossorigin>
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
   {% block head %}{% endblock %}
+  {% if schema %}<script type="application/ld+json">{{ schema }}</script>{% endif %}
 </head>
 <body class="{% block body_class %}page-content{% endblock %}">
   <header class="topbar">

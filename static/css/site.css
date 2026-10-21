@@ -1,43 +1,35 @@
 /* JamiiLite 5G: tovuti ya hadhara */
 
-:root {
-  --bg: #f6f8fc;
-  --surface: #ffffff;
-  --surface-2: #eef3fb;
-  --text: #101a33;
-  --muted: #56627a;
-  --border: #dbe3ef;
-  --brand: #0b5cd6;
-  --brand-strong: #0847a8;
-  --brand-text: #ffffff;
-  --brand-soft: #e3edfc;
-  --money: #12a150;
-  --money-soft: #e3f6eb;
-  --danger: #c43d2f;
-  --term-bg: #0f172a;
-  --term-text: #dbe4f3;
-  --shadow: 0 10px 30px rgba(16, 26, 51, 0.08);
-  --radius: 16px;
-}
+/* Fonti za chapa (kama Jamiitek), zipo kwenye server yetu: hakuna ombi la nje. */
+@font-face { font-family: "Sora"; font-weight: 700; font-display: swap; src: url("../fonts/sora-700.woff2") format("woff2"); }
+@font-face { font-family: "Sora"; font-weight: 800; font-display: swap; src: url("../fonts/sora-800.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url("../fonts/inter-400.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url("../fonts/inter-600.woff2") format("woff2"); }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b1222;
-    --surface: #121b2f;
-    --surface-2: #17223a;
-    --text: #e8eef9;
-    --muted: #9eabc4;
-    --border: #26334f;
-    --brand: #4c95f5;
-    --brand-strong: #79b0fa;
-    --brand-text: #0b1222;
-    --brand-soft: #1a2b4a;
-    --money: #3ccf7e;
-    --money-soft: #15342a;
-    --danger: #f08b80;
-    --term-bg: #060b16;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  }
+/* Navy ya Jamiitek kwa kurasa zote za hadhara */
+:root {
+  color-scheme: dark;
+  --bg: #0B1A36;
+  --surface: #0F2448;
+  --surface-2: #123563;
+  --text: #EEF2F9;
+  --muted: #A7B3CA;
+  --border: rgba(255, 255, 255, 0.12);
+  --brand: #F5A623;
+  --brand-strong: #FFC456;
+  --brand-text: #2A1702;
+  --brand-soft: rgba(245, 166, 35, 0.14);
+  --cyan: #22B8E0;
+  --grad: linear-gradient(100deg, #FFB627 0%, #F5A623 40%, #FF7A3D 100%);
+  --money: #3ccf7e;
+  --money-soft: rgba(60, 207, 126, 0.14);
+  --danger: #f08b80;
+  --term-bg: #071226;
+  --term-text: #dbe4f3;
+  --shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+  --radius: 16px;
+  --font-head: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -45,14 +37,22 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--bg);
   color: var(--text);
-  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
+  font: 16px/1.6 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  /* Gridi na miale ya cyan na dhahabu, kama tangazo la JamiiLite kwenye Jamiitek */
+  background:
+    radial-gradient(900px 520px at 85% 0%, rgba(34, 184, 224, 0.16), transparent 62%),
+    radial-gradient(760px 520px at 0% 30%, rgba(245, 166, 35, 0.13), transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 32px 32px,
+    var(--bg);
+  background-attachment: fixed, fixed, scroll, scroll, scroll;
 }
 
 img, svg { max-width: 100%; }
 a { color: var(--brand); }
-h1, h2, h3 { line-height: 1.2; margin: 0 0 12px; }
+h1, h2, h3 { font-family: var(--font-head); font-weight: 800; line-height: 1.12; margin: 0 0 12px; letter-spacing: -0.035em; }
 h1 { font-size: clamp(1.9rem, 6vw, 3rem); letter-spacing: -0.02em; }
 h2 { font-size: clamp(1.35rem, 4vw, 1.9rem); letter-spacing: -0.01em; }
 h3 { font-size: 1.1rem; }
@@ -74,9 +74,9 @@ p { margin: 0 0 12px; }
   border-bottom: 1px solid var(--border);
 }
 .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; }
-.logo { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.1rem; color: var(--text); text-decoration: none; }
-.logo-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; background: var(--brand); color: var(--brand-text); }
-.logo-5g { color: var(--brand); }
+.logo { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-head); font-weight: 800; font-size: 1.12rem; letter-spacing: -0.03em; color: var(--text); text-decoration: none; }
+.logo-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--grad); color: var(--brand-text); box-shadow: 0 6px 16px -6px rgba(245, 140, 35, 0.7); }
+.logo-5g { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .nav { display: flex; gap: 4px; }
 .nav a { color: var(--muted); text-decoration: none; font-weight: 600; padding: 8px 10px; border-radius: 8px; }
 .nav a:hover, .nav a[aria-current="page"] { color: var(--text); background: var(--surface-2); }
@@ -88,7 +88,7 @@ p { margin: 0 0 12px; }
   min-height: 48px; padding: 12px 20px; border-radius: 12px;
   font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; border: 0;
 }
-.btn-primary { background: var(--money); color: #fff; }
+.btn-primary { background: var(--grad); color: var(--brand-text); border-radius: 999px; font-family: var(--font-head); box-shadow: 0 10px 26px -10px rgba(245, 140, 35, 0.7); }
 .btn-primary:hover { filter: brightness(1.05); }
 .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
 .btn-ghost:hover { background: var(--surface-2); }
@@ -283,14 +283,14 @@ p { margin: 0 0 12px; }
 
 /* --- Kichwa: menyu ya simu, kitufe cha kuanza, lugha --- */
 .nav { align-items: center; }
-.nav a.nav-cta { color: #fff; background: linear-gradient(120deg, #2f7cf0, #6f55e6); padding: 8px 14px; border-radius: 10px; box-shadow: 0 8px 20px -10px rgba(47, 124, 240, 0.9); }
-.nav a.nav-cta:hover { color: #fff; filter: brightness(1.08); background: linear-gradient(120deg, #2f7cf0, #6f55e6); }
+.nav a.nav-cta { color: #2A1702; background: var(--grad); padding: 8px 16px; border-radius: 999px; font-weight: 700; box-shadow: 0 8px 20px -10px rgba(245, 140, 35, 0.8); }
+.nav a.nav-cta:hover { color: #2A1702; filter: brightness(1.06); background: var(--grad); }
 .nav-lang { display: inline-flex; margin: 0 4px; }
 .lang-switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--border); }
 .lang-switch button { font: inherit; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.04em; padding: 4px 10px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); cursor: pointer; }
 .lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--brand); box-shadow: 0 1px 3px rgba(16, 26, 51, 0.15); }
 .page-landing .lang-switch { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12); }
-.page-landing .lang-switch button { color: #9fb0d0; }
+.page-landing .lang-switch button { color: #A7B3CA; }
 .page-landing .lang-switch button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.14); color: #fff; box-shadow: none; }
 .menu-toggle { position: absolute; opacity: 0; pointer-events: none; }
 .menu-button { display: none; width: 42px; height: 42px; border-radius: 11px; cursor: pointer; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }

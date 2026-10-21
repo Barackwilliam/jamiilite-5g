@@ -5,6 +5,7 @@ from django.urls import include, path
 from django.views.i18n import JavaScriptCatalog
 
 from core.health import healthz
+from pages.views import favicon, robots_txt, sitemap_xml
 
 admin.site.site_header = "JamiiLite 5G"
 admin.site.site_title = "JamiiLite 5G"
@@ -12,6 +13,9 @@ admin.site.index_title = "Usimamizi"
 
 urlpatterns = [
     path("healthz/", healthz, name="healthz"),
+    path("robots.txt", robots_txt, name="robots"),
+    path("sitemap.xml", sitemap_xml, name="sitemap"),
+    path("favicon.ico", favicon),
     path("admin/", admin.site.urls),
     path("p/", include("portal.urls")),
     path("r/", include("radius.urls")),
