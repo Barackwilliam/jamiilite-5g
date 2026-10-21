@@ -4,8 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#050b1a">
+  <meta name="theme-color" content="#0A2245">
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
   <title>{% block title %}{% endblock %} · JamiiLite 5G</title>
+  <link rel="preload" as="font" type="font/woff2" href="{% static 'fonts/sora-800.woff2' %}" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="{% static 'fonts/inter-400.woff2' %}" crossorigin>
   <link rel="stylesheet" href="{% static 'ui/app.css' %}">
   <link rel="stylesheet" href="{% static 'ui/auth.css' %}">
 </head>

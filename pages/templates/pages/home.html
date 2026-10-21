@@ -15,8 +15,9 @@
   <div class="wrap lp-hero-grid">
     <div class="lp-hero-copy">
       <p class="lp-pill"><span class="lp-live-dot"></span>{% translate "Mfumo wa WiFi za kulipia, Tanzania" %}</p>
-      <h1>{% blocktranslate %}Geuza WiFi yako kuwa <span class="lp-grad-text">biashara inayojiendesha</span> yenyewe{% endblocktranslate %}</h1>
-      <p class="lp-lead">{% translate "Wateja wanagusa jina la WiFi yako, wanalipa kwa simu, na wanaunganishwa papo hapo. Muda ukiisha, wanakatwa wenyewe. Wewe unaona kila shilingi ikiingia." %}</p>
+      {% translate "inauza" as w1 %}{% translate "inapokea malipo" as w2 %}{% translate "inatoa vocha" as w3 %}
+      <h1>{% blocktranslate %}WiFi yako <span class="lp-rotate" data-rotate><span class="lp-grad-text is-on">{{ w1 }}</span><span class="lp-grad-text" aria-hidden="true">{{ w2 }}</span><span class="lp-grad-text" aria-hidden="true">{{ w3 }}</span></span> yenyewe.{% endblocktranslate %}</h1>
+      <p class="lp-lead">{% translate "Wateja wanalipa kwa simu na kuunganishwa papo hapo. Muda ukiisha, wanakatwa wenyewe." %}</p>
       <div class="lp-actions">
         <a class="lp-btn lp-btn-primary" href="{% url 'dashboard:signup' %}">{% blocktranslate count days=trial_days %}Anza bure, siku {{ days }}{% plural %}Anza bure, siku {{ days }}{% endblocktranslate %}<span aria-hidden="true">→</span></a>
         <a class="lp-btn lp-btn-glass" href="#jaribu" data-open-tab="sim"><span class="lp-play" aria-hidden="true"></span>{% translate "Jaribu kama mteja" %}</a>
@@ -54,8 +55,8 @@
 {# ================= Ona ikifanya kazi: tabs ================= #}
 <section class="lp-section" id="jaribu">
   <div class="wrap">
-    <p class="lp-eyebrow">{% translate "Ona ikifanya kazi" %}</p>
-    <h2 class="lp-title">{% translate "Gusa, ujaribu, uone kinachoendelea ndani" %}</h2>
+    <p class="lp-eyebrow" data-reveal>{% translate "Ona ikifanya kazi" %}</p>
+    <h2 class="lp-title" data-reveal>{% translate "Gusa uone inavyofanya kazi" %}</h2>
 
     <div class="lp-tabs" data-tabs>
       <div class="lp-tablist" role="tablist" aria-label="{% translate 'Ona ikifanya kazi' %}">
@@ -66,12 +67,12 @@
       </div>
 
       <div class="lp-panel" role="tabpanel" id="panel-sim" aria-labelledby="tab-sim" data-panel="sim">
-        <p class="lp-sub">{% translate "Hivi ndivyo mteja wako anavyopata internet: anachagua WiFi, analipa, anatumia, na muda ukiisha anakatwa. Pesa inaingia kwako papo hapo." %}</p>
+        <p class="lp-sub">{% translate "Mteja analipa, anaunganishwa, muda ukiisha anakatwa. Pesa inaingia kwako." %}</p>
         {% include "pages/_sim.html" %}
       </div>
 
       <div class="lp-panel" role="tabpanel" id="panel-packet" aria-labelledby="tab-packet" data-panel="packet" hidden>
-        <p class="lp-sub">{% translate "Kila malipo ni safari ya packets kati ya vifaa vitano. Gusa kifaa au bonyeza ▶ uone kila packet inabeba nini." %}</p>
+        <p class="lp-sub">{% translate "Gusa kifaa uone packet inayokifikia." %}</p>
         {% include "pages/_journey.html" %}
       </div>
 
@@ -124,12 +125,12 @@
 {# ================= Hatua 3 + vipengele (vimebanwa) ================= #}
 <section class="lp-section lp-section-tight" id="inavyofanya">
   <div class="wrap">
-    <ol class="lp-steps">
-      <li><b>01</b><div><h3>{% translate "Unganisha router yako" %}</h3><p>{% translate "Bandika mstari mmoja kwenye MikroTik yako. Router mpya? Mfumo unaweka hotspot wenyewe." %}</p></div></li>
-      <li><b>02</b><div><h3>{% translate "Weka vifurushi na bei" %}</h3><p>{% translate "Saa 1, siku, wiki: wewe unaamua bei, kasi na simu ngapi kwa vocha moja." %}</p></div></li>
-      <li><b>03</b><div><h3>{% translate "Pokea malipo" %}</h3><p>{% translate "Wateja wanalipa kwa simu. Unaona mauzo live na unatoa pesa kwenda namba yako." %}</p></div></li>
+    <ol class="lp-steps" data-reveal>
+      <li><b>01</b><div><h3>{% translate "Unganisha router yako" %}</h3><p>{% translate "Bandika mstari mmoja kwenye MikroTik yako." %}</p></div></li>
+      <li><b>02</b><div><h3>{% translate "Weka vifurushi na bei" %}</h3><p>{% translate "Wewe unaamua bei, muda na kasi." %}</p></div></li>
+      <li><b>03</b><div><h3>{% translate "Pokea malipo" %}</h3><p>{% translate "Wateja wanalipa kwa simu, pesa inaingia kwenye salio lako." %}</p></div></li>
     </ol>
-    <ul class="lp-features">
+    <ul class="lp-features" data-reveal>
       <li><span>🎟️</span>{% translate "Vocha za kiotomatiki" %}</li>
       <li><span>⏱️</span>{% translate "Muda unahesabiwa wenyewe" %}</li>
       <li><span>🔐</span>{% translate "Hakuna kugawana password" %}</li>
@@ -143,7 +144,7 @@
 {# ================= Bei + Maswali ================= #}
 <section class="lp-section" id="bei">
   <div class="wrap lp-pricing">
-    <div class="lp-price-card">
+    <div class="lp-price-card" data-reveal>
       <p class="lp-eyebrow left">{% translate "Bei" %}</p>
       <p class="lp-price">Tsh {{ monthly_fee }}<span>/{% translate "mwezi" %}</span></p>
       <ul>
@@ -157,40 +158,21 @@
       <a class="lp-btn lp-btn-primary lp-btn-block" href="{% url 'dashboard:signup' %}">{% translate "Fungua akaunti bure" %}</a>
     </div>
 
-    <div class="lp-faqs">
-      <h2 class="lp-title left">{% translate "Maswali yanayoulizwa mara nyingi" %}</h2>
-      {% url 'pages:mahitaji' as mahitaji_url %}{% url 'pages:mwongozo' as mwongozo_url %}
-      <details class="lp-faq">
-        <summary>{% translate "Nina router ya kawaida (MiFi, 4G au fiber). Inafaa?" %}</summary>
-        <p>{% blocktranslate %}Ndiyo, kama chanzo cha internet. Utahitaji kuongeza router ndogo ya MikroTik nyuma yake, ambayo ndiyo inayowaonyesha wateja ukurasa wa kulipia. Ukurasa wa <a href="{{ mahitaji_url }}">Mahitaji</a> unakuonyesha hasa unachohitaji.{% endblocktranslate %}</p>
+    <div class="lp-faqs" data-reveal>
+      <h2 class="lp-title left">{% translate "Maswali" %}</h2>
+      {% for item in faqs %}
+      <details class="lp-faq"{% if forloop.first %} open{% endif %}>
+        <summary>{{ item.question }}</summary>
+        <p>{{ item.answer }}</p>
       </details>
-      <details class="lp-faq">
-        <summary>{% translate "Sijui mambo ya kompyuta. Nitaweza?" %}</summary>
-        <p>{% blocktranslate %}Ndiyo. Unabandika mstari mmoja tu ukifuata <a href="{{ mwongozo_url }}">mwongozo wetu</a>. Ukikwama, tunakusaidia.{% endblocktranslate %}</p>
-      </details>
-      <details class="lp-faq">
-        <summary>{% translate "Pesa za wateja zinanifikiaje?" %}</summary>
-        <p>{% blocktranslate with fee=monthly_fee %}Wateja wanalipa kwa simu, na kila mauzo yanaongezwa kwenye salio lako. Unaliona kwenye dashboard, na unatoa pesa kwenda namba yako ya simu wakati wowote unaotaka. Ada ya mwezi (Tsh {{ fee }}) inakatwa yenyewe kutoka kwenye salio hilo.{% endblocktranslate %}</p>
-      </details>
-      <details class="lp-faq">
-        <summary>{% translate "Nisipolipa ada ya mwezi itakuwaje?" %}</summary>
-        <p>{% translate "Mauzo mapya yanasimama hadi ada ilipwe. Wateja waliokwisha kununua vifurushi wanaendelea kutumia hadi muda wao uishe. Salio likitosha, ada inalipwa yenyewe." %}</p>
-      </details>
-      <details class="lp-faq">
-        <summary>{% translate "Internet ikikatika au umeme ukikatika?" %}</summary>
-        <p>{% translate "Router ikiwaka tena, inajiunganisha yenyewe. Vocha za wateja hazipotei, na muda wao unaendelea kama ulivyokuwa." %}</p>
-      </details>
-      <details class="lp-faq">
-        <summary>{% translate "Nina maeneo mengi ya WiFi. Je, ninahitaji akaunti nyingi?" %}</summary>
-        <p>{% translate "Hapana. Akaunti moja inasimamia routers zako zote." %}</p>
-      </details>
+      {% endfor %}
     </div>
   </div>
 </section>
 
 {# ================= Mwisho ================= #}
 <section class="lp-final">
-  <div class="wrap lp-final-inner">
+  <div class="wrap lp-final-inner" data-reveal>
     <h2>{% translate "WiFi yako iko tayari kukuletea pesa." %}</h2>
     <p>{% translate "Fungua akaunti kwa dakika moja. Hakuna kadi, hakuna mkataba." %}</p>
     <div class="lp-actions lp-actions-center">
@@ -206,6 +188,7 @@
 {% endblock %}
 
 {% block scripts %}
+  <div class="lp-toast" data-toast role="status" aria-live="polite"><i aria-hidden="true"></i><span><b></b><small></small></span><button type="button" data-toast-close aria-label="{% translate 'Funga' %}">×</button></div>
   {{ landing_i18n|json_script:"landing-i18n" }}
   <script src="{% static 'js/landing.js' %}" defer></script>
 {% endblock %}

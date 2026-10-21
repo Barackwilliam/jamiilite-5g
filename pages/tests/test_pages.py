@@ -41,7 +41,7 @@ class LandingLanguageTests(TestCase):
 
     def test_public_pages_in_english(self):
         for name, text in [
-            ("pages:home", "Turn your WiFi into a"),
+            ("pages:home", "by itself."),
             ("pages:mahitaji", "Which router do you have right now?"),
             ("pages:mwongozo", "Connect your router in 7 steps"),
         ]:

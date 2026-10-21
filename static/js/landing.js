@@ -166,7 +166,7 @@
       state: "walk",
       timer: 0,
       phase: rand(0, 6),
-      hue: pick(["#8fb3ff", "#c0a8ff", "#ffc98f", "#8fffd2", "#ff9fb4"]),
+      hue: pick(["#7DD8F0", "#c0a8ff", "#ffc98f", "#FFC456", "#ff9fb4"]),
     });
   };
 
@@ -186,8 +186,8 @@
     var pkg = pick(PACKAGES);
     var phone = { x: w.x, y: w.y - 30 * this.s };
     // simu -> router -> JamiiLite: ombi la kuingia na malipo
-    this.packet(phone, this.router, "#4c95f5", 4, function () {
-      self.packet(self.router, self.cloud, "#4c95f5", 4, function () {
+    this.packet(phone, this.router, "#22B8E0", 4, function () {
+      self.packet(self.router, self.cloud, "#22B8E0", 4, function () {
         // jibu: amekubaliwa, na pesa inaenda kwa mmiliki
         self.packet(self.cloud, self.router, "#3ccf7e", 4, function () {
           self.packet(self.router, phone, "#3ccf7e", 4, function () { w.state = "online"; w.timer = rand(6, 10); });
@@ -253,7 +253,7 @@
     // nyota na mwezi
     this.stars.forEach(function (st) {
       c.globalAlpha = 0.35 + 0.45 * Math.sin(t * st.sp + st.p) * 0.5 + 0.25;
-      c.fillStyle = "#cfe0ff";
+      c.fillStyle = "#D6E0F0";
       c.beginPath(); c.arc(st.x, st.y, st.r, 0, 6.28); c.fill();
     });
     c.globalAlpha = 1;
@@ -277,35 +277,35 @@
 
     // ardhi na barabara
     var g = c.createLinearGradient(0, this.ground, 0, H);
-    g.addColorStop(0, "#111d3f"); g.addColorStop(1, "#070e22");
+    g.addColorStop(0, "#111d3f"); g.addColorStop(1, "#0B1A36");
     c.fillStyle = g; c.fillRect(0, this.ground, W, H - this.ground);
     c.strokeStyle = "rgba(255,255,255,0.08)"; c.setLineDash([14 * s, 12 * s]); c.lineWidth = 2;
     c.beginPath(); c.moveTo(0, H - 14); c.lineTo(W, H - 14); c.stroke(); c.setLineDash([]);
 
     // njia ya internet: router -> JamiiLite
     var r = this.router, cl = this.cloud;
-    c.strokeStyle = "rgba(76,149,245,0.25)"; c.lineWidth = 1.5; c.setLineDash([4, 6]);
+    c.strokeStyle = "rgba(34,184,224,0.25)"; c.lineWidth = 1.5; c.setLineDash([4, 6]);
     c.beginPath(); c.moveTo(r.x, r.y); c.quadraticCurveTo((r.x + cl.x) / 2, Math.min(r.y, cl.y) - 30 * s, cl.x, cl.y); c.stroke();
     c.setLineDash([]);
     for (var k = 0; k < 4; k++) {
       var tt = ((t * 0.35 + k / 4) % 1);
       var px = (1 - tt) * (1 - tt) * r.x + 2 * (1 - tt) * tt * ((r.x + cl.x) / 2) + tt * tt * cl.x;
       var py = (1 - tt) * (1 - tt) * r.y + 2 * (1 - tt) * tt * (Math.min(r.y, cl.y) - 30 * s) + tt * tt * cl.y;
-      c.fillStyle = "rgba(143,184,255,0.6)"; c.beginPath(); c.arc(px, py, 1.8, 0, 6.28); c.fill();
+      c.fillStyle = "rgba(125,216,240,0.6)"; c.beginPath(); c.arc(px, py, 1.8, 0, 6.28); c.fill();
     }
 
     // JamiiLite (wingu)
     var halo = c.createRadialGradient(cl.x, cl.y, 0, cl.x, cl.y, 70 * s);
-    halo.addColorStop(0, "rgba(76,149,245,0.55)"); halo.addColorStop(1, "rgba(76,149,245,0)");
+    halo.addColorStop(0, "rgba(34,184,224,0.55)"); halo.addColorStop(1, "rgba(34,184,224,0)");
     c.fillStyle = halo; c.beginPath(); c.arc(cl.x, cl.y, 70 * s, 0, 6.28); c.fill();
-    c.fillStyle = "#13265a"; c.strokeStyle = "rgba(143,184,255,0.8)"; c.lineWidth = 1.5;
+    c.fillStyle = "#123563"; c.strokeStyle = "rgba(125,216,240,0.8)"; c.lineWidth = 1.5;
     roundRect(c, cl.x - 52 * s, cl.y - 18 * s, 104 * s, 36 * s, 12 * s); c.fill(); c.stroke();
     c.fillStyle = "#fff"; c.font = "800 " + Math.round(12 * s) + "px system-ui, sans-serif"; c.textAlign = "center"; c.textBaseline = "middle";
     c.fillText("JamiiLite", cl.x, cl.y + 1);
 
     // mawimbi ya WiFi
     this.rings.forEach(function (ring) {
-      c.strokeStyle = "rgba(76,149,245," + ring.a.toFixed(3) + ")"; c.lineWidth = 2;
+      c.strokeStyle = "rgba(34,184,224," + ring.a.toFixed(3) + ")"; c.lineWidth = 2;
       c.beginPath(); c.arc(r.x, r.y, ring.r, 0, 6.28); c.stroke();
     });
 
@@ -321,7 +321,7 @@
     shopLight.addColorStop(0, "rgba(255,214,140,0.9)"); shopLight.addColorStop(1, "rgba(255,170,90,0.5)");
     c.fillStyle = shopLight; c.fillRect(kx + 12 * s, ky + 36 * s, kw - 24 * s, kh - 48 * s);
     c.fillStyle = "rgba(255,200,120,0.12)"; c.beginPath(); c.ellipse(r.x, this.ground + 8 * s, 110 * s, 16 * s, 0, 0, 6.28); c.fill();
-    c.fillStyle = "#0b1430"; c.font = "800 " + Math.round(10 * s) + "px system-ui, sans-serif";
+    c.fillStyle = "#0B1F40"; c.font = "800 " + Math.round(10 * s) + "px system-ui, sans-serif";
     c.fillText("NEEMA WiFi", r.x, ky + 50 * s);
 
     // router juu ya kibanda
@@ -347,7 +347,7 @@
 
     // vipovu vya data
     c.font = "700 " + Math.round(11 * s) + "px system-ui, sans-serif";
-    this.bubbles.forEach(function (b) { c.globalAlpha = Math.max(0, b.a); c.fillStyle = "#8fffd2"; c.fillText(b.t, b.x, b.y); });
+    this.bubbles.forEach(function (b) { c.globalAlpha = Math.max(0, b.a); c.fillStyle = "#FFC456"; c.fillText(b.t, b.x, b.y); });
     c.globalAlpha = 1;
   };
 
@@ -827,4 +827,66 @@
       link.addEventListener("click", function () { select(link.dataset.openTab); });
     });
   });
+
+  // ======================================================================
+  // 7. Ukurasa unaozungumza: neno la kichwa, sehemu zinazojitokeza, matukio
+  // ======================================================================
+  document.querySelectorAll("[data-rotate]").forEach(function (box) {
+    var words = Array.prototype.slice.call(box.children);
+    if (words.length < 2 || reduceMotion) return;
+    var i = 0;
+    setInterval(function () {
+      if (document.hidden) return;
+      var out = words[i];
+      i = (i + 1) % words.length;
+      out.classList.remove("is-on"); out.classList.add("is-out");
+      words[i].classList.remove("is-out"); words[i].classList.add("is-on");
+      setTimeout(function () { out.classList.remove("is-out"); }, 600);
+    }, 2600);
+  });
+
+  var reveal = document.querySelectorAll("[data-reveal]");
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("is-in"); ro.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    reveal.forEach(function (el) { ro.observe(el); });
+  } else {
+    reveal.forEach(function (el) { el.classList.add("is-in"); });
+  }
+
+  // Matukio ya Neema WiFi (mfano wa duka) yanatokea pembeni mtu akishashuka chini ya hero.
+  var toast = document.querySelector("[data-toast]");
+  if (toast && !reduceMotion) {
+    var EVENTS = [
+      ["💰", "Neema WiFi · +Tsh 500", _("Saa 1") + " · " + _("sasa hivi")],
+      ["📶", _("Mteja ameingia · Neema WiFi"), _("sasa hivi")],
+      ["💰", "Neema WiFi · +Tsh 1,000", _("Siku 1") + " · " + _("sasa hivi")],
+      ["⏰", _("Muda umeisha · mteja ametoka"), _("Router imemkata yenyewe")],
+      ["💰", "Neema WiFi · +Tsh 5,000", _("Wiki") + " · " + _("sasa hivi")],
+    ];
+    var hero = document.querySelector(".lp-hero");
+    var n = 0, timer = null, stopped = false;
+    var icon = toast.querySelector("i"), title = toast.querySelector("b"), sub = toast.querySelector("small");
+    var show = function () {
+      if (stopped || document.hidden) return;
+      var e = EVENTS[n++ % EVENTS.length];
+      icon.textContent = e[0]; title.textContent = e[1]; sub.textContent = e[2];
+      toast.classList.add("is-on");
+      setTimeout(function () { toast.classList.remove("is-on"); }, 4200);
+    };
+    toast.querySelector("[data-toast-close]").addEventListener("click", function () {
+      stopped = true; clearInterval(timer); toast.classList.remove("is-on");
+    });
+    if (hero && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        var past = !entries[0].isIntersecting;
+        clearInterval(timer); timer = null;
+        if (past && !stopped) { setTimeout(show, 1200); timer = setInterval(show, 9000); }
+        else toast.classList.remove("is-on");
+      }).observe(hero);
+    }
+  }
 })();
