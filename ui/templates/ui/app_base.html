@@ -65,6 +65,7 @@
       <div class="appbar-title">
         {% block breadcrumb %}{% endblock %}
         <h1>{% block heading %}{{ page_title }}{% endblock %}</h1>
+        {% block intro %}{% endblock %}
       </div>
       <div class="appbar-actions">{% block actions %}{% endblock %}<span class="appbar-lang">{% include "ui/_lang_switch.html" %}</span></div>
     </header>

@@ -747,3 +747,37 @@ a.card:hover, .stat-link:hover { box-shadow: var(--shadow-lift); }
 
 /* Kadi kuu ya Super Admin */
 .stat-hero { background: var(--grad-brand); box-shadow: 0 20px 40px -18px rgba(11, 92, 214, 0.65); }
+
+/* Kuunganisha router: hatua 3 na hali inayosubiri */
+.connect-card { display: flex; flex-direction: column; gap: 16px; }
+.connect-wait { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 12px; background: var(--surface-2, #eef3fb); }
+.connect-wait div { display: flex; flex-direction: column; }
+.connect-wait small { color: var(--muted); font-size: 0.84rem; }
+.connect-pulse { position: relative; width: 14px; height: 14px; border-radius: 50%; background: #f5a623; flex-shrink: 0; }
+.connect-pulse::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid #f5a623; animation: connect-ping 1.6s ease-out infinite; }
+.connect-card.is-connected .connect-pulse, .connect-card.is-connected .connect-pulse::after { background: #16a34a; border-color: #16a34a; }
+@keyframes connect-ping { from { transform: scale(0.6); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+.connect-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.connect-steps li { display: flex; gap: 12px; align-items: flex-start; }
+.connect-steps li div { display: flex; flex-direction: column; }
+.connect-steps small { color: var(--muted); font-size: 0.86rem; }
+.setup-again summary { cursor: pointer; font-weight: 700; }
+.setup-again[open] summary { margin-bottom: 12px; }
+@media (prefers-reduced-motion: reduce) { .connect-pulse::after { animation: none; } }
+
+/* Vifurushi vya kuanzia */
+.starter { display: flex; flex-direction: column; gap: 14px; }
+.starter-title { margin: 0; font-weight: 700; }
+.starter-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.starter-list li { display: flex; flex-direction: column; padding: 12px 14px; border-radius: 12px; background: var(--surface-2); }
+.starter-list span { color: var(--muted); font-size: 0.9rem; }
+.starter form .btn { width: 100%; }
+
+/* Hatua za kuanza: inayofuata inaonekana wazi */
+.onboarding .card-head { align-items: center; }
+.onboarding-bar { height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; margin: 0 0 14px; }
+.onboarding-bar span { display: block; height: 100%; min-width: 6px; border-radius: inherit; background: var(--money); transition: width 0.4s ease; }
+.checklist li.is-next { background: var(--surface); box-shadow: 0 0 0 2px var(--brand) inset, 0 10px 24px -16px rgba(11, 92, 214, 0.7); }
+.checklist li.is-next .check-dot { border-color: var(--brand); }
+.checklist li:not(.is-done):not(.is-next) { opacity: 0.62; }
+.appbar-intro { margin: 4px 0 0; color: var(--muted); font-size: 0.88rem; max-width: 60ch; }

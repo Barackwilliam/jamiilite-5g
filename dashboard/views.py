@@ -1,3 +1,4 @@
+import math
 import secrets
 from functools import wraps
 
@@ -9,7 +10,7 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Count, Min, Q, Sum
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone, translation
@@ -143,7 +144,8 @@ def subscription_status(owner, now=None):
     ends = owner.subscription_ends_at
     if not owner.has_active_subscription(now):
         return {"state": "expired", "ends": ends, "days_left": 0}
-    days_left = max(0, (ends - now).days)
+    # Siku iliyoanza inahesabika: aliyejisajili leo anaona "siku 14", si 13.
+    days_left = max(0, math.ceil((ends - now).total_seconds() / 86400))
     return {"state": "trial" if owner.is_in_trial(now) else "active", "ends": ends, "days_left": days_left}
 
 
@@ -228,6 +230,13 @@ def home(request):
         "has_packages": owner.packages.exists(),
         "has_sales": paid.exists(),
     }
+    # Hatua inayofuata ya kuanza kuuza; mmiliki anaona moja tu kwa wakati mmoja.
+    done = [bool(routers), context["online_routers"] > 0, context["has_packages"], context["has_sales"]]
+    context["steps_done"] = sum(done)
+    context["next_step"] = done.index(False) + 1 if not all(done) else 0
+    first_online = next((r for r in routers if r.is_online), None)
+    if first_online:
+        context["try_portal_url"] = reverse("portal:home", args=[first_online.slug])
     return render_owner(request, "dashboard/home.html", context, "home", _("Muhtasari"))
 
 
@@ -308,12 +317,36 @@ def router_detail(request, pk):
     )
 
 
+@owner_required
+def router_status(request, pk):
+    """Ukurasa wa kuunganisha unauliza hapa mpaka router ionekane kwa mara ya kwanza."""
+    router = get_object_or_404(request.owner.routers, pk=pk)
+    return JsonResponse({"seen": router.last_seen_at is not None, "online": router.is_online})
+
+
 # --- Vifurushi ---------------------------------------------------------------------
+
+# Vifurushi vya kuanzia: mmiliki mpya anaviweka kwa kubofya mara moja, kisha anabadilisha bei akitaka.
+STARTER_PACKAGES = [
+    (gettext_lazy("Saa 1"), 500, 60),
+    (gettext_lazy("Siku 1"), 1_000, 24 * 60),
+    (gettext_lazy("Wiki 1"), 5_000, 7 * 24 * 60),
+    (gettext_lazy("Mwezi 1"), 20_000, 30 * 24 * 60),
+]
+
 
 @owner_required
 @require_http_methods(["GET", "POST"])
 def packages(request):
     owner = request.owner
+    if request.method == "POST" and request.POST.get("action") == "starter":
+        if not owner.packages.exists():
+            Package.objects.bulk_create(
+                Package(owner=owner, name=str(name), price=price, duration_minutes=minutes, sort_order=i)
+                for i, (name, price, minutes) in enumerate(STARTER_PACKAGES)
+            )
+            messages.success(request, _("Vifurushi 4 vimewekwa. Gusa kifurushi chochote kubadilisha bei au kasi."))
+        return redirect("dashboard:packages")
     form = PackageForm(request.POST or None, initial={"is_active": True, "shared_users": 1})
     if request.method == "POST" and form.is_valid():
         package = form.save(commit=False)

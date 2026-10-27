@@ -3,6 +3,7 @@
 
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
+{% block intro %}<p class="appbar-intro">{% translate "Wateja wanaona vifurushi hivi kwenye ukurasa wa kulipia, na kuchagua wanachotaka." %}</p>{% endblock %}
 {% block content %}
 <div class="two-col two-col-wide">
   <section class="card">
@@ -24,8 +25,20 @@
         {% endfor %}
       </ul>
     {% else %}
-      {% translate "Bado hakuna vifurushi." as title %}{% translate "Mfano: Saa 1 Tsh 500, Siku 1 Tsh 1,000, Wiki Tsh 5,000." as text %}
-      {% include "ui/_empty.html" with icon="package" title=title text=text %}
+      <div class="starter">
+        <p class="starter-title">{% translate "Anza na vifurushi vinavyouzwa zaidi" %}</p>
+        <ul class="starter-list">
+          <li><strong>{% translate "Saa 1" %}</strong><span>Tsh 500</span></li>
+          <li><strong>{% translate "Siku 1" %}</strong><span>Tsh 1,000</span></li>
+          <li><strong>{% translate "Wiki 1" %}</strong><span>Tsh 5,000</span></li>
+          <li><strong>{% translate "Mwezi 1" %}</strong><span>Tsh 20,000</span></li>
+        </ul>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" name="action" value="starter" class="btn btn-primary">{% icon "check" 16 %} {% translate "Tumia vifurushi hivi" %}</button>
+        </form>
+        <p class="muted small">{% translate "Unaweza kubadilisha bei baadaye, au kuunda chako mwenyewe upande huu." %}</p>
+      </div>
     {% endif %}
   </section>
 

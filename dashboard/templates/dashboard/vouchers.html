@@ -3,11 +3,12 @@
 
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
+{% block intro %}<p class="appbar-intro">{% translate "Kwa wateja wasio na pesa kwenye simu: chapisha vocha, uziuze kwa mkono." %}</p>{% endblock %}
 {% block content %}
 <div class="two-col two-col-wide">
   <section class="card">
     <div class="card-head"><h2>{% translate "Vocha ulizochapisha" %}</h2></div>
-    <p class="muted small">{% translate "Kwa wateja wasio na M-Pesa: chapisha vocha, uziuze kwa mkono. Mteja anaandika namba ya vocha kwenye ukurasa wa kuingia." %}</p>
+    <p class="muted small">{% translate "Mteja anaandika namba ya vocha kwenye ukurasa wa kuingia." %}</p>
     {% if batches %}
       <ul class="list">
         {% for batch in batches %}

@@ -77,4 +77,19 @@
     var toggle = document.getElementById("nav-toggle");
     if (event.key === "Escape" && toggle) toggle.checked = false;
   });
+
+  // Ukurasa wa kuunganisha router: unauliza kila sekunde 5, na router ikionekana unajifungua upya.
+  var wait = document.querySelector("[data-router-wait]");
+  if (wait && window.fetch) {
+    var check = function () {
+      if (document.hidden) return;
+      fetch(wait.dataset.routerWait, { headers: { Accept: "application/json" }, credentials: "same-origin" })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (data && data.seen) { wait.classList.add("is-connected"); setTimeout(function () { location.reload(); }, 900); }
+        })
+        .catch(function () {});
+    };
+    setInterval(check, 5000);
+  }
 })();
