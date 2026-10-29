@@ -1,4 +1,6 @@
 import random
+from functools import cache
+from pathlib import Path
 from urllib.parse import parse_qsl
 
 from django.conf import settings
@@ -25,6 +27,22 @@ def _script_response(text):
 
 def _active_router(token):
     return get_object_or_404(Router, provision_token=token, is_active=True)
+
+
+ROOTS_FILE = Path(__file__).resolve().parent / "trust" / "roots.pem"
+
+
+@cache
+def _roots_pem():
+    # Maoni (#) yanaondolewa: router inapokea vyeti vyenyewe tu.
+    lines = ROOTS_FILE.read_text().splitlines()
+    return "\n".join(line for line in lines if not line.startswith("#")) + "\n"
+
+
+@require_GET
+def trust_roots(request):
+    """Vyeti vya msingi ambavyo routers zinaviamini kuhakiki server hii (si siri)."""
+    return HttpResponse(_roots_pem(), content_type="application/x-pem-file")
 
 
 @require_GET

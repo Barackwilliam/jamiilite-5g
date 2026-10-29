@@ -361,3 +361,18 @@ class NetworkEvent(models.Model):
 
     def __str__(self):
         return f"{self.get_kind_display()} · {self.router_id}"
+
+
+class RateLimit(models.Model):
+    """Hesabu ya majaribio (kuingia, malipo...) kwa kipindi kifupi, ili kuzuia mashambulizi."""
+
+    key = models.CharField(max_length=120, unique=True)
+    count = models.PositiveIntegerField(default=0)
+    reset_at = models.DateTimeField(db_index=True)
+
+    class Meta:
+        verbose_name = "kizuizi cha majaribio"
+        verbose_name_plural = "vizuizi vya majaribio"
+
+    def __str__(self):
+        return f"{self.key} · {self.count}"

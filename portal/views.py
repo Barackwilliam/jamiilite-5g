@@ -17,6 +17,7 @@ from billing.services import start_payment
 from billing.subscriptions import ensure_active
 from core.models import Router
 from radius import localsync
+from ui import ratelimit
 
 from .forms import PayForm
 
@@ -130,6 +131,22 @@ def _returning_context(request, router):
     return {"returning": voucher, "returning_left": _remaining_label(voucher.remaining_seconds())}
 
 
+# Namba moja ya simu: maombi 3 kwa dakika 5, ili mtu asitumie ukurasa kumsumbua mwingine
+# kwa USSD push. Router moja: 60 kwa dakika 10 (wateja wa hotspot moja wanashiriki IP).
+PAY_LIMITS = {"phone": (3, timedelta(minutes=5)), "router": (60, timedelta(minutes=10))}
+
+
+def _too_many_payments(router, phone):
+    checks = [("phone", f"pay:phone:{phone}"), ("router", f"pay:router:{router.pk}")]
+    for kind, key in checks:
+        limit = PAY_LIMITS[kind][0]
+        if ratelimit.is_blocked(key, limit):
+            return True
+    for kind, key in checks:
+        ratelimit.hit(key, PAY_LIMITS[kind][1])
+    return False
+
+
 @require_POST
 def pay(request, slug):
     router = _get_router(slug)
@@ -138,6 +155,9 @@ def pay(request, slug):
         return _render_home(request, router, form, status=403)
     if not form.is_valid():
         return _render_home(request, router, form, status=400)
+    if _too_many_payments(router, form.cleaned_data["phone"]):
+        form.add_error("phone", gettext("Maombi mengi ya malipo kwa namba hii. Subiri dakika chache, kisha ujaribu tena."))
+        return _render_home(request, router, form, status=429)
 
     params = request.session.get(_hotspot_session_key(router), {})
     payment = start_payment(

@@ -244,6 +244,10 @@ if JAMIILITE_AUTH_MODE not in {"local", "radius"}:
 # Router inaripoti kila baada ya sekunde hizi. Ndogo = mteja anaunganishwa haraka
 # baada ya kulipa (njia ya "local"), lakini maombi mengi zaidi kwa server.
 JAMIILITE_CHECKIN_SECONDS = max(5, int(os.environ.get("JAMIILITE_CHECKIN_SECONDS", "10")))
+
+# Idadi ya proxies mbele ya server (Render = 1). IP ya mtumiaji inasomwa kutoka X-Forwarded-For
+# kulingana na hii, kwa ajili ya kuzuia majaribio mengi. 0 = tumia REMOTE_ADDR moja kwa moja.
+JAMIILITE_PROXY_HOPS = int(os.environ.get("JAMIILITE_PROXY_HOPS", "0" if DEBUG else "1"))
 # Hosts za ziada ambazo mteja anaruhusiwa kuzifikia kabla ya kulipa, mfano
 # ukurasa wa malipo wa mtoa huduma: "checkout.example.co.tz,api.example.co.tz".
 JAMIILITE_WALLED_GARDEN_EXTRA = env_list("JAMIILITE_WALLED_GARDEN_EXTRA")

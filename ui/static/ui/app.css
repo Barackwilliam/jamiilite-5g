@@ -781,3 +781,4 @@ a.card:hover, .stat-link:hover { box-shadow: var(--shadow-lift); }
 .checklist li.is-next .check-dot { border-color: var(--brand); }
 .checklist li:not(.is-done):not(.is-next) { opacity: 0.62; }
 .appbar-intro { margin: 4px 0 0; color: var(--muted); font-size: 0.88rem; max-width: 60ch; }
+.rotate-form { margin-top: 4px; }

@@ -85,7 +85,7 @@ Render Free inalala baada ya dakika 15 bila mtu, na kuamka kunachukua karibu dak
 
 1. Jisajili kama mmiliki (`/jisajili/`) → **Routers** → ongeza router → nakili **mstari wa usanidi**.
 2. Kwenye MikroTik: **Terminal** → bandika → Enter (angalia ukurasa wa **Mwongozo**).
-   RouterOS **6.43 au zaidi** inahitajika (7.x inapendekezwa).
+   RouterOS **7.15 au zaidi** inahitajika. Router ikiwa na toleo la zamani, mstari wa usanidi utakuambia uisasishe kwanza.
 3. Ndani ya sekunde chache router inaonekana **🟢 Online**.
 4. Unganisha simu kwenye WiFi. Ukurasa wa kulipia unafunguka wenyewe → nunua kifurushi
    → "Tunakuunganisha…" → umeunganishwa.
@@ -93,6 +93,25 @@ Render Free inalala baada ya dakika 15 bila mtu, na kuamka kunachukua karibu dak
 Kukagua: **Superadmin → Hali ya mfumo**:
 - **Uthibitishaji wa vocha** inaonyesha "Ndani ya router".
 - **Superadmin → Routers → router** inaonyesha idadi ya **vocha kwenye router**.
+
+---
+
+## Usalama
+
+- **Routers zinahakiki server.** Kwenye usanidi wa kwanza, router inapakua vyeti vya msingi
+  (Let's Encrypt na Google, `radius/trust/roots.pem`). Baada ya hapo, kila ripoti na kila amri
+  inakataliwa kama cheti cha server si halali. Kwa hiyo saa ya router lazima iwe sahihi: usanidi
+  unawasha NTP wenyewe. Ukihamia domain yenye cheti cha mtoa huduma mwingine, ongeza root CA yake
+  kwenye faili hilo, kisha **Weka upya usanidi** kwa routers zote.
+- **Majaribio mengi yanazuiwa:**
+  - Kuingia: namba moja inapewa majaribio 5 kwa dakika 15, na IP moja 30.
+  - Kujisajili: akaunti 10 kwa saa kutoka IP moja.
+  - `/admin/`: majaribio 20 kwa dakika 15.
+  - Kitufe cha "Lipa": namba moja inapewa maombi 3 kwa dakika 5.
+
+  IP inasomwa kutoka `X-Forwarded-For` kwa kuzingatia `JAMIILITE_PROXY_HOPS`. Kwa Render
+  chaguo-msingi ni `1`, na hakuna haja ya kuigusa.
+- **Mstari wa usanidi ukivuja:** Routers → router → **Badilisha siri**, kisha bandika mstari mpya.
 
 ---
 

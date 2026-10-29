@@ -9,6 +9,12 @@
   </span>
 {% endblock %}
 
+{% block banner %}
+  {% if old_routeros %}
+    <div class="banner banner-warn" role="alert">{% icon "alert" %}<p>{% blocktranslate with version=router.routeros_version min=min_routeros %}<strong>RouterOS {{ version }} ni ya zamani.</strong> JamiiLite inahitaji {{ min }} au zaidi. Kwenye Winbox: System &gt; Packages &gt; Check For Updates, kisha bonyeza "Weka upya usanidi" hapa chini.{% endblocktranslate %}</p></div>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
 {% if router.last_seen_at %}
 <section class="stats-grid stats-grid-4">
@@ -55,6 +61,10 @@
     <li><span class="flow-num">3</span><div><strong>{% translate "Subiri hapa sekunde chache" %}</strong><small>{% translate "Router ikiunganishwa utaona alama ya kijani. Mstari huu ni siri yako: usimpe mtu." %}</small></div></li>
   </ol>
   <p class="small"><a href="{% url 'pages:mwongozo' %}" target="_blank" rel="noopener">{% translate "Unahitaji msaada zaidi? Ona mwongozo wenye picha" %} {% icon "external" 14 %}</a></p>
+  <form method="post" class="rotate-form">
+    {% csrf_token %}
+    <button type="submit" name="action" value="rotate" class="btn btn-small btn-ghost" data-confirm="{% translate 'Tengeneza siri mpya? Mstari wa zamani utaacha kufanya kazi, na router itahitaji mstari mpya.' %}">{% icon "refresh" 16 %} {% translate "Mstari umevuja? Badilisha siri" %}</button>
+  </form>
 </section>
 {% else %}
 <details class="card setup-again">
@@ -67,6 +77,10 @@
     </div>
   {% endif %}
   <p class="muted small">{% translate "Mstari huu ni siri yako: usimpe mtu." %}</p>
+  <form method="post" class="rotate-form">
+    {% csrf_token %}
+    <button type="submit" name="action" value="rotate" class="btn btn-small btn-ghost" data-confirm="{% translate 'Tengeneza siri mpya? Mstari wa zamani utaacha kufanya kazi, na router itahitaji mstari mpya.' %}">{% icon "refresh" 16 %} {% translate "Mstari umevuja? Badilisha siri" %}</button>
+  </form>
 </details>
 {% endif %}
 

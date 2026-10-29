@@ -86,3 +86,25 @@ class RouterConnectTests(TestCase):
     def test_status_of_another_owners_router_is_hidden(self):
         other = make_router(make_owner(username="mwingine", business_name="Mwingine"), slug="x")
         self.assertEqual(self.client.get(reverse("dashboard:router_status", args=[other.pk])).status_code, 404)
+
+
+class RouterSecretTests(TestCase):
+    def setUp(self):
+        self.owner = make_owner()
+        self.client.force_login(self.owner.user)
+        self.router = make_router(self.owner, slug="duka", nas_identifier="jl-duka")
+
+    def test_rotating_the_secret_retires_the_old_line(self):
+        old = self.router.provision_token
+        self.client.post(reverse("dashboard:router_detail", args=[self.router.pk]), {"action": "rotate"})
+        self.router.refresh_from_db()
+        self.assertNotEqual(self.router.provision_token, old)
+        reply = self.client.post(reverse("radius:checkin", args=[old]), "v=7.16", content_type="application/x-www-form-urlencoded")
+        self.assertEqual(reply.status_code, 404)
+
+    def test_old_routeros_is_flagged(self):
+        self.router.last_seen_at = timezone.now()
+        self.router.routeros_version = "6.49.10 (long-term)"
+        self.router.save()
+        response = self.client.get(reverse("dashboard:router_detail", args=[self.router.pk]))
+        self.assertContains(response, "RouterOS 6.49.10 (long-term) ni ya zamani")
