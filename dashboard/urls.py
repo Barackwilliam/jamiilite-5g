@@ -13,6 +13,7 @@ urlpatterns = [
     path("dashboard/live/data/", views.live_feed, name="live_data"),
     path("dashboard/routers/", views.routers, name="routers"),
     path("dashboard/routers/<int:pk>/", views.router_detail, name="router_detail"),
+    path("dashboard/routers/<int:pk>/hali/", views.router_status, name="router_status"),
     path("dashboard/vifurushi/", views.packages, name="packages"),
     path("dashboard/vifurushi/<int:pk>/", views.package_edit, name="package_edit"),
     path("dashboard/vocha/", views.vouchers, name="vouchers"),

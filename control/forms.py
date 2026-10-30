@@ -1,6 +1,6 @@
 from django import forms
 from django.conf import settings
-from django.utils.translation import gettext as _now
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
 from core.models import PlatformConfig, Router
@@ -43,11 +43,11 @@ class PlatformConfigForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for name, (setting, fmt) in ENV_DEFAULTS.items():
             default = getattr(settings, setting)
-            shown = fmt.format(default) if default not in ("", None) else _now("haijawekwa")
+            shown = fmt.format(default) if default not in ("", None) else gettext("haijawekwa")
             field = self.fields[name]
             field.widget.attrs.setdefault("placeholder", str(default) if default not in ("", None) else "")
-            field.help_text = _now("Ukiacha tupu: %(value)s (kutoka .env).") % {"value": shown}
-        self.fields["sale_fee_percent"].help_text += " " + _now("Inakatwa kwenye kila mauzo kufidia ada za malipo.")
+            field.help_text = gettext("Ukiacha tupu: %(value)s (kutoka .env).") % {"value": shown}
+        self.fields["sale_fee_percent"].help_text += " " + gettext("Inakatwa kwenye kila mauzo kufidia ada za malipo.")
 
     def clean_sale_fee_percent(self):
         value = self.cleaned_data["sale_fee_percent"]

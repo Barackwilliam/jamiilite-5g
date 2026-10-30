@@ -9,33 +9,39 @@
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
 {% block content %}
-{% if not routers or not has_packages or not has_sales %}
+{% if next_step %}
   <section class="card onboarding">
-    <div class="card-head"><h2>{% translate "Hatua 4 za kuanza kuuza" %}</h2><span class="muted small">{% translate "Zikikamilika, sehemu hii itajificha." %}</span></div>
+    <div class="card-head">
+      <h2>{% translate "Anza kuuza kwa hatua 4" %}</h2>
+      <span class="pill pill-muted">{% blocktranslate with n=steps_done %}{{ n }} kati ya 4{% endblocktranslate %}</span>
+    </div>
+    <div class="onboarding-bar" aria-hidden="true"><span style="width: {% widthratio steps_done 4 100 %}%"></span></div>
     <ol class="checklist">
-      <li class="{% if routers %}is-done{% endif %}">
+      <li class="{% if routers %}is-done{% elif next_step == 1 %}is-next{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>{% translate "Ongeza router yako" %}</strong><small>{% translate "Eneo unalouzia WiFi." %}</small></div>
-        {% if not routers %}<a class="btn btn-small" href="{% url 'dashboard:routers' %}">{% translate "Ongeza" %}</a>{% endif %}
+        <div><strong>{% translate "Ongeza router yako" %}</strong><small>{% translate "Kila eneo unalouzia WiFi ni router moja." %}</small></div>
+        {% if next_step == 1 %}<a class="btn btn-small btn-primary" href="{% url 'dashboard:routers' %}">{% translate "Ongeza" %}</a>{% endif %}
       </li>
-      <li class="{% if online_routers %}is-done{% endif %}">
+      <li class="{% if online_routers %}is-done{% elif next_step == 2 %}is-next{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>{% translate "Iunganishe na JamiiLite" %}</strong><small>{% translate "Bandika mstari mmoja kwenye MikroTik." %}</small></div>
-        {% if routers and not online_routers %}<a class="btn btn-small btn-ghost" href="{% url 'dashboard:router_detail' routers.0.pk %}">{% translate "Ona mstari" %}</a>{% endif %}
+        <div><strong>{% translate "Iunganishe na JamiiLite" %}</strong><small>{% translate "Unabandika mstari mmoja kwenye MikroTik. Tunakuonyesha jinsi." %}</small></div>
+        {% if next_step == 2 %}<a class="btn btn-small btn-primary" href="{% url 'dashboard:router_detail' routers.0.pk %}">{% translate "Unganisha" %}</a>{% endif %}
       </li>
-      <li class="{% if has_packages %}is-done{% endif %}">
+      <li class="{% if has_packages %}is-done{% elif next_step == 3 %}is-next{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>{% translate "Weka vifurushi na bei" %}</strong><small>{% translate "Mfano Saa 1 kwa Tsh 500." %}</small></div>
-        {% if not has_packages %}<a class="btn btn-small btn-ghost" href="{% url 'dashboard:packages' %}">{% translate "Weka" %}</a>{% endif %}
+        <div><strong>{% translate "Weka vifurushi na bei" %}</strong><small>{% translate "Vipo tayari, unabofya mara moja tu." %}</small></div>
+        {% if next_step == 3 %}<a class="btn btn-small btn-primary" href="{% url 'dashboard:packages' %}">{% translate "Weka" %}</a>{% endif %}
       </li>
-      <li class="{% if has_sales %}is-done{% endif %}">
+      <li class="{% if has_sales %}is-done{% elif next_step == 4 %}is-next{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>{% translate "Pata mauzo ya kwanza" %}</strong><small>{% translate "Unganisha simu kwenye WiFi na ujaribu kununua." %}</small></div>
+        <div><strong>{% translate "Jaribu kama mteja" %}</strong><small>{% translate "Unganisha simu kwenye WiFi yako na ununue kifurushi cha bei ndogo." %}</small></div>
+        {% if next_step == 4 and try_portal_url %}<a class="btn btn-small btn-primary" href="{{ try_portal_url }}" target="_blank" rel="noopener">{% translate "Ona ukurasa wa mteja" %}</a>{% endif %}
       </li>
     </ol>
   </section>
 {% endif %}
 
+{% if has_sales or online_routers %}
 <section class="overview">
   <article class="card hero-card">
     <svg class="hero-deco" viewBox="0 0 200 200" aria-hidden="true">
@@ -161,4 +167,5 @@
     {% endif %}
   </section>
 </div>
+{% endif %}
 {% endblock %}

@@ -19,6 +19,8 @@ def sales_summary(payments, now=None):
     periods = {
         "today": Q(paid_at__gte=today),
         "yesterday": Q(paid_at__gte=today - timedelta(days=1), paid_at__lt=today),
+        # Jana mpaka saa hii hii: leo saa 3 asubuhi inalinganishwa na jana saa 3, si siku nzima.
+        "yesterday_so_far": Q(paid_at__gte=today - timedelta(days=1), paid_at__lt=now - timedelta(days=1)),
         "week": Q(paid_at__gte=now - timedelta(days=7)),
         "prev_week": Q(paid_at__gte=now - timedelta(days=14), paid_at__lt=now - timedelta(days=7)),
         "month": Q(paid_at__gte=now - timedelta(days=30)),
@@ -43,7 +45,8 @@ def top_by(payments, field, days=30, limit=5, now=None):
     now = now or timezone.now()
     rows = list(
         payments.filter(status=Payment.Status.PAID, paid_at__gte=now - timedelta(days=days))
-        .values(field)
+        # Panga kwa kitambulisho: routers mbili zenye jina moja zisiunganishwe kuwa moja.
+        .values(field.replace("__name", "_id"), field)
         .annotate(total=Sum("amount"), count=Count("pk"))
         .order_by("-total")[:limit]
     )

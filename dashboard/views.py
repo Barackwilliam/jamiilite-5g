@@ -1,4 +1,6 @@
+import math
 import secrets
+from datetime import timedelta
 from functools import wraps
 
 from django.conf import settings
@@ -7,9 +9,10 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
+from django.forms.utils import ErrorDict
 from django.db import transaction
 from django.db.models import Count, Min, Q, Sum
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone, translation
@@ -19,11 +22,13 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_http_methods, require_POST
 
 from billing import subscriptions, wallet
+from billing.phone import normalize_tz_phone
 from billing.models import Payment, SubscriptionCharge, Voucher
 from core import config
-from core.models import NetworkEvent, Owner, Package, RouterCommand
+from core.models import NetworkEvent, Owner, Package, RouterCommand, generate_provision_token
 from radius import routeros
 from ui import live as live_data
+from ui import ratelimit
 from ui.charts import bar_chart, daily_totals, day_abbr
 
 from .accounts import create_owner_account
@@ -85,6 +90,12 @@ def signup(request):
     if not cfg.signups_open:
         return render(request, "dashboard/signup_closed.html", {"whatsapp": cfg.whatsapp_number})
     form = SignupForm(request.POST or None, initial={"language": translation.get_language()})
+    if request.method == "POST":
+        limit, window = SIGNUP_LIMIT
+        key = f"signup:ip:{ratelimit.client_ip(request)}"
+        if ratelimit.hit(key, window) > limit:
+            _limit_error(form, _("Akaunti nyingi zimefunguliwa kutoka hapa. Subiri dakika %(n)s, kisha ujaribu tena.") % {"n": ratelimit.minutes_left(key)})
+            return render(request, "dashboard/signup.html", {"form": form, "trial_days": cfg.trial_days}, status=429)
     if request.method == "POST" and form.is_valid():
         owner = create_owner_account(
             form.cleaned_data["business_name"], form.cleaned_data["phone"], form.cleaned_data["password1"],
@@ -105,12 +116,47 @@ def login_view(request):
     if request.user.is_authenticated:
         return redirect(_after_login_url(request.user, next_url, request))
     form = LoginForm(request, request.POST or None)
+    if request.method == "POST":
+        keys = _login_limit_keys(request)
+        if any(ratelimit.is_blocked(key, limit) for key, limit, _window in keys):
+            wait = max(ratelimit.minutes_left(key) for key, _limit, _window in keys)
+            _limit_error(form, _("Umejaribu mara nyingi. Subiri dakika %(n)s, kisha ujaribu tena.") % {"n": wait})
+            return render(request, "dashboard/login.html", {"form": form, "next": next_url}, status=429)
     if request.method == "POST" and form.is_valid():
+        ratelimit.clear(keys[0][0])
         login(request, form.user)
         response = redirect(_after_login_url(form.user, next_url, request))
         owner = Owner.objects.filter(user=form.user).first()
         return _remember_language(response, owner.language, request) if owner else response
+    if request.method == "POST":
+        for key, _limit, window in keys:
+            ratelimit.hit(key, window)
     return render(request, "dashboard/login.html", {"form": form, "next": next_url})
+
+
+def _limit_error(form, message):
+    """Onyesha kosa la "subiri" bila kuendesha uhakiki wa fomu (wala kujaribu password)."""
+    form._errors = ErrorDict()
+    form.cleaned_data = {}
+    form.add_error(None, message)
+
+
+# Namba moja: majaribio 5 kwa dakika 15. IP moja (namba nyingi): 30 kwa dakika 15.
+LOGIN_LIMITS = ((5, timedelta(minutes=15)), (30, timedelta(minutes=15)))
+SIGNUP_LIMIT = (10, timedelta(hours=1))
+
+
+def _login_limit_keys(request):
+    try:
+        phone = normalize_tz_phone(request.POST.get("phone", ""))
+    except ValidationError:
+        # Jina la Super Admin (si namba): kila jina na hesabu yake.
+        phone = request.POST.get("phone", "").strip().lower()[:60] or "?"
+    (phone_limit, phone_window), (ip_limit, ip_window) = LOGIN_LIMITS
+    return [
+        (f"login:phone:{phone}", phone_limit, phone_window),
+        (f"login:ip:{ratelimit.client_ip(request)}", ip_limit, ip_window),
+    ]
 
 
 @require_POST
@@ -143,7 +189,8 @@ def subscription_status(owner, now=None):
     ends = owner.subscription_ends_at
     if not owner.has_active_subscription(now):
         return {"state": "expired", "ends": ends, "days_left": 0}
-    days_left = max(0, (ends - now).days)
+    # Siku iliyoanza inahesabika: aliyejisajili leo anaona "siku 14", si 13.
+    days_left = max(0, math.ceil((ends - now).total_seconds() / 86400))
     return {"state": "trial" if owner.is_in_trial(now) else "active", "ends": ends, "days_left": days_left}
 
 
@@ -214,7 +261,7 @@ def home(request):
     context = {
         "summary": summary,
         "greet": greeting(),
-        "today_trend": trend(summary["today_amount"], summary["yesterday_amount"]),
+        "today_trend": trend(summary["today_amount"], summary["yesterday_so_far_amount"]),
         "week_trend": trend(summary["week_amount"], summary["prev_week_amount"]),
         "top_packages": top_by(payments, "package__name"),
         "top_routers": top_by(payments, "router__name") if len(routers) > 1 else [],
@@ -228,6 +275,13 @@ def home(request):
         "has_packages": owner.packages.exists(),
         "has_sales": paid.exists(),
     }
+    # Hatua inayofuata ya kuanza kuuza; mmiliki anaona moja tu kwa wakati mmoja.
+    done = [bool(routers), context["online_routers"] > 0, context["has_packages"], context["has_sales"]]
+    context["steps_done"] = sum(done)
+    context["next_step"] = done.index(False) + 1 if not all(done) else 0
+    first_online = next((r for r in routers if r.is_online), None)
+    if first_online:
+        context["try_portal_url"] = reverse("portal:home", args=[first_online.slug])
     return render_owner(request, "dashboard/home.html", context, "home", _("Muhtasari"))
 
 
@@ -288,6 +342,12 @@ def router_detail(request, pk):
                 RouterCommand.objects.create(router=router, action=RouterCommand.Action.REAPPLY_SETUP)
                 messages.success(request, _("Jina la WiFi litabadilika kuwa “%(name)s” ndani ya dakika 1.") % {"name": router.wifi_name})
             return redirect("dashboard:router_detail", pk=router.pk)
+    elif request.method == "POST" and request.POST.get("action") == "rotate":
+        # Mstari wa usanidi ukivuja: siri mpya, na router ya zamani inaacha kupokea vocha mpaka ibandikwe tena.
+        router.provision_token = generate_provision_token()
+        router.save(update_fields=["provision_token"])
+        messages.success(request, _("Siri mpya imewekwa. Mstari wa zamani haufanyi kazi tena: bandika huu mpya kwenye router."))
+        return redirect("dashboard:router_detail", pk=router.pk)
     elif request.method == "POST":
         actions = {"reboot": RouterCommand.Action.REBOOT, "reapply": RouterCommand.Action.REAPPLY_SETUP}
         action = actions.get(request.POST.get("action"))
@@ -303,17 +363,43 @@ def router_detail(request, pk):
             "portal_url": request.build_absolute_uri(reverse("portal:home", args=[router.slug])),
             "commands": router.commands.order_by("-created_at")[:5],
             "wifi_form": wifi_form,
+            "old_routeros": routeros.version_supported(router.routeros_version) is False,
+            "min_routeros": "%d.%d" % routeros.MIN_ROUTEROS,
         },
         "routers", router.name,
     )
 
 
+@owner_required
+def router_status(request, pk):
+    """Ukurasa wa kuunganisha unauliza hapa mpaka router ionekane kwa mara ya kwanza."""
+    router = get_object_or_404(request.owner.routers, pk=pk)
+    return JsonResponse({"seen": router.last_seen_at is not None, "online": router.is_online})
+
+
 # --- Vifurushi ---------------------------------------------------------------------
+
+# Vifurushi vya kuanzia: mmiliki mpya anaviweka kwa kubofya mara moja, kisha anabadilisha bei akitaka.
+STARTER_PACKAGES = [
+    (gettext_lazy("Saa 1"), 500, 60),
+    (gettext_lazy("Siku 1"), 1_000, 24 * 60),
+    (gettext_lazy("Wiki 1"), 5_000, 7 * 24 * 60),
+    (gettext_lazy("Mwezi 1"), 20_000, 30 * 24 * 60),
+]
+
 
 @owner_required
 @require_http_methods(["GET", "POST"])
 def packages(request):
     owner = request.owner
+    if request.method == "POST" and request.POST.get("action") == "starter":
+        if not owner.packages.exists():
+            Package.objects.bulk_create(
+                Package(owner=owner, name=str(name), price=price, duration_minutes=minutes, sort_order=i)
+                for i, (name, price, minutes) in enumerate(STARTER_PACKAGES)
+            )
+            messages.success(request, _("Vifurushi 4 vimewekwa. Gusa kifurushi chochote kubadilisha bei au kasi."))
+        return redirect("dashboard:packages")
     form = PackageForm(request.POST or None, initial={"is_active": True, "shared_users": 1})
     if request.method == "POST" and form.is_valid():
         package = form.save(commit=False)

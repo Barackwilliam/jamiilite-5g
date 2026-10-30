@@ -4,7 +4,6 @@
 {% block title %}{% translate "JamiiLite 5G: uza WiFi yako kiotomatiki" %}{% endblock %}
 {% block body_class %}page-landing{% endblock %}
 {% block head %}
-  <link rel="preload" href="{% static 'js/landing.js' %}" as="script">
   <link rel="stylesheet" href="{% static 'css/landing.css' %}">
 {% endblock %}
 
@@ -122,21 +121,23 @@
   </div>
 </section>
 
-{# ================= Hatua 3 + vipengele (vimebanwa) ================= #}
-<section class="lp-section lp-section-tight" id="inavyofanya">
+{# ================= Hatua 3 + vipengele ================= #}
+<section class="lp-section" id="inavyofanya">
   <div class="wrap">
-    <ol class="lp-steps" data-reveal>
-      <li><b>01</b><div><h3>{% translate "Unganisha router yako" %}</h3><p>{% translate "Bandika mstari mmoja kwenye MikroTik yako." %}</p></div></li>
-      <li><b>02</b><div><h3>{% translate "Weka vifurushi na bei" %}</h3><p>{% translate "Wewe unaamua bei, muda na kasi." %}</p></div></li>
-      <li><b>03</b><div><h3>{% translate "Pokea malipo" %}</h3><p>{% translate "Wateja wanalipa kwa simu, pesa inaingia kwenye salio lako." %}</p></div></li>
+    <p class="lp-eyebrow" data-reveal>{% translate "Jinsi inavyofanya kazi" %}</p>
+    <h2 class="lp-title" data-reveal>{% translate "Hatua 3, kisha inauza yenyewe." %}</h2>
+    <ol class="lp-flow" data-reveal>
+      <li data-spot><span class="lp-flow-num">01</span><span class="lp-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 16.5h.01M11 16.5h.01"/><path d="M8 13l-2-6M16 13l2-6"/></svg></span><h3>{% translate "Unganisha router yako" %}</h3><p>{% translate "Bandika mstari mmoja kwenye MikroTik yako." %}</p></li>
+      <li data-spot><span class="lp-flow-num">02</span><span class="lp-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg></span><h3>{% translate "Weka vifurushi na bei" %}</h3><p>{% translate "Wewe unaamua bei, muda na kasi." %}</p></li>
+      <li data-spot><span class="lp-flow-num">03</span><span class="lp-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7"/><path d="M9 15v2c0 1.7 2.7 3 6 3s6-1.3 6-3v-5c0-1.7-2.7-3-6-3"/></svg></span><h3>{% translate "Pokea malipo" %}</h3><p>{% translate "Wateja wanalipa kwa simu, pesa inaingia kwenye salio lako." %}</p></li>
     </ol>
-    <ul class="lp-features" data-reveal>
-      <li><span>🎟️</span>{% translate "Vocha za kiotomatiki" %}</li>
-      <li><span>⏱️</span>{% translate "Muda unahesabiwa wenyewe" %}</li>
-      <li><span>🔐</span>{% translate "Hakuna kugawana password" %}</li>
-      <li><span>⚡</span>{% translate "Kasi kwa kila kifurushi" %}</li>
-      <li><span>📡</span>{% translate "Simamia ukiwa popote" %}</li>
-      <li><span>🖨️</span>{% translate "Vocha za kuchapisha" %}</li>
+    <ul class="lp-bento" data-reveal>
+      <li data-spot><span class="lp-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 0 0 4v0a2 2 0 0 1 0 4v2h18v-2a2 2 0 0 1 0-4 2 2 0 0 0 0-4V6H3z"/><path d="M14 6v12" stroke-dasharray="2 2"/></svg></span>{% translate "Vocha za kiotomatiki" %}</li>
+      <li data-spot><span class="lp-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>{% translate "Muda unahesabiwa wenyewe" %}</li>
+      <li data-spot><span class="lp-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>{% translate "Hakuna kugawana password" %}</li>
+      <li data-spot><span class="lp-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>{% translate "Kasi kwa kila kifurushi" %}</li>
+      <li data-spot><span class="lp-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><path d="M2 9a15 15 0 0 1 20 0"/><circle cx="12" cy="19.5" r="1" fill="currentColor"/></svg></span>{% translate "Simamia ukiwa popote" %}</li>
+      <li data-spot><span class="lp-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></span>{% translate "Vocha za kuchapisha" %}</li>
     </ul>
   </div>
 </section>
@@ -172,16 +173,19 @@
 
 {# ================= Mwisho ================= #}
 <section class="lp-final">
-  <div class="wrap lp-final-inner" data-reveal>
-    <h2>{% translate "WiFi yako iko tayari kukuletea pesa." %}</h2>
-    <p>{% translate "Fungua akaunti kwa dakika moja. Hakuna kadi, hakuna mkataba." %}</p>
-    <div class="lp-actions lp-actions-center">
-      <a class="lp-btn lp-btn-primary" href="{% url 'dashboard:signup' %}">{% blocktranslate count days=trial_days %}Anza bure, siku {{ days }}{% plural %}Anza bure, siku {{ days }}{% endblocktranslate %}<span aria-hidden="true">→</span></a>
-      {% if whatsapp_url %}
-        <a class="lp-btn lp-btn-glass" href="{{ whatsapp_url }}" rel="noopener">{% translate "Tuulize WhatsApp" %}</a>
-      {% else %}
-        <a class="lp-btn lp-btn-glass" href="{% url 'pages:mahitaji' %}">{% translate "Ona mahitaji" %}</a>
-      {% endif %}
+  <div class="wrap">
+    <div class="lp-final-card" data-reveal>
+      <svg class="lp-final-arcs" viewBox="0 0 200 140" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="7"><path d="M20 70a114 114 0 0 1 160 0" opacity=".25"/><path d="M48 98a74 74 0 0 1 104 0" opacity=".5"/><path d="M76 126a34 34 0 0 1 48 0" opacity=".85"/></g></svg>
+      <h2>{% translate "WiFi yako iko tayari kukuletea pesa." %}</h2>
+      <p>{% translate "Fungua akaunti kwa dakika moja. Hakuna kadi, hakuna mkataba." %}</p>
+      <div class="lp-actions lp-actions-center">
+        <a class="lp-btn lp-btn-primary" href="{% url 'dashboard:signup' %}">{% blocktranslate count days=trial_days %}Anza bure, siku {{ days }}{% plural %}Anza bure, siku {{ days }}{% endblocktranslate %}<span aria-hidden="true">→</span></a>
+        {% if whatsapp_url %}
+          <a class="lp-btn lp-btn-glass" href="{{ whatsapp_url }}" rel="noopener">{% translate "Tuulize WhatsApp" %}</a>
+        {% else %}
+          <a class="lp-btn lp-btn-glass" href="{% url 'pages:mahitaji' %}">{% translate "Ona mahitaji" %}</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>

@@ -147,6 +147,9 @@ class Router(models.Model):
     routeros_version = models.CharField("toleo la RouterOS", max_length=60, blank=True)
     uptime = models.CharField("muda iliowaka", max_length=40, blank=True)
     active_clients = models.PositiveIntegerField("wateja online", default=0)
+    # Anwani ya umma ambayo router ilitumia kwenye ripoti ya mwisho. Wateja walio nyuma ya
+    # hotspot wanatoka na anwani hii hii, kwa hiyo inathibitisha kuwa ombi limetoka kwenye WiFi yenyewe.
+    public_ip = models.GenericIPAddressField("IP ya umma", null=True, blank=True)
     # Njia ya "local": vipindi vilivyokuwa online kwenye ripoti iliyopita,
     # {"VOCHA|MAC": {"down": bytes, "up": bytes, "at": iso}}. Vinatumika kujua
     # nani ameingia au ametoka, na lini kurekodi matumizi.
@@ -361,3 +364,18 @@ class NetworkEvent(models.Model):
 
     def __str__(self):
         return f"{self.get_kind_display()} · {self.router_id}"
+
+
+class RateLimit(models.Model):
+    """Hesabu ya majaribio (kuingia, malipo...) kwa kipindi kifupi, ili kuzuia mashambulizi."""
+
+    key = models.CharField(max_length=120, unique=True)
+    count = models.PositiveIntegerField(default=0)
+    reset_at = models.DateTimeField(db_index=True)
+
+    class Meta:
+        verbose_name = "kizuizi cha majaribio"
+        verbose_name_plural = "vizuizi vya majaribio"
+
+    def __str__(self):
+        return f"{self.key} · {self.count}"

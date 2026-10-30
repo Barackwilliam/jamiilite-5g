@@ -9,7 +9,14 @@
   </span>
 {% endblock %}
 
+{% block banner %}
+  {% if old_routeros %}
+    <div class="banner banner-warn" role="alert">{% icon "alert" %}<p>{% blocktranslate with version=router.routeros_version min=min_routeros %}<strong>RouterOS {{ version }} ni ya zamani.</strong> JamiiLite inahitaji {{ min }} au zaidi. Kwenye Winbox: System &gt; Packages &gt; Check For Updates, kisha bonyeza "Weka upya usanidi" hapa chini.{% endblocktranslate %}</p></div>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
+{% if router.last_seen_at %}
 <section class="stats-grid stats-grid-4">
   <article class="card stat tone-green"><span class="stat-icon">{% icon "users" 18 %}</span>
     <p class="stat-label">{% translate "Wateja online" %}</p>
@@ -28,13 +35,20 @@
     <p class="stat-value stat-text">{{ router.uptime|default:"—" }}</p>
   </article>
 </section>
+{% endif %}
 
-<section class="card card-accent">
-  <div class="card-head"><h2>{% translate "Iunganishe na JamiiLite" %}</h2></div>
-  <ol class="steps">
-    <li>{% blocktranslate %}Fungua <strong>Winbox</strong> au ingia kwa SSH kwenye MikroTik yako, kisha fungua <strong>New Terminal</strong>.{% endblocktranslate %}</li>
-    <li>{% translate "Kama router ni mpya (bado ina usanidi wa kiwandani), hakuna cha ziada: mfumo utaweka hotspot wenyewe." %}</li>
-    <li>{% translate "Bandika mstari huu, bonyeza Enter, subiri sekunde chache." %}</li>
+{% if not router.last_seen_at %}
+<section class="card card-accent connect-card" data-router-wait="{% url 'dashboard:router_status' router.pk %}">
+  <div class="connect-wait" role="status">
+    <span class="connect-pulse" aria-hidden="true"></span>
+    <div>
+      <strong data-wait-text>{% translate "Inasubiri router yako iunganishwe…" %}</strong>
+      <small>{% translate "Ukimaliza hatua hizi, ukurasa huu utabadilika wenyewe." %}</small>
+    </div>
+  </div>
+  <ol class="connect-steps">
+    <li><span class="flow-num">1</span><div><strong>{% translate "Fungua Winbox kwenye kompyuta" %}</strong><small>{% blocktranslate %}Ingia kwenye MikroTik yako, kisha bonyeza <b>New Terminal</b>.{% endblocktranslate %}</small></div></li>
+    <li><span class="flow-num">2</span><div><strong>{% translate "Nakili mstari huu na uubandike" %}</strong><small>{% translate "Bandika kwenye Terminal, kisha bonyeza Enter." %}</small></div></li>
   </ol>
   {% if setup_command %}
     <div class="code-box">
@@ -43,9 +57,32 @@
       <button type="button" class="btn btn-small" data-copy="#setup-cmd" data-copied="{% translate 'Imenakiliwa' %}">{% icon "copy" 16 %} <span>{% translate "Nakili" %}</span></button>
     </div>
   {% endif %}
-  <p class="muted small">{% blocktranslate %}Router ikishaunganishwa, hali hapo juu itabadilika kuwa <strong>Online</strong> ndani ya dakika 1. Mstari huu ni siri yako: usimpe mtu.{% endblocktranslate %}</p>
-  <p class="small"><a href="{% url 'pages:mwongozo' %}" target="_blank" rel="noopener">{% translate "Ona mwongozo wa hatua kwa hatua" %} {% icon "external" 14 %}</a></p>
+  <ol class="connect-steps" start="3">
+    <li><span class="flow-num">3</span><div><strong>{% translate "Subiri hapa sekunde chache" %}</strong><small>{% translate "Router ikiunganishwa utaona alama ya kijani. Mstari huu ni siri yako: usimpe mtu." %}</small></div></li>
+  </ol>
+  <p class="small"><a href="{% url 'pages:mwongozo' %}" target="_blank" rel="noopener">{% translate "Unahitaji msaada zaidi? Ona mwongozo wenye picha" %} {% icon "external" 14 %}</a></p>
+  <form method="post" class="rotate-form">
+    {% csrf_token %}
+    <button type="submit" name="action" value="rotate" class="btn btn-small btn-ghost" data-confirm="{% translate 'Tengeneza siri mpya? Mstari wa zamani utaacha kufanya kazi, na router itahitaji mstari mpya.' %}">{% icon "refresh" 16 %} {% translate "Mstari umevuja? Badilisha siri" %}</button>
+  </form>
 </section>
+{% else %}
+<details class="card setup-again">
+  <summary>{% translate "Mstari wa usanidi" %} <small class="muted">{% translate "kwa router mpya au uliyoiweka upya" %}</small></summary>
+  {% if setup_command %}
+    <div class="code-box">
+      <span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <code id="setup-cmd">{{ setup_command }}</code>
+      <button type="button" class="btn btn-small" data-copy="#setup-cmd" data-copied="{% translate 'Imenakiliwa' %}">{% icon "copy" 16 %} <span>{% translate "Nakili" %}</span></button>
+    </div>
+  {% endif %}
+  <p class="muted small">{% translate "Mstari huu ni siri yako: usimpe mtu." %}</p>
+  <form method="post" class="rotate-form">
+    {% csrf_token %}
+    <button type="submit" name="action" value="rotate" class="btn btn-small btn-ghost" data-confirm="{% translate 'Tengeneza siri mpya? Mstari wa zamani utaacha kufanya kazi, na router itahitaji mstari mpya.' %}">{% icon "refresh" 16 %} {% translate "Mstari umevuja? Badilisha siri" %}</button>
+  </form>
+</details>
+{% endif %}
 
 <section class="card wifi-card">
   <div class="card-head"><h2>{% translate "WiFi yako kwa wateja" %}</h2></div>
@@ -67,7 +104,7 @@
   </div>
 </section>
 
-<div class="two-col">
+<div class="{% if router.last_seen_at %}two-col{% endif %}">
   <section class="card">
     <div class="card-head"><h2>{% translate "Ukurasa wa kulipia" %}</h2></div>
     <p class="muted">{% translate "Wateja wako wanauona wanapounganisha WiFi. Unaweza pia kuufungua hapa kujaribu." %}</p>
@@ -78,6 +115,7 @@
     <a class="btn btn-ghost" href="{{ portal_url }}" target="_blank" rel="noopener">{% icon "external" 16 %} {% translate "Fungua" %}</a>
   </section>
 
+  {% if router.last_seen_at %}
   <section class="card">
     <div class="card-head"><h2>{% translate "Simamia ukiwa mbali" %}</h2></div>
     <form method="post" class="btn-row">
@@ -98,5 +136,6 @@
       <p class="muted small">{% translate "Maagizo utakayotuma yataonekana hapa." %}</p>
     {% endif %}
   </section>
+  {% endif %}
 </div>
 {% endblock %}

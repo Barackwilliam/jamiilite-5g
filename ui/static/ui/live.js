@@ -339,7 +339,7 @@
     var gw = el("g", { class: "lv-node lv-gateway", transform: "translate(" + g.x + "," + g.y + ")" }, nodeLayer);
     el("rect", { x: -72, y: -28, width: 144, height: 56, rx: 12, class: "lv-box" }, gw);
     this.gatewayLabel = text(gw, 0, -3, clip(this.gateway, 20), "lv-title");
-    text(gw, 0, 16, "M-Pesa · Tigo · Airtel", "lv-sub");
+    text(gw, 0, 16, "M-Pesa · Mixx · Airtel", "lv-sub");
     this.nodes.gateway = gw;
 
     if (!routers.length) {

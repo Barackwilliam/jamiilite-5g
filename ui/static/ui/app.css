@@ -342,13 +342,14 @@ a.list-row > .icon:last-child { color: var(--faint); }
 .chart-tooltip strong, .chart-tooltip span { display: block; }
 .chart-tooltip strong { font-weight: 600; opacity: 0.8; }
 .chart-tooltip span { font-weight: 750; font-variant-numeric: tabular-nums; }
-/* SVG inapungua pamoja na kadi; ongeza ukubwa wa maandishi ili yabaki ~11px. */
-@container (max-width: 560px) {
-  .chart-tick, .chart-day, .chart-peak { font-size: 15px; }
-}
-@container (max-width: 400px) {
-  .chart-tick, .chart-day, .chart-peak { font-size: 19px; }
-}
+/* SVG (upana 900) inakua au kupungua pamoja na kadi; badilisha ukubwa wa maandishi ili yaonekane ~11–12px. */
+.chart-tick, .chart-day, .chart-peak { font-size: 10px; }
+@container (max-width: 900px) { .chart-tick, .chart-day, .chart-peak { font-size: 12.5px; } }
+@container (max-width: 700px) { .chart-tick, .chart-day, .chart-peak { font-size: 15px; } }
+@container (max-width: 560px) { .chart-tick, .chart-day, .chart-peak { font-size: 19px; } }
+@container (max-width: 420px) { .chart-tick, .chart-day, .chart-peak { font-size: 24px; } }
+@container (max-width: 360px) { .chart-tick, .chart-day, .chart-peak { font-size: 28px; } }
+
 .content > .banner { margin: 0; max-width: none; }
 .chart-empty { display: grid; place-items: center; text-align: center; min-height: 160px; border-radius: 12px; background: var(--surface-2); padding: 20px; }
 .chart-empty p { margin: 0 0 2px; }
@@ -747,3 +748,222 @@ a.card:hover, .stat-link:hover { box-shadow: var(--shadow-lift); }
 
 /* Kadi kuu ya Super Admin */
 .stat-hero { background: var(--grad-brand); box-shadow: 0 20px 40px -18px rgba(11, 92, 214, 0.65); }
+
+/* Kuunganisha router: hatua 3 na hali inayosubiri */
+.connect-card { display: flex; flex-direction: column; gap: 16px; }
+.connect-wait { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 12px; background: var(--surface-2, #eef3fb); }
+.connect-wait div { display: flex; flex-direction: column; }
+.connect-wait small { color: var(--muted); font-size: 0.84rem; }
+.connect-pulse { position: relative; width: 14px; height: 14px; border-radius: 50%; background: #f5a623; flex-shrink: 0; }
+.connect-pulse::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid #f5a623; animation: connect-ping 1.6s ease-out infinite; }
+.connect-card.is-connected .connect-pulse, .connect-card.is-connected .connect-pulse::after { background: #16a34a; border-color: #16a34a; }
+@keyframes connect-ping { from { transform: scale(0.6); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+.connect-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.connect-steps li { display: flex; gap: 12px; align-items: flex-start; }
+.connect-steps li div { display: flex; flex-direction: column; }
+.connect-steps small { color: var(--muted); font-size: 0.86rem; }
+.setup-again summary { cursor: pointer; font-weight: 700; }
+.setup-again[open] summary { margin-bottom: 12px; }
+@media (prefers-reduced-motion: reduce) { .connect-pulse::after { animation: none; } }
+
+/* Vifurushi vya kuanzia */
+.starter { display: flex; flex-direction: column; gap: 14px; }
+.starter-title { margin: 0; font-weight: 700; }
+.starter-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.starter-list li { display: flex; flex-direction: column; padding: 12px 14px; border-radius: 12px; background: var(--surface-2); }
+.starter-list span { color: var(--muted); font-size: 0.9rem; }
+.starter form .btn { width: 100%; }
+
+/* Hatua za kuanza: inayofuata inaonekana wazi */
+.onboarding .card-head { align-items: center; }
+.onboarding-bar { height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; margin: 0 0 14px; }
+.onboarding-bar span { display: block; height: 100%; min-width: 6px; border-radius: inherit; background: var(--money); transition: width 0.4s ease; }
+.checklist li.is-next { background: var(--surface); box-shadow: 0 0 0 2px var(--brand) inset, 0 10px 24px -16px rgba(11, 92, 214, 0.7); }
+.checklist li.is-next .check-dot { border-color: var(--brand); }
+.checklist li:not(.is-done):not(.is-next) { opacity: 0.62; }
+.appbar-intro { margin: 4px 0 0; color: var(--muted); font-size: 0.88rem; max-width: 60ch; }
+.rotate-form { margin-top: 4px; }
+
+/* ============================================================
+   Chapa ya JamiiLite: navy na dhahabu, kama tovuti na Jamiitek.
+   Safu hii ni ya mwisho, kwa hiyo inashinda rangi za zamani (bluu) hapo juu.
+   ============================================================ */
+@font-face { font-family: "Sora"; font-weight: 700; font-display: swap; src: url("../fonts/sora-700.woff2") format("woff2"); }
+@font-face { font-family: "Sora"; font-weight: 800; font-display: swap; src: url("../fonts/sora-800.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url("../fonts/inter-400.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url("../fonts/inter-600.woff2") format("woff2"); }
+
+:root {
+  color-scheme: dark;
+  --bg: #091430;
+  --surface: #0f2146;
+  --surface-2: #142a55;
+  --surface-3: #1a3466;
+  --text: #eef2f9;
+  --muted: #a7b3ca;
+  --faint: #7686a6;
+  --border: rgba(255, 255, 255, 0.09);
+  --hairline: rgba(255, 255, 255, 0.06);
+  --brand: #f5a623;
+  --brand-strong: #ffc456;
+  --brand-text: #2a1702;
+  --brand-soft: rgba(245, 166, 35, 0.13);
+  --money: #3ccf7e;
+  --money-soft: rgba(60, 207, 126, 0.13);
+  --warn: #ffc456;
+  --warn-soft: rgba(255, 196, 86, 0.12);
+  --danger: #f08b80;
+  --danger-soft: rgba(240, 139, 128, 0.12);
+  --sidebar: #071229;
+  --sidebar-text: #b4c0d8;
+  --sidebar-active: rgba(245, 166, 35, 0.1);
+  --code-bg: #061023;
+  --code-text: #dbe4f3;
+  --chart-bar: #f5a623;
+  --violet: #22b8e0; --violet-soft: rgba(34, 184, 224, 0.13);
+  --amber: #ff7a3d; --amber-soft: rgba(255, 122, 61, 0.13);
+  --teal: #22b8e0; --teal-soft: rgba(34, 184, 224, 0.13);
+  --grad-brand: linear-gradient(100deg, #ffb627 0%, #f5a623 40%, #ff7a3d 100%);
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 18px 40px -24px rgba(0, 0, 0, 0.8);
+  --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 24px 48px -22px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(245, 166, 35, 0.18);
+  --font-head: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body.app {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(900px 480px at 100% -10%, rgba(34, 184, 224, 0.1), transparent 60%),
+    radial-gradient(700px 420px at 20% -20%, rgba(245, 166, 35, 0.08), transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 32px 32px,
+    var(--bg);
+  background-attachment: fixed;
+}
+.app h1, .app h2, .app h3, .hero-figure, .stat-value, .package-tile-price, .app-logo { font-family: var(--font-head); letter-spacing: -0.02em; }
+.app h1 { font-weight: 800; }
+.stat-value, .hero-figure, .package-tile-price, td.num, .num { font-variant-numeric: tabular-nums; }
+.main-deco { display: none; }
+.appbar { background: color-mix(in srgb, var(--bg) 70%, transparent); backdrop-filter: blur(12px) saturate(1.3); border-bottom: 1px solid var(--hairline); }
+
+/* Kadi: kioo cha navy chenye mstari mwembamba wa mwanga juu */
+.card {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 92%, #fff 2%), var(--surface));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+a.card, .stat-link, .package-tile { transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+a.card:hover, .stat-link:hover { transform: translateY(-2px); }
+.card-accent::before { height: 3px; background: var(--grad-brand); }
+
+/* Sidebar */
+.sidebar { background: linear-gradient(180deg, #0a1735 0%, #060f24 100%); border-right: 1px solid var(--hairline); }
+.sidebar-deco {
+  background:
+    radial-gradient(260px 200px at 0% 0%, rgba(245, 166, 35, 0.18), transparent 70%),
+    radial-gradient(240px 220px at 100% 100%, rgba(34, 184, 224, 0.16), transparent 70%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1.3px) 0 0 / 18px 18px;
+}
+.app-logo-mark { background: var(--grad-brand); color: var(--brand-text); box-shadow: 0 6px 16px -6px rgba(245, 140, 35, 0.7); }
+.app-logo b, .app-logo span b { background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.side-link { border-radius: 10px; transition: background 0.15s, color 0.15s; }
+.side-link.is-active { background: linear-gradient(90deg, rgba(245, 166, 35, 0.16), rgba(245, 166, 35, 0.02)); box-shadow: inset 3px 0 0 var(--brand); color: #fff; }
+.side-link.is-active .side-icon { background: var(--grad-brand); box-shadow: 0 6px 14px -6px rgba(245, 140, 35, 0.8); }
+.side-link.is-active .side-icon .icon { color: var(--brand-text); }
+.app-control .sidebar { background: linear-gradient(180deg, #0a1735 0%, #060f24 100%); }
+.app-control .sidebar-deco {
+  background:
+    radial-gradient(260px 200px at 0% 0%, rgba(255, 122, 61, 0.2), transparent 70%),
+    radial-gradient(240px 220px at 100% 100%, rgba(245, 166, 35, 0.14), transparent 70%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1.3px) 0 0 / 18px 18px;
+}
+.app-control .side-link.is-active { background: linear-gradient(90deg, rgba(245, 166, 35, 0.16), rgba(245, 166, 35, 0.02)); box-shadow: inset 3px 0 0 var(--brand); }
+.app-control .side-link.is-active .side-icon { background: var(--grad-brand); }
+.sub-widget { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--hairline); }
+.avatar { background: var(--grad-brand); color: var(--brand-text); }
+.lang-switch button[aria-pressed="true"] { background: var(--brand-soft); color: var(--brand); box-shadow: none; }
+
+/* Vitufe */
+.btn { transition: transform 0.15s ease, filter 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn:focus-visible, .side-link:focus-visible, a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.btn-primary { background: var(--grad-brand); color: var(--brand-text); font-family: var(--font-head); box-shadow: 0 10px 24px -12px rgba(245, 140, 35, 0.85); }
+.btn-primary:hover { background: var(--grad-brand); filter: brightness(1.06); transform: translateY(-1px); }
+.btn-primary .icon { color: var(--brand-text); }
+.btn-ghost { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); color: var(--text); }
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.08); }
+
+/* Kadi kuu ya mapato: navy ya kina yenye mwanga wa dhahabu, namba kwa dhahabu */
+.hero-card {
+  color: var(--text);
+  background:
+    radial-gradient(420px 260px at 100% 0%, rgba(245, 166, 35, 0.22), transparent 65%),
+    radial-gradient(360px 240px at 0% 100%, rgba(34, 184, 224, 0.16), transparent 65%),
+    linear-gradient(160deg, #13306a 0%, #0c1f47 100%);
+  border: 1px solid rgba(245, 166, 35, 0.22);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+}
+.hero-card .stat-label { color: var(--muted); }
+.hero-card .hero-figure { background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero-card .trend { background: rgba(255, 255, 255, 0.08); color: var(--text); }
+.hero-deco { color: var(--brand); opacity: 0.14; }
+.hero-bar { background: rgba(255, 255, 255, 0.14); }
+.hero-day.is-today .hero-bar { background: var(--grad-brand); box-shadow: 0 0 18px rgba(245, 166, 35, 0.5); }
+.hero-foot { color: var(--muted); }
+.stat-hero { background: linear-gradient(160deg, #13306a, #0c1f47); color: var(--text); border: 1px solid rgba(245, 166, 35, 0.22); }
+.stat-hero .stat-label, .stat-hero .muted { color: var(--muted); }
+
+/* Takwimu ndogo */
+.stat::after { opacity: 0.55; filter: blur(2px); }
+.stat .stat-icon { color: #0a1430; }
+.tone-blue { --tone: var(--brand); --tone-soft: var(--brand-soft); }
+
+/* Salio: kijani cha pesa juu ya navy */
+.balance-card {
+  color: var(--text);
+  background:
+    radial-gradient(420px 260px at 100% 0%, rgba(60, 207, 126, 0.25), transparent 65%),
+    linear-gradient(160deg, #0f3a3a 0%, #0b2440 100%);
+  border: 1px solid rgba(60, 207, 126, 0.25);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+}
+.balance-card .stat-label { color: var(--muted); }
+.balance-card .hero-figure { color: var(--money); }
+.balance-deco { stroke: var(--money); }
+
+/* Vigae, hali tupu, fomu */
+.package-tile { background: linear-gradient(160deg, var(--surface-2), var(--surface)); }
+.package-tile-icon, .empty-art .empty-icon { background: var(--grad-brand); color: var(--brand-text); box-shadow: 0 10px 20px -12px rgba(245, 140, 35, 0.8); }
+.empty-blob { fill: var(--brand-soft); }
+.app input:not([type="checkbox"]):not([type="radio"]), .app select, .app textarea {
+  background: rgba(255, 255, 255, 0.04); color: var(--text); border-color: var(--border);
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.app input:not([type="checkbox"]):not([type="radio"]):focus, .app select:focus, .app textarea:focus {
+  border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); background: rgba(255, 255, 255, 0.06); outline: none;
+}
+.app select option { background: var(--surface); color: var(--text); }
+.app input[type="checkbox"], .app input[type="radio"] { accent-color: var(--brand); }
+.code-box { background: var(--code-bg); border-color: var(--hairline); }
+.code-box-light { background: rgba(255, 255, 255, 0.04); }
+.flow-num { background: var(--grad-brand); color: var(--brand-text); }
+.checklist li.is-next { background: color-mix(in srgb, var(--surface-2) 80%, transparent); box-shadow: 0 0 0 2px var(--brand) inset, 0 14px 30px -18px rgba(245, 140, 35, 0.6); }
+.onboarding-bar span { background: var(--grad-brand); }
+.connect-wait { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--hairline); }
+.starter-list li { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--hairline); }
+.banner-info { background: color-mix(in srgb, #22b8e0 10%, transparent); border-color: color-mix(in srgb, #22b8e0 30%, transparent); color: var(--text); }
+.banner-info .icon { color: #22b8e0; }
+
+/* Vocha za kuchapisha zinabaki nyeupe (karatasi) */
+.voucher-card::before { background: var(--grad-brand); }
+.voucher-wifi { color: #e08a00; }
+body.print-page { background: #0b1a36; }
+@media print { body.print-page { background: #fff; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn, .card, a.card, .package-tile { transition: none; }
+}
+.sub-widget-meter span { background: var(--grad-brand); }
+.sub-widget-active .sub-widget-meter span { background: var(--money); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }

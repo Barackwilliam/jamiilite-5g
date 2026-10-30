@@ -15,6 +15,7 @@ urlpatterns = [
     path("routers/", views.routers, name="routers"),
     path("routers/<int:pk>/", views.router_detail, name="router_detail"),
     path("hali/", views.system_status, name="status"),
+    path("hali/backup/", views.download_backup, name="backup"),
     path("mipangilio/", views.platform_config, name="config"),
     path("malipo/", views.payments, name="payments"),
 ]

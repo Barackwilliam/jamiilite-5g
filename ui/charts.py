@@ -15,7 +15,8 @@ from django.utils import dateformat, timezone
 
 
 # Vipimo vya viewBox; SVG inapanuka kufuata upana wa kadi.
-WIDTH, HEIGHT = 600, 220
+# Upana mkubwa: kwenye kompyuta chati haiwi ndefu kupita kiasi, na maandishi yanabaki madogo.
+WIDTH, HEIGHT = 900, 240
 PAD_LEFT, PAD_RIGHT, PAD_TOP, PAD_BOTTOM = 44, 8, 12, 28
 MAX_BAR = 24
 RADIUS = 4
@@ -23,7 +24,9 @@ RADIUS = 4
 
 def day_abbr(day):
     """Jina fupi la siku kwa lugha inayotumika (mfano "Jtatu" / "Mon")."""
-    return dateformat.format(day, "D")
+    # Tafsiri ya Django ya Kiswahili ina "jtano" kwa herufi ndogo; zote zianze kwa herufi kubwa.
+    name = dateformat.format(day, "D")
+    return name[:1].upper() + name[1:]
 
 
 def daily_totals(queryset, date_field, value_field, days=14, now=None):

@@ -1,4 +1,7 @@
+import ipaddress
 import random
+from functools import cache
+from pathlib import Path
 from urllib.parse import parse_qsl
 
 from django.conf import settings
@@ -10,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 
 from core import events
+from ui import ratelimit
 from core.models import Router
 
 from . import localsync, routeros
@@ -19,12 +23,35 @@ from . import localsync, routeros
 PRUNE_CHANCE = 0.002
 
 
+def _valid_ip(value):
+    try:
+        return str(ipaddress.ip_address(value))
+    except ValueError:
+        return None
+
+
 def _script_response(text):
     return HttpResponse(text, content_type="text/plain; charset=utf-8")
 
 
 def _active_router(token):
     return get_object_or_404(Router, provision_token=token, is_active=True)
+
+
+ROOTS_FILE = Path(__file__).resolve().parent / "trust" / "roots.pem"
+
+
+@cache
+def _roots_pem():
+    # Maoni (#) yanaondolewa: router inapokea vyeti vyenyewe tu.
+    lines = ROOTS_FILE.read_text().splitlines()
+    return "\n".join(line for line in lines if not line.startswith("#")) + "\n"
+
+
+@require_GET
+def trust_roots(request):
+    """Vyeti vya msingi ambavyo routers zinaviamini kuhakiki server hii (si siri)."""
+    return HttpResponse(_roots_pem(), content_type="application/x-pem-file")
 
 
 @require_GET
@@ -49,8 +76,9 @@ def checkin(request, token):
         router.routeros_version = report.get("v", "")[:60]
         router.uptime = report.get("up", "")[:40]
         router.active_clients = active_clients
+        router.public_ip = _valid_ip(ratelimit.client_ip(request))
         router.save(
-            update_fields=["last_seen_at", "routeros_version", "uptime", "active_clients"]
+            update_fields=["last_seen_at", "routeros_version", "uptime", "active_clients", "public_ip"]
         )
 
         pending = list(router.commands.filter(delivered_at__isnull=True).select_related("router"))
@@ -61,7 +89,9 @@ def checkin(request, token):
             for command in pending:
                 events.record(router, events.Kind.COMMAND, detail=command.get_action_display())
 
-        sync = localsync.handle_report(router, report) if settings.JAMIILITE_AUTH_MODE == "local" else []
+        # Mmiliki aliyesimamishwa: router inaendelea kuripoti, lakini haipokei vocha mpya (kama RADIUS).
+        selling = settings.JAMIILITE_AUTH_MODE == "local" and router.owner.is_active
+        sync = localsync.handle_report(router, report) if selling else []
 
     if random.random() < PRUNE_CHANCE:
         events.prune()

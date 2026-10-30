@@ -244,6 +244,10 @@ if JAMIILITE_AUTH_MODE not in {"local", "radius"}:
 # Router inaripoti kila baada ya sekunde hizi. Ndogo = mteja anaunganishwa haraka
 # baada ya kulipa (njia ya "local"), lakini maombi mengi zaidi kwa server.
 JAMIILITE_CHECKIN_SECONDS = max(5, int(os.environ.get("JAMIILITE_CHECKIN_SECONDS", "10")))
+
+# Idadi ya proxies mbele ya server (Render = 1). IP ya mtumiaji inasomwa kutoka X-Forwarded-For
+# kulingana na hii, kwa ajili ya kuzuia majaribio mengi. 0 = tumia REMOTE_ADDR moja kwa moja.
+JAMIILITE_PROXY_HOPS = int(os.environ.get("JAMIILITE_PROXY_HOPS", "0" if DEBUG else "1"))
 # Hosts za ziada ambazo mteja anaruhusiwa kuzifikia kabla ya kulipa, mfano
 # ukurasa wa malipo wa mtoa huduma: "checkout.example.co.tz,api.example.co.tz".
 JAMIILITE_WALLED_GARDEN_EXTRA = env_list("JAMIILITE_WALLED_GARDEN_EXTRA")
@@ -267,8 +271,26 @@ JAMIILITE_SALE_FEE_PERCENT = int(os.environ.get("JAMIILITE_SALE_FEE_PERCENT", "0
 JAMIILITE_MIN_WITHDRAWAL = int(os.environ.get("JAMIILITE_MIN_WITHDRAWAL", "1000"))
 
 
+# --- Sentry (si lazima): email kila kosa likitokea --------------------------
+SENTRY_DSN = os.environ.get("SENTRY_DSN", "")
+if SENTRY_DSN:
+    from config import sentry
+
+    sentry.init(
+        SENTRY_DSN,
+        environment=os.environ.get("SENTRY_ENVIRONMENT", "production"),
+        release=os.environ.get("RENDER_GIT_COMMIT"),
+        traces_sample_rate=float(os.environ.get("SENTRY_TRACES_SAMPLE_RATE", "0")),
+    )
+
+
 # --- Usalama wa production ---------------------------------------------------
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = env_bool("SESSION_COOKIE_SECURE", True)
     CSRF_COOKIE_SECURE = env_bool("CSRF_COOKIE_SECURE", True)
+    # Browser ikumbuke kutumia HTTPS tu (hata mtu akiandika http:// kwenye WiFi ya umma).
+    SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", str(60 * 60 * 24 * 365)))
+    SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
+    # Ukaguzi wa afya wa Render unaingia kwa http ndani ya mtandao wake.
+    SECURE_REDIRECT_EXEMPT = [r"^healthz/$"]

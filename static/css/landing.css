@@ -488,3 +488,105 @@ body.page-landing {
   .lp-panel, .jr-steps li.is-active { animation: none; }
   .lp-rotate > span, .js .page-landing [data-reveal] { transition: none; }
 }
+
+/* ============================================================
+   Toleo la 3: sehemu za chini ya hero zenye kina na mwanga
+   ============================================================ */
+.lp-section { padding: 88px 0; }
+.lp-title { text-wrap: balance; }
+.lp-section + .lp-section::before {
+  content: ""; position: absolute; top: 0; left: 50%; width: min(880px, 90%); height: 1px; transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+}
+
+/* Kioo chenye mwanga unaofuata kidole/kipanya (data-spot) */
+[data-spot] { position: relative; isolation: isolate; }
+[data-spot]::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; opacity: 0; transition: opacity 0.3s;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(245, 166, 35, 0.14), transparent 60%);
+}
+[data-spot]:hover::before { opacity: 1; }
+
+/* Takwimu za hero: ukanda mmoja wa kioo */
+.lp-facts {
+  gap: 0; border-radius: 22px; overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--lp-line); box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+}
+.lp-facts li { background: none; border: 0; border-radius: 0; padding: 20px 22px; }
+.lp-facts li + li { border-left: 1px solid var(--lp-line); }
+.lp-facts b { font-family: var(--font-head); font-size: clamp(1.3rem, 2.4vw, 1.75rem); font-weight: 800; background: linear-gradient(180deg, #fff, #c9d6ee); -webkit-background-clip: text; background-clip: text; color: transparent; font-variant-numeric: tabular-nums; }
+
+/* Hatua 3 zilizounganishwa na mstari wa dhahabu */
+.lp-flow { list-style: none; margin: 34px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; position: relative; }
+.lp-flow::before {
+  content: ""; position: absolute; top: 46px; left: 12%; right: 12%; height: 2px; z-index: 0;
+  background: linear-gradient(90deg, transparent, rgba(245, 166, 35, 0.55), rgba(34, 184, 224, 0.55), transparent);
+}
+.lp-flow li {
+  padding: 26px 24px 24px; border-radius: 22px; z-index: 1;
+  background: linear-gradient(180deg, rgba(20, 44, 88, 0.92), rgba(12, 28, 60, 0.92));
+  border: 1px solid var(--lp-line); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 50px -36px rgba(0, 0, 0, 0.9);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.lp-flow li:hover { transform: translateY(-4px); border-color: rgba(245, 166, 35, 0.35); }
+.lp-flow-num { position: absolute; top: 18px; right: 20px; font-family: var(--font-head); font-weight: 800; font-size: 0.85rem; letter-spacing: 0.06em; color: rgba(255, 255, 255, 0.28); }
+.lp-flow h3 { font-size: 1.12rem; color: #fff; margin: 16px 0 6px; }
+.lp-flow p { margin: 0; color: var(--lp-muted); font-size: 0.95rem; }
+.lp-ico {
+  display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; flex: none;
+  color: #2A1702; background: var(--lp-grad); box-shadow: 0 12px 26px -12px rgba(245, 140, 35, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+/* Vipengele: gridi ya vigae */
+.lp-bento { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.lp-bento li {
+  display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035); border: 1px solid var(--lp-line);
+  color: #e3eaf6; font-weight: 650; transition: border-color 0.25s, background 0.25s;
+}
+.lp-bento li:hover { border-color: rgba(34, 184, 224, 0.35); background: rgba(255, 255, 255, 0.055); }
+.lp-bento .lp-ico { width: 40px; height: 40px; border-radius: 12px; color: #9fe6f8; background: rgba(34, 184, 224, 0.12); box-shadow: inset 0 0 0 1px rgba(34, 184, 224, 0.25); }
+
+/* Bei */
+.lp-price { font-family: var(--font-head); font-variant-numeric: tabular-nums; background: linear-gradient(180deg, #fff, #cfdbf1); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lp-price-card { box-shadow: 0 40px 80px -40px rgba(245, 140, 35, 0.35); }
+.lp-faq { background: rgba(255, 255, 255, 0.035); }
+.lp-faq:hover { border-color: rgba(255, 255, 255, 0.2); }
+.lp-faq[open] { border-color: rgba(245, 166, 35, 0.4); background: rgba(245, 166, 35, 0.05); }
+.lp-faq summary::after { color: var(--lp-gold, #F5A623); }
+.lp-faq p a { color: #ffc456; }
+
+/* Mwisho: paneli kubwa yenye mwanga */
+.lp-final { padding: 40px 0 96px; }
+.lp-final-card {
+  position: relative; overflow: hidden; isolation: isolate; padding: 64px 28px; border-radius: 32px; text-align: center;
+  background:
+    radial-gradient(600px 300px at 50% 120%, rgba(245, 166, 35, 0.28), transparent 70%),
+    radial-gradient(500px 260px at 100% 0%, rgba(34, 184, 224, 0.18), transparent 70%),
+    linear-gradient(180deg, #12306a, #0b1d44);
+  border: 1px solid rgba(245, 166, 35, 0.28);
+  box-shadow: 0 50px 100px -50px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.lp-final-arcs { position: absolute; z-index: -1; left: 50%; bottom: -36px; width: 420px; transform: translateX(-50%); color: #F5A623; opacity: 0.16; animation: lp-arcs 4s ease-in-out infinite; }
+@keyframes lp-arcs { 50% { opacity: 0.28; transform: translateX(-50%) translateY(-6px); } }
+.lp-final-card h2 { text-wrap: balance; }
+
+@media (max-width: 900px) {
+  .lp-flow, .lp-bento { grid-template-columns: 1fr; }
+  .lp-flow::before { top: 12%; bottom: 12%; left: 46px; right: auto; width: 2px; height: auto; background: linear-gradient(180deg, transparent, rgba(245, 166, 35, 0.55), rgba(34, 184, 224, 0.55), transparent); }
+  .lp-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lp-facts li:nth-child(3) { border-left: 0; }
+  .lp-facts li:nth-child(n + 3) { border-top: 1px solid var(--lp-line); }
+  .lp-section { padding: 64px 0; }
+  .lp-final-card { padding: 48px 20px; border-radius: 26px; }
+}
+@media (min-width: 640px) and (max-width: 900px) { .lp-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: reduce) { .lp-final-arcs { animation: none; } .lp-flow li { transition: none; } }
+
+/* Tabs kwenye simu: gridi ya 2×2, chaguo zote zinaonekana */
+@media (max-width: 520px) {
+  .lp-tablist { display: grid; grid-template-columns: 1fr 1fr; overflow: visible; width: 100%; border-radius: 18px; }
+  .lp-tablist button { justify-content: center; text-align: center; white-space: normal; line-height: 1.2; min-height: 44px; }
+}

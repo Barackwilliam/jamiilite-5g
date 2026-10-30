@@ -464,7 +464,14 @@
     this.$("[data-sim-wifi]").classList.toggle("is-on", name !== "wifi");
   };
 
+  // Kila "Anza upya" inaongeza run: kazi zilizopangwa kabla (setTimeout) zinaona hazihusiki tena.
+  Sim.prototype.later = function (fn, ms) {
+    var self = this, run = this.run;
+    setTimeout(function () { if (self.run === run) fn(); }, ms);
+  };
+
   Sim.prototype.reset = function () {
+    this.run = (this.run || 0) + 1;
     clearInterval(this.clock);
     this.$("[data-sim-joining]").hidden = true;
     this.$("[data-sim-toast]").hidden = true;
@@ -493,7 +500,7 @@
       clearTimeout(this.toastTimer); this.toastTimer = setTimeout(function () { toast.hidden = true; }, 1600);
     } else if (name === "join" && this.state === "wifi") {
       this.$("[data-sim-joining]").hidden = false;
-      setTimeout(function () { self.$("[data-sim-joining]").hidden = true; self.show("portal"); }, 1100);
+      this.later(function () { self.$("[data-sim-joining]").hidden = true; self.show("portal"); }, 1100);
     } else if (name === "pay" && this.state === "portal") {
       this.price = parseInt(this.pkgEl.dataset.simPkg, 10);
       this.minutes = parseInt(this.pkgEl.dataset.simMins, 10);
@@ -519,7 +526,7 @@
     this.pin += 1;
     if (this.pin === 4) {
       var self = this;
-      setTimeout(function () { self.paid(); }, 500);
+      this.later(function () { self.paid(); }, 500);
     }
   };
 
@@ -533,7 +540,7 @@
     bump(this.ownerBalance);
     this.ownerToday.textContent = this.today;
     feedItem(this.ownerFeed, "💰", this.pkgName + " · 0712…678", this.price, 5);
-    setTimeout(function () {
+    this.later(function () {
       self.online += 1;
       self.ownerOnline.textContent = self.online;
       feedItem(self.ownerFeed, "📶", _("Mteja ameingia · Neema WiFi"), 0, 5);

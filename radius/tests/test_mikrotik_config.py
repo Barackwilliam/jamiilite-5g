@@ -69,7 +69,7 @@ class SetupScriptTests(TestCase):
         self.assertIn("[find where mode=ap-bridge]", script)
         # Imepitia ros_string mara mbili: kwa :parse, kisha kwa script yenyewe.
         self.assertIn(r'ssid=\"Neema \\\"WiFi\\\" \\\$1\"', script)
-        self.assertEqual(script.count(":do { :local run [:parse"), 4)
+        self.assertEqual(script.count(':do { :local run [:parse "/interface'), 4)
 
     @override_settings(
         JAMIILITE_PUBLIC_URL="https://jamiilite.co.tz",

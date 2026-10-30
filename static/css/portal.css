@@ -126,3 +126,54 @@ h2 { font-size: 1.05rem; margin: 0 0 12px; }
 .lang-switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 99px; background: var(--card); border: 1px solid var(--border); }
 .lang-switch button { font: inherit; font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); cursor: pointer; }
 .lang-switch button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
+
+/* ============================================================
+   Navy na dhahabu, kama ukurasa wa JamiiLite. Fonti za mfumo tu:
+   ukurasa huu unafunguka kupitia hotspot, mara nyingi kwa internet ndogo.
+   ============================================================ */
+:root {
+  color-scheme: dark;
+  --bg: #0a1733;
+  --card: #10244b;
+  --text: #eef2f9;
+  --muted: #a7b3ca;
+  --border: rgba(255, 255, 255, 0.11);
+  --accent: #f5a623;
+  --accent-text: #2a1702;
+  --accent-soft: rgba(245, 166, 35, 0.12);
+  --danger-bg: rgba(240, 139, 128, 0.12);
+  --danger: #f4a59c;
+  --grad: linear-gradient(100deg, #ffb627 0%, #f5a623 40%, #ff7a3d 100%);
+}
+body {
+  min-height: 100dvh;
+  background:
+    radial-gradient(520px 320px at 100% -10%, rgba(34, 184, 224, 0.18), transparent 65%),
+    radial-gradient(480px 320px at -10% 40%, rgba(245, 166, 35, 0.12), transparent 65%),
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+.card {
+  border-radius: 24px; padding: 22px;
+  background: linear-gradient(180deg, rgba(22, 48, 96, 0.92), rgba(14, 32, 68, 0.92));
+  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.brand h1 { font-weight: 800; letter-spacing: -0.02em; }
+.brand-mark, .brand-logo { box-shadow: 0 10px 24px -12px rgba(245, 140, 35, 0.8); }
+.brand-mark { background: var(--grad); color: var(--accent-text); font-weight: 800; }
+.package { background: rgba(255, 255, 255, 0.03); border-radius: 14px; padding: 14px 16px; transition: border-color 0.15s, background 0.15s, transform 0.15s; }
+.package:hover { border-color: rgba(255, 255, 255, 0.24); }
+.package:active { transform: scale(0.99); }
+.package:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.12); }
+.package-price { font-variant-numeric: tabular-nums; color: #fff; }
+.package:has(input:checked) .package-price { color: #ffc456; }
+.field input { background: rgba(255, 255, 255, 0.05); border-radius: 12px; }
+.field input:focus { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.btn { border-radius: 14px; font-weight: 800; transition: transform 0.15s, filter 0.15s; }
+.btn:not(.btn-secondary) { background: var(--grad); color: var(--accent-text); box-shadow: 0 14px 30px -14px rgba(245, 140, 35, 0.9); }
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn-secondary { background: rgba(255, 255, 255, 0.07); color: var(--text); border: 1px solid var(--border); }
+.voucher-code { color: #ffc456; }
+.welcome-back { background: rgba(60, 207, 126, 0.1); border: 1px solid rgba(60, 207, 126, 0.3); }
+.lang-switch { background: rgba(255, 255, 255, 0.05); }
+.footer b, .footer strong { color: var(--text); }

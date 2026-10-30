@@ -9,7 +9,7 @@
 
 {% block content %}
 <section class="stats-grid stats-grid-4">
-  <article class="card stat"><p class="stat-label">{% translate "Wateja online" %}</p><p class="stat-value">{% if router.is_online %}{{ router.active_clients }}{% else %}0{% endif %}</p><p class="stat-sub">Vocha hai {{ live_vouchers }}</p></article>
+  <article class="card stat"><p class="stat-label">{% translate "Wateja online" %}</p><p class="stat-value">{% if router.is_online %}{{ router.active_clients }}{% else %}0{% endif %}</p><p class="stat-sub">{% blocktranslate with n=live_vouchers %}Vocha hai {{ n }}{% endblocktranslate %}</p></article>
   <article class="card stat"><p class="stat-label">{% translate "Mauzo leo" %}</p><p class="stat-value">{{ summary.today_amount|tsh }}</p><p class="stat-sub">{% translate "Siku 30" %}: {{ summary.month_amount|tsh }}</p></article>
   <article class="card stat"><p class="stat-label">{% translate "Ilionekana mwisho" %}</p><p class="stat-value stat-text">{{ router.last_seen_at|ago }}</p><p class="stat-sub">{% translate "Imewaka" %} {{ router.uptime|default:"—" }}</p></article>
   <article class="card stat"><p class="stat-label">{% translate "RouterOS" %}</p><p class="stat-value stat-text">{{ router.routeros_version|default:"—" }}</p><p class="stat-sub">{% translate "Vocha hazijatumika" %} {{ unused_vouchers }}</p></article>

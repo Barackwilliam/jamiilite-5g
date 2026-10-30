@@ -2,7 +2,6 @@
 // na mtumiaji anagusa kulia/kushoto kwenda mbele/nyuma. Bila JavaScript,
 // hatua zote zinaonekana kama orodha ya kawaida.
 (function () {
-  var _ = window.gettext || function (s) { return s; };
   var player = document.getElementById("player");
   if (!player) return;
 
@@ -18,6 +17,30 @@
     barsBox.appendChild(bar);
     return bar.firstChild;
   });
+
+  // Orodha ya hatua pembeni (kompyuta): bonyeza hatua yoyote kwenda moja kwa moja.
+  var indexBox = document.querySelector("[data-guide-index]");
+  var indexItems = [];
+  if (indexBox) {
+    indexItems = scenes.map(function (scene, i) {
+      var li = document.createElement("li");
+      var button = document.createElement("button");
+      button.type = "button";
+      var num = document.createElement("span");
+      num.className = "gi-num";
+      num.textContent = i + 1;
+      var title = document.createElement("span");
+      title.className = "gi-title";
+      title.textContent = (scene.querySelector("h2") || {}).textContent || "";
+      button.appendChild(num);
+      button.appendChild(title);
+      button.addEventListener("click", function () { show(i); });
+      li.appendChild(button);
+      indexBox.appendChild(li);
+      return li;
+    });
+    indexBox.hidden = false;
+  }
 
   var index = 0;
   var elapsed = 0;
@@ -51,6 +74,11 @@
         scene.classList.add("is-active");
       }
     });
+    indexItems.forEach(function (li, n) {
+      li.classList.toggle("is-current", n === index);
+      li.classList.toggle("is-done", n < index);
+      li.firstChild.setAttribute("aria-current", n === index ? "step" : "false");
+    });
     paintBars();
   }
 
@@ -58,7 +86,8 @@
     playing = value;
     player.classList.toggle("is-paused", !playing);
     playBtn.textContent = playing ? "❚❚" : finished ? "↺" : "▶";
-    playBtn.setAttribute("aria-label", playing ? _("Simamisha") : finished ? _("Anza upya") : _("Cheza"));
+    var labels = playBtn.dataset;
+    playBtn.setAttribute("aria-label", playing ? labels.labelPause : finished ? labels.labelRestart : labels.labelPlay);
     lastTime = null;
   }
 
@@ -104,7 +133,8 @@
   player.addEventListener("keydown", function (event) {
     if (event.key === "ArrowRight") next();
     else if (event.key === "ArrowLeft") show(index - 1);
-    else if (event.key === " ") { event.preventDefault(); toggle(); }
+    // Space kwenye kitufe (‹ ›) kibonyeze kitufe hicho, si kusimamisha.
+    else if (event.key === " " && !event.target.closest("button, a")) { event.preventDefault(); toggle(); }
   });
 
   // Ianze yenyewe mtumiaji akiufikia mwongozo kwenye skrini, mara moja tu.

@@ -12,6 +12,7 @@
   <p class="muted">{% translate "Huhitaji kadi wala kulipa chochote sasa." %}</p>
   <form method="post" class="form-stack" novalidate data-strength="{% translate 'Dhaifu' %}|{% translate 'Wastani' %}|{% translate 'Nzuri' %}|{% translate 'Imara sana' %}">
     {% csrf_token %}
+    {% if form.non_field_errors %}<div class="flash flash-error">{{ form.non_field_errors|join:" " }}</div>{% endif %}
     <div class="field">
       <span class="field-label">{{ form.language.label }}</span>
       <div class="choice-pills" role="radiogroup" aria-label="{{ form.language.label }}">

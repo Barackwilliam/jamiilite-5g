@@ -33,12 +33,17 @@ def _extend(owner, months, now):
     return owner.paid_until
 
 
-def pay_from_balance(owner, months=1, now=None):
-    """Lipa ada kutoka kwenye salio. Inarudisha SubscriptionCharge."""
+def pay_from_balance(owner, months=1, now=None, only_if_expired=False):
+    """
+    Lipa ada kutoka kwenye salio. Inarudisha SubscriptionCharge, au None kama
+    `only_if_expired` na ombi lingine limeshalipa (hali inahakikiwa baada ya kufunga safu).
+    """
     now = now or timezone.now()
     amount = config.current().monthly_fee * months
     with transaction.atomic():
         owner = lock_owner(owner)
+        if only_if_expired and owner.has_active_subscription(now):
+            return None
         if balance(owner) < amount:
             raise ValidationError(_("Salio halitoshi. Unahitaji Tsh %(amount)s.") % {"amount": f"{amount:,}"})
         period_end = _extend(owner, months, now)
@@ -74,7 +79,9 @@ def ensure_active(owner, now=None):
     if owner.has_active_subscription(now):
         return True
     try:
-        pay_from_balance(owner, now=now)
+        # Maombi mawili ya wakati mmoja (mfano wateja wawili kwenye ukurasa wa kulipia)
+        # yasilipe ada mara mbili: la pili linaona usajili umeshalipwa.
+        pay_from_balance(owner, now=now, only_if_expired=True)
     except ValidationError:
         return False
     owner.refresh_from_db()

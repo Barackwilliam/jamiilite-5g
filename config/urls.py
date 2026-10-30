@@ -6,10 +6,12 @@ from django.views.i18n import JavaScriptCatalog
 
 from core.health import healthz
 from pages.views import favicon, robots_txt, sitemap_xml
+from ui.ratelimit import protect_login
 
 admin.site.site_header = "JamiiLite 5G"
 admin.site.site_title = "JamiiLite 5G"
 admin.site.index_title = "Usimamizi"
+admin.site.login = protect_login(admin.site.login)
 
 urlpatterns = [
     path("healthz/", healthz, name="healthz"),

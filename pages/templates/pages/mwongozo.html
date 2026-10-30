@@ -15,6 +15,8 @@
 
 <section class="section guide-section">
   <div class="wrap">
+    <div class="guide-layout">
+    <ol class="guide-index" data-guide-index hidden aria-label="{% translate 'Hatua' %}"></ol>
     <div class="player" id="player" aria-roledescription="{% translate 'mwongozo wa hatua' %}">
       <div class="player-bars" aria-hidden="true"></div>
 
@@ -170,9 +172,10 @@
 
       <div class="player-controls">
         <button type="button" class="ctrl" data-action="prev" aria-label="{% translate 'Hatua iliyopita' %}">‹</button>
-        <button type="button" class="ctrl ctrl-play" data-action="toggle" aria-label="{% translate 'Cheza' %}">▶</button>
+        <button type="button" class="ctrl ctrl-play" data-action="toggle" aria-label="{% translate 'Cheza' %}" data-label-play="{% translate 'Cheza' %}" data-label-pause="{% translate 'Simamisha' %}" data-label-restart="{% translate 'Anza upya' %}">▶</button>
         <button type="button" class="ctrl" data-action="next" aria-label="{% translate 'Hatua inayofuata' %}">›</button>
       </div>
+    </div>
     </div>
 
     <div class="guide-help center">
@@ -184,6 +187,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{% url 'javascript-catalog' %}"></script>
 <script src="{% static 'js/guide.js' %}" defer></script>
 {% endblock %}

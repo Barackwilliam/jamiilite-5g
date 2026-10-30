@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.db.models import Q, Sum
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -25,7 +25,7 @@ from radius import routeros
 from ui import live as live_data
 from ui.charts import bar_chart, daily_totals
 
-from . import queries, status
+from . import backup, queries, status
 from .forms import AdminRouterForm, PlatformConfigForm
 
 NAV = [
@@ -117,7 +117,7 @@ def home(request):
 
 @superuser_required
 def owners(request):
-    q = request.GET.get("q", "").strip()
+    q = request.GET.get("q", "").replace("\x00", "").strip()  # Postgres inakataa herufi NUL
     state = request.GET.get("hali", "")
     qs = queries.owners_with_state()
     if q:
@@ -133,6 +133,16 @@ def owners(request):
         {"page": page, "q": q, "state": state, "counts": queries.owner_counts()},
         "owners", _("Wamiliki"),
     )
+
+
+@superuser_required
+@require_POST
+def download_backup(request):
+    """Pakua backup ya data yote (POST ili isipakuliwe kwa bahati mbaya au na kivinjari kikitangulia)."""
+    response = HttpResponse(backup.build(), content_type="application/gzip")
+    response["Content-Disposition"] = f'attachment; filename="{backup.filename()}"'
+    response["Cache-Control"] = "no-store"
+    return response
 
 
 @superuser_required
@@ -230,7 +240,7 @@ ROUTER_FILTERS = {
 
 @superuser_required
 def routers(request):
-    q = request.GET.get("q", "").strip()
+    q = request.GET.get("q", "").replace("\x00", "").strip()  # Postgres inakataa herufi NUL
     state = request.GET.get("hali", "")
     qs = queries.routers_offline_first()
     if q:

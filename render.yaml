@@ -52,6 +52,9 @@ services:
         value: "True"
       - key: JAMIILITE_WHATSAPP_NUMBER
         sync: false
+      # Sentry (si lazima): kila kosa linakufikia kwa email. Angalia docs/DEPLOY.md.
+      - key: SENTRY_DSN
+        sync: false
       # Super Admin wa kwanza (Render Free haina Shell). Akishatengenezwa, futa password hapa.
       - key: DJANGO_SUPERUSER_USERNAME
         sync: false
