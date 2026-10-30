@@ -1,0 +1,54 @@
+# Majaribio yote yanaendeshwa kwenye kila PR na kila push kwenda main,
+# kwa Postgres halisi (kama Supabase), kabla Render haijaweka code hewani.
+name: Majaribio
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          # Database ya muda ya majaribio tu, ndani ya runner: haihitaji password.
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DEBUG: "True"
+      DATABASE_URL: postgres://postgres@localhost:5432/postgres
+      DB_SSL_REQUIRE: "False"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Weka dependencies
+        run: pip install -r requirements.txt
+      - name: Hakuna migration iliyosahaulika
+        run: python manage.py makemigrations --check --dry-run
+      - name: Majaribio
+        run: python manage.py test --noinput --parallel 2
+      - name: Mipangilio ya production iko sawa
+        env:
+          DEBUG: "False"
+          SECRET_KEY: ci-only-not-secret-${{ github.run_id }}
+          JAMIILITE_NO_MEDIA: "True"
+        run: python manage.py check --deploy --fail-level ERROR

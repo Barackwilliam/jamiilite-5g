@@ -96,6 +96,50 @@ Kukagua: **Superadmin → Hali ya mfumo**:
 
 ---
 
+## Hatua 5: Backup ya kila usiku (GitHub Actions, bure)
+
+Supabase ya bure haikupi backup unazoweza kupakua. Workflow `.github/workflows/backup.yml`
+inachukua backup kila usiku saa 8:17 (saa za Tanzania), inaisimba (AES-256), na kuihifadhi
+siku 30 kwenye GitHub. Repo ni ya wazi, kwa hiyo bila neno la siri backup haifunguki.
+
+1. GitHub → repo **jamiilite-5g** → **Settings → Secrets and variables → Actions → New repository secret**:
+   - `BACKUP_DATABASE_URL`: ile ile `DATABASE_URL` ya Render (Session pooler, port 5432)
+   - `BACKUP_PASSPHRASE`: neno la siri refu (herufi 16 au zaidi). **Liandike mahali salama**:
+     likipotea, backup hazifunguki.
+2. **Actions → Backup ya database → Run workflow** ili kujaribu sasa hivi. Ikiwa kijani, backup
+   iko chini ya **Artifacts** kwenye ukurasa wa run hiyo.
+
+**Kurudisha backup** (kompyuta yenye `gpg` na PostgreSQL 17):
+
+```bash
+gpg --decrypt --output backup.dump jamiilite-2026-10-30.dump.gpg    # inauliza BACKUP_PASSPHRASE
+pg_restore --no-owner --no-privileges --dbname "<DATABASE_URL ya project mpya>" backup.dump
+```
+
+Ujumbe mmoja `schema "public" already exists` ni wa kawaida: data yote inarudishwa.
+Rudisha kwenye project mpya ya Supabase kwanza, kagua, kisha badilisha `DATABASE_URL` ya Render.
+
+---
+
+## Hatua 6: Sentry (si lazima, bure)
+
+Kosa likitokea kwenye mfumo, Sentry inakutumia email pamoja na mahali hasa lilipotokea.
+
+1. <https://sentry.io> → jisajili → **Create project** → Django → nakili **DSN**.
+2. Render → **Environment** → `SENTRY_DSN` = DSN hiyo → **Save**.
+
+Hakuna data ya wateja inayotumwa: hakuna IP, cookies, fomu (namba za simu, password), na siri
+za routers kwenye anwani zinafichwa.
+
+---
+
+## Majaribio ya kila PR (CI)
+
+`.github/workflows/ci.yml` inaendesha majaribio yote kwenye Postgres kila PR inapofunguliwa na
+kila code inapoingia `main`. Usi-merge PR yenye ❌ kwenye **Majaribio**.
+
+---
+
 ## Usalama
 
 - **Routers zinahakiki server.** Kwenye usanidi wa kwanza, router inapakua vyeti vya msingi

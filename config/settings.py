@@ -271,6 +271,19 @@ JAMIILITE_SALE_FEE_PERCENT = int(os.environ.get("JAMIILITE_SALE_FEE_PERCENT", "0
 JAMIILITE_MIN_WITHDRAWAL = int(os.environ.get("JAMIILITE_MIN_WITHDRAWAL", "1000"))
 
 
+# --- Sentry (si lazima): email kila kosa likitokea --------------------------
+SENTRY_DSN = os.environ.get("SENTRY_DSN", "")
+if SENTRY_DSN:
+    from config import sentry
+
+    sentry.init(
+        SENTRY_DSN,
+        environment=os.environ.get("SENTRY_ENVIRONMENT", "production"),
+        release=os.environ.get("RENDER_GIT_COMMIT"),
+        traces_sample_rate=float(os.environ.get("SENTRY_TRACES_SAMPLE_RATE", "0")),
+    )
+
+
 # --- Usalama wa production ---------------------------------------------------
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
