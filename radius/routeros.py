@@ -11,6 +11,7 @@ import ipaddress
 from urllib.parse import urlsplit
 
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse
 
 from core.models import RouterCommand
@@ -168,6 +169,16 @@ def _walled_garden_rule(host, port):
     return f"/ip hotspot walled-garden ip add {destination} protocol=tcp dst-port={port} action=accept comment={COMMENT}"
 
 
+def _payment_hosts():
+    """Ukurasa wa malipo (mfano Pesapal) lazima ufunguke kabla mteja hajalipa."""
+    from billing.providers import get_provider
+
+    try:
+        return get_provider().walled_garden_hosts()
+    except ImproperlyConfigured:
+        return []
+
+
 def walled_garden_rules():
     """
     Anwani ambazo mteja anaweza kufungua kabla ya kulipa: ukurasa wetu wa
@@ -176,6 +187,7 @@ def walled_garden_rules():
     destinations = [_destination(_base_url())]
     if settings.USE_SUPABASE_STORAGE:
         destinations.append((f"{settings.SUPABASE_PROJECT_REF}.supabase.co", 443))
+    destinations += [(host, 443) for host in _payment_hosts()]
     destinations += [_destination(host) for host in settings.JAMIILITE_WALLED_GARDEN_EXTRA]
     unique = list(dict.fromkeys(destinations))
     return [_walled_garden_rule(host, port) for host, port in unique]

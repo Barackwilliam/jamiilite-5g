@@ -38,6 +38,11 @@ class Payment(models.Model):
     )
     provider = models.CharField("mtoa huduma", max_length=30)
     provider_reference = models.CharField("kumbukumbu ya mtoa huduma", max_length=100, blank=True)
+    # Ukurasa wa mtoa huduma (mfano Pesapal) unaowekwa ndani ya ukurasa wetu wa kulipia.
+    checkout_url = models.URLField("ukurasa wa kulipia", max_length=500, blank=True)
+    # Namba ya muamala kutoka kwa mtandao (mfano M-Pesa), kwa ajili ya kufuatilia malipo.
+    confirmation_code = models.CharField("namba ya muamala", max_length=100, blank=True)
+    last_checked_at = models.DateTimeField("ilikaguliwa mwisho", null=True, blank=True)
     failure_reason = models.CharField("sababu ya kushindwa", max_length=255, blank=True)
     client_mac = models.CharField("MAC ya kifaa", max_length=17, blank=True)
     client_ip = models.GenericIPAddressField("IP ya kifaa", null=True, blank=True)
@@ -62,6 +67,12 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.phone} - Tsh {self.amount_display} ({self.get_status_display()})"
+
+    @property
+    def phone_display(self):
+        """255712345678 → 0712 345 678, kama watu wanavyoiandika."""
+        local = "0" + self.phone[3:] if self.phone.startswith("255") else self.phone
+        return f"{local[:4]} {local[4:7]} {local[7:]}".strip()
 
     @property
     def amount_display(self):

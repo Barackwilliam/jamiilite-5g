@@ -6,7 +6,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods, require_POST
 
@@ -14,7 +14,7 @@ from django.utils import timezone
 from django.utils.translation import gettext, ngettext
 
 from billing.models import Payment, VoucherDevice
-from billing.services import expire_if_stale, start_payment
+from billing.services import expire_if_stale, start_payment, sync_with_provider
 from billing.subscriptions import ensure_active
 from core.models import Router
 from radius import localsync
@@ -218,6 +218,9 @@ def payment_status(request, slug, payment_id):
     payment = get_object_or_404(
         Payment.objects.select_related("package"), pk=payment_id, router=router
     )
+    # Pesapal: mteja akirudi baada ya kulipa (au ukurasa ukijisasisha), muulize Pesapal hali halisi.
+    if payment.status == Payment.Status.PENDING:
+        payment = sync_with_provider(payment)
     payment = expire_if_stale(payment)
     voucher = getattr(payment, "voucher", None) if payment.status == Payment.Status.PAID else None
     # Njia ya "local": vocha inaweza kutumika tu router ikishaipokea kwenye ripoti yake.
@@ -246,3 +249,15 @@ def _valid_ip(value):
     except ValidationError:
         return None
     return value
+
+
+@require_http_methods(["GET"])
+def payment_state(request, slug, payment_id):
+    """Ukurasa wa kulipia unauliza hapa kila sekunde chache: malipo yamekamilika?"""
+    router = _get_router(slug)
+    if str(payment_id) not in request.session.get(SESSION_PAYMENTS_KEY, []):
+        raise Http404
+    payment = get_object_or_404(Payment, pk=payment_id, router=router)
+    if payment.status == Payment.Status.PENDING:
+        payment = expire_if_stale(sync_with_provider(payment))
+    return JsonResponse({"status": payment.status})

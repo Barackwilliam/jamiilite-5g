@@ -10,6 +10,20 @@ class PaymentRequestResult:
     # Watoa huduma halisi wanathibitisha baadaye kupitia callback.
     confirmed: bool = False
     error: str = ""
+    # Ukurasa wa mtoa huduma ambao mteja anakamilishia malipo (mfano Pesapal).
+    # Tunauweka ndani ya ukurasa wetu wenyewe, si kumpeleka mteja huko.
+    checkout_url: str = ""
+
+
+@dataclass
+class PaymentStatusResult:
+    """Hali ya malipo kama mtoa huduma anavyoiona."""
+
+    state: str  # "paid", "failed" au "pending"
+    amount: int = 0
+    currency: str = ""
+    confirmation: str = ""
+    reason: str = ""
 
 
 class PaymentProvider:
@@ -25,3 +39,11 @@ class PaymentProvider:
 
     def request_payment(self, payment) -> PaymentRequestResult:
         raise NotImplementedError
+
+    def check_status(self, payment):
+        """Muulize mtoa huduma hali ya malipo. None: mtoa huduma huyu hana njia hiyo."""
+        return None
+
+    def walled_garden_hosts(self):
+        """Hosts ambazo mteja wa hotspot anahitaji kufungua kabla ya kulipa."""
+        return []

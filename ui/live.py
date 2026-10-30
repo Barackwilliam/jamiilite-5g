@@ -17,7 +17,7 @@ FIRST_LOAD = 15  # matukio ya karibuni ya kujaza log mara ya kwanza
 MAX_BATCH = 150
 MAX_ROUTERS = 30
 
-PROVIDER_LABELS = {"sandbox": _("Malipo (majaribio)")}
+PROVIDER_LABELS = {"sandbox": _("Malipo (majaribio)"), "pesapal": "Pesapal"}
 
 
 def _mac_tail(mac):

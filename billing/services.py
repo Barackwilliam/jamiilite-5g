@@ -46,9 +46,10 @@ def start_payment(*, router, package, phone, client_mac="", client_ip=None):
         events.record(router, events.Kind.PAYMENT_FAILED, mac=client_mac, amount=payment.amount, detail=payment.failure_reason)
         return payment
 
-    if result.reference:
+    if result.reference or result.checkout_url:
         payment.provider_reference = result.reference
-        payment.save(update_fields=["provider_reference"])
+        payment.checkout_url = result.checkout_url
+        payment.save(update_fields=["provider_reference", "checkout_url"])
 
     if result.confirmed:
         confirm_payment(payment.pk)
@@ -96,4 +97,46 @@ def expire_if_stale(payment, now=None):
     )
     if updated:
         payment.refresh_from_db()
+    return payment
+
+
+# Ukurasa wa mteja unauliza kila sekunde chache; mtoa huduma anaulizwa mara moja tu kwa kipindi hiki.
+CHECK_EVERY = timedelta(seconds=5)
+
+
+def sync_with_provider(payment, throttle=True, now=None):
+    """
+    Muulize mtoa huduma hali ya malipo yanayosubiri, kisha yathibitishe au yaweke "yameshindwa".
+    Kiasi na sarafu lazima vilingane na malipo yetu, vinginevyo hayathibitishwi.
+    """
+    now = now or timezone.now()
+    if payment.status == Payment.Status.PAID:
+        return payment
+    if throttle and payment.last_checked_at and now - payment.last_checked_at < CHECK_EVERY:
+        return payment
+    Payment.objects.filter(pk=payment.pk).update(last_checked_at=now)
+    provider = get_provider()
+    if provider.name != payment.provider:
+        return payment
+    try:
+        result = provider.check_status(payment)
+    except Exception:
+        logger.exception("Kukagua malipo %s kumeshindwa", payment.pk)
+        return payment
+    if result is None or result.state == "pending":
+        return payment
+    if result.state == "paid":
+        if result.amount != payment.amount or (result.currency and result.currency != "TZS"):
+            logger.error("Malipo %s: kiasi %s %s hakilingani na %s TZS", payment.pk, result.amount, result.currency, payment.amount)
+            return payment
+        confirm_payment(payment.pk)
+        if result.confirmation:
+            Payment.objects.filter(pk=payment.pk).update(confirmation_code=result.confirmation[:100])
+    elif payment.status == Payment.Status.PENDING:
+        reason = result.reason or _("Malipo hayakukamilika.")
+        if Payment.objects.filter(pk=payment.pk, status=Payment.Status.PENDING).update(
+            status=Payment.Status.FAILED, failure_reason=reason[:255]
+        ):
+            events.record(payment.router, events.Kind.PAYMENT_FAILED, mac=payment.client_mac, amount=payment.amount, detail=reason[:160])
+    payment.refresh_from_db()
     return payment

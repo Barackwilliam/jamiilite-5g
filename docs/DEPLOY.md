@@ -130,6 +130,37 @@ za routers kwenye anwani zinafichwa.
 
 ---
 
+## Hatua 7: Malipo halisi kwa Pesapal
+
+Mteja anachagua kifurushi kwenye ukurasa wa WiFi, kisha analipa kwenye ukurasa wetu wa kulipia.
+Fomu ya Pesapal (kuchagua M-Pesa, Mixx, Airtel au kadi, na kuthibitisha) inakaa ndani yake kama
+kadi moja: mteja habaki kwenye tovuti ya Pesapal. Malipo yanathibitishwa kwa kumuuliza Pesapal
+moja kwa moja, kisha vocha inatoka na mteja anaunganishwa.
+
+1. Fungua akaunti ya biashara kwenye <https://www.pesapal.com> (Tanzania). Kwa majaribio, chukua
+   keys za **sandbox** kwenye <https://developer.pesapal.com>.
+2. Render → **Environment**:
+
+   | Key | Weka |
+   |---|---|
+   | `PAYMENT_PROVIDER` | `pesapal` |
+   | `PESAPAL_CONSUMER_KEY`, `PESAPAL_CONSUMER_SECRET` | kutoka Pesapal |
+   | `PESAPAL_ENV` | `sandbox` kwa majaribio, `live` kwa pesa halisi |
+   | `ALLOW_SANDBOX_PAYMENTS` | `False` |
+   | `JAMIILITE_SALE_FEE_PERCENT` | asilimia ya kufidia ada ya Pesapal (mfano `4`) |
+
+3. **Save**. Anwani ya IPN (`/malipo/pesapal/ipn/`) inasajiliwa kwa Pesapal yenyewe kwenye
+   malipo ya kwanza.
+4. Superadmin → **Routers** → chagua zote → **Weka upya usanidi**, ili routers ziruhusu ukurasa
+   wa Pesapal kabla mteja hajalipa (walled garden).
+5. Jaribu: unganisha simu kwenye WiFi, nunua kifurushi cha bei ndogo. **Superadmin → Hali ya
+   mfumo → Malipo** inaonyesha kama yanapita.
+
+> Ukurasa wa Pesapal ukishindwa kufunguka kwenye WiFi kabla ya kulipa, ongeza host zinazokosekana
+> kwenye `JAMIILITE_WALLED_GARDEN_EXTRA` (zitenganishe kwa koma), kisha **Weka upya usanidi**.
+
+---
+
 ## Usalama
 
 - **Routers zinahakiki server.** Kwenye usanidi wa kwanza, router inapakua vyeti vya msingi
@@ -158,9 +189,8 @@ Kama mabadiliko yanagusa usanidi wa router, kwenye superadmin chagua router → 
 
 ## Kabla ya wateja halisi ⚠️
 
-- **Malipo bado ni sandbox:** kila mteja anapewa vocha **bila kulipa**. Ni kwa majaribio tu.
-  Malipo halisi (Selcom / AzamPay / ClickPesa) yakiunganishwa, badilisha `PAYMENT_PROVIDER`
-  na uweke `ALLOW_SANDBOX_PAYMENTS=False`.
+- **Malipo halisi ni kupitia Pesapal** (angalia "Hatua 7"). Mpaka hapo, `PAYMENT_PROVIDER=sandbox`
+  inampa kila mteja vocha **bila kulipa**: ni kwa majaribio tu.
 - **Free tier haina uhakika wa 100%.** Wamiliki wakianza kulipa, Render Starter
   (takriban $7 kwa mwezi) inapendekezwa.
 - **Mteja anasubiri sekunde chache** baada ya kulipa, mpaka router ipokee vocha

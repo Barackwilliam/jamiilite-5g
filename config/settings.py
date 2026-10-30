@@ -220,6 +220,13 @@ STORAGES = {
 PAYMENT_PROVIDER = os.environ.get("PAYMENT_PROVIDER", "sandbox")
 ALLOW_SANDBOX_PAYMENTS = env_bool("ALLOW_SANDBOX_PAYMENTS", DEBUG)
 
+# Pesapal (PAYMENT_PROVIDER=pesapal). Keys zinapatikana kwenye akaunti ya Pesapal ya biashara.
+PESAPAL_CONSUMER_KEY = os.environ.get("PESAPAL_CONSUMER_KEY", "")
+PESAPAL_CONSUMER_SECRET = os.environ.get("PESAPAL_CONSUMER_SECRET", "")
+PESAPAL_ENV = os.environ.get("PESAPAL_ENV", "sandbox")  # "sandbox" au "live"
+# Si lazima: mfumo unasajili anwani ya IPN wenyewe na kukumbuka kitambulisho chake.
+PESAPAL_IPN_ID = os.environ.get("PESAPAL_IPN_ID", "")
+
 
 # --- RADIUS ------------------------------------------------------------------
 # Kinga dhidi ya BlastRADIUS: Access-Request bila Message-Authenticator
