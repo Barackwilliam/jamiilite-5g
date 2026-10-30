@@ -96,28 +96,25 @@ Kukagua: **Superadmin → Hali ya mfumo**:
 
 ---
 
-## Hatua 5: Backup ya kila usiku (GitHub Actions, bure)
+## Hatua 5: Backup ya data
 
-Supabase ya bure haikupi backup unazoweza kupakua. Workflow `.github/workflows/backup.yml`
-inachukua backup kila usiku saa 8:17 (saa za Tanzania), inaisimba (AES-256), na kuihifadhi
-siku 30 kwenye GitHub. Repo ni ya wazi, kwa hiyo bila neno la siri backup haifunguki.
+Supabase ya bure haikupi backup unazoweza kupakua, kwa hiyo backup iko ndani ya mfumo wenyewe:
 
-1. GitHub → repo **jamiilite-5g** → **Settings → Secrets and variables → Actions → New repository secret**:
-   - `BACKUP_DATABASE_URL`: ile ile `DATABASE_URL` ya Render (Session pooler, port 5432)
-   - `BACKUP_PASSPHRASE`: neno la siri refu (herufi 16 au zaidi). **Liandike mahali salama**:
-     likipotea, backup hazifunguki.
-2. **Actions → Backup ya database → Run workflow** ili kujaribu sasa hivi. Ikiwa kijani, backup
-   iko chini ya **Artifacts** kwenye ukurasa wa run hiyo.
+**Superadmin → Hali ya mfumo → Pakua backup sasa.**
 
-**Kurudisha backup** (kompyuta yenye `gpg` na PostgreSQL 17):
+Faili moja (`jamiilite-<tarehe>.json.gz`) lina wamiliki, routers, vifurushi, vocha, malipo na salio.
+Lipakue angalau mara moja kwa wiki, na kabla ya mabadiliko makubwa. Lihifadhi mahali salama
+(mfano Google Drive yako, si kwenye chat wala mahali pa wazi): lina namba za simu za wateja.
+
+**Kurudisha** kwenye database mpya (mfano project mpya ya Supabase):
 
 ```bash
-gpg --decrypt --output backup.dump jamiilite-2026-10-30.dump.gpg    # inauliza BACKUP_PASSPHRASE
-pg_restore --no-owner --no-privileges --dbname "<DATABASE_URL ya project mpya>" backup.dump
+# DATABASE_URL ya database mpya iwe kwenye .env
+python manage.py migrate
+python manage.py loaddata jamiilite-2026-10-30-0217.json.gz
 ```
 
-Ujumbe mmoja `schema "public" already exists` ni wa kawaida: data yote inarudishwa.
-Rudisha kwenye project mpya ya Supabase kwanza, kagua, kisha badilisha `DATABASE_URL` ya Render.
+Kisha badilisha `DATABASE_URL` ya Render kwenda database hiyo.
 
 ---
 
@@ -130,13 +127,6 @@ Kosa likitokea kwenye mfumo, Sentry inakutumia email pamoja na mahali hasa lilip
 
 Hakuna data ya wateja inayotumwa: hakuna IP, cookies, fomu (namba za simu, password), na siri
 za routers kwenye anwani zinafichwa.
-
----
-
-## Majaribio ya kila PR (CI)
-
-`.github/workflows/ci.yml` inaendesha majaribio yote kwenye Postgres kila PR inapofunguliwa na
-kila code inapoingia `main`. Usi-merge PR yenye ❌ kwenye **Majaribio**.
 
 ---
 

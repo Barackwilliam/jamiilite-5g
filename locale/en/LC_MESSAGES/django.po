@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 03:07+0300\n"
+"POT-Creation-Date: 2026-10-30 03:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -388,7 +388,7 @@ msgid "Zinazotumika"
 msgstr "In use"
 
 #: control/status.py:137 control/templates/control/routers.html:6
-#: control/templates/control/routers.html:33 control/views.py:224
+#: control/templates/control/routers.html:33 control/views.py:234
 #: pages/templates/pages/_journey.html:60
 #: pages/templates/pages/mwongozo.html:135
 msgid "Online"
@@ -737,7 +737,7 @@ msgid "Shughulikia"
 msgstr "Handle"
 
 #: control/templates/control/home.html:15 control/views.py:69
-#: control/views.py:335
+#: control/views.py:345
 msgid "Hali ya mfumo"
 msgstr "System status"
 
@@ -1278,7 +1278,7 @@ msgstr "No warnings for this router. Good."
 msgid "Wateja %(n)s"
 msgstr "%(n)s customers"
 
-#: control/templates/control/routers.html:7 control/views.py:225
+#: control/templates/control/routers.html:7 control/views.py:235
 msgid "Offline"
 msgstr "Offline"
 
@@ -1348,6 +1348,31 @@ msgstr ""
 " see it here."
 
 #: control/templates/control/status.html:35
+msgid "Backup ya data"
+msgstr "Data backup"
+
+#: control/templates/control/status.html:36
+msgid ""
+"Wamiliki, routers, vifurushi, vocha, malipo na salio, kwenye faili moja. "
+"Pakua angalau mara moja kwa wiki."
+msgstr ""
+"Owners, routers, packages, vouchers, payments and balances in one file. "
+"Download it at least once a week."
+
+#: control/templates/control/status.html:39
+msgid "Pakua backup sasa"
+msgstr "Download backup now"
+
+#: control/templates/control/status.html:41
+msgid ""
+"Ihifadhi mahali salama (mfano Google Drive yako): ina namba za simu za "
+"wateja. Kuirudisha: python manage.py loaddata jina-la-faili.json.gz"
+msgstr ""
+"Keep it somewhere safe (for example your Google Drive): it contains "
+"customers' phone numbers. To restore: python manage.py loaddata file-"
+"name.json.gz"
+
+#: control/templates/control/status.html:44
 msgid "Mazingira ya server"
 msgstr "Server environment"
 
@@ -1386,7 +1411,7 @@ msgstr "New requests will show up here and in the menu."
 msgid "Muhtasari"
 msgstr "Overview"
 
-#: control/views.py:33 control/views.py:312 dashboard/views.py:295
+#: control/views.py:33 control/views.py:322 dashboard/views.py:295
 msgid "Mtandao live"
 msgstr "Live network"
 
@@ -1402,92 +1427,92 @@ msgstr "Settings"
 msgid "Muhtasari wa jukwaa"
 msgstr "Platform overview"
 
-#: control/views.py:147
+#: control/views.py:157
 #, python-format
 msgid "%(name)s amerudishwa."
 msgstr "%(name)s has been restored."
 
-#: control/views.py:147
+#: control/views.py:157
 #, python-format
 msgid "%(name)s amesitishwa."
 msgstr "%(name)s has been suspended."
 
-#: control/views.py:156
+#: control/views.py:166
 #, python-format
 msgid "Umemwongezea miezi %(months)s. Sasa amelipia mpaka %(date)s."
 msgstr "Added %(months)s month(s). They are now paid until %(date)s."
 
-#: control/views.py:160
+#: control/views.py:170
 msgid "Chagua idadi sahihi ya miezi."
 msgstr "Choose a valid number of months."
 
-#: control/views.py:195 dashboard/templates/dashboard/wallet.html:27
+#: control/views.py:205 dashboard/templates/dashboard/wallet.html:27
 msgid "Maombi ya kutoa pesa"
 msgstr "Withdrawal requests"
 
-#: control/views.py:207
+#: control/views.py:217
 msgid "Weka namba ya muamala (reference) uliyotumia kulipa."
 msgstr "Enter the transaction ID (reference) you paid with."
 
-#: control/views.py:209
+#: control/views.py:219
 #, python-format
 msgid "Imewekwa kuwa imelipwa: %(name)s, Tsh %(amount)s."
 msgstr "Marked as paid: %(name)s, Tsh %(amount)s."
 
-#: control/views.py:212
+#: control/views.py:222
 #, python-format
 msgid "Imekataliwa. Tsh %(amount)s imerudishwa kwenye salio la %(name)s."
 msgstr "Rejected. Tsh %(amount)s returned to %(name)s's balance."
 
-#: control/views.py:226
+#: control/views.py:236
 msgid "Hazijaunganishwa"
 msgstr "Not connected"
 
-#: control/views.py:227
+#: control/views.py:237
 msgid "Zimezimwa"
 msgstr "Disabled"
 
-#: control/views.py:245
+#: control/views.py:255
 msgid "Routers zote"
 msgstr "All routers"
 
-#: control/views.py:259
+#: control/views.py:269
 msgid "Agizo limetumwa. Router italichukua ndani ya dakika 1 ikiwa online."
 msgstr ""
 "Command sent. The router will pick it up within a minute if it is online."
 
-#: control/views.py:264
+#: control/views.py:274
 #, python-format
 msgid "%(name)s imewashwa tena."
 msgstr "%(name)s is enabled again."
 
-#: control/views.py:266
+#: control/views.py:276
 #, python-format
 msgid "%(name)s imezimwa: haiwezi kuuza wala kuingiza wateja wapya."
 msgstr "%(name)s is disabled: it cannot sell or let new customers in."
 
-#: control/views.py:271
+#: control/views.py:281
 msgid "Siri mpya ya RADIUS imetengenezwa na router imetumiwa usanidi mpya."
 msgstr ""
 "A new RADIUS secret was created and the router was sent the new setup."
 
-#: control/views.py:279
+#: control/views.py:289
 msgid "Imehifadhiwa, na router imetumiwa usanidi upya."
 msgstr "Saved, and the router was sent a fresh setup."
 
-#: control/views.py:281
+#: control/views.py:291
 msgid "Mabadiliko yamehifadhiwa."
 msgstr "Changes saved."
 
-#: control/views.py:348
+#: control/views.py:358
 msgid "Mipangilio imehifadhiwa na inafanya kazi sasa hivi."
 msgstr "Settings saved and in effect right now."
 
-#: control/views.py:353
+#: control/views.py:363
 msgid "Mipangilio ya jukwaa"
 msgstr "Platform settings"
 
-#: control/views.py:367
+#: control/views.py:377
 msgid "Malipo ya wateja"
 msgstr "Customer payments"
 
@@ -3997,7 +4022,7 @@ msgstr "Pay Tsh %(amount)s to NEEMA WIFI? Enter your M-Pesa PIN."
 msgid "Mauzo mapya"
 msgstr "New sale"
 
-#: pages/views.py:34 ui/templatetags/ui_tags.py:78
+#: pages/views.py:34 ui/templatetags/ui_tags.py:79
 msgid "sasa hivi"
 msgstr "just now"
 
@@ -4300,25 +4325,25 @@ msgstr "They're cut off automatically when time runs out"
 msgid "Unaona kila shilingi kwenye simu yako, papo hapo"
 msgstr "You see every shilling on your phone, instantly"
 
-#: ui/templatetags/ui_tags.py:75
+#: ui/templatetags/ui_tags.py:76
 msgid "bado"
 msgstr "never"
 
-#: ui/templatetags/ui_tags.py:81
+#: ui/templatetags/ui_tags.py:82
 #, python-format
 msgid "siku %(n)s iliyopita"
 msgid_plural "siku %(n)s zilizopita"
 msgstr[0] "%(n)s day ago"
 msgstr[1] "%(n)s days ago"
 
-#: ui/templatetags/ui_tags.py:84
+#: ui/templatetags/ui_tags.py:85
 #, python-format
 msgid "saa %(n)s iliyopita"
 msgid_plural "saa %(n)s zilizopita"
 msgstr[0] "%(n)s hour ago"
 msgstr[1] "%(n)s hours ago"
 
-#: ui/templatetags/ui_tags.py:86
+#: ui/templatetags/ui_tags.py:87
 #, python-format
 msgid "dakika %(n)s iliyopita"
 msgid_plural "dakika %(n)s zilizopita"

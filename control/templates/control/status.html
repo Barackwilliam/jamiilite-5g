@@ -31,6 +31,15 @@
     {% endif %}
   </section>
   {% endif %}
+  <section class="card card-accent">
+    <div class="card-head"><h2>{% translate "Backup ya data" %}</h2></div>
+    <p class="muted">{% translate "Wamiliki, routers, vifurushi, vocha, malipo na salio, kwenye faili moja. Pakua angalau mara moja kwa wiki." %}</p>
+    <form method="post" action="{% url 'control:backup' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary">{% icon "download" 16 %} {% translate "Pakua backup sasa" %}</button>
+    </form>
+    <p class="muted small">{% translate "Ihifadhi mahali salama (mfano Google Drive yako): ina namba za simu za wateja. Kuirudisha: python manage.py loaddata jina-la-faili.json.gz" %}</p>
+  </section>
   <section class="card">
     <div class="card-head"><h2>{% translate "Mazingira ya server" %}</h2></div>
     <dl class="kv">{% for k, v in env %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}</dl>
