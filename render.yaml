@@ -50,6 +50,13 @@ services:
         value: sandbox
       - key: ALLOW_SANDBOX_PAYMENTS
         value: "True"
+      # Pesapal: badilisha PAYMENT_PROVIDER kuwa "pesapal", weka keys, kisha ALLOW_SANDBOX_PAYMENTS=False.
+      - key: PESAPAL_CONSUMER_KEY
+        sync: false
+      - key: PESAPAL_CONSUMER_SECRET
+        sync: false
+      - key: PESAPAL_ENV
+        value: sandbox
       - key: JAMIILITE_WHATSAPP_NUMBER
         sync: false
       # Sentry (si lazima): kila kosa linakufikia kwa email. Angalia docs/DEPLOY.md.

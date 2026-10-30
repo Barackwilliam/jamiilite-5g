@@ -171,6 +171,20 @@ def check_payments(now):
             "payments", _("Malipo"), "info", _("Sandbox (majaribio)"),
             _("Malipo ni ya kuigiza. Sawa kwa majaribio ya ndani."), "", facts,
         )
+    if provider == "pesapal":
+        facts.append((_("Mazingira ya Pesapal"), settings.PESAPAL_ENV))
+        if not (settings.PESAPAL_CONSUMER_KEY and settings.PESAPAL_CONSUMER_SECRET):
+            return Check(
+                "payments", _("Malipo"), "bad", _("Keys za Pesapal hazipo"),
+                _("Wateja hawawezi kulipa mpaka keys ziwekwe."),
+                _("Weka PESAPAL_CONSUMER_KEY na PESAPAL_CONSUMER_SECRET kwenye Render."), facts,
+            )
+        if settings.PESAPAL_ENV != "live" and not settings.DEBUG:
+            return Check(
+                "payments", _("Malipo"), "warn", _("Pesapal ya majaribio"),
+                _("Malipo yanapita kwenye sandbox ya Pesapal: hakuna pesa halisi inayoingia."),
+                _("Ukiwa tayari, weka PESAPAL_ENV=live na keys za akaunti halisi."), facts,
+            )
     failed = by_status.get(Payment.Status.FAILED, 0)
     paid = by_status.get(Payment.Status.PAID, 0)
     if stuck or (failed and failed >= paid):

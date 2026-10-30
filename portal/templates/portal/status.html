@@ -2,11 +2,54 @@
 {% load i18n %}
 
 {% block head %}
-  {% if payment.status == "pending" or voucher and login_target and not router_ready %}<meta http-equiv="refresh" content="3">{% endif %}
+  {% if payment.status == "pending" and not payment.checkout_url or voucher and login_target and not router_ready %}<meta http-equiv="refresh" content="3">{% endif %}
 {% endblock %}
 
 {% block content %}
-  {% if payment.status == "pending" %}
+  {% if payment.status == "pending" and payment.checkout_url %}
+    {# Ukurasa wetu wa kulipia: fomu ya Pesapal inakaa ndani yake kama kadi moja. #}
+    <section class="checkout" data-checkout data-state-url="{% url 'portal:payment_state' router.slug payment.pk %}">
+      <ol class="checkout-steps" aria-label="{% translate 'Hatua za kununua' %}">
+        <li class="is-done"><span>1</span>{% translate "Kifurushi" %}</li>
+        <li class="is-current" aria-current="step"><span>2</span>{% translate "Lipa" %}</li>
+        <li><span>3</span>{% translate "Unganishwa" %}</li>
+      </ol>
+
+      <div class="order">
+        <div>
+          <p class="order-name">{{ payment.package.name }}</p>
+          <p class="muted small">{% if payment.package.summary %}{{ payment.package.summary }} · {% endif %}{{ payment.phone_display }}</p>
+        </div>
+        <p class="order-amount">Tsh {{ payment.amount_display }}</p>
+      </div>
+
+      <div class="pay-frame" data-pay-frame>
+        <div class="pay-frame-loading" aria-hidden="true"><div class="spinner"></div><p>{% translate "Inafungua njia za malipo…" %}</p></div>
+        <iframe src="{{ payment.checkout_url }}" title="{% translate 'Malipo salama' %}" allow="payment" referrerpolicy="no-referrer"></iframe>
+      </div>
+
+      <p class="secure small">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        {% translate "Malipo salama kupitia Pesapal. Ukishathibitisha kwa PIN, ukurasa huu unajibadilisha wenyewe." %}
+      </p>
+      <a class="btn btn-secondary" href="{% url 'portal:home' router.slug %}">{% translate "Badilisha kifurushi" %}</a>
+    </section>
+    <script>
+      (function () {
+        var box = document.querySelector("[data-checkout]");
+        var frame = document.querySelector("[data-pay-frame]");
+        frame.querySelector("iframe").addEventListener("load", function () { frame.classList.add("is-ready"); });
+        // Malipo yakikamilika (au kushindwa), fungua ukurasa huu upya ili mteja aone hatua inayofuata.
+        setInterval(function () {
+          fetch(box.dataset.stateUrl, { credentials: "same-origin", headers: { Accept: "application/json" } })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (data) { if (data && data.status !== "pending") window.location.reload(); })
+            .catch(function () {});
+        }, 4000);
+      })();
+    </script>
+
+  {% elif payment.status == "pending" %}
     <section class="center">
       <div class="spinner" aria-hidden="true"></div>
       <h2>{% translate "Tunasubiri malipo yako" %}</h2>

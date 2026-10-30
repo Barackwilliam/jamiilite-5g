@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 03:44+0300\n"
+"POT-Creation-Date: 2026-10-30 04:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: billing/models.py:23 billing/models.py:213
+#: billing/models.py:23 billing/models.py:224
 #: control/templates/control/owner_detail.html:130
 #: control/templates/control/withdrawals.html:26
 msgid "Inasubiri"
 msgstr "Pending"
 
-#: billing/models.py:24 billing/models.py:214
+#: billing/models.py:24 billing/models.py:225
 #: control/templates/control/owner_detail.html:130
 #: control/templates/control/withdrawals.html:26
 msgid "Imelipwa"
@@ -34,39 +34,39 @@ msgstr "Paid"
 msgid "Imeshindwa"
 msgstr "Failed"
 
-#: billing/models.py:181 dashboard/templates/dashboard/signup.html:8
+#: billing/models.py:192 dashboard/templates/dashboard/signup.html:8
 #: dashboard/views.py:53 dashboard/views.py:487
 #: pages/templates/pages/_journey.html:40
 msgid "Mauzo"
 msgstr "Sales"
 
-#: billing/models.py:182 control/templates/control/config.html:30
+#: billing/models.py:193 control/templates/control/config.html:30
 msgid "Ada ya mwezi"
 msgstr "Monthly fee"
 
-#: billing/models.py:183 control/templates/control/owner_detail.html:125
+#: billing/models.py:194 control/templates/control/owner_detail.html:125
 #: control/views.py:35
 msgid "Kutoa pesa"
 msgstr "Withdrawals"
 
-#: billing/models.py:184
+#: billing/models.py:195
 msgid "Kutoa pesa kumerudishwa"
 msgstr "Withdrawal reversed"
 
-#: billing/models.py:185
+#: billing/models.py:196
 msgid "Marekebisho"
 msgstr "Adjustment"
 
-#: billing/models.py:215 control/templates/control/owner_detail.html:130
+#: billing/models.py:226 control/templates/control/owner_detail.html:130
 #: control/templates/control/withdrawals.html:26
 msgid "Imekataliwa"
 msgstr "Rejected"
 
-#: billing/models.py:246
+#: billing/models.py:257
 msgid "Kutoka kwenye salio"
 msgstr "From balance"
 
-#: billing/models.py:247
+#: billing/models.py:258
 msgid "Pesa taslimu / nje ya mfumo"
 msgstr "Cash / outside the system"
 
@@ -78,9 +78,13 @@ msgstr "Enter a valid phone number, e.g. 0712 345 678."
 msgid "Imeshindwa kuwasiliana na mtoa huduma wa malipo. Jaribu tena."
 msgstr "Couldn't reach the payment provider. Please try again."
 
-#: billing/services.py:95
+#: billing/services.py:96
 msgid "Muda wa kuthibitisha malipo umeisha."
 msgstr "The time to confirm the payment ran out."
+
+#: billing/services.py:136
+msgid "Malipo hayakukamilika."
+msgstr "The payment didn't go through."
 
 #: billing/subscriptions.py:48
 #, python-format
@@ -221,7 +225,7 @@ msgstr "Expired"
 msgid "Amesitishwa"
 msgstr "Suspended"
 
-#: control/status.py:29 control/status.py:213
+#: control/status.py:29 control/status.py:227
 msgid "Sawa"
 msgstr "OK"
 
@@ -292,7 +296,7 @@ msgstr "The database is responding."
 msgid "Njia"
 msgstr "Mode"
 
-#: control/status.py:91 control/status.py:281
+#: control/status.py:91 control/status.py:295
 msgid "Ndani ya router (local)"
 msgstr "On the router (local)"
 
@@ -309,7 +313,7 @@ msgstr "%(n)s seconds"
 msgid "Vocha zilizo kwenye routers"
 msgstr "Vouchers on routers"
 
-#: control/status.py:96 control/status.py:280
+#: control/status.py:96 control/status.py:294
 msgid "Uthibitishaji wa vocha"
 msgstr "Voucher checks"
 
@@ -441,8 +445,9 @@ msgid "Yamekwama (>dk 15)"
 msgstr "Stuck (>15 min)"
 
 #: control/status.py:166 control/status.py:171 control/status.py:178
-#: control/status.py:181 control/views.py:37
-#: pages/templates/pages/_journey.html:8 ui/templates/ui/_live.html:25
+#: control/status.py:184 control/status.py:192 control/status.py:195
+#: control/views.py:37 pages/templates/pages/_journey.html:8
+#: ui/templates/ui/_live.html:25
 msgid "Malipo"
 msgstr "Payments"
 
@@ -466,143 +471,172 @@ msgstr "Sandbox (testing)"
 msgid "Malipo ni ya kuigiza. Sawa kwa majaribio ya ndani."
 msgstr "Payments are simulated. Fine for local testing."
 
+#: control/status.py:175
+msgid "Mazingira ya Pesapal"
+msgstr "Pesapal environment"
+
 #: control/status.py:178
+msgid "Keys za Pesapal hazipo"
+msgstr "Pesapal keys are missing"
+
+#: control/status.py:179
+msgid "Wateja hawawezi kulipa mpaka keys ziwekwe."
+msgstr "Customers can't pay until the keys are set."
+
+#: control/status.py:180
+msgid "Weka PESAPAL_CONSUMER_KEY na PESAPAL_CONSUMER_SECRET kwenye Render."
+msgstr "Set PESAPAL_CONSUMER_KEY and PESAPAL_CONSUMER_SECRET on Render."
+
+#: control/status.py:184
+msgid "Pesapal ya majaribio"
+msgstr "Pesapal sandbox"
+
+#: control/status.py:185
+msgid ""
+"Malipo yanapita kwenye sandbox ya Pesapal: hakuna pesa halisi inayoingia."
+msgstr "Payments go through the Pesapal sandbox: no real money comes in."
+
+#: control/status.py:186
+msgid "Ukiwa tayari, weka PESAPAL_ENV=live na keys za akaunti halisi."
+msgstr "When ready, set PESAPAL_ENV=live and the keys of the real account."
+
+#: control/status.py:192
 msgid "Kuna malipo yenye shida"
 msgstr "Some payments have problems"
 
-#: control/status.py:179
+#: control/status.py:193
 msgid "Malipo mengi yameshindwa au yamekwama."
 msgstr "Many payments failed or got stuck."
 
-#: control/status.py:179
+#: control/status.py:193
 msgid "Angalia akaunti ya mtoa huduma wa malipo."
 msgstr "Check your payment provider account."
 
-#: control/status.py:181
+#: control/status.py:195
 msgid "Malipo yanapita."
 msgstr "Payments are going through."
 
-#: control/status.py:187 control/status.py:191
+#: control/status.py:201 control/status.py:205
 msgid "Hifadhi ya picha"
 msgstr "Image storage"
 
-#: control/status.py:187
+#: control/status.py:201
 msgid "Supabase Storage"
 msgstr "Supabase Storage"
 
-#: control/status.py:191
+#: control/status.py:205
 msgid "Kompyuta hii (media/)"
 msgstr "This server (media/)"
 
-#: control/status.py:192
+#: control/status.py:206
 msgid "Logo zinahifadhiwa ndani ya server. Sawa kwa majaribio."
 msgstr "Logos are stored on the server. Fine for testing."
 
-#: control/status.py:193
+#: control/status.py:207
 msgid "Weka SUPABASE_* kwenye .env kwa production."
 msgstr "Set SUPABASE_* in .env for production."
 
-#: control/status.py:200
+#: control/status.py:214
 msgid "DEBUG imewashwa"
 msgstr "DEBUG is on"
 
-#: control/status.py:202
+#: control/status.py:216
 msgid "SECRET_KEY ni ya majaribio"
 msgstr "SECRET_KEY is the test one"
 
-#: control/status.py:204
+#: control/status.py:218
 msgid "Kinga ya BlastRADIUS imezimwa"
 msgstr "BlastRADIUS protection is off"
 
-#: control/status.py:206
+#: control/status.py:220
 msgid "Anwani ya umma haitumii https"
 msgstr "The public address is not https"
 
-#: control/status.py:208
+#: control/status.py:222
 msgid "Imewashwa"
 msgstr "On"
 
-#: control/status.py:208 control/templates/control/router_detail.html:6
+#: control/status.py:222 control/templates/control/router_detail.html:6
 #: control/templates/control/routers.html:31
 msgid "Imezimwa"
 msgstr "Off"
 
-#: control/status.py:209
+#: control/status.py:223
 msgid "Inahitajika"
 msgstr "Required"
 
-#: control/status.py:209
+#: control/status.py:223
 msgid "Haihitajiki"
 msgstr "Not required"
 
-#: control/status.py:213 control/status.py:216
+#: control/status.py:227 control/status.py:230
 msgid "Usalama"
 msgstr "Security"
 
-#: control/status.py:213
+#: control/status.py:227
 msgid "Mipangilio ya usalama ya production iko sawa."
 msgstr "Production security settings look good."
 
-#: control/status.py:216
+#: control/status.py:230
 #, python-format
 msgid "Mambo %(n)s ya kuangalia"
 msgstr "%(n)s things to check"
 
-#: control/status.py:217
+#: control/status.py:231
 msgid "Kwenye VPS: DEBUG=False, SECRET_KEY ndefu ya siri, na https."
 msgstr "On the VPS: DEBUG=False, a long secret SECRET_KEY, and https."
 
-#: control/status.py:228
+#: control/status.py:242
 msgid "Maagizo ya routers yaliyokwama"
 msgstr "Stuck router commands"
 
-#: control/status.py:228
+#: control/status.py:242
 msgid "Maombi ya pesa > saa 48"
 msgstr "Withdrawals > 48 h"
 
-#: control/status.py:231 control/status.py:236 control/status.py:239
+#: control/status.py:245 control/status.py:250 control/status.py:253
 msgid "Foleni"
 msgstr "Queues"
 
-#: control/status.py:231
+#: control/status.py:245
 #, python-format
 msgid "Maombi %(n)s yamechelewa"
 msgstr "%(n)s requests are late"
 
-#: control/status.py:232
+#: control/status.py:246
 msgid "Wamiliki wanasubiri pesa zao kwa zaidi ya saa 48."
 msgstr "Owners have been waiting more than 48 hours for their money."
 
-#: control/status.py:232
+#: control/status.py:246
 msgid "Fungua ukurasa wa Kutoa pesa."
 msgstr "Open the Withdrawals page."
 
-#: control/status.py:236
+#: control/status.py:250
 #, python-format
 msgid "Maagizo %(n)s hayajafika"
 msgstr "%(n)s commands not delivered"
 
-#: control/status.py:237
+#: control/status.py:251
 msgid "Routers husika ziko offline, maagizo yatafika zikirudi."
 msgstr "Those routers are offline; commands will arrive when they come back."
 
-#: control/status.py:239
+#: control/status.py:253
 msgid "Hakuna kilichokwama"
 msgstr "Nothing stuck"
 
-#: control/status.py:279
+#: control/status.py:293
 msgid "Anwani ya umma"
 msgstr "Public address"
 
-#: control/status.py:282
+#: control/status.py:296
 msgid "Saa za mfumo"
 msgstr "System time"
 
-#: control/status.py:283
+#: control/status.py:297
 msgid "Toleo la msimbo (git)"
 msgstr "Code version (git)"
 
-#: control/status.py:285
+#: control/status.py:299
 msgid "RouterOS kwenye routers"
 msgstr "RouterOS on routers"
 
@@ -1064,7 +1098,7 @@ msgstr "Router"
 
 #: control/templates/control/payments.html:18 dashboard/forms.py:182
 #: dashboard/templates/dashboard/sales.html:35
-#: pages/templates/pages/_sim.html:5
+#: pages/templates/pages/_sim.html:5 portal/templates/portal/status.html:13
 msgid "Kifurushi"
 msgstr "Package"
 
@@ -3000,11 +3034,11 @@ msgstr "2 phones"
 msgid "Lipa kwa simu"
 msgstr "Pay by phone"
 
-#: pages/templates/pages/_sim.html:53 portal/templates/portal/status.html:26
+#: pages/templates/pages/_sim.html:53 portal/templates/portal/status.html:69
 msgid "Asante! Malipo yamepokelewa"
 msgstr "Thank you! Payment received"
 
-#: pages/templates/pages/_sim.html:54 portal/templates/portal/status.html:28
+#: pages/templates/pages/_sim.html:54 portal/templates/portal/status.html:71
 msgid "Namba yako ya vocha"
 msgstr "Your voucher code"
 
@@ -4089,50 +4123,82 @@ msgid "Una vocha tayari?"
 msgstr "Have a voucher?"
 
 #: portal/templates/portal/status.html:12
+msgid "Hatua za kununua"
+msgstr "Purchase steps"
+
+#: portal/templates/portal/status.html:14
+msgid "Lipa"
+msgstr "Pay"
+
+#: portal/templates/portal/status.html:15
+msgid "Unganishwa"
+msgstr "Get online"
+
+#: portal/templates/portal/status.html:27
+msgid "Inafungua njia za malipo…"
+msgstr "Opening payment options…"
+
+#: portal/templates/portal/status.html:28
+msgid "Malipo salama"
+msgstr "Secure payment"
+
+#: portal/templates/portal/status.html:33
+msgid ""
+"Malipo salama kupitia Pesapal. Ukishathibitisha kwa PIN, ukurasa huu "
+"unajibadilisha wenyewe."
+msgstr ""
+"Secure payment through Pesapal. Once you confirm with your PIN, this page "
+"updates by itself."
+
+#: portal/templates/portal/status.html:35
+msgid "Badilisha kifurushi"
+msgstr "Change package"
+
+#: portal/templates/portal/status.html:55
 msgid "Tunasubiri malipo yako"
 msgstr "Waiting for your payment"
 
-#: portal/templates/portal/status.html:13
+#: portal/templates/portal/status.html:56
 #, python-format
 msgid ""
 "Ombi la kulipia Tsh %(amount)s limetumwa kwa <strong>%(phone)s</strong>."
 msgstr ""
 "A payment request for Tsh %(amount)s was sent to <strong>%(phone)s</strong>."
 
-#: portal/templates/portal/status.html:14
+#: portal/templates/portal/status.html:57
 msgid "Weka PIN kwenye simu yako. Ukurasa huu utajisasisha wenyewe."
 msgstr "Enter your PIN on your phone. This page will update by itself."
 
-#: portal/templates/portal/status.html:19
+#: portal/templates/portal/status.html:62
 msgid "Malipo hayakufanikiwa"
 msgstr "Payment didn't go through"
 
-#: portal/templates/portal/status.html:20
+#: portal/templates/portal/status.html:63
 msgid "Tafadhali jaribu tena."
 msgstr "Please try again."
 
-#: portal/templates/portal/status.html:21
+#: portal/templates/portal/status.html:64
 msgid "Jaribu tena"
 msgstr "Try again"
 
-#: portal/templates/portal/status.html:30
+#: portal/templates/portal/status.html:73
 msgid "Ihifadhi. Utaihitaji ukiunganishwa upya."
 msgstr "Keep it. You'll need it to reconnect."
 
-#: portal/templates/portal/status.html:36
+#: portal/templates/portal/status.html:79
 msgid "Tunakuunganisha…"
 msgstr "Connecting you…"
 
-#: portal/templates/portal/status.html:37
+#: portal/templates/portal/status.html:80
 msgid "Router ya WiFi inapokea vocha yako. Inachukua sekunde chache tu."
 msgstr ""
 "The WiFi router is receiving your voucher. It only takes a few seconds."
 
-#: portal/templates/portal/status.html:40
+#: portal/templates/portal/status.html:83
 msgid "Inachelewa? Bonyeza Unganisha."
 msgstr "Taking long? Tap Connect."
 
-#: portal/templates/portal/status.html:44
+#: portal/templates/portal/status.html:87
 msgid "Fungua ukurasa wa WiFi tena kisha weka vocha hii kuunganishwa."
 msgstr "Open the WiFi page again and enter this voucher to connect."
 

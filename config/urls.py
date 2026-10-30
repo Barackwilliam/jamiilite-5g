@@ -20,6 +20,7 @@ urlpatterns = [
     path("favicon.ico", favicon),
     path("admin/", admin.site.urls),
     path("p/", include("portal.urls")),
+    path("malipo/", include("billing.urls")),
     path("r/", include("radius.urls")),
     path("control/", include("control.urls")),
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
