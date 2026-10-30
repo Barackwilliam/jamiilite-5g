@@ -137,15 +137,16 @@ Fomu ya Pesapal (kuchagua M-Pesa, Mixx, Airtel au kadi, na kuthibitisha) inakaa 
 kadi moja: mteja habaki kwenye tovuti ya Pesapal. Malipo yanathibitishwa kwa kumuuliza Pesapal
 moja kwa moja, kisha vocha inatoka na mteja anaunganishwa.
 
-1. Fungua akaunti ya biashara kwenye <https://www.pesapal.com> (Tanzania). Kwa majaribio, chukua
-   keys za **sandbox** kwenye <https://developer.pesapal.com>.
+1. Fungua akaunti ya biashara kwenye <https://www.pesapal.com> (Tanzania). Ikishakubaliwa, chukua
+   **Consumer Key** na **Consumer Secret** za akaunti hiyo (si za sandbox: hizo hazifanyi kazi
+   kwenye `live`).
 2. Render → **Environment**:
 
    | Key | Weka |
    |---|---|
    | `PAYMENT_PROVIDER` | `pesapal` |
    | `PESAPAL_CONSUMER_KEY`, `PESAPAL_CONSUMER_SECRET` | kutoka Pesapal |
-   | `PESAPAL_ENV` | `sandbox` kwa majaribio, `live` kwa pesa halisi |
+   | `PESAPAL_ENV` | `live` (chaguo-msingi). `sandbox` tu ukiwa na keys za majaribio |
    | `ALLOW_SANDBOX_PAYMENTS` | `False` |
    | `JAMIILITE_SALE_FEE_PERCENT` | asilimia ya kufidia ada ya Pesapal (mfano `4`) |
 
@@ -153,8 +154,9 @@ moja kwa moja, kisha vocha inatoka na mteja anaunganishwa.
    malipo ya kwanza.
 4. Superadmin → **Routers** → chagua zote → **Weka upya usanidi**, ili routers ziruhusu ukurasa
    wa Pesapal kabla mteja hajalipa (walled garden).
-5. Jaribu: unganisha simu kwenye WiFi, nunua kifurushi cha bei ndogo. **Superadmin → Hali ya
-   mfumo → Malipo** inaonyesha kama yanapita.
+5. Jaribu kwa pesa halisi: unganisha simu kwenye WiFi na ununue kifurushi cha bei ndogo kabisa
+   (mfano Saa 1, Tsh 500). **Superadmin → Hali ya mfumo → Malipo** inaonyesha kama yamepita, na
+   malipo yanaonekana pia kwenye dashboard ya Pesapal.
 
 > Ukurasa wa Pesapal ukishindwa kufunguka kwenye WiFi kabla ya kulipa, ongeza host zinazokosekana
 > kwenye `JAMIILITE_WALLED_GARDEN_EXTRA` (zitenganishe kwa koma), kisha **Weka upya usanidi**.

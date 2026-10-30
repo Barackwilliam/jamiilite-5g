@@ -56,7 +56,7 @@ services:
       - key: PESAPAL_CONSUMER_SECRET
         sync: false
       - key: PESAPAL_ENV
-        value: sandbox
+        value: live
       - key: JAMIILITE_WHATSAPP_NUMBER
         sync: false
       # Sentry (si lazima): kila kosa linakufikia kwa email. Angalia docs/DEPLOY.md.
