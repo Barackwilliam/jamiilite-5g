@@ -223,7 +223,8 @@ ALLOW_SANDBOX_PAYMENTS = env_bool("ALLOW_SANDBOX_PAYMENTS", DEBUG)
 # Pesapal (PAYMENT_PROVIDER=pesapal). Keys zinapatikana kwenye akaunti ya Pesapal ya biashara.
 PESAPAL_CONSUMER_KEY = os.environ.get("PESAPAL_CONSUMER_KEY", "")
 PESAPAL_CONSUMER_SECRET = os.environ.get("PESAPAL_CONSUMER_SECRET", "")
-PESAPAL_ENV = os.environ.get("PESAPAL_ENV", "sandbox")  # "sandbox" au "live"
+# Malipo halisi moja kwa moja. Weka "sandbox" tu ukiwa na keys za majaribio za developer.pesapal.com.
+PESAPAL_ENV = os.environ.get("PESAPAL_ENV", "live")
 # Si lazima: mfumo unasajili anwani ya IPN wenyewe na kukumbuka kitambulisho chake.
 PESAPAL_IPN_ID = os.environ.get("PESAPAL_IPN_ID", "")
 

@@ -141,3 +141,10 @@ class PesapalFlowTests(TestCase):
     def test_missing_keys_do_not_break_router_setup(self):
         rules = "\n".join(routeros.walled_garden_rules())
         self.assertNotIn("pesapal", rules)
+
+
+@override_settings(**{**PESAPAL, "PESAPAL_ENV": "live"})
+class PesapalLiveTests(TestCase):
+    def test_live_uses_the_real_pesapal_server(self):
+        self.assertEqual(pesapal.BASE_URLS[pesapal._environment()], "https://pay.pesapal.com/v3/api")
+        self.assertIn('dst-host="pay.pesapal.com" protocol=tcp dst-port=443', "\n".join(routeros.walled_garden_rules()))
