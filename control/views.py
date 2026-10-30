@@ -117,7 +117,7 @@ def home(request):
 
 @superuser_required
 def owners(request):
-    q = request.GET.get("q", "").strip()
+    q = request.GET.get("q", "").replace("\x00", "").strip()  # Postgres inakataa herufi NUL
     state = request.GET.get("hali", "")
     qs = queries.owners_with_state()
     if q:
@@ -230,7 +230,7 @@ ROUTER_FILTERS = {
 
 @superuser_required
 def routers(request):
-    q = request.GET.get("q", "").strip()
+    q = request.GET.get("q", "").replace("\x00", "").strip()  # Postgres inakataa herufi NUL
     state = request.GET.get("hali", "")
     qs = queries.routers_offline_first()
     if q:

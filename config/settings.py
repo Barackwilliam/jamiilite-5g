@@ -276,3 +276,8 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = env_bool("SESSION_COOKIE_SECURE", True)
     CSRF_COOKIE_SECURE = env_bool("CSRF_COOKIE_SECURE", True)
+    # Browser ikumbuke kutumia HTTPS tu (hata mtu akiandika http:// kwenye WiFi ya umma).
+    SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", str(60 * 60 * 24 * 365)))
+    SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
+    # Ukaguzi wa afya wa Render unaingia kwa http ndani ya mtandao wake.
+    SECURE_REDIRECT_EXEMPT = [r"^healthz/$"]

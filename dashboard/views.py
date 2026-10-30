@@ -150,7 +150,8 @@ def _login_limit_keys(request):
     try:
         phone = normalize_tz_phone(request.POST.get("phone", ""))
     except ValidationError:
-        phone = "?"
+        # Jina la Super Admin (si namba): kila jina na hesabu yake.
+        phone = request.POST.get("phone", "").strip().lower()[:60] or "?"
     (phone_limit, phone_window), (ip_limit, ip_window) = LOGIN_LIMITS
     return [
         (f"login:phone:{phone}", phone_limit, phone_window),
@@ -260,7 +261,7 @@ def home(request):
     context = {
         "summary": summary,
         "greet": greeting(),
-        "today_trend": trend(summary["today_amount"], summary["yesterday_amount"]),
+        "today_trend": trend(summary["today_amount"], summary["yesterday_so_far_amount"]),
         "week_trend": trend(summary["week_amount"], summary["prev_week_amount"]),
         "top_packages": top_by(payments, "package__name"),
         "top_routers": top_by(payments, "router__name") if len(routers) > 1 else [],

@@ -300,12 +300,13 @@ def checkin_source(router):
 def setup_script(router):
     """Usanidi kamili wa router. Ni salama kuuendesha mara nyingi."""
     lines = [
-        f"# JamiiLite 5G: usanidi wa {router.name}",
+        # Jina linaandikwa na mmiliki: mstari mpya ndani yake ungekuwa amri mpya kwenye script.
+        f"# JamiiLite 5G: usanidi wa {' '.join(router.name.split())}",
         *_version_guard(),
         *_clock_lines(),
         *_trust_lines(),
         *_create_hotspot_if_missing(),
-        f"/system identity set name={ros_string(router.nas_identifier)}",
+        f"/system identity set name={ros_string(router.nas_identifier or f'jl-{router.slug}')}",
         # Wateja ambao bado hawajalipa wanatumia DNS ya router.
         "/ip dns set allow-remote-requests=yes",
         *_auth_lines(router),

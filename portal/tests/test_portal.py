@@ -128,7 +128,8 @@ class ReturningCustomerTests(TestCase):
         from billing.models import Voucher, VoucherDevice
 
         self.owner = make_owner()
-        self.router = make_router(self.owner)
+        # Ombi la jaribio linatoka 127.0.0.1, kama router ilivyoripoti: mteja yuko kwenye WiFi yake.
+        self.router = make_router(self.owner, public_ip="127.0.0.1")
         package = make_package(self.owner, name="Siku 1", duration_minutes=1440)
         self.voucher = Voucher.objects.create(
             router=self.router, package=package,
@@ -160,3 +161,33 @@ class ReturningCustomerTests(TestCase):
     def test_no_loop_when_router_reports_error(self):
         response = self.client.get(self.url, {**self.params, "error": "vifaa vimezidi"})
         self.assertNotContains(response, "Karibu tena")
+
+    def test_voucher_is_not_shown_to_requests_from_outside_the_hotspot(self):
+        self.router.public_ip = "41.59.0.7"
+        self.router.save()
+        response = self.client.get(self.url, self.params)
+        self.assertNotContains(response, self.voucher.code)
+        self.assertNotContains(response, "Karibu tena")
+
+    def test_voucher_works_on_another_router_of_the_same_owner(self):
+        other = make_router(self.owner, name="Tawi", slug="tawi", public_ip="127.0.0.1")
+        response = self.client.get(reverse("portal:home", args=[other.slug]), self.params)
+        self.assertContains(response, "Karibu tena")
+
+
+class HotspotLoginTargetTests(TestCase):
+    def setUp(self):
+        self.router = make_router(make_owner())
+        self.url = reverse("portal:home", args=[self.router.slug])
+
+    def target(self, link):
+        self.client.get(self.url, {"link-login-only": link})
+        return self.client.get(self.url).context["login_target"]
+
+    def test_hotspot_addresses_are_accepted(self):
+        for link in ("http://10.5.50.1/login", "http://192.168.88.1/login", "http://login.wifi/login", "http://hotspot/login"):
+            self.assertEqual(self.target(link), link)
+
+    def test_public_sites_are_refused(self):
+        for link in ("https://evil.example/steal", "http://8.8.8.8/login", "javascript:alert(1)"):
+            self.assertEqual(self.target(link), "")

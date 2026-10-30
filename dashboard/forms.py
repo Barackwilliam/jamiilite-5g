@@ -2,6 +2,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, password_validation
 from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import UploadedFile
 from django.utils.translation import gettext_lazy as _
 
 from billing.phone import normalize_tz_phone
@@ -68,7 +69,12 @@ class SignupForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    phone = PhoneField()
+    # Wamiliki wanaingia kwa namba ya simu. Super Admin ana jina (mfano "admin"), kwa hiyo
+    # thamani isiyo namba inakubaliwa, lakini kwa akaunti ya superuser tu.
+    phone = forms.CharField(
+        label=_("Namba ya simu"), max_length=150,
+        widget=forms.TextInput(attrs={"inputmode": "tel", "autocomplete": "username", "placeholder": "0712 345 678"}),
+    )
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}))
 
     def __init__(self, request=None, *args, **kwargs):
@@ -78,11 +84,16 @@ class LoginForm(forms.Form):
 
     def clean(self):
         cleaned = super().clean()
-        phone, password = cleaned.get("phone"), cleaned.get("password")
-        if phone and password:
-            self.user = authenticate(self.request, username=phone, password=password)
-            if self.user is None:
+        raw, password = cleaned.get("phone"), cleaned.get("password")
+        if raw and password:
+            try:
+                username, staff_only = normalize_tz_phone(raw), False
+            except ValidationError:
+                username, staff_only = raw.strip(), True
+            user = authenticate(self.request, username=username, password=password)
+            if user is None or (staff_only and not user.is_superuser):
                 raise forms.ValidationError(_("Namba ya simu au password si sahihi."))
+            self.user = user
         return cleaned
 
 
@@ -97,6 +108,13 @@ class RouterForm(forms.ModelForm):
             "location": forms.TextInput(attrs={"placeholder": _("mfano Sinza, Dar es Salaam")}),
             "wifi_name": forms.TextInput(attrs={"placeholder": _("mfano Neema WiFi")}),
         }
+
+    def clean_name(self):
+        # Mstari mmoja tu: jina linaingia kwenye script ya router na kwenye vocha zinazochapishwa.
+        return " ".join(self.cleaned_data["name"].split())
+
+    def clean_location(self):
+        return " ".join(self.cleaned_data["location"].split())
 
 
 class WifiNameForm(forms.ModelForm):
@@ -204,6 +222,7 @@ class OwnerSettingsForm(forms.ModelForm):
 
     def clean_logo(self):
         logo = self.cleaned_data.get("logo")
-        if logo and hasattr(logo, "size") and logo.size > 2 * 1024 * 1024:
+        # Faili jipya tu: logo iliyopo (FieldFile) ikikosekana kwenye storage, .size ingeleta 500.
+        if isinstance(logo, UploadedFile) and logo.size > 2 * 1024 * 1024:
             raise forms.ValidationError(_("Picha isizidi MB 2."))
         return logo
