@@ -964,3 +964,6 @@ body.print-page { background: #0b1a36; }
 @media (prefers-reduced-motion: reduce) {
   .btn, .card, a.card, .package-tile { transition: none; }
 }
+.sub-widget-meter span { background: var(--grad-brand); }
+.sub-widget-active .sub-widget-meter span { background: var(--money); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }

@@ -365,3 +365,95 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-brand { grid-column: 1 / -1; }
 }
+
+/* Menyu ya simu: kibonyezo kinaweza kufikiwa kwa kibodi */
+.menu-toggle { width: 42px; height: 42px; margin: 0; }
+.menu-toggle:focus-visible + .menu-button { outline: 2px solid var(--brand); outline-offset: 2px; }
+.lang-switch button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+@media (min-width: 901px) { .menu-toggle { display: none; } }
+
+/* ============================================================
+   Mwongozo: hatua pembeni + kicheza chenye urefu usiobadilika
+   ============================================================ */
+.guide-layout { display: grid; gap: 24px; justify-content: center; }
+@media (min-width: 900px) {
+  .guide-layout { grid-template-columns: minmax(240px, 300px) minmax(0, 520px); align-items: start; }
+  .guide-index { position: sticky; top: 92px; }
+}
+.guide-index { list-style: none; margin: 0; padding: 10px; display: flex; flex-direction: column; gap: 4px; border-radius: 20px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); }
+.guide-index button {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border-radius: 12px; border: 0;
+  background: transparent; color: var(--muted); font: 600 0.95rem/1.3 var(--font-body); text-align: left; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.guide-index button:hover { background: rgba(255, 255, 255, 0.05); color: var(--text); }
+.gi-num {
+  display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid var(--border); font-family: var(--font-head); font-size: 0.8rem; font-weight: 800; color: var(--muted);
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.guide-index li.is-done .gi-num { background: rgba(60, 207, 126, 0.16); border-color: rgba(60, 207, 126, 0.4); color: var(--money); }
+.guide-index li.is-current button { background: rgba(245, 166, 35, 0.1); color: var(--text); box-shadow: inset 0 0 0 1px rgba(245, 166, 35, 0.3); }
+.guide-index li.is-current .gi-num { background: var(--grad); border-color: transparent; color: var(--brand-text); box-shadow: 0 8px 18px -8px rgba(245, 140, 35, 0.8); }
+@media (max-width: 899px) { .guide-index { display: none !important; } }
+
+/* Hatua zote zinakaa kwenye seli moja: kicheza kinachukua urefu wa hatua ndefu zaidi, hakirukiruki. */
+.player.is-player { max-width: 520px; width: 100%; background: linear-gradient(180deg, #11295a, #0c1e45); border-color: rgba(255, 255, 255, 0.1); box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.player.is-player .scenes { display: grid; }
+.player.is-player .scene { display: grid; grid-area: 1 / 1; visibility: hidden; min-height: 0; background: transparent; }
+.player.is-player .scene.is-active { visibility: visible; }
+.player.is-player .scene-text { position: relative; z-index: 2; }
+.player.is-player .scene-art {
+  background: radial-gradient(320px 180px at 50% 0%, rgba(34, 184, 224, 0.16), transparent 70%), linear-gradient(180deg, #0b1d42, #0a1838);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.ctrl { background: rgba(255, 255, 255, 0.05); transition: transform 0.15s, background 0.15s; }
+.ctrl:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-1px); }
+.ctrl-play { background: var(--grad); border-color: transparent; box-shadow: 0 10px 24px -10px rgba(245, 140, 35, 0.8); }
+.bar { background: rgba(255, 255, 255, 0.12); }
+.bar i { background: var(--grad); }
+
+/* ============================================================
+   Mahitaji: vigae viwili kwa mstari, MikroTik kwa upana wote
+   ============================================================ */
+.page-head { padding: 64px 0 12px; }
+.page-head h1 { font-size: clamp(2.1rem, 5.5vw, 3.4rem); }
+.needs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.need {
+  padding: 26px; border-radius: 22px; flex-direction: column; gap: 14px;
+  background: linear-gradient(180deg, rgba(20, 44, 88, 0.9), rgba(12, 28, 60, 0.9));
+  border: 1px solid var(--border); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 50px -36px rgba(0, 0, 0, 0.9);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.need:hover { transform: translateY(-3px); border-color: rgba(245, 166, 35, 0.3); }
+.need-wide { grid-column: 1 / -1; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 20px; }
+.need-icon { width: 52px; height: 52px; border-radius: 16px; background: var(--grad); color: var(--brand-text); box-shadow: 0 12px 26px -12px rgba(245, 140, 35, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+.need h2 { font-size: 1.2rem; }
+.models { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.models li { padding: 14px 16px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); transition: border-color 0.2s; }
+.models li:hover { border-color: rgba(34, 184, 224, 0.4); }
+.models b { font-family: var(--font-head); color: #fff; }
+@media (max-width: 760px) {
+  .needs, .models { grid-template-columns: 1fr; }
+  .need-wide { grid-template-columns: 1fr; }
+}
+
+/* Chagua router: paneli ya kioo badala ya ukanda wa bluu */
+.picker-panel {
+  padding: 40px 32px; border-radius: 28px;
+  background: radial-gradient(500px 240px at 50% 0%, rgba(34, 184, 224, 0.12), transparent 70%), linear-gradient(180deg, rgba(18, 40, 82, 0.85), rgba(11, 26, 56, 0.85));
+  border: 1px solid var(--border); box-shadow: 0 40px 80px -50px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.picker { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.pick { background: rgba(255, 255, 255, 0.04); border-radius: 14px; transition: border-color 0.2s, background 0.2s, transform 0.2s; }
+.pick:hover { border-color: rgba(255, 255, 255, 0.22); transform: translateY(-1px); }
+.pick:has(input:checked) { border-color: var(--brand); background: rgba(245, 166, 35, 0.1); box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.12); }
+.answer { border: 1px solid rgba(245, 166, 35, 0.4); background: rgba(255, 255, 255, 0.04); border-radius: 20px; animation: scene-in 0.35s ease both; }
+.diagram { background: rgba(34, 184, 224, 0.08); border: 1px solid rgba(34, 184, 224, 0.25); }
+@media (max-width: 600px) { .picker-panel { padding: 28px 18px; border-radius: 22px; } }
+@media (min-width: 761px) {
+  /* MikroTik (kubwa) upande wa kulia; 1, 3 na 4 zinapangwa kushoto kwa mpangilio wake. */
+  .needs { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+  .need-wide { grid-column: 2; grid-row: 1 / span 3; grid-template-columns: 1fr; align-content: start; }
+  .need-wide .models { grid-template-columns: 1fr; }
+}

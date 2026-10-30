@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 00:49+0300\n"
+"POT-Creation-Date: 2026-10-30 03:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,56 +18,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: static/js/guide.js:61 static/js/landing.js:790
-msgid "Simamisha"
-msgstr "Pause"
-
-#: static/js/guide.js:61
-msgid "Anza upya"
-msgstr "Start over"
-
-#: static/js/guide.js:61 static/js/landing.js:790
-msgid "Cheza"
-msgstr "Play"
-
-#: static/js/landing.js:27 static/js/landing.js:100 static/js/landing.js:864
+#: static/js/landing.js:27 static/js/landing.js:100 static/js/landing.js:871
 #: ui/static/ui/live.js:34
 msgid "Saa 1"
 msgstr "1 hour"
 
 #: static/js/landing.js:27 static/js/landing.js:99 static/js/landing.js:411
-#: static/js/landing.js:866 ui/static/ui/live.js:34
+#: static/js/landing.js:873 ui/static/ui/live.js:34
 msgid "Siku 1"
 msgstr "1 day"
 
-#: static/js/landing.js:27 static/js/landing.js:868 ui/static/ui/live.js:34
+#: static/js/landing.js:27 static/js/landing.js:875 ui/static/ui/live.js:34
 msgid "Wiki"
-msgstr "Weeks"
+msgstr "Week"
 
-#: static/js/landing.js:231 static/js/landing.js:562 static/js/landing.js:867
+#: static/js/landing.js:231 static/js/landing.js:569 static/js/landing.js:874
 msgid "Muda umeisha · mteja ametoka"
 msgstr "Time's up · customer left"
 
-#: static/js/landing.js:412 static/js/landing.js:539 static/js/landing.js:865
+#: static/js/landing.js:412 static/js/landing.js:546 static/js/landing.js:872
 msgid "Mteja ameingia · Neema WiFi"
 msgstr "Customer connected · Neema WiFi"
 
-#: static/js/landing.js:501
+#: static/js/landing.js:508
 msgid "Lipa Tsh %(amount)s kwa NEEMA WIFI? Weka PIN yako ya M-Pesa."
 msgstr "Pay Tsh %(amount)s to NEEMA WIFI? Enter your M-Pesa PIN."
 
-#: static/js/landing.js:675
+#: static/js/landing.js:682
 msgid "siku %(n)s"
 msgid_plural "siku %(n)s"
 msgstr[0] "%(n)s day"
 msgstr[1] "%(n)s days"
 
-#: static/js/landing.js:864 static/js/landing.js:865 static/js/landing.js:866
-#: static/js/landing.js:868
+#: static/js/landing.js:797
+msgid "Simamisha"
+msgstr "Pause"
+
+#: static/js/landing.js:797
+msgid "Cheza"
+msgstr "Play"
+
+#: static/js/landing.js:871 static/js/landing.js:872 static/js/landing.js:873
+#: static/js/landing.js:875
 msgid "sasa hivi"
 msgstr "just now"
 
-#: static/js/landing.js:867
+#: static/js/landing.js:874
 msgid "Router imemkata yenyewe"
 msgstr "The router cut them off by itself"
 
@@ -170,3 +166,6 @@ msgstr "1 customer"
 #: ui/static/ui/live.js:395
 msgid "wateja %(n)s"
 msgstr "%(n)s customers"
+
+#~ msgid "Anza upya"
+#~ msgstr "Start over"

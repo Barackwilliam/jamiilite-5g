@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 05:25+0300\n"
+"POT-Creation-Date: 2026-10-30 03:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgid "Imeshindwa"
 msgstr "Failed"
 
 #: billing/models.py:181 dashboard/templates/dashboard/signup.html:8
-#: dashboard/views.py:53 dashboard/views.py:486
+#: dashboard/views.py:53 dashboard/views.py:487
 #: pages/templates/pages/_journey.html:40
 msgid "Mauzo"
 msgstr "Sales"
@@ -74,12 +74,20 @@ msgstr "Cash / outside the system"
 msgid "Weka namba sahihi ya simu, mfano 0712 345 678."
 msgstr "Enter a valid phone number, e.g. 0712 345 678."
 
-#: billing/subscriptions.py:43
+#: billing/services.py:41
+msgid "Imeshindwa kuwasiliana na mtoa huduma wa malipo. Jaribu tena."
+msgstr "Couldn't reach the payment provider. Please try again."
+
+#: billing/services.py:95
+msgid "Muda wa kuthibitisha malipo umeisha."
+msgstr "The time to confirm the payment ran out."
+
+#: billing/subscriptions.py:48
 #, python-format
 msgid "Salio halitoshi. Unahitaji Tsh %(amount)s."
 msgstr "Not enough balance. You need Tsh %(amount)s."
 
-#: billing/wallet.py:48 dashboard/forms.py:185
+#: billing/wallet.py:48 dashboard/forms.py:203
 #, python-format
 msgid "Kiasi cha chini ni Tsh %(amount)s."
 msgstr "The minimum amount is Tsh %(amount)s."
@@ -134,6 +142,19 @@ msgid ""
 "mfano: Kesho saa 2 usiku mfumo utakuwa kwenye matengenezo kwa dakika 10."
 msgstr ""
 "e.g. Tomorrow at 8 pm the system will be under maintenance for 10 minutes."
+
+#: control/forms.py:46
+msgid "haijawekwa"
+msgstr "not set"
+
+#: control/forms.py:49
+#, python-format
+msgid "Ukiacha tupu: %(value)s (kutoka .env)."
+msgstr "Left empty: %(value)s (from .env)."
+
+#: control/forms.py:50
+msgid "Inakatwa kwenye kila mauzo kufidia ada za malipo."
+msgstr "Taken from each sale to cover payment fees."
 
 #: control/forms.py:55
 msgid "Weka asilimia kati ya 0 na 20."
@@ -221,22 +242,22 @@ msgstr "Info"
 msgid "chini ya dakika 1"
 msgstr "under a minute"
 
-#: control/status.py:60 core/models.py:241 portal/views.py:99
+#: control/status.py:60 core/models.py:244 portal/views.py:129
 #, python-format
 msgid "dakika %(n)s"
 msgid_plural "dakika %(n)s"
 msgstr[0] "%(n)s minute"
 msgstr[1] "%(n)s minutes"
 
-#: control/status.py:62 core/models.py:240 portal/views.py:98
+#: control/status.py:62 core/models.py:243 portal/views.py:128
 #, python-format
 msgid "saa %(n)s"
 msgid_plural "saa %(n)s"
 msgstr[0] "%(n)s hour"
 msgstr[1] "%(n)s hours"
 
-#: control/status.py:63 core/models.py:237 pages/views.py:40
-#: portal/views.py:97
+#: control/status.py:63 core/models.py:240 pages/views.py:40
+#: portal/views.py:127
 #, python-format
 msgid "siku %(n)s"
 msgid_plural "siku %(n)s"
@@ -369,7 +390,7 @@ msgstr "In use"
 #: control/status.py:137 control/templates/control/routers.html:6
 #: control/templates/control/routers.html:33 control/views.py:224
 #: pages/templates/pages/_journey.html:60
-#: pages/templates/pages/mwongozo.html:133
+#: pages/templates/pages/mwongozo.html:135
 msgid "Online"
 msgstr "Online"
 
@@ -954,7 +975,7 @@ msgstr "No router added yet."
 
 #: control/templates/control/owner_detail.html:98
 #: dashboard/templates/dashboard/package_edit.html:4 dashboard/views.py:51
-#: dashboard/views.py:412 pages/templates/pages/_journey.html:25
+#: dashboard/views.py:413 pages/templates/pages/_journey.html:25
 #: portal/templates/portal/home.html:27
 msgid "Vifurushi"
 msgstr "Packages"
@@ -1007,7 +1028,7 @@ msgid "Inaisha"
 msgstr "Ends"
 
 #: control/templates/control/owners.html:23 dashboard/views.py:54
-#: dashboard/views.py:510 pages/templates/pages/_journey.html:40
+#: dashboard/views.py:511 pages/templates/pages/_journey.html:40
 #: pages/templates/pages/_sim.html:84
 msgid "Salio"
 msgstr "Balance"
@@ -1022,7 +1043,7 @@ msgstr "No owner matches this search."
 msgid "Yote"
 msgstr "All"
 
-#: control/templates/control/payments.html:18 dashboard/forms.py:123
+#: control/templates/control/payments.html:18 dashboard/forms.py:141
 #: dashboard/templates/dashboard/sales.html:35
 #: pages/templates/pages/_journey.html:55
 msgid "Muda"
@@ -1041,7 +1062,7 @@ msgstr "Owner"
 msgid "Router"
 msgstr "Router"
 
-#: control/templates/control/payments.html:18 dashboard/forms.py:164
+#: control/templates/control/payments.html:18 dashboard/forms.py:182
 #: dashboard/templates/dashboard/sales.html:35
 #: pages/templates/pages/_sim.html:5
 msgid "Kifurushi"
@@ -1054,7 +1075,7 @@ msgstr "Customer"
 
 #: control/templates/control/payments.html:18
 #: dashboard/templates/dashboard/sales.html:35
-#: pages/templates/pages/_journey.html:30 ui/templates/ui/_bar_chart.html:31
+#: pages/templates/pages/_journey.html:30 ui/templates/ui/_bar_chart.html:32
 msgid "Kiasi"
 msgstr "Amount"
 
@@ -1064,7 +1085,7 @@ msgstr "No payments in this group."
 
 #: control/templates/control/router_detail.html:4 control/views.py:36
 #: dashboard/templates/dashboard/router_detail.html:4 dashboard/views.py:50
-#: dashboard/views.py:326
+#: dashboard/views.py:327
 msgid "Routers"
 msgstr "Routers"
 
@@ -1073,6 +1094,11 @@ msgstr "Routers"
 #: ui/templates/ui/_live.html:8
 msgid "Wateja online"
 msgstr "Customers online"
+
+#: control/templates/control/router_detail.html:12
+#, python-format
+msgid "Vocha hai %(n)s"
+msgstr "Live vouchers %(n)s"
 
 #: control/templates/control/router_detail.html:13
 #: dashboard/templates/dashboard/sales.html:18
@@ -1097,7 +1123,7 @@ msgstr "RouterOS"
 msgid "Vocha hazijatumika"
 msgstr "Unused vouchers"
 
-#: control/templates/control/router_detail.html:24 dashboard/forms.py:106
+#: control/templates/control/router_detail.html:24 dashboard/forms.py:124
 msgid "Jina la WiFi"
 msgstr "WiFi name"
 
@@ -1356,11 +1382,11 @@ msgstr "Nothing here."
 msgid "Maombi mapya yakiingia, yataonekana hapa na kwenye menyu."
 msgstr "New requests will show up here and in the menu."
 
-#: control/views.py:32 dashboard/views.py:48 dashboard/views.py:284
+#: control/views.py:32 dashboard/views.py:48 dashboard/views.py:285
 msgid "Muhtasari"
 msgstr "Overview"
 
-#: control/views.py:33 control/views.py:312 dashboard/views.py:294
+#: control/views.py:33 control/views.py:312 dashboard/views.py:295
 msgid "Mtandao live"
 msgstr "Live network"
 
@@ -1368,7 +1394,7 @@ msgstr "Live network"
 msgid "Mfumo"
 msgstr "System"
 
-#: control/views.py:70 dashboard/views.py:56 dashboard/views.py:548
+#: control/views.py:70 dashboard/views.py:56 dashboard/views.py:549
 msgid "Mipangilio"
 msgstr "Settings"
 
@@ -1473,7 +1499,7 @@ msgstr "Write the speed as upload/download, e.g. 2M/2M or 512k/1M."
 msgid "Tumia herufi za kawaida tu (bila emoji), zisizozidi 32."
 msgstr "Use plain characters only (no emoji), up to 32."
 
-#: core/models.py:110 dashboard/forms.py:94 dashboard/forms.py:107
+#: core/models.py:110 dashboard/forms.py:105 dashboard/forms.py:125
 msgid ""
 "Jina linaloonekana kwenye simu za wateja. Acha tupu kutobadilisha WiFi ya "
 "router."
@@ -1481,261 +1507,262 @@ msgstr ""
 "The name customers see on their phones. Leave empty to keep the router's "
 "WiFi as it is."
 
-#: core/models.py:226
+#: core/models.py:229
 #, python-format
 msgid "kasi %(speed)s"
 msgstr "speed %(speed)s"
 
-#: core/models.py:234
+#: core/models.py:237
 #, python-format
 msgid "wiki %(n)s"
 msgid_plural "wiki %(n)s"
 msgstr[0] "%(n)s week"
 msgstr[1] "%(n)s weeks"
 
-#: core/models.py:248
+#: core/models.py:251
 msgid "Washa upya (reboot)"
 msgstr "Restart (reboot)"
 
-#: core/models.py:249
+#: core/models.py:252
 msgid "Weka upya usanidi wa JamiiLite"
 msgstr "Re-apply JamiiLite setup"
 
-#: core/models.py:340
+#: core/models.py:343
 msgid "Ameingia"
 msgstr "Logged in"
 
-#: core/models.py:341 ui/templates/ui/_live.html:27
+#: core/models.py:344 ui/templates/ui/_live.html:27
 msgid "Amekataliwa"
 msgstr "Rejected"
 
-#: core/models.py:342
+#: core/models.py:345
 msgid "Ameanza kutumia"
 msgstr "Session started"
 
-#: core/models.py:343
+#: core/models.py:346
 msgid "Matumizi"
 msgstr "Usage"
 
-#: core/models.py:344
+#: core/models.py:347
 msgid "Ametoka"
 msgstr "Logged out"
 
-#: core/models.py:345
+#: core/models.py:348
 msgid "Ombi la malipo"
 msgstr "Payment request"
 
-#: core/models.py:346
+#: core/models.py:349
 msgid "Amelipa"
 msgstr "Paid"
 
-#: core/models.py:347
+#: core/models.py:350
 msgid "Malipo yameshindwa"
 msgstr "Payment failed"
 
-#: core/models.py:348
+#: core/models.py:351
 msgid "Agizo"
 msgstr "Command"
 
-#: dashboard/forms.py:21 pages/templates/pages/_sim.html:34 portal/forms.py:12
+#: dashboard/forms.py:22 dashboard/forms.py:75
+#: pages/templates/pages/_sim.html:34 portal/forms.py:12
 msgid "Namba ya simu"
 msgstr "Phone number"
 
-#: dashboard/forms.py:35
+#: dashboard/forms.py:36
 msgid "Lugha ya dashboard yako"
 msgstr "Dashboard language"
 
-#: dashboard/forms.py:43
+#: dashboard/forms.py:44
 msgid "Jina la biashara yako"
 msgstr "Your business name"
 
-#: dashboard/forms.py:44 dashboard/forms.py:98 dashboard/forms.py:108
+#: dashboard/forms.py:45 dashboard/forms.py:109 dashboard/forms.py:126
 msgid "mfano Neema WiFi"
 msgstr "e.g. Neema WiFi"
 
-#: dashboard/forms.py:46
+#: dashboard/forms.py:47
 msgid "Utaitumia kuingia, na kupokea pesa zako."
 msgstr "You will use it to log in and to receive your money."
 
-#: dashboard/forms.py:47 dashboard/forms.py:72
+#: dashboard/forms.py:48 dashboard/forms.py:78
 msgid "Password"
 msgstr "Password"
 
-#: dashboard/forms.py:48
+#: dashboard/forms.py:49
 msgid "Rudia nenosiri"
 msgstr "Repeat password"
 
-#: dashboard/forms.py:49
+#: dashboard/forms.py:50
 msgid "Unaweza kubadilisha baadaye wakati wowote."
 msgstr "You can change it any time later."
 
-#: dashboard/forms.py:54
+#: dashboard/forms.py:55
 msgid "Namba hii tayari ina akaunti. Ingia badala yake."
 msgstr "This number already has an account. Log in instead."
 
-#: dashboard/forms.py:61
+#: dashboard/forms.py:62
 msgid "Password hazilingani."
 msgstr "The passwords do not match."
 
-#: dashboard/forms.py:66
+#: dashboard/forms.py:67
 msgid "Tumia password ya angalau herufi 8, isiyo rahisi kukisia."
 msgstr "Use a password of at least 8 characters that is hard to guess."
 
-#: dashboard/forms.py:85
+#: dashboard/forms.py:95
 msgid "Namba ya simu au password si sahihi."
 msgstr "Wrong phone number or password."
 
-#: dashboard/forms.py:93
+#: dashboard/forms.py:104
 msgid "Jina la eneo"
 msgstr "Location name"
 
-#: dashboard/forms.py:93
+#: dashboard/forms.py:104
 msgid "Mahali (si lazima)"
 msgstr "Area (optional)"
 
-#: dashboard/forms.py:93
+#: dashboard/forms.py:104
 msgid "Jina la WiFi (si lazima)"
 msgstr "WiFi name (optional)"
 
-#: dashboard/forms.py:96
+#: dashboard/forms.py:107
 msgid "mfano Duka la Kati"
 msgstr "e.g. Main Shop"
 
-#: dashboard/forms.py:97
+#: dashboard/forms.py:108
 msgid "mfano Sinza, Dar es Salaam"
 msgstr "e.g. Sinza, Dar es Salaam"
 
-#: dashboard/forms.py:111
+#: dashboard/forms.py:129
 msgid "Dakika"
 msgstr "Minutes"
 
-#: dashboard/forms.py:111
+#: dashboard/forms.py:129
 msgid "Saa"
 msgstr "Hours"
 
-#: dashboard/forms.py:111 ui/templates/ui/_bar_chart.html:31
+#: dashboard/forms.py:129 ui/templates/ui/_bar_chart.html:32
 msgid "Siku"
 msgstr "Days"
 
-#: dashboard/forms.py:111 pages/templates/pages/_sim.html:33 pages/views.py:27
+#: dashboard/forms.py:129 pages/templates/pages/_sim.html:33 pages/views.py:27
 #: ui/templates/ui/auth_base.html:75
 msgid "Wiki"
-msgstr "Weeks"
+msgstr "Week"
 
-#: dashboard/forms.py:111
+#: dashboard/forms.py:129
 msgid "Mwezi"
 msgstr "Months"
 
-#: dashboard/forms.py:113
+#: dashboard/forms.py:131
 msgid "Bila kikomo"
 msgstr "Unlimited"
 
-#: dashboard/forms.py:114
+#: dashboard/forms.py:132
 msgid "Hadi 1 Mbps"
 msgstr "Up to 1 Mbps"
 
-#: dashboard/forms.py:115
+#: dashboard/forms.py:133
 msgid "Hadi 2 Mbps"
 msgstr "Up to 2 Mbps"
 
-#: dashboard/forms.py:116
+#: dashboard/forms.py:134
 msgid "Hadi 3 Mbps"
 msgstr "Up to 3 Mbps"
 
-#: dashboard/forms.py:117
+#: dashboard/forms.py:135
 msgid "Hadi 5 Mbps"
 msgstr "Up to 5 Mbps"
 
-#: dashboard/forms.py:118
+#: dashboard/forms.py:136
 msgid "Hadi 10 Mbps"
 msgstr "Up to 10 Mbps"
 
-#: dashboard/forms.py:124
+#: dashboard/forms.py:142
 msgid "Kipimo"
 msgstr "Unit"
 
-#: dashboard/forms.py:125 pages/templates/pages/_journey.html:55
+#: dashboard/forms.py:143 pages/templates/pages/_journey.html:55
 msgid "Kasi"
 msgstr "Speed"
 
-#: dashboard/forms.py:131
+#: dashboard/forms.py:149
 msgid "Jina la kifurushi"
 msgstr "Package name"
 
-#: dashboard/forms.py:131
+#: dashboard/forms.py:149
 msgid "Bei (Tsh)"
 msgstr "Price (Tsh)"
 
-#: dashboard/forms.py:132
+#: dashboard/forms.py:150
 msgid "Simu ngapi kwa vocha moja"
 msgstr "Phones per voucher"
 
-#: dashboard/forms.py:132
+#: dashboard/forms.py:150
 msgid "Kinauzwa"
 msgstr "On sale"
 
-#: dashboard/forms.py:135
+#: dashboard/forms.py:153
 msgid "mfano Siku 1"
 msgstr "e.g. 1 Day"
 
-#: dashboard/forms.py:150
+#: dashboard/forms.py:168
 #, python-format
 msgid "Maalum (%(speed)s)"
 msgstr "Custom (%(speed)s)"
 
-#: dashboard/forms.py:155
+#: dashboard/forms.py:173
 msgid "Weka namba kati ya 1 na 10."
 msgstr "Enter a number between 1 and 10."
 
-#: dashboard/forms.py:165
+#: dashboard/forms.py:183
 msgid "Eneo (router)"
 msgstr "Location (router)"
 
-#: dashboard/forms.py:166
+#: dashboard/forms.py:184
 msgid "Idadi ya vocha"
 msgstr "Number of vouchers"
 
-#: dashboard/forms.py:176
+#: dashboard/forms.py:194
 msgid "Kiasi (Tsh)"
 msgstr "Amount (Tsh)"
 
-#: dashboard/forms.py:177
+#: dashboard/forms.py:195
 msgid "mfano 20000"
 msgstr "e.g. 20000"
 
-#: dashboard/forms.py:179
+#: dashboard/forms.py:197
 msgid "Tuma kwenda namba"
 msgstr "Send to number"
 
-#: dashboard/forms.py:196
+#: dashboard/forms.py:214
 msgid "Jina la biashara"
 msgstr "Business name"
 
-#: dashboard/forms.py:197
+#: dashboard/forms.py:215
 msgid "Namba ya kupokea pesa"
 msgstr "Payout number"
 
-#: dashboard/forms.py:198
+#: dashboard/forms.py:216
 msgid "Logo (inaonekana kwenye ukurasa wa kulipia)"
 msgstr "Logo (shown on the payment page)"
 
-#: dashboard/forms.py:208
+#: dashboard/forms.py:227
 msgid "Picha isizidi MB 2."
 msgstr "The image must not exceed 2 MB."
 
-#: dashboard/stats.py:63
+#: dashboard/stats.py:66
 msgid "Habari za asubuhi"
 msgstr "Good morning"
 
-#: dashboard/stats.py:65
+#: dashboard/stats.py:68
 msgid "Habari za mchana"
 msgstr "Good afternoon"
 
-#: dashboard/stats.py:67
+#: dashboard/stats.py:70
 msgid "Habari za jioni"
 msgstr "Good evening"
 
-#: dashboard/stats.py:69
+#: dashboard/stats.py:72
 msgid "Habari za usiku"
 msgstr "Good evening"
 
@@ -1822,7 +1849,7 @@ msgid "Unganisha"
 msgstr "Connect"
 
 #: dashboard/templates/dashboard/home.html:32
-#: pages/templates/pages/home.html:130
+#: pages/templates/pages/home.html:131
 msgid "Weka vifurushi na bei"
 msgstr "Set packages and prices"
 
@@ -1835,7 +1862,7 @@ msgid "Weka"
 msgstr "Set"
 
 #: dashboard/templates/dashboard/home.html:37
-#: pages/templates/pages/home.html:23 pages/templates/pages/home.html:63
+#: pages/templates/pages/home.html:22 pages/templates/pages/home.html:62
 msgid "Jaribu kama mteja"
 msgstr "Try it as a customer"
 
@@ -1848,7 +1875,7 @@ msgid "Ona ukurasa wa mteja"
 msgstr "See the customer page"
 
 #: dashboard/templates/dashboard/home.html:56
-#: pages/templates/pages/home.html:40 ui/templates/ui/_live.html:7
+#: pages/templates/pages/home.html:39 ui/templates/ui/_live.html:7
 #: ui/templates/ui/auth_base.html:52
 msgid "Mapato ya leo"
 msgstr "Today's revenue"
@@ -1958,7 +1985,7 @@ msgstr "Connecting…"
 #: dashboard/templates/dashboard/login.html:14
 #: dashboard/templates/dashboard/signup.html:38
 #: dashboard/templates/dashboard/signup_closed.html:10
-#: pages/templates/pages/base.html:53 pages/templates/pages/base.html:76
+#: pages/templates/pages/base.html:53 pages/templates/pages/base.html:81
 msgid "Ingia"
 msgstr "Log in"
 
@@ -2020,24 +2047,24 @@ msgstr[1] "%(n)s phones"
 msgid "Anza na vifurushi vinavyouzwa zaidi"
 msgstr "Start with the best-selling packages"
 
-#: dashboard/templates/dashboard/packages.html:31 dashboard/views.py:383
+#: dashboard/templates/dashboard/packages.html:31 dashboard/views.py:384
 #: pages/templates/pages/_sim.html:31 pages/views.py:25
 #: ui/templates/ui/auth_base.html:71 ui/templates/ui/auth_base.html:76
 msgid "Saa 1"
 msgstr "1 hour"
 
-#: dashboard/templates/dashboard/packages.html:32 dashboard/views.py:384
+#: dashboard/templates/dashboard/packages.html:32 dashboard/views.py:385
 #: pages/templates/pages/_sim.html:32 pages/views.py:26
 #: ui/templates/ui/auth_base.html:56 ui/templates/ui/auth_base.html:73
 msgid "Siku 1"
 msgstr "1 day"
 
-#: dashboard/templates/dashboard/packages.html:33 dashboard/views.py:385
+#: dashboard/templates/dashboard/packages.html:33 dashboard/views.py:386
 msgid "Wiki 1"
 msgstr "1 week"
 
 #: dashboard/templates/dashboard/packages.html:34
-#: dashboard/templates/dashboard/subscription.html:28 dashboard/views.py:386
+#: dashboard/templates/dashboard/subscription.html:28 dashboard/views.py:387
 msgid "Mwezi 1"
 msgstr "1 month"
 
@@ -2291,16 +2318,17 @@ msgstr ""
 " number, contact us."
 
 #: dashboard/templates/dashboard/signup.html:3
-#: pages/templates/pages/base.html:75
+#: pages/templates/pages/base.html:80
 msgid "Jisajili"
 msgstr "Sign up"
 
 #: dashboard/templates/dashboard/signup.html:5
-#: pages/templates/pages/_sim.html:3
+#: pages/templates/pages/_sim.html:3 pages/templates/pages/mwongozo.html:19
 msgid "Hatua"
 msgstr "Steps"
 
 #: dashboard/templates/dashboard/signup.html:6
+#: pages/templates/pages/base.html:78 pages/templates/pages/base.html:79
 msgid "Akaunti"
 msgstr "Account"
 
@@ -2476,7 +2504,7 @@ msgid "Toka"
 msgstr "Log out"
 
 #: dashboard/templates/dashboard/voucher_print.html:6 dashboard/views.py:52
-#: dashboard/views.py:463 pages/templates/pages/_journey.html:8
+#: dashboard/views.py:464 pages/templates/pages/_journey.html:8
 #: pages/templates/pages/_journey.html:35
 #: pages/templates/pages/_journey.html:45
 msgid "Vocha"
@@ -2595,7 +2623,7 @@ msgstr "No transactions yet."
 msgid "Live"
 msgstr "Live"
 
-#: dashboard/views.py:55 dashboard/views.py:533
+#: dashboard/views.py:55 dashboard/views.py:534
 msgid "Usajili"
 msgstr "Subscription"
 
@@ -2617,17 +2645,17 @@ msgstr "Welcome, %(name)s! You have %(days)s free trial days."
 msgid "Umejaribu mara nyingi. Subiri dakika %(n)s, kisha ujaribu tena."
 msgstr "Too many attempts. Wait %(n)s minutes, then try again."
 
-#: dashboard/views.py:322
+#: dashboard/views.py:323
 #, python-format
 msgid "%(name)s imeongezwa. Sasa iunganishe kwa mstari wa usanidi."
 msgstr "%(name)s has been added. Now connect it with the setup line."
 
-#: dashboard/views.py:342
+#: dashboard/views.py:343
 #, python-format
 msgid "Jina la WiFi litabadilika kuwa “%(name)s” ndani ya dakika 1."
 msgstr "The WiFi name will change to “%(name)s” within a minute."
 
-#: dashboard/views.py:348
+#: dashboard/views.py:349
 msgid ""
 "Siri mpya imewekwa. Mstari wa zamani haufanyi kazi tena: bandika huu mpya "
 "kwenye router."
@@ -2635,40 +2663,40 @@ msgstr ""
 "New secret set. The old line no longer works: paste this new one into the "
 "router."
 
-#: dashboard/views.py:355
+#: dashboard/views.py:356
 msgid "Agizo limetumwa. Router italitekeleza ndani ya dakika 1 ikiwa online."
 msgstr ""
 "Command sent. The router will carry it out within a minute if it is online."
 
-#: dashboard/views.py:400
+#: dashboard/views.py:401
 msgid ""
 "Vifurushi 4 vimewekwa. Gusa kifurushi chochote kubadilisha bei au kasi."
 msgstr "4 packages added. Tap any package to change its price or speed."
 
-#: dashboard/views.py:408
+#: dashboard/views.py:409
 #, python-format
 msgid "Kifurushi “%(name)s” kimeongezwa."
 msgstr "Package “%(name)s” added."
 
-#: dashboard/views.py:423
+#: dashboard/views.py:424
 msgid "Mabadiliko yamehifadhiwa. Yanaanza kufanya kazi papo hapo."
 msgstr "Changes saved. They take effect immediately."
 
-#: dashboard/views.py:439
+#: dashboard/views.py:440
 msgid "Usajili wako umeisha. Lipia ada ya mwezi ili kutengeneza vocha mpya."
 msgstr ""
 "Your subscription has ended. Pay the monthly fee to create new vouchers."
 
-#: dashboard/views.py:503
+#: dashboard/views.py:504
 msgid "Ombi lako limepokelewa. Pesa itatumwa kwenye namba yako hivi karibuni."
 msgstr "Request received. The money will be sent to your number shortly."
 
-#: dashboard/views.py:527
+#: dashboard/views.py:528
 #, python-format
 msgid "Asante! Umelipia miezi %(months)s."
 msgstr "Thank you! You paid for %(months)s month(s)."
 
-#: dashboard/views.py:546
+#: dashboard/views.py:547
 msgid "Mipangilio imehifadhiwa."
 msgstr "Settings saved."
 
@@ -2745,9 +2773,9 @@ msgstr "Per month, %(days)s-day free trial"
 msgid "Anza sasa kwa WhatsApp"
 msgstr "Start now on WhatsApp"
 
-#: pages/templates/pages/_cta.html:7
-msgid "Anza sasa"
-msgstr "Start now"
+#: pages/templates/pages/_cta.html:8 pages/templates/pages/base.html:54
+msgid "Anza bure"
+msgstr "Start free"
 
 #: pages/templates/pages/_journey.html:6
 msgid "Simu ya mteja"
@@ -2757,7 +2785,7 @@ msgstr "Customer's phone"
 msgid "Mtoa huduma wa malipo"
 msgstr "Payment provider"
 
-#: pages/templates/pages/_journey.html:10 pages/templates/pages/home.html:37
+#: pages/templates/pages/_journey.html:10 pages/templates/pages/home.html:36
 msgid "Simu ya mmiliki"
 msgstr "Owner's phone"
 
@@ -2883,17 +2911,17 @@ msgstr ""
 " the internet drops."
 
 #: pages/templates/pages/_journey.html:69
-#: pages/templates/pages/mwongozo.html:172
+#: pages/templates/pages/mwongozo.html:174
 msgid "Hatua iliyopita"
 msgstr "Previous step"
 
 #: pages/templates/pages/_journey.html:71
-#: pages/templates/pages/mwongozo.html:173 pages/views.py:36
+#: pages/templates/pages/mwongozo.html:175 pages/views.py:36
 msgid "Cheza"
 msgstr "Play"
 
 #: pages/templates/pages/_journey.html:72
-#: pages/templates/pages/mwongozo.html:174
+#: pages/templates/pages/mwongozo.html:176
 msgid "Hatua inayofuata"
 msgstr "Next step"
 
@@ -2925,7 +2953,7 @@ msgstr "This network needs a password"
 msgid "Ingia kwenye mtandao"
 msgstr "Sign in to network"
 
-#: pages/templates/pages/_sim.html:30 pages/templates/pages/mwongozo.html:148
+#: pages/templates/pages/_sim.html:30 pages/templates/pages/mwongozo.html:150
 #: portal/templates/portal/home.html:18
 msgid "Nunua kifurushi"
 msgstr "Buy a package"
@@ -2942,7 +2970,7 @@ msgstr "speed 5 Mbps"
 msgid "simu 2"
 msgstr "2 phones"
 
-#: pages/templates/pages/_sim.html:36 pages/templates/pages/mwongozo.html:154
+#: pages/templates/pages/_sim.html:36 pages/templates/pages/mwongozo.html:156
 #: portal/templates/portal/home.html:49
 msgid "Lipa kwa simu"
 msgstr "Pay by phone"
@@ -3003,7 +3031,7 @@ msgstr "Buy again"
 msgid "Dashboard yako"
 msgstr "Your dashboard"
 
-#: pages/templates/pages/_sim.html:86 pages/templates/pages/home.html:34
+#: pages/templates/pages/_sim.html:86 pages/templates/pages/home.html:33
 msgid "online"
 msgstr "online"
 
@@ -3015,7 +3043,7 @@ msgstr "sales today"
 msgid "Gusa simu kuendesha mwenyewe"
 msgstr "Tap the phone to drive it yourself"
 
-#: pages/templates/pages/_sim.html:93
+#: pages/templates/pages/_sim.html:93 pages/templates/pages/mwongozo.html:175
 msgid "Anza upya"
 msgstr "Start over"
 
@@ -3043,7 +3071,7 @@ msgstr ""
 msgid "JamiiLite 5G, mwanzo"
 msgstr "JamiiLite 5G, home"
 
-#: pages/templates/pages/base.html:46 ui/templates/ui/app_base.html:13
+#: pages/templates/pages/base.html:45 ui/templates/ui/app_base.html:13
 msgid "Menyu"
 msgstr "Menu"
 
@@ -3051,15 +3079,16 @@ msgstr "Menu"
 msgid "Kurasa"
 msgstr "Pages"
 
-#: pages/templates/pages/base.html:48
+#: pages/templates/pages/base.html:48 pages/templates/pages/base.html:73
 msgid "Jaribu"
 msgstr "Try it"
 
-#: pages/templates/pages/base.html:49 pages/templates/pages/home.html:148
+#: pages/templates/pages/base.html:49 pages/templates/pages/base.html:74
+#: pages/templates/pages/home.html:149
 msgid "Bei"
 msgstr "Pricing"
 
-#: pages/templates/pages/base.html:50 pages/templates/pages/base.html:73
+#: pages/templates/pages/base.html:50 pages/templates/pages/base.html:75
 #: pages/templates/pages/mahitaji.html:4
 #: pages/templates/pages/mahitaji.html:10
 msgid "Mahitaji"
@@ -3069,43 +3098,39 @@ msgstr "Requirements"
 msgid "Mwongozo"
 msgstr "Guide"
 
-#: pages/templates/pages/base.html:54
-msgid "Anza bure"
-msgstr "Start free"
-
 #: pages/templates/pages/base.html:68
 msgid "Mfumo wa kuuza WiFi kwa vifurushi, kwa wamiliki wa WiFi Tanzania."
 msgstr "The system for selling WiFi in packages, for WiFi owners in Tanzania."
 
-#: pages/templates/pages/base.html:71
-msgid "Viungo"
-msgstr "Links"
+#: pages/templates/pages/base.html:71 pages/templates/pages/base.html:72
+msgid "Bidhaa"
+msgstr "Product"
 
-#: pages/templates/pages/base.html:72
-msgid "Mwanzo"
-msgstr "Home"
-
-#: pages/templates/pages/base.html:74 pages/templates/pages/mwongozo.html:4
+#: pages/templates/pages/base.html:76 pages/templates/pages/mwongozo.html:4
 msgid "Mwongozo wa kuunganisha"
 msgstr "Setup guide"
 
-#: pages/templates/pages/home.html:17
+#: pages/templates/pages/base.html:87
+msgid "Imetengenezwa Tanzania"
+msgstr "Made in Tanzania"
+
+#: pages/templates/pages/home.html:16
 msgid "Mfumo wa WiFi za kulipia, Tanzania"
 msgstr "Pay-as-you-go WiFi, made for Tanzania"
 
-#: pages/templates/pages/home.html:18
+#: pages/templates/pages/home.html:17
 msgid "inauza"
 msgstr "sells"
 
-#: pages/templates/pages/home.html:18
+#: pages/templates/pages/home.html:17
 msgid "inapokea malipo"
 msgstr "takes payments"
 
-#: pages/templates/pages/home.html:18
+#: pages/templates/pages/home.html:17
 msgid "inatoa vocha"
 msgstr "issues vouchers"
 
-#: pages/templates/pages/home.html:19
+#: pages/templates/pages/home.html:18
 #, python-format
 msgid ""
 "WiFi yako <span class=\"lp-rotate\" data-rotate><span class=\"lp-grad-text "
@@ -3118,7 +3143,7 @@ msgstr ""
 "hidden=\"true\">%(w2)s</span><span class=\"lp-grad-text\" aria-"
 "hidden=\"true\">%(w3)s</span></span> by itself."
 
-#: pages/templates/pages/home.html:20
+#: pages/templates/pages/home.html:19
 msgid ""
 "Wateja wanalipa kwa simu na kuunganishwa papo hapo. Muda ukiisha, wanakatwa "
 "wenyewe."
@@ -3126,263 +3151,271 @@ msgstr ""
 "Customers pay by phone and get online instantly. When time runs out, they "
 "are disconnected automatically."
 
-#: pages/templates/pages/home.html:22 pages/templates/pages/home.html:179
+#: pages/templates/pages/home.html:21 pages/templates/pages/home.html:182
 #, python-format
 msgid "Anza bure, siku %(days)s"
 msgid_plural "Anza bure, siku %(days)s"
 msgstr[0] "Start free, %(days)s day"
 msgstr[1] "Start free, %(days)s days"
 
-#: pages/templates/pages/home.html:25
+#: pages/templates/pages/home.html:24
 msgid "Njia za malipo"
 msgstr "Payment methods"
 
-#: pages/templates/pages/home.html:31
+#: pages/templates/pages/home.html:30
 msgid "Wateja wakiunganishwa kwenye WiFi ya duka na kulipa kwa simu"
 msgstr "Customers joining a shop’s WiFi and paying by phone"
 
-#: pages/templates/pages/home.html:35
+#: pages/templates/pages/home.html:34
 msgid "mauzo"
 msgstr "sales"
 
-#: pages/templates/pages/home.html:48
+#: pages/templates/pages/home.html:47
 msgid "Dakika 5"
 msgstr "5 minutes"
 
-#: pages/templates/pages/home.html:48
+#: pages/templates/pages/home.html:47
 msgid "kuunganisha router"
 msgstr "to connect a router"
 
-#: pages/templates/pages/home.html:49
+#: pages/templates/pages/home.html:48
 msgid "inauza hata ukiwa umelala"
 msgstr "selling even while you sleep"
 
-#: pages/templates/pages/home.html:50
+#: pages/templates/pages/home.html:49
 msgid "kwa mwezi, bila kamisheni"
 msgstr "a month, no commission"
 
-#: pages/templates/pages/home.html:51
+#: pages/templates/pages/home.html:50
 #, python-format
 msgid "Siku %(days)s"
 msgid_plural "Siku %(days)s"
 msgstr[0] "%(days)s day"
 msgstr[1] "%(days)s days"
 
-#: pages/templates/pages/home.html:51
+#: pages/templates/pages/home.html:50
 msgid "za kujaribu bure"
 msgstr "free trial"
 
-#: pages/templates/pages/home.html:58 pages/templates/pages/home.html:62
+#: pages/templates/pages/home.html:57 pages/templates/pages/home.html:61
 msgid "Ona ikifanya kazi"
 msgstr "See it working"
 
-#: pages/templates/pages/home.html:59
+#: pages/templates/pages/home.html:58
 msgid "Gusa uone inavyofanya kazi"
 msgstr "Tap to see how it works"
 
-#: pages/templates/pages/home.html:64
+#: pages/templates/pages/home.html:63
 msgid "Safari ya packet"
 msgstr "Packet journey"
 
-#: pages/templates/pages/home.html:65
+#: pages/templates/pages/home.html:64
 msgid "Bila / Na JamiiLite"
 msgstr "Without / With JamiiLite"
 
-#: pages/templates/pages/home.html:66
+#: pages/templates/pages/home.html:65
 msgid "Kikokotoo"
 msgstr "Calculator"
 
-#: pages/templates/pages/home.html:70
+#: pages/templates/pages/home.html:69
 msgid ""
 "Mteja analipa, anaunganishwa, muda ukiisha anakatwa. Pesa inaingia kwako."
 msgstr ""
 "The customer pays, gets online, and is cut off when time is up. The money "
 "comes to you."
 
-#: pages/templates/pages/home.html:75
+#: pages/templates/pages/home.html:74
 msgid "Gusa kifaa uone packet inayokifikia."
 msgstr "Tap a device to see the packet that reaches it."
 
-#: pages/templates/pages/home.html:81
+#: pages/templates/pages/home.html:80
 msgid "Linganisha"
 msgstr "Compare"
 
-#: pages/templates/pages/home.html:82
+#: pages/templates/pages/home.html:81
 msgid "Bila JamiiLite"
 msgstr "Without JamiiLite"
 
-#: pages/templates/pages/home.html:83
+#: pages/templates/pages/home.html:82
 msgid "Na JamiiLite"
 msgstr "With JamiiLite"
 
-#: pages/templates/pages/home.html:87
+#: pages/templates/pages/home.html:86
 msgid "Password moja kwa wote"
 msgstr "One password for everyone"
 
-#: pages/templates/pages/home.html:87
+#: pages/templates/pages/home.html:86
 msgid "Inasambaa, na watu wanatumia bure."
 msgstr "It spreads, and people use it for free."
 
-#: pages/templates/pages/home.html:88
+#: pages/templates/pages/home.html:87
 msgid "Daftari la nani amelipa"
 msgstr "A notebook of who paid"
 
-#: pages/templates/pages/home.html:88
+#: pages/templates/pages/home.html:87
 msgid "Unakumbuka kwa kichwa, unapoteza pesa."
 msgstr "You rely on memory and lose money."
 
-#: pages/templates/pages/home.html:89
+#: pages/templates/pages/home.html:88
 msgid "Unazima watu mmoja mmoja"
 msgstr "Cutting people off one by one"
 
-#: pages/templates/pages/home.html:89
+#: pages/templates/pages/home.html:88
 msgid "Muda ukiisha lazima uwepo."
 msgstr "You have to be there when time runs out."
 
-#: pages/templates/pages/home.html:90
+#: pages/templates/pages/home.html:89
 msgid "Pesa taslimu na chenji"
 msgstr "Cash and change"
 
-#: pages/templates/pages/home.html:90
+#: pages/templates/pages/home.html:89
 msgid "Hujui umepata kiasi gani leo."
 msgstr "You don't know how much you made today."
 
-#: pages/templates/pages/home.html:93
+#: pages/templates/pages/home.html:92
 msgid "Kila mteja na vocha yake"
 msgstr "Every customer gets their own voucher"
 
-#: pages/templates/pages/home.html:93
+#: pages/templates/pages/home.html:92
 msgid "Inafanya kazi kwenye simu alizolipia tu."
 msgstr "It only works on the phones they paid for."
 
-#: pages/templates/pages/home.html:94
+#: pages/templates/pages/home.html:93
 msgid "Kila malipo yanarekodiwa"
 msgstr "Every payment is recorded"
 
-#: pages/templates/pages/home.html:94
+#: pages/templates/pages/home.html:93
 msgid "Unaona jina la kifurushi, saa na kiasi."
 msgstr "You see the package, the time and the amount."
 
-#: pages/templates/pages/home.html:95
+#: pages/templates/pages/home.html:94
 msgid "Anakatwa mwenyewe muda ukiisha"
 msgstr "Cut off automatically when time is up"
 
-#: pages/templates/pages/home.html:95
+#: pages/templates/pages/home.html:94
 msgid "Hata ukiwa safarini."
 msgstr "Even while you're travelling."
 
-#: pages/templates/pages/home.html:96
+#: pages/templates/pages/home.html:95
 msgid "Malipo kwa simu, salio kwenye dashboard"
 msgstr "Mobile payments, balance on your dashboard"
 
-#: pages/templates/pages/home.html:96
+#: pages/templates/pages/home.html:95
 msgid "Unatoa pesa kwenda namba yako wakati wowote."
 msgstr "Withdraw to your number any time."
 
-#: pages/templates/pages/home.html:104
+#: pages/templates/pages/home.html:103
 msgid "Wateja kwa siku"
 msgstr "Customers per day"
 
-#: pages/templates/pages/home.html:105
+#: pages/templates/pages/home.html:104
 msgid "Wastani wa bei ya kifurushi"
 msgstr "Average package price"
 
-#: pages/templates/pages/home.html:106
+#: pages/templates/pages/home.html:105
 msgid "Siku za kazi kwa mwezi"
 msgstr "Open days per month"
 
-#: pages/templates/pages/home.html:109
+#: pages/templates/pages/home.html:108
 msgid "Mauzo kwa mwezi"
 msgstr "Sales per month"
 
-#: pages/templates/pages/home.html:113
+#: pages/templates/pages/home.html:112
 msgid "Ada ya JamiiLite"
 msgstr "JamiiLite fee"
 
-#: pages/templates/pages/home.html:114
+#: pages/templates/pages/home.html:113
 msgid "Unabaki na"
 msgstr "You keep"
 
-#: pages/templates/pages/home.html:115
+#: pages/templates/pages/home.html:114
 msgid "Ada inarudi ndani ya"
 msgstr "Fee earned back in"
 
-#: pages/templates/pages/home.html:117
+#: pages/templates/pages/home.html:116
 msgid "Anza kuuza bure"
 msgstr "Start selling free"
 
-#: pages/templates/pages/home.html:129
+#: pages/templates/pages/home.html:127
+msgid "Jinsi inavyofanya kazi"
+msgstr "How it works"
+
+#: pages/templates/pages/home.html:128
+msgid "Hatua 3, kisha inauza yenyewe."
+msgstr "3 steps, then it sells by itself."
+
+#: pages/templates/pages/home.html:130
 msgid "Unganisha router yako"
 msgstr "Connect your router"
 
-#: pages/templates/pages/home.html:129
+#: pages/templates/pages/home.html:130
 msgid "Bandika mstari mmoja kwenye MikroTik yako."
 msgstr "Paste one line into your MikroTik."
 
-#: pages/templates/pages/home.html:130
+#: pages/templates/pages/home.html:131
 msgid "Wewe unaamua bei, muda na kasi."
 msgstr "You set the price, time and speed."
 
-#: pages/templates/pages/home.html:131
+#: pages/templates/pages/home.html:132
 msgid "Pokea malipo"
 msgstr "Get paid"
 
-#: pages/templates/pages/home.html:131
+#: pages/templates/pages/home.html:132
 msgid "Wateja wanalipa kwa simu, pesa inaingia kwenye salio lako."
 msgstr "Customers pay by phone; the money lands in your balance."
 
-#: pages/templates/pages/home.html:134
+#: pages/templates/pages/home.html:135
 msgid "Vocha za kiotomatiki"
 msgstr "Automatic vouchers"
 
-#: pages/templates/pages/home.html:135
+#: pages/templates/pages/home.html:136
 msgid "Muda unahesabiwa wenyewe"
 msgstr "Time is counted for you"
 
-#: pages/templates/pages/home.html:136
+#: pages/templates/pages/home.html:137
 msgid "Hakuna kugawana password"
 msgstr "No password sharing"
 
-#: pages/templates/pages/home.html:137
+#: pages/templates/pages/home.html:138
 msgid "Kasi kwa kila kifurushi"
 msgstr "Speed per package"
 
-#: pages/templates/pages/home.html:138
+#: pages/templates/pages/home.html:139
 msgid "Simamia ukiwa popote"
 msgstr "Manage from anywhere"
 
-#: pages/templates/pages/home.html:139
+#: pages/templates/pages/home.html:140
 msgid "Vocha za kuchapisha"
 msgstr "Printable vouchers"
 
-#: pages/templates/pages/home.html:149
+#: pages/templates/pages/home.html:150
 msgid "mwezi"
 msgstr "month"
 
-#: pages/templates/pages/home.html:151
+#: pages/templates/pages/home.html:152
 #, python-format
 msgid "Siku %(days)s za majaribio bure"
 msgid_plural "Siku %(days)s za majaribio bure"
 msgstr[0] "%(days)s-day free trial"
 msgstr[1] "%(days)s-day free trial"
 
-#: pages/templates/pages/home.html:152
+#: pages/templates/pages/home.html:153
 msgid "Routers na vifurushi bila kikomo"
 msgstr "Unlimited routers and packages"
 
-#: pages/templates/pages/home.html:153
+#: pages/templates/pages/home.html:154
 msgid "Vocha za kiotomatiki na za kuchapisha"
 msgstr "Automatic and printable vouchers"
 
-#: pages/templates/pages/home.html:154
+#: pages/templates/pages/home.html:155
 msgid "Dashboard ya mapato na ramani ya Live"
 msgstr "Earnings dashboard and live network map"
 
-#: pages/templates/pages/home.html:155
+#: pages/templates/pages/home.html:156
 msgid "Kiswahili na English"
 msgstr "Kiswahili and English"
 
-#: pages/templates/pages/home.html:157
+#: pages/templates/pages/home.html:158
 #, python-format
 msgid ""
 "Ukiuza vifurushi <strong>%(n)s</strong> tu vya Tsh %(price)s kwa mwezi, ada "
@@ -3391,31 +3424,31 @@ msgstr ""
 "Sell just <strong>%(n)s</strong> packages of Tsh %(price)s a month and the "
 "fee is covered."
 
-#: pages/templates/pages/home.html:158
+#: pages/templates/pages/home.html:159
 msgid "Fungua akaunti bure"
 msgstr "Create a free account"
 
-#: pages/templates/pages/home.html:162
+#: pages/templates/pages/home.html:163
 msgid "Maswali"
 msgstr "Questions"
 
-#: pages/templates/pages/home.html:176
+#: pages/templates/pages/home.html:179
 msgid "WiFi yako iko tayari kukuletea pesa."
 msgstr "Your WiFi is ready to make you money."
 
-#: pages/templates/pages/home.html:177
+#: pages/templates/pages/home.html:180
 msgid "Fungua akaunti kwa dakika moja. Hakuna kadi, hakuna mkataba."
 msgstr "Open an account in a minute. No card, no contract."
 
-#: pages/templates/pages/home.html:181
+#: pages/templates/pages/home.html:184
 msgid "Tuulize WhatsApp"
 msgstr "Ask us on WhatsApp"
 
-#: pages/templates/pages/home.html:183
+#: pages/templates/pages/home.html:186
 msgid "Ona mahitaji"
 msgstr "See requirements"
 
-#: pages/templates/pages/home.html:191
+#: pages/templates/pages/home.html:195
 msgid "Funga"
 msgstr "Close"
 
@@ -3523,8 +3556,8 @@ msgstr "Your router"
 #: pages/templates/pages/mahitaji.html:86
 #: pages/templates/pages/mahitaji.html:92
 #: pages/templates/pages/mahitaji.html:97
-#: pages/templates/pages/mwongozo.html:30
-#: pages/templates/pages/mwongozo.html:52
+#: pages/templates/pages/mwongozo.html:32
+#: pages/templates/pages/mwongozo.html:54
 msgid "MikroTik"
 msgstr "MikroTik"
 
@@ -3649,8 +3682,8 @@ msgid "MikroTik LTE"
 msgstr "MikroTik LTE"
 
 #: pages/templates/pages/mahitaji.html:107
-msgid "Niulize swali kwa WhatsApp"
-msgstr "Ask me on WhatsApp"
+msgid "Tuulize swali kwa WhatsApp"
+msgstr "Ask us on WhatsApp"
 
 #: pages/templates/pages/mwongozo.html:5
 msgid ""
@@ -3670,35 +3703,35 @@ msgstr ""
 "It takes about 10 minutes. Press ▶ to start, or use the left and right "
 "arrows to go to the previous or next step."
 
-#: pages/templates/pages/mwongozo.html:18
+#: pages/templates/pages/mwongozo.html:20
 msgid "mwongozo wa hatua"
 msgstr "step-by-step guide"
 
-#: pages/templates/pages/mwongozo.html:24
+#: pages/templates/pages/mwongozo.html:26
 msgid "MiFi au router ya 4G imeunganishwa na MikroTik, kisha simu za wateja"
 msgstr "A MiFi or 4G router connected to the MikroTik, then customer phones"
 
-#: pages/templates/pages/mwongozo.html:26
+#: pages/templates/pages/mwongozo.html:28
 msgid "MiFi /"
 msgstr "MiFi /"
 
-#: pages/templates/pages/mwongozo.html:27
+#: pages/templates/pages/mwongozo.html:29
 msgid "4G / fiber"
 msgstr "4G / fiber"
 
-#: pages/templates/pages/mwongozo.html:35
+#: pages/templates/pages/mwongozo.html:37
 msgid "Washa MikroTik"
 msgstr "Turn on the MikroTik"
 
-#: pages/templates/pages/mwongozo.html:39
+#: pages/templates/pages/mwongozo.html:41
 msgid "Hatua ya 1 kati ya 7"
 msgstr "Step 1 of 7"
 
-#: pages/templates/pages/mwongozo.html:40
+#: pages/templates/pages/mwongozo.html:42
 msgid "Unganisha vifaa"
 msgstr "Connect the devices"
 
-#: pages/templates/pages/mwongozo.html:41
+#: pages/templates/pages/mwongozo.html:43
 msgid ""
 "Unganisha waya kutoka kwenye router yako ya intaneti hadi kwenye "
 "<strong>port ya kwanza (ether1)</strong> ya MikroTik, kisha washa kifaa."
@@ -3706,7 +3739,7 @@ msgstr ""
 "Run a cable from your internet router to the MikroTik’s <strong>first port "
 "(ether1)</strong>, then switch the device on."
 
-#: pages/templates/pages/mwongozo.html:42
+#: pages/templates/pages/mwongozo.html:44
 msgid ""
 "Kama una MiFi isiyo na sehemu ya kuunganisha waya, wasiliana nasi "
 "tukuelekeze jinsi ya kuunganisha MikroTik kwenye WiFi ya MiFi yako."
@@ -3714,19 +3747,19 @@ msgstr ""
 "If your MiFi has no cable port, contact us and we’ll show you how to connect"
 " the MikroTik to your MiFi’s WiFi."
 
-#: pages/templates/pages/mwongozo.html:48
+#: pages/templates/pages/mwongozo.html:50
 msgid "Simu ikipakua app ya MikroTik"
 msgstr "A phone downloading the MikroTik app"
 
-#: pages/templates/pages/mwongozo.html:59
+#: pages/templates/pages/mwongozo.html:61
 msgid "Hatua ya 2 kati ya 7"
 msgstr "Step 2 of 7"
 
-#: pages/templates/pages/mwongozo.html:60
+#: pages/templates/pages/mwongozo.html:62
 msgid "Pakua app ya MikroTik"
 msgstr "Download the MikroTik app"
 
-#: pages/templates/pages/mwongozo.html:61
+#: pages/templates/pages/mwongozo.html:63
 msgid ""
 "Kwenye simu yako, fungua <strong>Play Store</strong> au <strong>App "
 "Store</strong>, tafuta <strong>“MikroTik”</strong>, kisha pakua app rasmi ya"
@@ -3736,41 +3769,41 @@ msgstr ""
 "Store</strong>, search for <strong>“MikroTik”</strong>, and download the "
 "official MikroTik app for free."
 
-#: pages/templates/pages/mwongozo.html:62
+#: pages/templates/pages/mwongozo.html:64
 msgid ""
 "Kama unatumia kompyuta, unaweza kutumia programu ya Winbox badala ya app ya "
 "simu."
 msgstr "If you’re on a computer, you can use Winbox instead of the phone app."
 
-#: pages/templates/pages/mwongozo.html:68
+#: pages/templates/pages/mwongozo.html:70
 msgid "Fomu ya kuingia kwenye router"
 msgstr "The router login form"
 
-#: pages/templates/pages/mwongozo.html:70
+#: pages/templates/pages/mwongozo.html:72
 msgid "Anwani"
 msgstr "Address"
 
-#: pages/templates/pages/mwongozo.html:73
+#: pages/templates/pages/mwongozo.html:75
 msgid "Jina la mtumiaji"
 msgstr "Username"
 
-#: pages/templates/pages/mwongozo.html:75
+#: pages/templates/pages/mwongozo.html:77
 msgid "admin"
 msgstr "admin"
 
-#: pages/templates/pages/mwongozo.html:77
+#: pages/templates/pages/mwongozo.html:79
 msgid "Connect"
 msgstr "Connect"
 
-#: pages/templates/pages/mwongozo.html:81
+#: pages/templates/pages/mwongozo.html:83
 msgid "Hatua ya 3 kati ya 7"
 msgstr "Step 3 of 7"
 
-#: pages/templates/pages/mwongozo.html:82
+#: pages/templates/pages/mwongozo.html:84
 msgid "Ingia kwenye MikroTik"
 msgstr "Log in to the MikroTik"
 
-#: pages/templates/pages/mwongozo.html:83
+#: pages/templates/pages/mwongozo.html:85
 msgid ""
 "Unganisha simu yako kwenye WiFi ya MikroTik (jina lake kwa kawaida huanza na"
 " <strong>MikroTik-</strong>). Fungua app, weka anwani "
@@ -3780,7 +3813,7 @@ msgstr ""
 "<strong>MikroTik-</strong>). Open the app and enter the address "
 "<strong>192.168.88.1</strong> and the username <strong>admin</strong>."
 
-#: pages/templates/pages/mwongozo.html:84
+#: pages/templates/pages/mwongozo.html:86
 msgid ""
 "Nenosiri linaweza kupatikana kwenye kibandiko kilicho chini ya kifaa cha "
 "MikroTik. Kwa baadhi ya modeli za zamani, sehemu ya nenosiri inaweza kuachwa"
@@ -3789,35 +3822,35 @@ msgstr ""
 "The password is on the sticker under the MikroTik. On some older models, the"
 " password field can be left empty."
 
-#: pages/templates/pages/mwongozo.html:90
+#: pages/templates/pages/mwongozo.html:92
 msgid "Menyu ya IP, Hotspot na kitufe cha Hotspot Setup"
 msgstr "The IP and Hotspot menu, and the Hotspot Setup button"
 
-#: pages/templates/pages/mwongozo.html:93
+#: pages/templates/pages/mwongozo.html:95
 msgid "IP"
 msgstr "IP"
 
-#: pages/templates/pages/mwongozo.html:95
+#: pages/templates/pages/mwongozo.html:97
 msgid "Hotspot"
 msgstr "Hotspot"
 
-#: pages/templates/pages/mwongozo.html:97
+#: pages/templates/pages/mwongozo.html:99
 msgid "Hotspot Setup"
 msgstr "Hotspot Setup"
 
-#: pages/templates/pages/mwongozo.html:98
+#: pages/templates/pages/mwongozo.html:100
 msgid "interface: bridge → Next…"
 msgstr "interface: bridge → Next…"
 
-#: pages/templates/pages/mwongozo.html:102
+#: pages/templates/pages/mwongozo.html:104
 msgid "Hatua ya 4 kati ya 7"
 msgstr "Step 4 of 7"
 
-#: pages/templates/pages/mwongozo.html:103
+#: pages/templates/pages/mwongozo.html:105
 msgid "Sanidi hotspot"
 msgstr "Set up the hotspot"
 
-#: pages/templates/pages/mwongozo.html:104
+#: pages/templates/pages/mwongozo.html:106
 msgid ""
 "Nenda kwenye <strong>IP → Hotspot</strong>, kisha bonyeza <strong>Hotspot "
 "Setup</strong>. Chagua interface ya <strong>bridge</strong>, halafu endelea "
@@ -3829,35 +3862,35 @@ msgstr ""
 "tapping <strong>Next</strong> to the end without changing the pre-filled "
 "settings."
 
-#: pages/templates/pages/mwongozo.html:110
+#: pages/templates/pages/mwongozo.html:112
 msgid "Terminal ikibandikiwa mstari wa JamiiLite"
 msgstr "A terminal with the JamiiLite line pasted in"
 
-#: pages/templates/pages/mwongozo.html:113
+#: pages/templates/pages/mwongozo.html:115
 msgid "[admin@MikroTik] &gt;"
 msgstr "[admin@MikroTik] &gt;"
 
-#: pages/templates/pages/mwongozo.html:114
+#: pages/templates/pages/mwongozo.html:116
 msgid "/tool fetch url=\"https://…/setup.rsc\""
 msgstr "/tool fetch url=\"https://…/setup.rsc\""
 
-#: pages/templates/pages/mwongozo.html:115
+#: pages/templates/pages/mwongozo.html:117
 msgid "; /import file-name=\"jamiilite-setup.rsc\""
 msgstr "; /import file-name=\"jamiilite-setup.rsc\""
 
-#: pages/templates/pages/mwongozo.html:116
+#: pages/templates/pages/mwongozo.html:118
 msgid "✓ JamiiLite: usanidi umekamilika"
 msgstr "✓ JamiiLite: setup complete"
 
-#: pages/templates/pages/mwongozo.html:120
+#: pages/templates/pages/mwongozo.html:122
 msgid "Hatua ya 5 kati ya 7"
 msgstr "Step 5 of 7"
 
-#: pages/templates/pages/mwongozo.html:121
+#: pages/templates/pages/mwongozo.html:123
 msgid "Weka msimbo wa usanidi wa JamiiLite"
 msgstr "Add your JamiiLite setup code"
 
-#: pages/templates/pages/mwongozo.html:122
+#: pages/templates/pages/mwongozo.html:124
 msgid ""
 "Fungua <strong>Terminal</strong> ndani ya app. Nakili <strong>mstari wa "
 "usanidi</strong> uliopewa kwenye akaunti yako ya JamiiLite, ubandike kwenye "
@@ -3867,32 +3900,32 @@ msgstr ""
 "line</strong> from your JamiiLite account, paste it into the Terminal, then "
 "press Enter."
 
-#: pages/templates/pages/mwongozo.html:123
+#: pages/templates/pages/mwongozo.html:125
 msgid ""
 "Kila router ina msimbo wake wa siri. Usimshirikishe mtu mwingine msimbo huo."
 msgstr "Each router has its own secret code. Don’t share it with anyone."
 
-#: pages/templates/pages/mwongozo.html:129
+#: pages/templates/pages/mwongozo.html:131
 msgid "Dashibodi inaonyesha router iko hewani"
 msgstr "The dashboard shows the router is online"
 
-#: pages/templates/pages/mwongozo.html:131
+#: pages/templates/pages/mwongozo.html:133
 msgid "Neema WiFi · Duka"
 msgstr "Neema WiFi · Shop"
 
-#: pages/templates/pages/mwongozo.html:134
+#: pages/templates/pages/mwongozo.html:136
 msgid "Wateja waliounganishwa: 0 · RouterOS 7"
 msgstr "Connected customers: 0 · RouterOS 7"
 
-#: pages/templates/pages/mwongozo.html:138
+#: pages/templates/pages/mwongozo.html:140
 msgid "Hatua ya 6 kati ya 7"
 msgstr "Step 6 of 7"
 
-#: pages/templates/pages/mwongozo.html:139
+#: pages/templates/pages/mwongozo.html:141
 msgid "Subiri kwa dakika moja"
 msgstr "Wait one minute"
 
-#: pages/templates/pages/mwongozo.html:140
+#: pages/templates/pages/mwongozo.html:142
 msgid ""
 "Router yako itaunganishwa na JamiiLite na kutuma taarifa zake yenyewe. "
 "Ukiona alama ya <strong>🟢 Online</strong> kwenye akaunti yako, maana yake "
@@ -3901,31 +3934,31 @@ msgstr ""
 "Your router will connect to JamiiLite and report in by itself. When you see "
 "<strong>🟢 Online</strong> in your account, the router is fully connected."
 
-#: pages/templates/pages/mwongozo.html:146
+#: pages/templates/pages/mwongozo.html:148
 msgid "Simu ya mteja ikinunua kifurushi na kuunganishwa"
 msgstr "A customer's phone buying a package and connecting"
 
-#: pages/templates/pages/mwongozo.html:150
+#: pages/templates/pages/mwongozo.html:152
 msgid "Saa 1 · Tsh 500"
 msgstr "1 hour · Tsh 500"
 
-#: pages/templates/pages/mwongozo.html:152
+#: pages/templates/pages/mwongozo.html:154
 msgid "Siku 1 · Tsh 1,500"
 msgstr "1 day · Tsh 1,500"
 
-#: pages/templates/pages/mwongozo.html:155
+#: pages/templates/pages/mwongozo.html:157
 msgid "✓ Umeunganishwa"
 msgstr "✓ Connected"
 
-#: pages/templates/pages/mwongozo.html:159
+#: pages/templates/pages/mwongozo.html:161
 msgid "Hatua ya 7 kati ya 7"
 msgstr "Step 7 of 7"
 
-#: pages/templates/pages/mwongozo.html:160
+#: pages/templates/pages/mwongozo.html:162
 msgid "Jaribu huduma kama mteja"
 msgstr "Try it as a customer"
 
-#: pages/templates/pages/mwongozo.html:161
+#: pages/templates/pages/mwongozo.html:163
 msgid ""
 "Tumia simu nyingine kuunganisha kwenye WiFi ya hotspot. Ukurasa wa vifurushi"
 " utafunguka wenyewe. Nunua kifurushi cha bei nafuu ili kuthibitisha kuwa "
@@ -3934,11 +3967,15 @@ msgstr ""
 "Use another phone to join the hotspot WiFi. The packages page will open by "
 "itself. Buy the cheapest package to confirm everything works. 🎉"
 
-#: pages/templates/pages/mwongozo.html:179
+#: pages/templates/pages/mwongozo.html:175 pages/views.py:37
+msgid "Simamisha"
+msgstr "Pause"
+
+#: pages/templates/pages/mwongozo.html:182
 msgid "Umekwama kwenye hatua yoyote? Tupo tayari kukusaidia."
 msgstr "Stuck on any step? We’re ready to help."
 
-#: pages/templates/pages/mwongozo.html:180
+#: pages/templates/pages/mwongozo.html:183
 msgid "Pata msaada kupitia WhatsApp"
 msgstr "Get help on WhatsApp"
 
@@ -3967,10 +4004,6 @@ msgstr "just now"
 #: pages/views.py:35
 msgid "Router imemkata yenyewe"
 msgstr "The router disconnected them by itself"
-
-#: pages/views.py:37
-msgid "Simamisha"
-msgstr "Pause"
 
 #: pages/views.py:51
 msgid "Habari, nataka kuanza kutumia JamiiLite 5G kwenye WiFi yangu."
@@ -4078,7 +4111,7 @@ msgstr "Taking long? Tap Connect."
 msgid "Fungua ukurasa wa WiFi tena kisha weka vocha hii kuunganishwa."
 msgstr "Open the WiFi page again and enter this voucher to connect."
 
-#: portal/views.py:159
+#: portal/views.py:194
 msgid ""
 "Maombi mengi ya malipo kwa namba hii. Subiri dakika chache, kisha ujaribu "
 "tena."
@@ -4114,11 +4147,11 @@ msgstr "No sales in this period yet."
 msgid "Mauzo yakianza, utayaona hapa kila siku."
 msgstr "When sales start, you'll see them here every day."
 
-#: ui/templates/ui/_bar_chart.html:29
+#: ui/templates/ui/_bar_chart.html:30
 msgid "Ona kama jedwali"
 msgstr "View as table"
 
-#: ui/templates/ui/_bar_chart.html:35
+#: ui/templates/ui/_bar_chart.html:36
 msgid "Jumla"
 msgstr "Total"
 

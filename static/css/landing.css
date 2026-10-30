@@ -584,3 +584,9 @@ body.page-landing {
 }
 @media (min-width: 640px) and (max-width: 900px) { .lp-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) { .lp-final-arcs { animation: none; } .lp-flow li { transition: none; } }
+
+/* Tabs kwenye simu: gridi ya 2×2, chaguo zote zinaonekana */
+@media (max-width: 520px) {
+  .lp-tablist { display: grid; grid-template-columns: 1fr 1fr; overflow: visible; width: 100%; border-radius: 18px; }
+  .lp-tablist button { justify-content: center; text-align: center; white-space: normal; line-height: 1.2; min-height: 44px; }
+}

@@ -4,5 +4,6 @@
     {% if label %}{{ label }}{% else %}{% translate "Anza sasa kwa WhatsApp" %}{% endif %}
   </a>
 {% else %}
-  <a class="btn btn-primary" href="{% url 'pages:mahitaji' %}">{% if label %}{{ label }}{% else %}{% translate "Anza sasa" %}{% endif %}</a>
+  {# Hakuna namba ya WhatsApp: kitufe kinaenda kujisajili, si ukurasa uleule. #}
+  <a class="btn btn-primary" href="{% url 'dashboard:signup' %}">{% translate "Anza bure" %}</a>
 {% endif %}

@@ -42,9 +42,9 @@
         </span>
         JamiiLite <span class="logo-5g">5G</span>
       </a>
-      <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-hidden="true" tabindex="-1">
-      <label for="menu-toggle" class="menu-button" aria-label="{% translate 'Menyu' %}"><span></span><span></span><span></span></label>
-      <nav class="nav" aria-label="{% translate 'Kurasa' %}">
+      <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="{% translate 'Menyu' %}" aria-controls="site-nav">
+      <label for="menu-toggle" class="menu-button" aria-hidden="true"><span></span><span></span><span></span></label>
+      <nav class="nav" id="site-nav" aria-label="{% translate 'Kurasa' %}">
         <a href="{% url 'pages:home' %}#jaribu">{% translate "Jaribu" %}</a>
         <a href="{% url 'pages:home' %}#bei">{% translate "Bei" %}</a>
         <a href="{% url 'pages:mahitaji' %}" {% if request.resolver_match.url_name == 'mahitaji' %}aria-current="page"{% endif %}>{% translate "Mahitaji" %}</a>
