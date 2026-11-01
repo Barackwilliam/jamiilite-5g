@@ -198,3 +198,14 @@ body {
 .pay-frame.is-ready .pay-frame-loading { opacity: 0; pointer-events: none; }
 .secure { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: var(--muted); }
 .secure svg { flex: none; margin-top: 3px; color: #3ccf7e; }
+
+/* Simu ndogo: nafasi zaidi kwa fomu ya malipo */
+@media (max-width: 480px) {
+  body { padding: 10px; }
+  .card { padding: 16px; border-radius: 20px; }
+  .pay-frame { margin-inline: -16px; border-radius: 0; border-inline: 0; }
+  .pay-frame iframe { height: 600px; }
+  .checkout-steps li { font-size: 0.74rem; gap: 4px; }
+  .order { padding: 12px 14px; }
+  .order-amount { font-size: 1.2rem; }
+}

@@ -2,9 +2,8 @@
 {% load i18n %}
 {% block title %}{% translate "Ingia" %}{% endblock %}
 {% block content %}
-  <p class="auth-eyebrow"><span class="auth-dot"></span>{% translate "Karibu tena" %} 👋</p>
+  <p class="auth-eyebrow"><span class="auth-dot"></span>{% translate "Karibu tena" %}</p>
   <h1>{% translate "Ingia kwenye dashboard yako" %}</h1>
-  <p class="muted">{% translate "Simamia WiFi yako, mauzo na pesa zako kutoka popote." %}</p>
   <form method="post" class="form-stack" novalidate>
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}">

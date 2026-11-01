@@ -3,7 +3,6 @@
 
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
-{% block intro %}<p class="appbar-intro">{% translate "Wateja wanaona vifurushi hivi kwenye ukurasa wa kulipia, na kuchagua wanachotaka." %}</p>{% endblock %}
 {% block content %}
 <div class="two-col two-col-wide">
   <section class="card">
@@ -37,7 +36,6 @@
           {% csrf_token %}
           <button type="submit" name="action" value="starter" class="btn btn-primary">{% icon "check" 16 %} {% translate "Tumia vifurushi hivi" %}</button>
         </form>
-        <p class="muted small">{% translate "Unaweza kubadilisha bei baadaye, au kuunda chako mwenyewe upande huu." %}</p>
       </div>
     {% endif %}
   </section>

@@ -1,14 +1,13 @@
 {% extends "ui/app_base.html" %}
 {% load i18n ui_tags %}
 
-{% block intro %}<p class="appbar-intro">{% translate "Ada yako ya mwezi kwa JamiiLite. Inakatwa yenyewe kutoka kwenye salio." %}</p>{% endblock %}
 {% block content %}
 <div class="two-col two-col-wide">
   <section class="card sub-card sub-{{ sub.state }}">
     <p class="stat-label">{% translate "Hali ya usajili" %}</p>
     {% if sub.state == "expired" %}
       <p class="hero-figure">{% translate "Umeisha" %}</p>
-      <p>{% translate "Mauzo mapya yamesimama. Wateja wenye vocha bado wanaunganishwa mpaka muda wao uishe." %}</p>
+      <p>{% translate "Mauzo mapya yamesimama." %}</p>
     {% elif sub.state == "trial" %}
       <p class="hero-figure">{% blocktranslate count days=sub.days_left %}Majaribio · siku {{ days }}{% plural %}Majaribio · siku {{ days }}{% endblocktranslate %}</p>
       <p class="muted">{% blocktranslate with date=sub.ends|date:"d/m/Y H:i" %}Inaisha {{ date }}.{% endblocktranslate %}</p>
@@ -16,7 +15,7 @@
       <p class="hero-figure">{% blocktranslate count days=sub.days_left %}Hai · siku {{ days }}{% plural %}Hai · siku {{ days }}{% endblocktranslate %}</p>
       <p class="muted">{% blocktranslate with date=sub.ends|date:"d/m/Y H:i" %}Imelipiwa mpaka {{ date }}.{% endblocktranslate %}</p>
     {% endif %}
-    <p class="muted small">{% blocktranslate with fee=monthly_fee|tsh %}Ada ni {{ fee }} kwa mwezi. Ukiwa na salio la kutosha muda ukiisha, tunakata wenyewe ili mauzo yasisimame.{% endblocktranslate %}</p>
+    <p class="muted small">{% blocktranslate with fee=monthly_fee|tsh %}Ada ni {{ fee }} kwa mwezi, inakatwa kutoka kwenye salio.{% endblocktranslate %}</p>
   </section>
 
   <section class="card card-accent">

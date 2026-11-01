@@ -31,8 +31,7 @@ class PlatformConfigForm(forms.ModelForm):
             "announcement": _("Tangazo kwa wamiliki wote"),
         }
         help_texts = {
-            "signups_open": _("Ukiondoa tiki, ukurasa wa kujisajili unafungwa kwa muda."),
-            "announcement": _("Linaonekana juu ya dashboard ya kila mmiliki. Acha tupu kuliondoa."),
+            "announcement": _("Acha tupu kuliondoa."),
         }
         widgets = {
             "announcement": forms.Textarea(attrs={"rows": 3, "placeholder": _("mfano: Kesho saa 2 usiku mfumo utakuwa kwenye matengenezo kwa dakika 10.")}),
@@ -47,7 +46,6 @@ class PlatformConfigForm(forms.ModelForm):
             field = self.fields[name]
             field.widget.attrs.setdefault("placeholder", str(default) if default not in ("", None) else "")
             field.help_text = gettext("Ukiacha tupu: %(value)s (kutoka .env).") % {"value": shown}
-        self.fields["sale_fee_percent"].help_text += " " + gettext("Inakatwa kwenye kila mauzo kufidia ada za malipo.")
 
     def clean_sale_fee_percent(self):
         value = self.cleaned_data["sale_fee_percent"]

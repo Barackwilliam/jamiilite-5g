@@ -7,7 +7,7 @@
     <svg class="balance-deco" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="70"/><circle cx="80" cy="80" r="48"/><circle cx="80" cy="80" r="26"/></svg>
     <p class="stat-label">{% translate "Salio linaloweza kutolewa" %}</p>
     <p class="hero-figure">{{ balance|tsh }}</p>
-    <p class="small">{% blocktranslate with fee=monthly_fee|tsh %}Mauzo yote ya WiFi yanaingia hapa papo hapo. Ada ya mwezi ({{ fee }}) inakatwa hapa yenyewe.{% endblocktranslate %}</p>
+    <p class="small">{% blocktranslate with fee=monthly_fee|tsh %}Ada ya mwezi ({{ fee }}) inakatwa hapa.{% endblocktranslate %}</p>
   </section>
 
   <section class="card card-accent">
@@ -18,7 +18,7 @@
       {% include "dashboard/_field.html" with field=form.phone %}
       <button type="submit" class="btn btn-primary btn-block">{% icon "send" 18 %} {% translate "Omba kutoa" %}</button>
     </form>
-    <p class="muted small">{% blocktranslate with min=min_withdrawal|tsh %}Kiasi cha chini ni {{ min }}. Pesa inatumwa M-Pesa, Mixx by Yas au Airtel Money.{% endblocktranslate %}</p>
+    <p class="muted small">{% blocktranslate with min=min_withdrawal|tsh %}Kiasi cha chini ni {{ min }}.{% endblocktranslate %}</p>
   </section>
 </div>
 

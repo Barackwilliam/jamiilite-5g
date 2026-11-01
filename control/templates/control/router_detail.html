@@ -51,7 +51,7 @@
     <code id="setup-cmd">{{ setup_command }}</code>
     <button type="button" class="btn btn-small" data-copy="#setup-cmd">{% icon "copy" 16 %} <span>{% translate "Nakili" %}</span></button>
   </div>
-  <p class="muted small">{% translate "Mpe mmiliki akikwama, au ubandike wewe mwenyewe ukiwa kwenye MikroTik yake." %}</p>
+  
 </section>
 {% endif %}
 
@@ -96,7 +96,7 @@
   <section class="card">
     <div class="card-head"><h2>{% translate "Vocha kwenye router" %}</h2></div>
     <p class="stat-value">{{ vouchers_on_router }}</p>
-    <p class="muted small">{% translate "Router inahifadhi vocha zenyewe, na zinasasishwa kila inaporipoti: mpya zinaongezwa, zilizoisha zinaondolewa." %}</p>
+    
   </section>
   {% else %}
   <section class="card">
@@ -108,7 +108,7 @@
     {% elif not router.nas_identifier %}
       <p class="empty">{% translate "Router hii haina NAS identifier, kwa hiyo haiwezi kutumia RADIUS." %}</p>
     {% else %}
-      <p class="empty">{% translate "Hakuna maonyo ya router hii. Vizuri." %}</p>
+      <p class="empty">{% translate "Hakuna maonyo." %}</p>
     {% endif %}
   </section>
   {% endif %}

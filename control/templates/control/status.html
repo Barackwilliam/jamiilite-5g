@@ -8,7 +8,7 @@
   <span class="system-hero-icon">{% if system_state == "ok" %}{% icon "check" 28 %}{% elif system_state == "info" %}{% icon "shield" 28 %}{% else %}{% icon "alert" 28 %}{% endif %}</span>
   <div>
     <h2>{% if system_state == "ok" %}{% translate "Mfumo wote uko sawa" %}{% elif system_state == "info" %}{% translate "Mfumo unafanya kazi (hali ya majaribio)" %}{% elif system_state == "warn" %}{% translate "Kuna mambo ya kuangalia" %}{% else %}{% translate "Kuna tatizo linalohitaji hatua" %}{% endif %}</h2>
-    <p class="muted">{% now "d/m/Y H:i:s" as checked %}{% blocktranslate %}Imekaguliwa {{ checked }}. Kurasa hii inakagua kila kitu upya kila unapoifungua.{% endblocktranslate %}</p>
+    <p class="muted">{% now "d/m/Y H:i:s" as checked %}{% blocktranslate %}Imekaguliwa {{ checked }}.{% endblocktranslate %}</p>
   </div>
 </section>
 
@@ -27,18 +27,17 @@
         {% endfor %}
       </ul>
     {% else %}
-      <p class="empty">{% translate "Hakuna maonyo. Router ikituma siri isiyo sahihi au NAS id isiyojulikana, utaona hapa." %}</p>
+      <p class="empty">{% translate "Hakuna maonyo." %}</p>
     {% endif %}
   </section>
   {% endif %}
   <section class="card card-accent">
     <div class="card-head"><h2>{% translate "Backup ya data" %}</h2></div>
-    <p class="muted">{% translate "Wamiliki, routers, vifurushi, vocha, malipo na salio, kwenye faili moja. Pakua angalau mara moja kwa wiki." %}</p>
     <form method="post" action="{% url 'control:backup' %}">
       {% csrf_token %}
       <button type="submit" class="btn btn-primary">{% icon "download" 16 %} {% translate "Pakua backup sasa" %}</button>
     </form>
-    <p class="muted small">{% translate "Ihifadhi mahali salama (mfano Google Drive yako): ina namba za simu za wateja. Kuirudisha: python manage.py loaddata jina-la-faili.json.gz" %}</p>
+    <p class="muted small">{% translate "Ina namba za simu za wateja: ihifadhi mahali salama." %}</p>
   </section>
   <section class="card">
     <div class="card-head"><h2>{% translate "Mazingira ya server" %}</h2></div>
