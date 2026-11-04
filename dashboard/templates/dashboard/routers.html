@@ -1,41 +1,58 @@
 {% extends "ui/app_base.html" %}
 {% load i18n ui_tags %}
 
+{% block actions %}{% if routers %}<a class="btn btn-small btn-primary" href="#ongeza">{% icon "plus" 16 %} {% translate "Ongeza" %}</a>{% endif %}{% endblock %}
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
 {% block content %}
+{% if routers %}
+  <ul class="mini-stats">
+    <li><span class="ms-label">{% translate "Online" %}</span><b>{{ online_count }} / {{ routers|length }}</b></li>
+    <li><span class="ms-label">{% translate "Wateja online" %}</span><b>{{ clients_online }}</b></li>
+    <li><span class="ms-label">{% translate "Mauzo ya leo" %}</span><b>{{ today_total|tsh }}</b></li>
+  </ul>
+{% endif %}
+
 <div class="two-col two-col-wide">
   <section class="card">
     <div class="card-head"><h2>{% translate "Maeneo yako" %}</h2></div>
     {% if routers %}
-      <ul class="list">
+      <ul class="device-list">
         {% for router in routers %}
           <li>
-            <a class="list-row" href="{% url 'dashboard:router_detail' router.pk %}">
-              <span class="router-badge {% if router.is_online %}is-online{% endif %}">{% icon "router" 18 %}</span>
-              <span class="list-main">
+            <a class="device {% if router.is_online %}is-online{% elif router.last_seen_at %}is-offline{% else %}is-new{% endif %}" href="{% url 'dashboard:router_detail' router.pk %}">
+              <span class="device-icon" aria-hidden="true">{% icon "router" 22 %}<span class="device-dot"></span></span>
+              <span class="device-main">
                 <strong>{{ router.name }}</strong>
-                <small>{% if router.location %}{{ router.location }} · {% endif %}{% if router.is_online %}{% blocktranslate with n=router.active_clients %}Online · wateja {{ n }}{% endblocktranslate %}{% elif router.last_seen_at %}{% blocktranslate with ago=router.last_seen_at|ago %}Offline · ilionekana {{ ago }}{% endblocktranslate %}{% else %}{% translate "Bado haijaunganishwa" %}{% endif %}</small>
+                <small>{% if router.wifi_name %}{% icon "wifi" 12 %} {{ router.wifi_name }}{% if router.location %} · {% endif %}{% endif %}{{ router.location }}</small>
+                <span class="device-status">
+                  {% if router.is_online %}{% blocktranslate count n=router.active_clients %}Online · mteja {{ n }}{% plural %}Online · wateja {{ n }}{% endblocktranslate %}
+                  {% elif router.last_seen_at %}{% blocktranslate with ago=router.last_seen_at|ago %}Offline · {{ ago }}{% endblocktranslate %}
+                  {% else %}{% translate "Bado haijaunganishwa" %}{% endif %}
+                </span>
               </span>
-              {% icon "arrow-right" 16 %}
+              <span class="device-side">
+                {% if router.last_seen_at %}<b>{{ router.today_amount|tsh }}</b><small>{% translate "leo" %}</small>
+                {% else %}<span class="pill pill-warn">{% translate "Unganisha" %}</span>{% endif %}
+              </span>
             </a>
           </li>
         {% endfor %}
       </ul>
     {% else %}
-      {% translate "Bado hujaongeza router." as title %}{% translate "Kila eneo unalouzia WiFi ni router moja. Anza na la kwanza upande huu." as text %}
-      {% include "ui/_empty.html" with icon="router" title=title text=text %}
+      {% translate "Bado hujaongeza router." as title %}
+      {% include "ui/_empty.html" with icon="router" title=title %}
     {% endif %}
   </section>
 
-  <section class="card card-accent">
+  <section class="card" id="ongeza">
     <div class="card-head"><h2>{% translate "Ongeza router" %}</h2></div>
     <form method="post" class="form-stack" novalidate>
       {% csrf_token %}
       {% include "dashboard/_field.html" with field=form.name %}
       {% include "dashboard/_field.html" with field=form.location %}
       {% include "dashboard/_field.html" with field=form.wifi_name %}
-      <button type="submit" class="btn btn-primary btn-block">{% icon "plus" 18 %} {% translate "Ongeza" %}</button>
+      <button type="submit" class="btn btn-primary btn-block btn-tall">{% icon "plus" 18 %} {% translate "Ongeza" %}</button>
     </form>
   </section>
 </div>

@@ -2,12 +2,12 @@
 {% load i18n ui_tags %}
 
 {% block breadcrumb %}<a class="crumb" href="{% url 'dashboard:routers' %}">{% translate "Routers" %}</a>{% endblock %}
-{% block actions %}
+{% block actions %}{% if not router.last_seen_at %}
   <span class="pill {% if router.is_online %}pill-good{% else %}pill-muted{% endif %}">
     <span class="status-dot {% if router.is_online %}is-online{% else %}is-offline{% endif %}"></span>
     {% if router.is_online %}Online{% else %}Offline{% endif %}
   </span>
-{% endblock %}
+{% endif %}{% endblock %}
 
 {% block banner %}
   {% if old_routeros %}
@@ -17,24 +17,29 @@
 
 {% block content %}
 {% if router.last_seen_at %}
-<section class="stats-grid stats-grid-4">
-  <article class="card stat tone-green"><span class="stat-icon">{% icon "users" 18 %}</span>
-    <p class="stat-label">{% translate "Wateja online" %}</p>
-    <p class="stat-value">{% if router.is_online %}{{ router.active_clients }}{% else %}0{% endif %}</p>
-  </article>
-  <article class="card stat tone-blue"><span class="stat-icon">{% icon "pulse" 18 %}</span>
-    <p class="stat-label">{% translate "Ilionekana mwisho" %}</p>
-    <p class="stat-value stat-text">{{ router.last_seen_at|ago }}</p>
-  </article>
-  <article class="card stat tone-violet"><span class="stat-icon">{% icon "router" 18 %}</span>
-    <p class="stat-label">RouterOS</p>
-    <p class="stat-value stat-text">{{ router.routeros_version|default:"—" }}</p>
-  </article>
-  <article class="card stat tone-amber"><span class="stat-icon">{% icon "clock" 18 %}</span>
-    <p class="stat-label">{% translate "Imewaka kwa muda" %}</p>
-    <p class="stat-value stat-text">{{ router.uptime|default:"—" }}</p>
-  </article>
+<section class="wallet-hero">
+  <div class="wallet-card device-hero {% if router.is_online %}is-online{% else %}is-offline{% endif %}">
+    <span class="wallet-top">
+      <span class="device-hero-status"><span class="status-dot {% if router.is_online %}is-online{% else %}is-offline{% endif %}"></span>{% if router.is_online %}Online{% else %}{% blocktranslate with ago=router.last_seen_at|ago %}Offline · {{ ago }}{% endblocktranslate %}{% endif %}</span>
+      {% if router.wifi_name %}<span class="device-hero-wifi">{% icon "wifi" 14 %} {{ router.wifi_name }}</span>{% endif %}
+    </span>
+    <span class="device-hero-clients"><b>{% if router.is_online %}{{ router.active_clients }}{% else %}0{% endif %}</b> {% translate "wateja online" %}</span>
+    <span class="wallet-meta">
+      <span>{% translate "Leo" %} <b>{{ today_amount|tsh }}</b></span>
+      <span>RouterOS <b>{{ router.routeros_version|default:"—" }}</b></span>
+      {% if router.uptime %}<span>{% translate "Imewaka" %} <b>{{ router.uptime }}</b></span>{% endif %}
+    </span>
+  </div>
+
+  <form method="post" class="quick-actions" aria-label="{% translate 'Vitendo vya haraka' %}">
+    <a href="{{ portal_url }}" target="_blank" rel="noopener"><span class="qa-icon">{% icon "external" 22 %}</span>{% translate "Ukurasa" %}</a>
+    <button type="button" data-copy="#portal-url" data-copied="{% translate 'Imenakiliwa' %}"><i class="qa-icon">{% icon "copy" 22 %}</i><span>{% translate "Nakili link" %}</span></button>
+    <button type="submit" name="action" value="reapply"><i class="qa-icon">{% icon "refresh" 22 %}</i>{% translate "Weka upya" %}</button>
+    <button type="submit" name="action" value="reboot" data-confirm="{% translate 'Router izimwe na kuwashwa upya? Wateja watakatika kwa dakika 1–2.' %}"><i class="qa-icon">{% icon "power" 22 %}</i>Reboot</button>
+    {% csrf_token %}
+  </form>
 </section>
+<code id="portal-url" hidden>{{ portal_url }}</code>
 {% endif %}
 
 {% if not router.last_seen_at %}
@@ -93,35 +98,27 @@
   </form>
 </section>
 
-<div class="{% if router.last_seen_at %}two-col{% endif %}">
-  <section class="card">
-    <div class="card-head"><h2>{% translate "Ukurasa wa kulipia" %}</h2></div>
-    <div class="code-box code-box-light">
-      <code id="portal-url">{{ portal_url }}</code>
-      <button type="button" class="btn btn-small btn-ghost" data-copy="#portal-url" data-copied="{% translate 'Imenakiliwa' %}">{% icon "copy" 16 %} <span>{% translate "Nakili" %}</span></button>
-    </div>
-    <a class="btn btn-ghost" href="{{ portal_url }}" target="_blank" rel="noopener">{% icon "external" 16 %} {% translate "Fungua" %}</a>
-  </section>
-
-  {% if router.last_seen_at %}
-  <section class="card">
-    <div class="card-head"><h2>{% translate "Simamia ukiwa mbali" %}</h2></div>
-    <form method="post" class="btn-row">
-      {% csrf_token %}
-      <button type="submit" name="action" value="reapply" class="btn btn-ghost">{% icon "refresh" 16 %} {% translate "Weka upya usanidi" %}</button>
-      <button type="submit" name="action" value="reboot" class="btn btn-danger-ghost" data-confirm="{% translate 'Router izimwe na kuwashwa upya? Wateja watakatika kwa dakika 1–2.' %}">{% icon "power" 16 %} Reboot</button>
-    </form>
-    {% if commands %}
-      <ul class="list list-compact">
-        {% for cmd in commands %}
-          <li class="list-row">
-            <span class="list-main"><strong>{{ cmd.get_action_display }}</strong><small>{% blocktranslate with ago=cmd.created_at|ago %}Limetumwa {{ ago }}{% endblocktranslate %}</small></span>
-            {% if cmd.delivered_at %}<span class="pill pill-good">{% translate "Limetekelezwa" %}</span>{% else %}<span class="pill pill-muted">{% translate "Linasubiri" %}</span>{% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  </section>
-  {% endif %}
-</div>
+{% if not router.last_seen_at %}
+<section class="card">
+  <div class="card-head"><h2>{% translate "Ukurasa wa kulipia" %}</h2></div>
+  <div class="code-box code-box-light">
+    <code id="portal-url">{{ portal_url }}</code>
+    <button type="button" class="btn btn-small btn-ghost" data-copy="#portal-url" data-copied="{% translate 'Imenakiliwa' %}">{% icon "copy" 16 %} <span>{% translate "Nakili" %}</span></button>
+  </div>
+  <a class="btn btn-ghost" href="{{ portal_url }}" target="_blank" rel="noopener">{% icon "external" 16 %} {% translate "Fungua" %}</a>
+</section>
+{% elif commands %}
+<section class="card">
+  <div class="card-head"><h2>{% translate "Maagizo ya karibuni" %}</h2></div>
+  <ul class="list list-compact">
+    {% for cmd in commands %}
+      <li class="list-row">
+        <span class="tx-icon tx-out" aria-hidden="true">{% if cmd.action == "reboot" %}{% icon "power" 18 %}{% else %}{% icon "refresh" 18 %}{% endif %}</span>
+        <span class="list-main"><strong>{{ cmd.get_action_display }}</strong><small>{{ cmd.created_at|ago }}</small></span>
+        {% if cmd.delivered_at %}<span class="pill pill-good">{% translate "Limetekelezwa" %}</span>{% else %}<span class="pill pill-muted">{% translate "Linasubiri" %}</span>{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
 {% endblock %}

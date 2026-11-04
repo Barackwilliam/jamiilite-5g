@@ -244,6 +244,12 @@ def owner_payments(owner):
     return Payment.objects.filter(router__owner=owner)
 
 
+def _today_by_router(owner):
+    """{router_id: mauzo ya leo}"""
+    paid = owner_payments(owner).filter(status=Payment.Status.PAID, paid_at__gte=local_day_start())
+    return dict(paid.values_list("router").annotate(total=Sum("amount")))
+
+
 # --- Muhtasari ---------------------------------------------------------------------
 
 @owner_required
@@ -255,9 +261,7 @@ def home(request):
     payments = owner_payments(owner)
     paid = payments.filter(status=Payment.Status.PAID)
     summary = sales_summary(payments)
-    today_by_router = dict(
-        paid.filter(paid_at__gte=local_day_start()).values_list("router").annotate(total=Sum("amount"))
-    )
+    today_by_router = _today_by_router(owner)
     for router in routers:
         router.today_amount = today_by_router.get(router.pk, 0)
     context = {
@@ -324,9 +328,17 @@ def routers(request):
         router.save(update_fields=["nas_identifier"])
         messages.success(request, _("%(name)s imeongezwa. Sasa iunganishe kwa mstari wa usanidi.") % {"name": router.name})
         return redirect("dashboard:router_detail", pk=router.pk)
+    router_list = list(owner.routers.order_by("name"))
+    today_by_router = _today_by_router(owner)
+    for router in router_list:
+        router.today_amount = today_by_router.get(router.pk, 0)
+    online = [r for r in router_list if r.is_online]
     return render_owner(
         request, "dashboard/routers.html",
-        {"routers": owner.routers.order_by("name"), "form": form}, "routers", _("Routers"),
+        {"routers": router_list, "form": form, "online_count": len(online),
+         "clients_online": sum(r.active_clients for r in online),
+         "today_total": sum(today_by_router.values())},
+        "routers", _("Routers"),
     )
 
 
@@ -361,6 +373,7 @@ def router_detail(request, pk):
         request, "dashboard/router_detail.html",
         {
             "router": router,
+            "today_amount": _today_by_router(request.owner).get(router.pk, 0),
             "setup_command": routeros.provision_command(router) if router.nas_identifier else "",
             "portal_url": request.build_absolute_uri(reverse("portal:home", args=[router.slug])),
             "commands": router.commands.order_by("-created_at")[:5],
