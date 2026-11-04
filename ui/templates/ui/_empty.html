@@ -5,6 +5,6 @@
     <span class="empty-icon">{% icon icon|default:"wifi" 26 %}</span>
   </span>
   {% if title %}<p><strong>{{ title }}</strong></p>{% endif %}
-  <p class="muted">{{ text }}</p>
+  {% if text %}<p class="muted">{{ text }}</p>{% endif %}
   {% if link_url %}<a class="btn btn-small" href="{{ link_url }}">{{ link_text }}</a>{% endif %}
 </div>

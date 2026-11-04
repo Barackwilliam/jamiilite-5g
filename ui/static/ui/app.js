@@ -116,3 +116,56 @@
     });
   }
 })();
+
+/* Kutoa pesa: vitufe vya kiasi cha haraka, na kitufe kinachoonyesha kiasi. */
+(function () {
+  var form = document.querySelector("[data-withdraw]");
+  if (!form) return;
+  var input = form.querySelector("input[name=amount]");
+  var button = form.querySelector("[data-withdraw-button] span");
+  var label = form.querySelector("[data-withdraw-button]").dataset.label;
+  var original = button.textContent;
+  var chips = form.querySelectorAll("[data-amount]");
+  function sync() {
+    var value = parseInt(input.value, 10);
+    button.textContent = value > 0 ? label.replace("%(amount)s", value.toLocaleString("en-US")) : original;
+    chips.forEach(function (chip) { chip.classList.toggle("is-picked", chip.dataset.amount === String(value)); });
+  }
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () { input.value = chip.dataset.amount; sync(); input.focus(); });
+  });
+  input.addEventListener("input", sync);
+  sync();
+})();
+
+/* Vocha: vitufe vya idadi, na kitufe kinachoonyesha idadi. */
+(function () {
+  var form = document.querySelector("[data-voucher-form]");
+  if (!form) return;
+  var input = form.querySelector("input[name=count]");
+  var button = form.querySelector("[data-voucher-button] span");
+  var label = form.querySelector("[data-voucher-button]").dataset.label;
+  var chips = form.querySelectorAll("[data-count]");
+  function sync() {
+    var value = parseInt(input.value, 10);
+    if (value > 0) button.textContent = label.replace("%(n)s", value);
+    chips.forEach(function (chip) { chip.classList.toggle("is-picked", chip.dataset.count === String(value)); });
+  }
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () { input.value = chip.dataset.count; sync(); });
+  });
+  input.addEventListener("input", sync);
+  sync();
+})();
+
+/* Kitufe cha − / + kwa namba ndogo (mfano simu ngapi kwa vocha moja). */
+document.querySelectorAll("[data-stepper]").forEach(function (stepper) {
+  var input = stepper.querySelector("input");
+  stepper.querySelectorAll("[data-step]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var min = parseInt(input.min, 10) || 1, max = parseInt(input.max, 10) || 99;
+      var value = (parseInt(input.value, 10) || min) + parseInt(button.dataset.step, 10);
+      input.value = Math.min(max, Math.max(min, value));
+    });
+  });
+});

@@ -12,12 +12,13 @@ from django.core.paginator import Paginator
 from django.forms.utils import ErrorDict
 from django.db import transaction
 from django.db.models import Count, Min, Q, Sum
+from django.db.models.functions import TruncDate
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy, ngettext
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_http_methods, require_POST
 
@@ -36,6 +37,7 @@ from .forms import (
     LoginForm,
     OwnerSettingsForm,
     PackageForm,
+    SPEED_CHOICES,
     RouterForm,
     SignupForm,
     VoucherBatchForm,
@@ -408,9 +410,23 @@ def packages(request):
         package.save()
         messages.success(request, _("Kifurushi “%(name)s” kimeongezwa.") % {"name": package.name})
         return redirect("dashboard:packages")
+    since = timezone.now() - timedelta(days=30)
+    package_list = list(owner.packages.annotate(
+        sold=Count("payments", filter=Q(payments__status=Payment.Status.PAID, payments__paid_at__gte=since)),
+    ))
+    speeds = dict(SPEED_CHOICES)
+    for package in package_list:
+        parts = []
+        if package.name.strip().lower() != package.duration_label:
+            parts.append(package.duration_label)
+        if package.rate_limit:
+            parts.append(str(speeds.get(package.rate_limit, package.rate_limit)))
+        if package.shared_users > 1:
+            parts.append(ngettext("simu %(n)s", "simu %(n)s", package.shared_users) % {"n": package.shared_users})
+        package.meta = " · ".join(parts)
     return render_owner(
         request, "dashboard/packages.html",
-        {"packages": owner.packages.all(), "form": form}, "packages", _("Vifurushi"),
+        {"packages": package_list, "form": form}, "packages", _("Vifurushi"),
     )
 
 
@@ -460,7 +476,8 @@ def vouchers(request):
     )
     return render_owner(
         request, "dashboard/vouchers.html",
-        {"form": form, "batches": batches, "has_routers": owner.routers.exists(), "has_packages": owner.packages.exists()},
+        {"form": form, "batches": batches, "count_choices": VoucherBatchForm.COUNT_CHOICES,
+         "has_routers": owner.routers.exists(), "has_packages": owner.packages.exists()},
         "vouchers", _("Vocha"),
     )
 
@@ -480,21 +497,49 @@ def voucher_print(request, batch):
 def sales(request):
     paid = owner_payments(request.owner).filter(status=Payment.Status.PAID)
     page = Paginator(paid.select_related("package", "router").order_by("-paid_at"), 25).get_page(request.GET.get("ukurasa"))
+    summary = sales_summary(owner_payments(request.owner))
     return render_owner(
         request, "dashboard/sales.html",
-        {"page": page, "summary": sales_summary(owner_payments(request.owner)),
+        {"page": page, "days": _sales_by_day(paid, page.object_list), "summary": summary,
+         "month_average": summary["month_amount"] // 30,
          "chart": bar_chart(daily_totals(paid, "paid_at", "amount", days=30))},
         "sales", _("Mauzo"),
     )
 
 
+def _sales_by_day(paid, sales):
+    """Mauzo ya ukurasa huu yakiwa yamepangwa kwa siku, kila siku na jumla yake kamili."""
+    tz = timezone.get_current_timezone()
+    days = []
+    for sale in sales:
+        day = timezone.localtime(sale.paid_at, tz).date()
+        if not days or days[-1]["date"] != day:
+            days.append({"date": day, "first": sale.paid_at, "sales": []})
+        days[-1]["sales"].append(sale)
+    if days:
+        totals = {
+            row["day"]: row
+            for row in paid.filter(paid_at__date__in=[d["date"] for d in days])
+            .annotate(day=TruncDate("paid_at", tzinfo=tz)).values("day")
+            .annotate(total=Sum("amount"), count=Count("pk"))
+        }
+        for day in days:
+            row = totals.get(day["date"], {})
+            day["total"], day["count"] = row.get("total", 0), row.get("count", 0)
+    return days
+
+
 # --- Salio na kutoa pesa -------------------------------------------------------------
+
+QUICK_WITHDRAW_AMOUNTS = (5_000, 10_000, 20_000, 50_000, 100_000)
+
 
 @owner_required
 @require_http_methods(["GET", "POST"])
 def wallet_view(request):
     owner = request.owner
-    form = WithdrawForm(request.POST or None, initial={"phone": owner.phone})
+    phone = "0" + owner.phone[3:] if owner.phone.startswith("255") else owner.phone
+    form = WithdrawForm(request.POST or None, initial={"phone": phone})
     if request.method == "POST" and form.is_valid():
         try:
             wallet.request_withdrawal(owner, form.cleaned_data["amount"], form.cleaned_data["phone"])
@@ -504,10 +549,13 @@ def wallet_view(request):
             messages.success(request, _("Ombi lako limepokelewa. Pesa itatumwa kwenye namba yako hivi karibuni."))
             return redirect("dashboard:wallet")
     page = Paginator(owner.ledger.all(), 20).get_page(request.GET.get("ukurasa"))
+    balance = wallet.balance(owner)
+    min_withdrawal = config.current().min_withdrawal
+    quick_amounts = [v for v in QUICK_WITHDRAW_AMOUNTS if min_withdrawal <= v < balance][:3]
     return render_owner(
         request, "dashboard/wallet.html",
-        {"balance": wallet.balance(owner), "form": form, "page": page,
-         "withdrawals": owner.withdrawals.all()[:8], "min_withdrawal": config.current().min_withdrawal},
+        {"balance": balance, "form": form, "page": page, "quick_amounts": quick_amounts if balance >= min_withdrawal else [],
+         "withdrawals": owner.withdrawals.all()[:8], "min_withdrawal": min_withdrawal},
         "wallet", _("Salio"),
     )
 

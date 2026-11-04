@@ -1,14 +1,44 @@
 {% load i18n ui_tags %}
-<form method="post" class="form-stack" novalidate>
+<form method="post" class="form-stack package-form" novalidate>
   {% csrf_token %}
   {% include "dashboard/_field.html" with field=form.name %}
-  {% include "dashboard/_field.html" with field=form.price %}
-  <div class="field-row">
-    {% include "dashboard/_field.html" with field=form.duration_value %}
-    {% include "dashboard/_field.html" with field=form.duration_unit %}
+
+  <div class="field{% if form.price.errors %} has-error{% endif %}">
+    <label for="{{ form.price.id_for_label }}">{{ form.price.label }}</label>
+    <span class="amount-input"><span class="amount-prefix" aria-hidden="true">Tsh</span>{{ form.price }}</span>
+    {% for error in form.price.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
   </div>
-  {% include "dashboard/_field.html" with field=form.rate_limit %}
-  {% include "dashboard/_field.html" with field=form.shared_users %}
-  {% include "dashboard/_field.html" with field=form.is_active %}
-  <button type="submit" class="btn btn-primary btn-block">{{ button }}</button>
+
+  <fieldset class="tile-group">
+    <legend>{{ form.duration_value.label }}</legend>
+    <div class="count-row">
+      <span class="count-input">{{ form.duration_value }}</span>
+      <div class="chips">{% for choice in form.duration_unit %}<label class="chip">{{ choice.tag }}<span>{{ choice.choice_label }}</span></label>{% endfor %}</div>
+    </div>
+    {% for error in form.duration_value.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+    {% for error in form.duration_unit.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+  </fieldset>
+
+  <fieldset class="tile-group">
+    <legend>{{ form.rate_limit.label }}</legend>
+    <div class="chips">{% for choice in form.rate_limit %}<label class="chip">{{ choice.tag }}<span>{{ choice.choice_label }}</span></label>{% endfor %}</div>
+    {% for error in form.rate_limit.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+  </fieldset>
+
+  <div class="field{% if form.shared_users.errors %} has-error{% endif %}">
+    <label for="{{ form.shared_users.id_for_label }}">{{ form.shared_users.label }}</label>
+    <span class="stepper" data-stepper>
+      <button type="button" data-step="-1" aria-label="{% translate 'Punguza' %}">−</button>
+      {{ form.shared_users }}
+      <button type="button" data-step="1" aria-label="{% translate 'Ongeza' %}">+</button>
+    </span>
+    {% for error in form.shared_users.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+  </div>
+
+  <label class="switch-row">
+    <span>{{ form.is_active.label }}</span>
+    <span class="switch">{{ form.is_active }}<span class="switch-track" aria-hidden="true"></span></span>
+  </label>
+
+  <button type="submit" class="btn btn-primary btn-block btn-tall">{{ button }}</button>
 </form>

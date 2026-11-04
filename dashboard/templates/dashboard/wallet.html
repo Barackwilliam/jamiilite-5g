@@ -2,23 +2,42 @@
 {% load i18n ui_tags %}
 
 {% block content %}
-<div class="two-col two-col-wide">
-  <section class="card balance-card">
-    <svg class="balance-deco" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="70"/><circle cx="80" cy="80" r="48"/><circle cx="80" cy="80" r="26"/></svg>
-    <p class="stat-label">{% translate "Salio linaloweza kutolewa" %}</p>
-    <p class="hero-figure">{{ balance|tsh }}</p>
-    <p class="small">{% blocktranslate with fee=monthly_fee|tsh %}Ada ya mwezi ({{ fee }}) inakatwa hapa.{% endblocktranslate %}</p>
-  </section>
+<div class="wallet-hero wallet-page">
+  <div class="wallet-card">
+    <svg class="wallet-deco" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="10"><path d="M40 120a85 85 0 0 1 120 0" opacity=".5"/><path d="M10 90a125 125 0 0 1 180 0" opacity=".28"/><path d="M70 150a42 42 0 0 1 60 0" opacity=".75"/></g><circle cx="100" cy="178" r="10" fill="currentColor"/></svg>
+    <span class="wallet-top">
+      <span>{% translate "Salio linaloweza kutolewa" %}</span>
+      <button type="button" class="wallet-eye" data-balance-toggle aria-pressed="false" aria-label="{% translate 'Ficha salio' %}" data-label-show="{% translate 'Onyesha salio' %}" data-label-hide="{% translate 'Ficha salio' %}">{% icon "eye" 18 %}</button>
+    </span>
+    <span class="wallet-amount" data-balance>{{ balance|tsh }}</span>
+    <span class="wallet-meta">
+      <span>{% translate "Ada ya mwezi" %} <b>{{ monthly_fee|tsh }}</b></span>
+      <span>{% translate "Kiasi cha chini" %} <b>{{ min_withdrawal|tsh }}</b></span>
+    </span>
+  </div>
 
-  <section class="card card-accent">
-    <div class="card-head"><h2>{% translate "Toa pesa" %}</h2></div>
-    <form method="post" class="form-stack" novalidate>
+  <section class="card withdraw-card">
+    <h2>{% translate "Toa pesa" %}</h2>
+    <form method="post" class="form-stack" novalidate data-withdraw>
       {% csrf_token %}
-      {% include "dashboard/_field.html" with field=form.amount %}
-      {% include "dashboard/_field.html" with field=form.phone %}
-      <button type="submit" class="btn btn-primary btn-block">{% icon "send" 18 %} {% translate "Omba kutoa" %}</button>
+      <div class="field{% if form.amount.errors %} has-error{% endif %}">
+        <label for="{{ form.amount.id_for_label }}">{{ form.amount.label }}</label>
+        <span class="amount-input"><span class="amount-prefix" aria-hidden="true">Tsh</span>{{ form.amount }}</span>
+        {% for error in form.amount.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+      </div>
+      {% if quick_amounts %}
+        <div class="amount-chips" role="group" aria-label="{% translate 'Kiasi cha haraka' %}">
+          {% for value in quick_amounts %}<button type="button" class="chip" data-amount="{{ value }}">{{ value|tsh }}</button>{% endfor %}
+          <button type="button" class="chip chip-all" data-amount="{{ balance }}">{% translate "Yote" %}</button>
+        </div>
+      {% endif %}
+      <div class="field{% if form.phone.errors %} has-error{% endif %}">
+        <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+        <span class="phone-input"><span class="phone-flag" aria-hidden="true">🇹🇿</span>{{ form.phone }}</span>
+        {% for error in form.phone.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary btn-block btn-tall" data-withdraw-button data-label="{% translate 'Toa Tsh %(amount)s' %}">{% icon "send" 18 %} <span>{% translate "Toa pesa" %}</span></button>
     </form>
-    <p class="muted small">{% blocktranslate with min=min_withdrawal|tsh %}Kiasi cha chini ni {{ min }}.{% endblocktranslate %}</p>
   </section>
 </div>
 
@@ -28,14 +47,17 @@
   <ul class="list">
     {% for w in withdrawals %}
       <li class="list-row">
-        <span class="router-badge {% if w.status == 'paid' %}is-online{% endif %}">{% icon "send" 18 %}</span>
+        <span class="tx-icon tx-out" aria-hidden="true">{% icon "send" 18 %}</span>
         <span class="list-main">
-          <strong>{{ w.amount|tsh }} → {{ w.phone|phone_display }}</strong>
-          <small>{{ w.created_at|date:"d/m/Y H:i" }}{% if w.reference %} · {% translate "Kumb:" %} {{ w.reference }}{% endif %}{% if w.note %} · {{ w.note }}{% endif %}</small>
+          <strong>{{ w.phone|phone_display }}</strong>
+          <small>{{ w.created_at|date:"j M, H:i" }}{% if w.reference %} · {% translate "Kumb:" %} {{ w.reference }}{% endif %}{% if w.note %} · {{ w.note }}{% endif %}</small>
         </span>
-        {% if w.status == "paid" %}<span class="pill pill-good">{% icon "check" 14 %} {{ w.get_status_display }}</span>
-        {% elif w.status == "rejected" %}<span class="pill pill-bad">{{ w.get_status_display }}</span>
-        {% else %}<span class="pill pill-warn">{{ w.get_status_display }}</span>{% endif %}
+        <span class="tx-side">
+          <b class="amount-out">−{{ w.amount|tsh }}</b>
+          {% if w.status == "paid" %}<span class="pill pill-good">{{ w.get_status_display }}</span>
+          {% elif w.status == "rejected" %}<span class="pill pill-bad">{{ w.get_status_display }}</span>
+          {% else %}<span class="pill pill-warn">{{ w.get_status_display }}</span>{% endif %}
+        </span>
       </li>
     {% endfor %}
   </ul>
@@ -45,11 +67,14 @@
 <section class="card">
   <div class="card-head"><h2>{% translate "Historia ya salio" %}</h2></div>
   {% if page.object_list %}
-    <ul class="list">
+    <ul class="list statement">
       {% for entry in page.object_list %}
+        {% ifchanged entry.created_at|date:"Y-m-d" %}<li class="statement-day">{{ entry.created_at|day_label }}</li>{% endifchanged %}
         <li class="list-row">
-          <span class="ledger-dot {% if entry.amount > 0 %}is-in{% else %}is-out{% endif %}" aria-hidden="true">{% if entry.amount > 0 %}+{% else %}−{% endif %}</span>
-          <span class="list-main"><strong>{{ entry.get_kind_display }}</strong><small>{{ entry.description|default:"" }}{% if entry.description %} · {% endif %}{{ entry.created_at|date:"d/m/Y H:i" }}</small></span>
+          <span class="tx-icon {% if entry.amount > 0 %}tx-in{% else %}tx-out{% endif %}" aria-hidden="true">
+            {% if entry.kind == "sale" %}{% icon "receive" 18 %}{% elif entry.kind == "subscription" %}{% icon "calendar" 18 %}{% elif entry.kind == "withdrawal" %}{% icon "send" 18 %}{% else %}{% icon "refresh" 18 %}{% endif %}
+          </span>
+          <span class="list-main"><strong>{{ entry.get_kind_display }}</strong><small>{% if entry.description %}{{ entry.description|phones_display }} · {% endif %}{{ entry.created_at|date:"H:i" }}</small></span>
           <span class="{% if entry.amount > 0 %}amount-in{% else %}amount-out{% endif %}">{{ entry.amount|signed_tsh }}</span>
         </li>
       {% endfor %}

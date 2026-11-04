@@ -139,8 +139,10 @@ SPEED_CHOICES = [
 
 class PackageForm(forms.ModelForm):
     duration_value = forms.IntegerField(label=_("Muda"), min_value=1, max_value=1000)
-    duration_unit = forms.TypedChoiceField(label=_("Kipimo"), choices=DURATION_UNITS, coerce=int, initial=60)
-    rate_limit = forms.ChoiceField(label=_("Kasi"), choices=SPEED_CHOICES, required=False)
+    duration_unit = forms.TypedChoiceField(
+        label=_("Kipimo"), choices=DURATION_UNITS, coerce=int, initial=60, widget=forms.RadioSelect,
+    )
+    rate_limit = forms.ChoiceField(label=_("Kasi"), choices=SPEED_CHOICES, required=False, widget=forms.RadioSelect)
 
     class Meta:
         model = Package
@@ -152,7 +154,7 @@ class PackageForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={"placeholder": _("mfano Siku 1")}),
             "price": forms.NumberInput(attrs={"inputmode": "numeric", "min": 1}),
-            "shared_users": forms.NumberInput(attrs={"min": 1, "max": 10}),
+            "shared_users": forms.NumberInput(attrs={"min": 1, "max": 10, "inputmode": "numeric"}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -179,14 +181,28 @@ class PackageForm(forms.ModelForm):
 
 
 class VoucherBatchForm(forms.Form):
-    package = forms.ModelChoiceField(label=_("Kifurushi"), queryset=Package.objects.none(), empty_label=None)
-    router = forms.ModelChoiceField(label=_("Eneo (router)"), queryset=Router.objects.none(), empty_label=None)
-    count = forms.IntegerField(label=_("Idadi ya vocha"), min_value=1, max_value=100, initial=10)
+    COUNT_CHOICES = (10, 20, 50, 100)
+
+    package = forms.ModelChoiceField(
+        label=_("Kifurushi"), queryset=Package.objects.none(), empty_label=None, widget=forms.RadioSelect,
+    )
+    router = forms.ModelChoiceField(
+        label=_("Eneo (router)"), queryset=Router.objects.none(), empty_label=None, widget=forms.RadioSelect,
+    )
+    count = forms.IntegerField(
+        label=_("Idadi ya vocha"), min_value=1, max_value=100, initial=10,
+        widget=forms.NumberInput(attrs={"inputmode": "numeric"}),
+    )
 
     def __init__(self, owner, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["package"].queryset = owner.packages.filter(is_active=True)
         self.fields["router"].queryset = owner.routers.filter(is_active=True)
+        # Chaguo la kwanza linakuwa tayari limechaguliwa, kama kwenye app za simu.
+        for name in ("package", "router"):
+            first = self.fields[name].queryset.first()
+            if first and not self.is_bound:
+                self.initial.setdefault(name, first.pk)
 
 
 class WithdrawForm(forms.Form):

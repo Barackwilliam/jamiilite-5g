@@ -1,24 +1,26 @@
 {% extends "ui/app_base.html" %}
 {% load i18n ui_tags %}
 
+{% block actions %}{% if packages %}<a class="btn btn-small btn-primary" href="#ongeza">{% icon "plus" 16 %} {% translate "Ongeza" %}</a>{% endif %}{% endblock %}
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
 {% block content %}
 <div class="two-col two-col-wide">
   <section class="card">
-    <div class="card-head"><h2>{% translate "Vifurushi vyako" %}</h2></div>
+    <div class="card-head"><h2>{% translate "Vifurushi vyako" %}</h2>{% if packages %}<span class="muted small">{% translate "mauzo ya siku 30" %}</span>{% endif %}</div>
     {% if packages %}
-      <ul class="package-grid">
+      <ul class="bundle-grid">
         {% for package in packages %}
           <li>
-            <a class="package-tile{% if not package.is_active %} is-off{% endif %}" href="{% url 'dashboard:package_edit' package.pk %}">
-              <span class="package-tile-top">
-                <span class="package-tile-icon">{% icon "package" 18 %}</span>
-                {% if not package.is_active %}<span class="pill pill-muted">{% translate "Hakiuzwi" %}</span>{% endif %}
+            <a class="bundle{% if not package.is_active %} is-off{% endif %}" href="{% url 'dashboard:package_edit' package.pk %}">
+              <span class="bundle-name">{{ package.name }}</span>
+              <span class="bundle-price">{{ package.price|tsh }}</span>
+              <span class="bundle-meta">{{ package.meta }}</span>
+              <span class="bundle-foot">
+                {% if package.is_active %}<span class="bundle-sold">{% blocktranslate count n=package.sold %}imeuzwa {{ n }}{% plural %}imeuzwa {{ n }}{% endblocktranslate %}</span>
+                {% else %}<span class="pill pill-muted">{% translate "Hakiuzwi" %}</span>{% endif %}
+                <span class="bundle-edit">{% icon "edit" 14 %}</span>
               </span>
-              <strong>{{ package.name }}</strong>
-              <span class="package-tile-price">{{ package.price|tsh }}</span>
-              <small>{{ package.duration_label }}{% if package.rate_limit %} · {{ package.rate_limit }}{% endif %} · {% blocktranslate count n=package.shared_users %}simu {{ n }}{% plural %}simu {{ n }}{% endblocktranslate %}</small>
             </a>
           </li>
         {% endfor %}
@@ -40,7 +42,7 @@
     {% endif %}
   </section>
 
-  <section class="card card-accent">
+  <section class="card" id="ongeza">
     <div class="card-head"><h2>{% translate "Ongeza kifurushi" %}</h2></div>
     {% translate "Ongeza" as button %}
     {% include "dashboard/_package_form.html" with button=button %}
