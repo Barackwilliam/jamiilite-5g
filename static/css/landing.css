@@ -79,7 +79,7 @@ body.page-landing {
 .js .page-landing [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.7s cubic-bezier(.22, 1, .36, 1); }
 .js .page-landing [data-reveal].is-in { opacity: 1; transform: none; }
 
-/* Ukurasa unazungumza: matukio ya Neema WiFi yanatokea pembeni unaposhuka */
+/* Ukurasa unazungumza: matukio ya JamiiTek WiFi yanatokea pembeni unaposhuka */
 .lp-toast {
   position: fixed; left: 18px; bottom: 18px; z-index: 30; display: flex; align-items: center; gap: 12px; max-width: min(340px, calc(100vw - 36px));
   padding: 12px 40px 12px 14px; border-radius: 16px; color: #EEF2F9; font-size: 0.9rem;

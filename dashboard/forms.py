@@ -42,7 +42,7 @@ class LanguageField(forms.ChoiceField):
 class SignupForm(forms.Form):
     business_name = forms.CharField(
         label=_("Jina la biashara yako"), max_length=120,
-        widget=forms.TextInput(attrs={"placeholder": _("mfano Neema WiFi"), "autocomplete": "organization"}),
+        widget=forms.TextInput(attrs={"placeholder": _("mfano JamiiTek WiFi"), "autocomplete": "organization"}),
     )
     phone = PhoneField()
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
@@ -106,7 +106,7 @@ class RouterForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={"placeholder": _("mfano Duka la Kati")}),
             "location": forms.TextInput(attrs={"placeholder": _("mfano Sinza, Dar es Salaam")}),
-            "wifi_name": forms.TextInput(attrs={"placeholder": _("mfano Neema WiFi")}),
+            "wifi_name": forms.TextInput(attrs={"placeholder": _("mfano JamiiTek WiFi")}),
         }
 
     def clean_name(self):
@@ -123,7 +123,7 @@ class WifiNameForm(forms.ModelForm):
         fields = ["wifi_name"]
         labels = {"wifi_name": _("Jina la WiFi")}
         help_texts = {"wifi_name": _("Acha tupu kutobadilisha WiFi ya router.")}
-        widgets = {"wifi_name": forms.TextInput(attrs={"placeholder": _("mfano Neema WiFi")})}
+        widgets = {"wifi_name": forms.TextInput(attrs={"placeholder": _("mfano JamiiTek WiFi")})}
 
 
 DURATION_UNITS = [(1, _("Dakika")), (60, _("Saa")), (60 * 24, _("Siku")), (60 * 24 * 7, _("Wiki")), (60 * 24 * 30, _("Mwezi"))]

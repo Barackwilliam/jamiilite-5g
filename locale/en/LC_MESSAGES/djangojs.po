@@ -37,12 +37,12 @@ msgid "Muda umeisha · mteja ametoka"
 msgstr "Time's up · customer left"
 
 #: static/js/landing.js:412 static/js/landing.js:546 static/js/landing.js:872
-msgid "Mteja ameingia · Neema WiFi"
-msgstr "Customer connected · Neema WiFi"
+msgid "Mteja ameingia · JamiiTek WiFi"
+msgstr "Customer connected · JamiiTek WiFi"
 
 #: static/js/landing.js:508
-msgid "Lipa Tsh %(amount)s kwa NEEMA WIFI? Weka PIN yako ya M-Pesa."
-msgstr "Pay Tsh %(amount)s to NEEMA WIFI? Enter your M-Pesa PIN."
+msgid "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa."
+msgstr "Pay Tsh %(amount)s to JAMIITEK WIFI? Enter your M-Pesa PIN."
 
 #: static/js/landing.js:682
 msgid "siku %(n)s"

@@ -27,9 +27,9 @@ def landing_strings():
         "Siku 1": gettext("Siku 1"),
         "Wiki": gettext("Wiki"),
         "Muda umeisha · mteja ametoka": gettext("Muda umeisha · mteja ametoka"),
-        "Mteja ameingia · Neema WiFi": gettext("Mteja ameingia · Neema WiFi"),
-        "Lipa Tsh %(amount)s kwa NEEMA WIFI? Weka PIN yako ya M-Pesa.": gettext(
-            "Lipa Tsh %(amount)s kwa NEEMA WIFI? Weka PIN yako ya M-Pesa."
+        "Mteja ameingia · JamiiTek WiFi": gettext("Mteja ameingia · JamiiTek WiFi"),
+        "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa.": gettext(
+            "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa."
         ),
         "Mauzo mapya": gettext("Mauzo mapya"),
         "sasa hivi": gettext("sasa hivi"),

@@ -192,8 +192,8 @@ msgid ""
 "Ukibadilisha, router itatumiwa usanidi upya na WiFi itakuwa wazi (bila "
 "password)."
 msgstr ""
-"If you change it, the router is sent a fresh setup and the WiFi becomes open"
-" (no password)."
+"If you change it, the router is sent a fresh setup and the WiFi becomes open "
+"(no password)."
 
 #: control/forms.py:80
 msgid "Acha tupu kutumia link inayotumwa na MikroTik."
@@ -317,8 +317,8 @@ msgid ""
 "Routers zinahifadhi vocha zenyewe na kuzipokea kwenye ripoti zao, kwa hiyo "
 "RADIUS server haihitajiki."
 msgstr ""
-"Routers keep the vouchers themselves and receive them in their check-ins, so"
-" no RADIUS server is needed."
+"Routers keep the vouchers themselves and receive them in their check-ins, so "
+"no RADIUS server is needed."
 
 #: control/status.py:106
 msgid ""
@@ -1169,8 +1169,8 @@ msgstr "Turns the router off and on"
 
 #: control/templates/control/router_detail.html:37
 msgid ""
-"Kutengeneza siri mpya ya RADIUS? Router lazima iwe online ili ipokee usanidi"
-" mpya, la sivyo wateja hawataweza kuingia."
+"Kutengeneza siri mpya ya RADIUS? Router lazima iwe online ili ipokee usanidi "
+"mpya, la sivyo wateja hawataweza kuingia."
 msgstr ""
 "Create a new RADIUS secret? The router must be online to receive the new "
 "setup, otherwise customers will not be able to log in."
@@ -1459,8 +1459,7 @@ msgstr "%(name)s is disabled: it cannot sell or let new customers in."
 
 #: control/views.py:281
 msgid "Siri mpya ya RADIUS imetengenezwa na router imetumiwa usanidi mpya."
-msgstr ""
-"A new RADIUS secret was created and the router was sent the new setup."
+msgstr "A new RADIUS secret was created and the router was sent the new setup."
 
 #: control/views.py:289
 msgid "Imehifadhiwa, na router imetumiwa usanidi upya."
@@ -1568,8 +1567,8 @@ msgid "Jina la biashara yako"
 msgstr "Your business name"
 
 #: dashboard/forms.py:45 dashboard/forms.py:109 dashboard/forms.py:126
-msgid "mfano Neema WiFi"
-msgstr "e.g. Neema WiFi"
+msgid "mfano JamiiTek WiFi"
+msgstr "e.g. JamiiTek WiFi"
 
 #: dashboard/forms.py:48 dashboard/forms.py:78
 msgid "Password"
@@ -1760,8 +1759,8 @@ msgstr "Your subscription has ended."
 #: dashboard/templates/dashboard/_sub_banner.html:5
 #, python-format
 msgid ""
-"Mauzo mapya yamesimama. Lipia %(fee)s ili kuendelea. Wateja wenye vocha bado"
-" wanaunganishwa."
+"Mauzo mapya yamesimama. Lipia %(fee)s ili kuendelea. Wateja wenye vocha bado "
+"wanaunganishwa."
 msgstr ""
 "New sales are paused. Pay %(fee)s to continue. Customers with vouchers can "
 "still connect."
@@ -1941,8 +1940,7 @@ msgstr "Revenue by location"
 msgid "Mauzo yakianza, utayaona hapa papo hapo."
 msgstr "When sales start, you'll see them here instantly."
 
-#: dashboard/templates/dashboard/live.html:5
-#: pages/templates/pages/_sim.html:24
+#: dashboard/templates/dashboard/live.html:5 pages/templates/pages/_sim.html:24
 msgid "Inaunganisha…"
 msgstr "Connecting…"
 
@@ -2037,8 +2035,8 @@ msgid ""
 "%(min)s au zaidi. Kwenye Winbox: System &gt; Packages &gt; Check For "
 "Updates, kisha bonyeza \"Weka upya usanidi\" hapa chini."
 msgstr ""
-"<strong>RouterOS %(version)s is too old.</strong> JamiiLite needs %(min)s or"
-" newer. In Winbox: System &gt; Packages &gt; Check For Updates, then press "
+"<strong>RouterOS %(version)s is too old.</strong> JamiiLite needs %(min)s or "
+"newer. In Winbox: System &gt; Packages &gt; Check For Updates, then press "
 "\"Re-apply setup\" below."
 
 #: dashboard/templates/dashboard/router_detail.html:34
@@ -2173,11 +2171,11 @@ msgstr "Current logo"
 #: dashboard/templates/dashboard/settings.html:23
 #, python-format
 msgid ""
-"Unaingia kwa namba <strong>%(phone)s</strong>. Kubadilisha password au namba"
-" ya kuingia, wasiliana nasi."
+"Unaingia kwa namba <strong>%(phone)s</strong>. Kubadilisha password au namba "
+"ya kuingia, wasiliana nasi."
 msgstr ""
-"You log in with <strong>%(phone)s</strong>. To change your password or login"
-" number, contact us."
+"You log in with <strong>%(phone)s</strong>. To change your password or login "
+"number, contact us."
 
 #: dashboard/templates/dashboard/signup.html:3
 #: pages/templates/pages/base.html:80
@@ -2233,8 +2231,8 @@ msgid ""
 "target=\"_blank\" rel=\"noopener\">Sera ya Faragha</a>."
 msgstr ""
 "By opening an account, you accept the <a href=\"%(terms_url)s\" "
-"target=\"_blank\" rel=\"noopener\">Terms</a> and <a href=\"%(privacy_url)s\""
-" target=\"_blank\" rel=\"noopener\">Privacy Policy</a>."
+"target=\"_blank\" rel=\"noopener\">Terms</a> and <a href=\"%(privacy_url)s\" "
+"target=\"_blank\" rel=\"noopener\">Privacy Policy</a>."
 
 #: dashboard/templates/dashboard/signup.html:32
 msgid "Hakuna kadi"
@@ -2384,11 +2382,10 @@ msgstr "Print"
 #: dashboard/templates/dashboard/voucher_print.html:22
 #, python-format
 msgid ""
-"Unganisha WiFi “%(wifi)s”, kisha andika namba hii kwenye “Una vocha "
-"tayari?”."
+"Unganisha WiFi “%(wifi)s”, kisha andika namba hii kwenye “Una vocha tayari?”."
 msgstr ""
-"Join the “%(wifi)s” WiFi, then enter this code under “Una vocha tayari?” "
-"(Have a voucher?)."
+"Join the “%(wifi)s” WiFi, then enter this code under “Una vocha "
+"tayari?” (Have a voucher?)."
 
 #: dashboard/templates/dashboard/voucher_print.html:23
 msgid "Imetumika"
@@ -2468,8 +2465,8 @@ msgstr "Subscription"
 #: dashboard/views.py:97
 #, python-format
 msgid ""
-"Akaunti nyingi zimefunguliwa kutoka hapa. Subiri dakika %(n)s, kisha ujaribu"
-" tena."
+"Akaunti nyingi zimefunguliwa kutoka hapa. Subiri dakika %(n)s, kisha ujaribu "
+"tena."
 msgstr ""
 "Too many accounts were opened from here. Wait %(n)s minutes, then try again."
 
@@ -2507,8 +2504,7 @@ msgstr ""
 "Command sent. The router will carry it out within a minute if it is online."
 
 #: dashboard/views.py:401
-msgid ""
-"Vifurushi 4 vimewekwa. Gusa kifurushi chochote kubadilisha bei au kasi."
+msgid "Vifurushi 4 vimewekwa. Gusa kifurushi chochote kubadilisha bei au kasi."
 msgstr "4 packages added. Tap any package to change its price or speed."
 
 #: dashboard/views.py:409
@@ -2545,8 +2541,8 @@ msgstr "I have a regular router (MiFi, 4G or fiber). Will it work?"
 #: pages/seo.py:39
 #, python-format
 msgid ""
-"Ndiyo, kama chanzo cha internet. Utahitaji kuongeza router ndogo ya MikroTik"
-" nyuma yake, ambayo ndiyo inayowaonyesha wateja ukurasa wa kulipia. Ukurasa "
+"Ndiyo, kama chanzo cha internet. Utahitaji kuongeza router ndogo ya MikroTik "
+"nyuma yake, ambayo ndiyo inayowaonyesha wateja ukurasa wa kulipia. Ukurasa "
 "wa <a href=\"%(mahitaji_url)s\">Mahitaji</a> unakuonyesha hasa unachohitaji."
 msgstr ""
 "Yes, as the internet source. You'll add a small MikroTik router behind it, "
@@ -2596,8 +2592,8 @@ msgstr ""
 
 #: pages/seo.py:83
 msgid ""
-"Mfumo wa kuuza WiFi kwa vifurushi: wateja wanalipa kwa simu, wanapata vocha,"
-" na wanakatwa muda ukiisha."
+"Mfumo wa kuuza WiFi kwa vifurushi: wateja wanalipa kwa simu, wanapata vocha, "
+"na wanakatwa muda ukiisha."
 msgstr ""
 "WiFi hotspot billing: customers pay by phone, get a voucher, and are "
 "disconnected when their time runs out."
@@ -2628,8 +2624,8 @@ msgid "Simu ya mmiliki"
 msgstr "Owner's phone"
 
 #: pages/templates/pages/_journey.html:18
-msgid "Mteja anagusa “Neema WiFi”"
-msgstr "The customer taps “Neema WiFi”"
+msgid "Mteja anagusa “JamiiTek WiFi”"
+msgstr "The customer taps “JamiiTek WiFi”"
 
 #: pages/templates/pages/_journey.html:19
 msgid ""
@@ -2653,8 +2649,8 @@ msgid ""
 "Router inaruhusu anwani ya JamiiLite peke yake. Mteja anaona jina la "
 "biashara yako na vifurushi vyako."
 msgstr ""
-"The router only lets JamiiLite through. The customer sees your business name"
-" and your packages."
+"The router only lets JamiiLite through. The customer sees your business name "
+"and your packages."
 
 #: pages/templates/pages/_journey.html:28
 msgid "Ombi la malipo linaenda kwa M-Pesa"
@@ -2706,8 +2702,8 @@ msgstr "The phone logs in with the voucher"
 
 #: pages/templates/pages/_journey.html:49
 msgid ""
-"Ukurasa wa kulipia unaituma vocha kwa router yenyewe. Router inaikagua ndani"
-" yake, bila kusubiri mtandao."
+"Ukurasa wa kulipia unaituma vocha kwa router yenyewe. Router inaikagua ndani "
+"yake, bila kusubiri mtandao."
 msgstr ""
 "The payment page hands the voucher to the router by itself. The router "
 "checks it locally, without waiting on the internet."
@@ -2732,8 +2728,8 @@ msgid ""
 "Router inaripoti nani yuko online na data aliyotumia, kwa hiyo unaona kila "
 "mteja anavyotumia."
 msgstr ""
-"The router reports who is online and how much data they used, so you can see"
-" each customer’s usage."
+"The router reports who is online and how much data they used, so you can see "
+"each customer’s usage."
 
 #: pages/templates/pages/_journey.html:63
 msgid "Saa imeisha: router inamkata"
@@ -2741,12 +2737,12 @@ msgstr "Time’s up: the router disconnects them"
 
 #: pages/templates/pages/_journey.html:64
 msgid ""
-"Muda ukifika, JamiiLite inaiambia router imtoe mteja na kufuta vocha. Router"
-" yenyewe pia ina kikomo cha muda, hata mtandao ukikatika."
+"Muda ukifika, JamiiLite inaiambia router imtoe mteja na kufuta vocha. Router "
+"yenyewe pia ina kikomo cha muda, hata mtandao ukikatika."
 msgstr ""
 "When the time is up, JamiiLite tells the router to disconnect the customer "
-"and delete the voucher. The router also enforces its own time limit, even if"
-" the internet drops."
+"and delete the voucher. The router also enforces its own time limit, even if "
+"the internet drops."
 
 #: pages/templates/pages/_journey.html:69
 #: pages/templates/pages/mwongozo.html:174
@@ -2927,8 +2923,7 @@ msgid "Bei"
 msgstr "Pricing"
 
 #: pages/templates/pages/base.html:50 pages/templates/pages/base.html:75
-#: pages/templates/pages/mahitaji.html:4
-#: pages/templates/pages/mahitaji.html:10
+#: pages/templates/pages/mahitaji.html:4 pages/templates/pages/mahitaji.html:10
 msgid "Mahitaji"
 msgstr "Requirements"
 
@@ -3303,8 +3298,8 @@ msgid ""
 "Unachohitaji ili kuanza kuuza WiFi kwa JamiiLite 5G: chanzo cha internet, "
 "router ya MikroTik, na simu."
 msgstr ""
-"What you need to start selling WiFi with JamiiLite 5G: an internet source, a"
-" MikroTik router and a phone."
+"What you need to start selling WiFi with JamiiLite 5G: an internet source, a "
+"MikroTik router and a phone."
 
 #: pages/templates/pages/mahitaji.html:11
 msgid "Unachohitaji ili kuanza"
@@ -3332,8 +3327,8 @@ msgstr "2. A MikroTik router"
 
 #: pages/templates/pages/mahitaji.html:34
 msgid ""
-"Hii ndiyo inayowaonyesha wateja ukurasa wa kulipia na kuwakata muda ukiisha."
-" Inahitaji <strong>RouterOS 7.15 au zaidi</strong>."
+"Hii ndiyo inayowaonyesha wateja ukurasa wa kulipia na kuwakata muda ukiisha. "
+"Inahitaji <strong>RouterOS 7.15 au zaidi</strong>."
 msgstr ""
 "This is what shows customers the payment page and cuts them off when time "
 "runs out. It needs <strong>RouterOS 7.15 or newer</strong>."
@@ -3470,19 +3465,19 @@ msgstr "Customer phones"
 
 #: pages/templates/pages/mahitaji.html:87
 msgid ""
-"Ungependa kuacha MiFi kabisa? Chagua MikroTik yenye LTE na uweke laini ndani"
-" yake."
+"Ungependa kuacha MiFi kabisa? Chagua MikroTik yenye LTE na uweke laini ndani "
+"yake."
 msgstr ""
-"Want to drop the MiFi altogether? Choose a MikroTik with LTE and put the SIM"
-" inside it."
+"Want to drop the MiFi altogether? Choose a MikroTik with LTE and put the SIM "
+"inside it."
 
 #: pages/templates/pages/mahitaji.html:91
 msgid ""
 "Hii ndiyo hali rahisi kuliko zote: unganisha waya kutoka port ya LAN ya "
 "router yako kwenda port ya kwanza ya MikroTik."
 msgstr ""
-"This is the easiest setup of all: run a cable from your router's LAN port to"
-" the MikroTik's first port."
+"This is the easiest setup of all: run a cable from your router's LAN port to "
+"the MikroTik's first port."
 
 #: pages/templates/pages/mahitaji.html:92
 msgid "Router ya 4G/5G"
@@ -3586,8 +3581,8 @@ msgid ""
 "Kama una MiFi isiyo na sehemu ya kuunganisha waya, wasiliana nasi "
 "tukuelekeze jinsi ya kuunganisha MikroTik kwenye WiFi ya MiFi yako."
 msgstr ""
-"If your MiFi has no cable port, contact us and we’ll show you how to connect"
-" the MikroTik to your MiFi’s WiFi."
+"If your MiFi has no cable port, contact us and we’ll show you how to connect "
+"the MikroTik to your MiFi’s WiFi."
 
 #: pages/templates/pages/mwongozo.html:50
 msgid "Simu ikipakua app ya MikroTik"
@@ -3603,13 +3598,13 @@ msgstr "Download the MikroTik app"
 
 #: pages/templates/pages/mwongozo.html:63
 msgid ""
-"Kwenye simu yako, fungua <strong>Play Store</strong> au <strong>App "
-"Store</strong>, tafuta <strong>“MikroTik”</strong>, kisha pakua app rasmi ya"
-" MikroTik bila malipo."
+"Kwenye simu yako, fungua <strong>Play Store</strong> au <strong>App Store</"
+"strong>, tafuta <strong>“MikroTik”</strong>, kisha pakua app rasmi ya "
+"MikroTik bila malipo."
 msgstr ""
-"On your phone, open the <strong>Play Store</strong> or <strong>App "
-"Store</strong>, search for <strong>“MikroTik”</strong>, and download the "
-"official MikroTik app for free."
+"On your phone, open the <strong>Play Store</strong> or <strong>App Store</"
+"strong>, search for <strong>“MikroTik”</strong>, and download the official "
+"MikroTik app for free."
 
 #: pages/templates/pages/mwongozo.html:64
 msgid ""
@@ -3647,9 +3642,9 @@ msgstr "Log in to the MikroTik"
 
 #: pages/templates/pages/mwongozo.html:85
 msgid ""
-"Unganisha simu yako kwenye WiFi ya MikroTik (jina lake kwa kawaida huanza na"
-" <strong>MikroTik-</strong>). Fungua app, weka anwani "
-"<strong>192.168.88.1</strong> na jina la mtumiaji <strong>admin</strong>."
+"Unganisha simu yako kwenye WiFi ya MikroTik (jina lake kwa kawaida huanza na "
+"<strong>MikroTik-</strong>). Fungua app, weka anwani <strong>192.168.88.1</"
+"strong> na jina la mtumiaji <strong>admin</strong>."
 msgstr ""
 "Connect your phone to the MikroTik’s WiFi (its name usually starts with "
 "<strong>MikroTik-</strong>). Open the app and enter the address "
@@ -3658,11 +3653,11 @@ msgstr ""
 #: pages/templates/pages/mwongozo.html:86
 msgid ""
 "Nenosiri linaweza kupatikana kwenye kibandiko kilicho chini ya kifaa cha "
-"MikroTik. Kwa baadhi ya modeli za zamani, sehemu ya nenosiri inaweza kuachwa"
-" wazi."
+"MikroTik. Kwa baadhi ya modeli za zamani, sehemu ya nenosiri inaweza kuachwa "
+"wazi."
 msgstr ""
-"The password is on the sticker under the MikroTik. On some older models, the"
-" password field can be left empty."
+"The password is on the sticker under the MikroTik. On some older models, the "
+"password field can be left empty."
 
 #: pages/templates/pages/mwongozo.html:92
 msgid "Menyu ya IP, Hotspot na kitufe cha Hotspot Setup"
@@ -3699,10 +3694,9 @@ msgid ""
 "kubonyeza <strong>Next</strong> hadi mwisho bila kubadilisha mipangilio "
 "iliyojazwa tayari."
 msgstr ""
-"Go to <strong>IP → Hotspot</strong>, then tap <strong>Hotspot "
-"Setup</strong>. Pick the <strong>bridge</strong> interface, then keep "
-"tapping <strong>Next</strong> to the end without changing the pre-filled "
-"settings."
+"Go to <strong>IP → Hotspot</strong>, then tap <strong>Hotspot Setup</"
+"strong>. Pick the <strong>bridge</strong> interface, then keep tapping "
+"<strong>Next</strong> to the end without changing the pre-filled settings."
 
 #: pages/templates/pages/mwongozo.html:112
 msgid "Terminal ikibandikiwa mstari wa JamiiLite"
@@ -3738,9 +3732,9 @@ msgid ""
 "usanidi</strong> uliopewa kwenye akaunti yako ya JamiiLite, ubandike kwenye "
 "Terminal, kisha bonyeza Enter."
 msgstr ""
-"Open <strong>Terminal</strong> in the app. Copy the <strong>setup "
-"line</strong> from your JamiiLite account, paste it into the Terminal, then "
-"press Enter."
+"Open <strong>Terminal</strong> in the app. Copy the <strong>setup line</"
+"strong> from your JamiiLite account, paste it into the Terminal, then press "
+"Enter."
 
 #: pages/templates/pages/mwongozo.html:125
 msgid ""
@@ -3752,8 +3746,8 @@ msgid "Dashibodi inaonyesha router iko hewani"
 msgstr "The dashboard shows the router is online"
 
 #: pages/templates/pages/mwongozo.html:133
-msgid "Neema WiFi · Duka"
-msgstr "Neema WiFi · Shop"
+msgid "JamiiTek WiFi · Duka"
+msgstr "JamiiTek WiFi · Shop"
 
 #: pages/templates/pages/mwongozo.html:136
 msgid "Wateja waliounganishwa: 0 · RouterOS 7"
@@ -3802,9 +3796,9 @@ msgstr "Try it as a customer"
 
 #: pages/templates/pages/mwongozo.html:163
 msgid ""
-"Tumia simu nyingine kuunganisha kwenye WiFi ya hotspot. Ukurasa wa vifurushi"
-" utafunguka wenyewe. Nunua kifurushi cha bei nafuu ili kuthibitisha kuwa "
-"kila kitu kinafanya kazi vizuri. 🎉"
+"Tumia simu nyingine kuunganisha kwenye WiFi ya hotspot. Ukurasa wa vifurushi "
+"utafunguka wenyewe. Nunua kifurushi cha bei nafuu ili kuthibitisha kuwa kila "
+"kitu kinafanya kazi vizuri. 🎉"
 msgstr ""
 "Use another phone to join the hotspot WiFi. The packages page will open by "
 "itself. Buy the cheapest package to confirm everything works. 🎉"
@@ -3827,13 +3821,13 @@ msgstr "Time's up · customer left"
 
 #: pages/views.py:30 ui/templates/ui/auth_base.html:57
 #: ui/templates/ui/auth_base.html:72
-msgid "Mteja ameingia · Neema WiFi"
-msgstr "Customer connected · Neema WiFi"
+msgid "Mteja ameingia · JamiiTek WiFi"
+msgstr "Customer connected · JamiiTek WiFi"
 
 #: pages/views.py:32
 #, python-format
-msgid "Lipa Tsh %(amount)s kwa NEEMA WIFI? Weka PIN yako ya M-Pesa."
-msgstr "Pay Tsh %(amount)s to NEEMA WIFI? Enter your M-Pesa PIN."
+msgid "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa."
+msgstr "Pay Tsh %(amount)s to JAMIITEK WIFI? Enter your M-Pesa PIN."
 
 #: pages/views.py:34
 msgid "Mauzo mapya"
@@ -3881,8 +3875,8 @@ msgid ""
 "Kifurushi chako cha <strong>%(name)s</strong> bado kina muda: "
 "<strong>%(left)s</strong>."
 msgstr ""
-"Your <strong>%(name)s</strong> package still has time: "
-"<strong>%(left)s</strong>."
+"Your <strong>%(name)s</strong> package still has time: <strong>%(left)s</"
+"strong>."
 
 #: portal/templates/portal/home.html:20
 msgid ""

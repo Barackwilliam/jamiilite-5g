@@ -322,7 +322,7 @@
     c.fillStyle = shopLight; c.fillRect(kx + 12 * s, ky + 36 * s, kw - 24 * s, kh - 48 * s);
     c.fillStyle = "rgba(255,200,120,0.12)"; c.beginPath(); c.ellipse(r.x, this.ground + 8 * s, 110 * s, 16 * s, 0, 0, 6.28); c.fill();
     c.fillStyle = "#0B1F40"; c.font = "800 " + Math.round(10 * s) + "px system-ui, sans-serif";
-    c.fillText("NEEMA WiFi", r.x, ky + 50 * s);
+    c.fillText("JAMIITEK WiFi", r.x, ky + 50 * s);
 
     // router juu ya kibanda
     c.fillStyle = "#e9eef8"; roundRect(c, r.x - 18 * s, r.y - 6 * s, 36 * s, 12 * s, 4 * s); c.fill();
@@ -409,7 +409,7 @@
 
     this.reset();
     feedItem(this.ownerFeed, "💰", _("Siku 1") + " · 0754…221", 1000, 5);
-    feedItem(this.ownerFeed, "📶", _("Mteja ameingia · Neema WiFi"), 0, 5);
+    feedItem(this.ownerFeed, "📶", _("Mteja ameingia · JamiiTek WiFi"), 0, 5);
     this.fits = root.querySelectorAll(".sim-fit");
     this.scale = 1;
     this.fit();
@@ -505,7 +505,7 @@
       this.price = parseInt(this.pkgEl.dataset.simPkg, 10);
       this.minutes = parseInt(this.pkgEl.dataset.simMins, 10);
       this.pkgName = this.pkgEl.dataset.simName;
-      this.$("[data-sim-stk-text]").textContent = fmt(_("Lipa Tsh %(amount)s kwa NEEMA WIFI? Weka PIN yako ya M-Pesa."), { amount: money(this.price) });
+      this.$("[data-sim-stk-text]").textContent = fmt(_("Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa."), { amount: money(this.price) });
       this.pin = 0;
       this.root.querySelectorAll("[data-sim-pin] i").forEach(function (d) { d.classList.remove("is-on"); });
       this.show("stk");
@@ -543,7 +543,7 @@
     this.later(function () {
       self.online += 1;
       self.ownerOnline.textContent = self.online;
-      feedItem(self.ownerFeed, "📶", _("Mteja ameingia · Neema WiFi"), 0, 5);
+      feedItem(self.ownerFeed, "📶", _("Mteja ameingia · JamiiTek WiFi"), 0, 5);
       self.goOnline();
     }, 1800);
   };
@@ -864,15 +864,15 @@
     reveal.forEach(function (el) { el.classList.add("is-in"); });
   }
 
-  // Matukio ya Neema WiFi (mfano wa duka) yanatokea pembeni mtu akishashuka chini ya hero.
+  // Matukio ya JamiiTek WiFi (mfano wa duka) yanatokea pembeni mtu akishashuka chini ya hero.
   var toast = document.querySelector("[data-toast]");
   if (toast && !reduceMotion) {
     var EVENTS = [
-      ["💰", "Neema WiFi · +Tsh 500", _("Saa 1") + " · " + _("sasa hivi")],
-      ["📶", _("Mteja ameingia · Neema WiFi"), _("sasa hivi")],
-      ["💰", "Neema WiFi · +Tsh 1,000", _("Siku 1") + " · " + _("sasa hivi")],
+      ["💰", "JamiiTek WiFi · +Tsh 500", _("Saa 1") + " · " + _("sasa hivi")],
+      ["📶", _("Mteja ameingia · JamiiTek WiFi"), _("sasa hivi")],
+      ["💰", "JamiiTek WiFi · +Tsh 1,000", _("Siku 1") + " · " + _("sasa hivi")],
       ["⏰", _("Muda umeisha · mteja ametoka"), _("Router imemkata yenyewe")],
-      ["💰", "Neema WiFi · +Tsh 5,000", _("Wiki") + " · " + _("sasa hivi")],
+      ["💰", "JamiiTek WiFi · +Tsh 5,000", _("Wiki") + " · " + _("sasa hivi")],
     ];
     var hero = document.querySelector(".lp-hero");
     var n = 0, timer = null, stopped = false;
