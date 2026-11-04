@@ -9,6 +9,38 @@
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
 {% block content %}
+{% if has_sales or online_routers %}
+{# Kama app za pesa: salio juu, vitendo vya haraka, kisha miamala. #}
+<section class="wallet-hero">
+  <div class="wallet-card">
+    <svg class="wallet-deco" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="10"><path d="M40 120a85 85 0 0 1 120 0" opacity=".5"/><path d="M10 90a125 125 0 0 1 180 0" opacity=".28"/><path d="M70 150a42 42 0 0 1 60 0" opacity=".75"/></g><circle cx="100" cy="178" r="10" fill="currentColor"/></svg>
+    <span class="wallet-top">
+      <span>{% translate "Salio" %}</span>
+      <button type="button" class="wallet-eye" data-balance-toggle aria-pressed="false" aria-label="{% translate 'Ficha salio' %}" data-label-show="{% translate 'Onyesha salio' %}" data-label-hide="{% translate 'Ficha salio' %}">{% icon "eye" 18 %}</button>
+    </span>
+    <span class="wallet-amount" data-balance>{{ balance|tsh }}</span>
+    <span class="wallet-meta">
+      <span>{% translate "Leo" %} <b>{{ summary.today_amount|tsh }}</b> · {% blocktranslate count n=summary.today_count %}kifurushi {{ n }}{% plural %}vifurushi {{ n }}{% endblocktranslate %}</span>
+      {% translate "kuliko jana" as vs_yesterday %}
+      {% include "ui/_trend.html" with t=today_trend against=vs_yesterday %}
+    </span>
+  </div>
+
+  <nav class="quick-actions" aria-label="{% translate 'Vitendo vya haraka' %}">
+    <a href="{% url 'dashboard:wallet' %}"><span class="qa-icon">{% icon "send" 22 %}</span>{% translate "Toa pesa" %}</a>
+    <a href="{% url 'dashboard:vouchers' %}"><span class="qa-icon">{% icon "print" 22 %}</span>{% translate "Vocha" %}</a>
+    <a href="{% url 'dashboard:packages' %}"><span class="qa-icon">{% icon "package" 22 %}</span>{% translate "Vifurushi" %}</a>
+    <a href="{% url 'dashboard:live' %}"><span class="qa-icon">{% icon "pulse" 22 %}</span>{% translate "Live" %}</a>
+  </nav>
+
+  <ul class="mini-stats">
+    <li><span class="ms-label">{% translate "Siku 7" %}</span><b>{{ summary.week_amount|tsh }}</b>{% translate "kuliko wiki iliyopita" as vs_week %}{% include "ui/_trend.html" with t=week_trend against=vs_week %}</li>
+    <li><span class="ms-label">{% translate "Siku 30" %}</span><b>{{ summary.month_amount|tsh }}</b></li>
+    <li><a href="{% url 'dashboard:live' %}"><span class="ms-label">{% translate "Online sasa" %}</span><b>{{ online_clients }}</b><small>{% blocktranslate with on=online_routers total=routers|length %}Routers {{ on }} / {{ total }}{% endblocktranslate %}</small></a></li>
+  </ul>
+</section>
+{% endif %}
+
 {% if next_step %}
   <section class="card onboarding">
     <div class="card-head">
@@ -42,61 +74,24 @@
 {% endif %}
 
 {% if has_sales or online_routers %}
-<section class="overview">
-  <article class="card hero-card">
-    <svg class="hero-deco" viewBox="0 0 200 200" aria-hidden="true">
-      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="10">
-        <path d="M40 120a85 85 0 0 1 120 0" opacity=".5"/>
-        <path d="M10 90a125 125 0 0 1 180 0" opacity=".28"/>
-        <path d="M70 150a42 42 0 0 1 60 0" opacity=".75"/>
-      </g>
-      <circle cx="100" cy="178" r="10" fill="currentColor"/>
-    </svg>
-    <div class="hero-top">
-      <p class="stat-label">{% translate "Mapato ya leo" %}</p>
-      {% translate "kuliko jana" as vs_yesterday %}
-      {% include "ui/_trend.html" with t=today_trend against=vs_yesterday %}
-    </div>
-    <p class="hero-figure">{{ summary.today_amount|tsh }}</p>
-    <div class="hero-week" aria-hidden="true">
-      {% for d in hero_week %}
-        <span class="hero-day{% if d.today %} is-today{% endif %}" title="{{ d.label }}: {{ d.value|tsh }}">
-          <span class="hero-bar" style="height: {{ d.pct }}%"></span><small>{{ d.label }}</small>
-        </span>
-      {% endfor %}
-    </div>
-    <div class="hero-foot">
-      <span>{% icon "ticket" 16 %} {% blocktranslate count n=summary.today_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</span>
-      <span>{% icon "clock" 16 %} {% translate "Jana" %} {{ summary.yesterday_amount|tsh }}</span>
-    </div>
-  </article>
 
-  <article class="card stat tone-blue">
-    <span class="stat-icon">{% icon "chart" 18 %}</span>
-    <p class="stat-label">{% translate "Siku 7 zilizopita" %}</p>
-    <p class="stat-value">{{ summary.week_amount|tsh }}</p>
-    {% translate "kuliko wiki iliyopita" as vs_week %}
-    <p class="stat-sub">{% include "ui/_trend.html" with t=week_trend against=vs_week %}{% if not week_trend %}{% blocktranslate count n=summary.week_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}{% endif %}</p>
-  </article>
-  <article class="card stat tone-violet">
-    <span class="stat-icon">{% icon "calendar" 18 %}</span>
-    <p class="stat-label">{% translate "Siku 30 zilizopita" %}</p>
-    <p class="stat-value">{{ summary.month_amount|tsh }}</p>
-    <p class="stat-sub">{% blocktranslate count n=summary.month_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
-  </article>
-  <a class="card stat stat-link tone-green" href="{% url 'dashboard:wallet' %}">
-    <span class="stat-icon">{% icon "coins" 18 %}</span>
-    <p class="stat-label">{% translate "Salio lako" %}</p>
-    <p class="stat-value stat-money">{{ balance|tsh }}</p>
-    <p class="stat-sub">{% translate "Toa pesa" %} {% icon "arrow-right" 14 %}</p>
-  </a>
-  <a class="card stat stat-link tone-amber" href="{% url 'dashboard:live' %}">
-    <span class="stat-icon">{% icon "users" 18 %}</span>
-    <p class="stat-label">{% translate "Wateja online sasa" %}</p>
-    <p class="stat-value">{{ online_clients }}</p>
-    <p class="stat-sub">{% blocktranslate with on=online_routers total=routers|length %}Routers {{ on }} / {{ total }} online{% endblocktranslate %} {% icon "arrow-right" 14 %}</p>
-  </a>
-</section>
+<section class="card">
+    <div class="card-head"><h2>{% translate "Mauzo ya karibuni" %}</h2><a class="link" href="{% url 'dashboard:sales' %}">{% translate "Yote" %}</a></div>
+    {% if recent_sales %}
+      <ul class="list">
+        {% for sale in recent_sales %}
+          <li class="list-row">
+            <span class="sale-avatar" aria-hidden="true">{{ sale.package.name|slice:":1"|upper }}</span>
+            <span class="list-main"><strong>{{ sale.package.name }}</strong><small>{{ sale.phone|phone_display }} · {{ sale.router.name }} · {{ sale.paid_at|ago }}</small></span>
+            <span class="amount-in">+{{ sale.amount|tsh }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      {% translate "Mauzo yakianza, utayaona hapa papo hapo." as empty_text %}
+      {% include "ui/_empty.html" with icon="coins" text=empty_text %}
+    {% endif %}
+  </section>
 
 <section class="card">
   <div class="card-head">
@@ -149,23 +144,7 @@
       {% include "ui/_bar_list.html" with rows=top_routers %}
     </section>
   {% endif %}
-  <section class="card">
-    <div class="card-head"><h2>{% translate "Mauzo ya karibuni" %}</h2><a class="link" href="{% url 'dashboard:sales' %}">{% translate "Yote" %}</a></div>
-    {% if recent_sales %}
-      <ul class="list">
-        {% for sale in recent_sales %}
-          <li class="list-row">
-            <span class="sale-avatar" aria-hidden="true">{{ sale.package.name|slice:":1"|upper }}</span>
-            <span class="list-main"><strong>{{ sale.package.name }}</strong><small>{{ sale.phone|phone_display }} · {{ sale.router.name }} · {{ sale.paid_at|ago }}</small></span>
-            <span class="amount-in">+{{ sale.amount|tsh }}</span>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      {% translate "Mauzo yakianza, utayaona hapa papo hapo." as empty_text %}
-      {% include "ui/_empty.html" with icon="coins" text=empty_text %}
-    {% endif %}
-  </section>
+
 </div>
 {% endif %}
 {% endblock %}

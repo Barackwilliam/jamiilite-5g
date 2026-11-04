@@ -1,1 +1,1 @@
-{% load ui_tags %}{% if t %}<span class="trend {% if t.up %}trend-up{% else %}trend-down{% endif %}">{% if t.up %}{% icon "trend-up" 14 %}{% else %}{% icon "trend-down" 14 %}{% endif %}{{ t.pct }}% {{ against }}</span>{% endif %}
+{% load ui_tags %}{% if t %}<span class="trend {% if t.up %}trend-up{% else %}trend-down{% endif %}">{% if t.up %}{% icon "trend-up" 14 %}{% else %}{% icon "trend-down" 14 %}{% endif %}{{ t.pct }}%<span class="trend-vs"> {{ against }}</span></span>{% endif %}

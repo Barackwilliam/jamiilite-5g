@@ -968,3 +968,54 @@ body.print-page { background: #0b1a36; }
 .sub-widget-active .sub-widget-meter span { background: var(--money); }
 button:focus-visible, summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .wifi-form { max-width: 520px; }
+
+/* ============================================================
+   Muhtasari kama app za pesa: salio, vitendo vya haraka, miamala
+   ============================================================ */
+.wallet-hero { display: grid; gap: 14px; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: stretch; }
+.wallet-card {
+  position: relative; overflow: hidden; isolation: isolate; display: flex; flex-direction: column; gap: 6px;
+  padding: 22px 22px 18px; border-radius: 22px; color: var(--text); text-decoration: none;
+  background:
+    radial-gradient(420px 240px at 100% 0%, rgba(245, 166, 35, 0.28), transparent 65%),
+    radial-gradient(360px 220px at 0% 100%, rgba(34, 184, 224, 0.18), transparent 65%),
+    linear-gradient(150deg, #173a7a 0%, #0c1f47 100%);
+  border: 1px solid rgba(245, 166, 35, 0.25);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.wallet-deco { position: absolute; right: -26px; bottom: -40px; width: 200px; height: 200px; color: var(--brand); opacity: 0.12; z-index: -1; }
+.wallet-top { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-weight: 600; font-size: 0.9rem; }
+.wallet-eye { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.06); color: var(--text); cursor: pointer; }
+.wallet-eye:hover { background: rgba(255, 255, 255, 0.12); }
+.wallet-eye.is-hidden { color: var(--brand); }
+.wallet-amount { font-family: var(--font-head); font-weight: 800; font-size: clamp(2rem, 6vw, 2.8rem); letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.wallet-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: var(--muted); font-size: 0.88rem; }
+.wallet-meta b { color: var(--text); font-variant-numeric: tabular-nums; }
+.wallet-meta .trend { background: rgba(255, 255, 255, 0.08); }
+
+.quick-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; align-content: center; padding: 16px 12px; border-radius: 22px; background: var(--surface); border: 1px solid var(--border); }
+.quick-actions a { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text); text-decoration: none; font-size: 0.82rem; font-weight: 600; text-align: center; }
+.qa-icon { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 18px; background: var(--grad-brand); color: var(--brand-text); box-shadow: 0 12px 24px -12px rgba(245, 140, 35, 0.8); transition: transform 0.15s; }
+.quick-actions a:hover .qa-icon { transform: translateY(-2px); }
+.quick-actions a:active .qa-icon { transform: scale(0.95); }
+.quick-actions a:nth-child(n + 2) .qa-icon { background: rgba(255, 255, 255, 0.07); color: var(--brand); box-shadow: inset 0 0 0 1px var(--border); }
+
+.mini-stats { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.mini-stats li, .mini-stats a { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); color: var(--text); text-decoration: none; }
+.mini-stats li:has(a) { padding: 0; border: 0; background: none; }
+.mini-stats .ms-label { color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+.mini-stats b { font-family: var(--font-head); font-size: 1.15rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.mini-stats small { color: var(--muted); font-size: 0.76rem; }
+.mini-stats .trend { align-self: flex-start; margin-top: 2px; font-size: 0.72rem; }
+
+@media (max-width: 860px) {
+  .wallet-hero { grid-template-columns: 1fr; }
+  .quick-actions { padding: 14px 6px; }
+  .mini-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .mini-stats li, .mini-stats a { padding: 10px; }
+  .mini-stats b { font-size: 0.98rem; }
+  .mini-stats .trend-vs { display: none; }
+}
+@media (max-width: 380px) {
+  .mini-stats b { font-size: 0.86rem; }
+}

@@ -92,4 +92,27 @@
     };
     setInterval(check, 5000);
   }
+
+  // Salio: kitufe cha jicho kinaficha na kuonyesha kiasi, kama app za pesa. Chaguo linakumbukwa kwenye kifaa hiki.
+  var balanceToggle = document.querySelector("[data-balance-toggle]");
+  if (balanceToggle) {
+    var amounts = document.querySelectorAll("[data-balance]");
+    var setHidden = function (hidden) {
+      amounts.forEach(function (el) {
+        if (!el.dataset.amount) el.dataset.amount = el.textContent;
+        el.textContent = hidden ? "Tsh ••••••" : el.dataset.amount;
+      });
+      balanceToggle.setAttribute("aria-pressed", hidden ? "true" : "false");
+      balanceToggle.setAttribute("aria-label", hidden ? balanceToggle.dataset.labelShow : balanceToggle.dataset.labelHide);
+      balanceToggle.classList.toggle("is-hidden", hidden);
+    };
+    var stored = false;
+    try { stored = window.localStorage.getItem("jl-balance-hidden") === "1"; } catch (e) {}
+    setHidden(stored);
+    balanceToggle.addEventListener("click", function () {
+      var hidden = balanceToggle.getAttribute("aria-pressed") !== "true";
+      setHidden(hidden);
+      try { window.localStorage.setItem("jl-balance-hidden", hidden ? "1" : "0"); } catch (e) {}
+    });
+  }
 })();
