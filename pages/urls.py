@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import PublicPage
+from .views import LegalPage, PublicPage
 
 app_name = "pages"
 
@@ -8,4 +8,6 @@ urlpatterns = [
     path("", PublicPage.as_view(template_name="pages/home.html"), name="home"),
     path("mahitaji/", PublicPage.as_view(template_name="pages/mahitaji.html"), name="mahitaji"),
     path("mwongozo/", PublicPage.as_view(template_name="pages/mwongozo.html"), name="mwongozo"),
+    path("masharti/", LegalPage.as_view(document="masharti"), name="masharti"),
+    path("faragha/", LegalPage.as_view(document="faragha"), name="faragha"),
 ]

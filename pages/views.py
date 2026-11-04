@@ -1,4 +1,5 @@
 import math
+from datetime import date
 from urllib.parse import quote
 
 from django.conf import settings
@@ -7,7 +8,7 @@ from django.shortcuts import redirect
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import escape
-from django.utils.translation import gettext, ngettext
+from django.utils.translation import get_language, gettext, ngettext
 from django.views.decorators.cache import cache_control
 from django.views.generic import TemplateView
 
@@ -69,8 +70,33 @@ class PublicPage(TemplateView):
         return context
 
 
+# Masharti na faragha: kila hati imeandikwa kamili kwa kila lugha (si sentensi moja moja kwenye .po).
+LEGAL_UPDATED = date(2026, 11, 4)
+
+
+class LegalPage(PublicPage):
+    document = ""
+
+    def get_template_names(self):
+        language = "en" if (get_language() or "sw").startswith("en") else "sw"
+        return [f"pages/legal/{self.document}_{language}.html"]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cfg = config.current()
+        context.update(
+            updated=LEGAL_UPDATED,
+            min_withdrawal=f"{cfg.min_withdrawal:,}",
+            sale_fee_percent=cfg.sale_fee_percent,
+            contact_email=settings.JAMIILITE_CONTACT_EMAIL,
+        )
+        return context
+
+
 # Kurasa ambazo Google inapaswa kuzijua, kwa kila lugha.
-SITEMAP_PAGES = ["pages:home", "pages:mahitaji", "pages:mwongozo", "dashboard:signup"]
+SITEMAP_PAGES = [
+    "pages:home", "pages:mahitaji", "pages:mwongozo", "dashboard:signup", "pages:masharti", "pages:faragha",
+]
 
 
 @cache_control(max_age=3600, public=True)

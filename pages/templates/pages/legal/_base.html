@@ -1,0 +1,23 @@
+{% extends "pages/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<article class="legal">
+  <header class="legal-head">
+    <p class="eyebrow">{% block eyebrow %}{% endblock %}</p>
+    <h1>{% block heading %}{% endblock %}</h1>
+    <p class="muted">{% block updated_label %}{% endblock %} {{ updated|date:"j/n/Y" }}</p>
+  </header>
+  <div class="legal-body">
+    {% block body %}{% endblock %}
+    <section id="mawasiliano">
+      <h2>{% block contact_heading %}{% endblock %}</h2>
+      <ul class="legal-contact">
+        {% if contact_email %}<li><a href="mailto:{{ contact_email }}">{{ contact_email }}</a></li>{% endif %}
+        {% if whatsapp_url %}<li><a href="{{ whatsapp_url }}" rel="noopener">WhatsApp</a></li>{% endif %}
+        <li><a href="https://www.jamiitek.com/" rel="noopener">www.jamiitek.com</a></li>
+      </ul>
+    </section>
+  </div>
+</article>
+{% endblock %}

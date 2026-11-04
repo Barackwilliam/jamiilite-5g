@@ -1,0 +1,95 @@
+{% extends "pages/legal/_base.html" %}
+
+{% block title %}Privacy Policy · JamiiLite 5G{% endblock %}
+{% block description %}What JamiiLite 5G collects from WiFi owners and their customers, how it is used and protected.{% endblock %}
+{% block eyebrow %}Privacy{% endblock %}
+{% block heading %}Privacy Policy{% endblock %}
+{% block updated_label %}Updated{% endblock %}
+{% block contact_heading %}10. Contact{% endblock %}
+
+{% block body %}
+<section>
+  <h2>1. Who we are</h2>
+  <p>JamiiLite 5G is run by JamiiTek. This policy explains what we collect from WiFi owners and their customers, and how we use it, in line with Tanzania's Personal Data Protection Act, 2022.</p>
+</section>
+
+<section>
+  <h2>2. What we collect</h2>
+  <h3>Owners</h3>
+  <ul>
+    <li>Business name, phone number, logo and language.</li>
+    <li>Password: stored hashed. No one can read it, including us.</li>
+    <li>Routers (name, location, WiFi name), packages, sales, balance and withdrawal requests.</li>
+  </ul>
+  <h3>WiFi customers</h3>
+  <ul>
+    <li>The phone number used to pay.</li>
+    <li>The device's MAC address and IP, as reported by the router.</li>
+    <li>Package, voucher code, connection time and data used.</li>
+    <li>Payment record: amount, status and transaction ID.</li>
+  </ul>
+  <h3>Technical</h3>
+  <ul>
+    <li>IP address, to block repeated login or payment attempts.</li>
+    <li>Essential cookies only: the login session, your chosen language, and form protection (CSRF). We use no advertising or tracking cookies.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>3. How we use it</h2>
+  <ul>
+    <li>To connect customers, count their time, and disconnect them when it runs out.</li>
+    <li>To confirm payments, add sales to the owner's balance, and pay the owner.</li>
+    <li>To protect the system against fraud and attacks.</li>
+    <li>To answer support requests.</li>
+  </ul>
+  <p>We do not sell your information or use it for advertising.</p>
+</section>
+
+<section>
+  <h2>4. Who we share it with</h2>
+  <ul>
+    <li><strong>The WiFi owner you bought from:</strong> sees the phone number, package and time of your purchase, so they can serve you.</li>
+    <li><strong>Pesapal:</strong> the phone number and amount, to complete the payment.</li>
+    <li><strong>Technical providers:</strong> Render (servers) and Supabase (database and images). If error reporting is on, Sentry receives error details only, without phone numbers, passwords or IP addresses.</li>
+    <li><strong>Government authorities:</strong> only when the law requires it.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>5. Where it is stored</h2>
+  <p>Our servers and database are outside Tanzania (United States). We use providers that protect data to international standards, and all traffic goes over HTTPS.</p>
+</section>
+
+<section>
+  <h2>6. How long we keep it</h2>
+  <ul>
+    <li>Network events (Live map): 48 hours.</li>
+    <li>Records used to block repeated attempts: up to 1 day.</li>
+    <li>Payments, sales and balances: as long as tax and accounting law requires.</li>
+    <li>Owner accounts: until the owner asks for deletion.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>7. Security</h2>
+  <p>All traffic goes over HTTPS, and passwords are stored hashed. Repeated login and payment attempts are blocked. Routers verify the server before accepting commands, and only a few people have access to the data.</p>
+</section>
+
+<section>
+  <h2>8. Your rights</h2>
+  <p>You have the right to:</p>
+  <ul>
+    <li>see your information,</li>
+    <li>correct it,</li>
+    <li>ask for it to be deleted,</li>
+    <li>object to how it is used.</li>
+  </ul>
+  <p>Contact us using the details below. Payment records we must keep by law cannot be deleted before their time.</p>
+</section>
+
+<section>
+  <h2>9. Changes to this policy</h2>
+  <p>If we change this policy, the date at the top changes. Major changes are announced to owners through the dashboard.</p>
+</section>
+{% endblock %}
