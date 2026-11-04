@@ -14,13 +14,14 @@ from django.forms.utils import ErrorDict
 from django.db import transaction
 from django.db.models import Count, Min, Q, Sum
 from django.db.models.functions import TruncDate
-from django.http import Http404, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.text import slugify
 from django.views.decorators.http import require_http_methods, require_POST
 
 from billing import subscriptions, wallet
@@ -34,6 +35,7 @@ from ui import ratelimit
 from ui.charts import bar_chart, daily_totals, day_abbr
 
 from .accounts import create_owner_account
+from .voucher_pdf import render as voucher_pdf_render
 from .forms import (
     LoginForm,
     OwnerSettingsForm,
@@ -502,8 +504,24 @@ def voucher_print(request, batch):
     items = Voucher.objects.filter(router__owner=owner, batch=batch).select_related("package", "router")
     if not items:
         raise Http404
-    site_host = urlsplit(settings.JAMIILITE_PUBLIC_URL).hostname or request.get_host()
-    return render(request, "dashboard/voucher_print.html", {"owner": owner, "vouchers": items, "site_host": site_host})
+    return render(request, "dashboard/voucher_print.html", {"owner": owner, "vouchers": items, "site_host": _site_host(request), "batch": batch})
+
+
+@owner_required
+def voucher_pdf(request, batch):
+    owner = request.owner
+    items = list(Voucher.objects.filter(router__owner=owner, batch=batch).select_related("package", "router"))
+    if not items:
+        raise Http404
+    pdf = voucher_pdf_render(owner, items, _site_host(request))
+    filename = f"vocha-{slugify(owner.business_name) or 'jamiilite'}-{batch}.pdf"
+    response = HttpResponse(pdf, content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
+    return response
+
+
+def _site_host(request):
+    return urlsplit(settings.JAMIILITE_PUBLIC_URL).hostname or request.get_host()
 
 
 # --- Mauzo -------------------------------------------------------------------------

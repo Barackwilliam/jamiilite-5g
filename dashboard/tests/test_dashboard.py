@@ -155,6 +155,22 @@ class OwnerPagesTests(TestCase):
         page = self.client.get(reverse("dashboard:voucher_print", args=[batch]))
         self.assertContains(page, "wifi.jamiitek.co.tz", count=2)
 
+    @override_settings(JAMIILITE_PUBLIC_URL="https://wifi.jamiitek.co.tz")
+    def test_vouchers_download_as_pdf(self):
+        router = make_router(self.owner)
+        self.client.post(reverse("dashboard:vouchers"), {"package": make_package(self.owner).pk, "router": router.pk, "count": 25})
+        batch = Voucher.objects.values_list("batch", flat=True).first()
+        response = self.client.get(reverse("dashboard:voucher_pdf", args=[batch]))
+        self.assertEqual(response["Content-Type"], "application/pdf")
+        self.assertIn("attachment;", response["Content-Disposition"])
+        self.assertTrue(response.content.startswith(b"%PDF"))
+        self.assertEqual(response.content.count(b"/Type /Page\n"), 2)  # 21 kwa ukurasa: 25 = kurasa 2
+
+    def test_voucher_pdf_of_another_owner_is_hidden(self):
+        other = make_owner(username="mwingine", business_name="Mwingine")
+        Voucher.objects.create(router=make_router(other, slug="x"), package=make_package(other), batch="abc123")
+        self.assertEqual(self.client.get(reverse("dashboard:voucher_pdf", args=["abc123"])).status_code, 404)
+
     def test_voucher_batch_and_print(self):
         router = make_router(self.owner)
         package = make_package(self.owner)

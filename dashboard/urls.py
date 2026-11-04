@@ -18,6 +18,7 @@ urlpatterns = [
     path("dashboard/vifurushi/<int:pk>/", views.package_edit, name="package_edit"),
     path("dashboard/vocha/", views.vouchers, name="vouchers"),
     path("dashboard/vocha/chapisha/<str:batch>/", views.voucher_print, name="voucher_print"),
+    path("dashboard/vocha/chapisha/<str:batch>/pdf/", views.voucher_pdf, name="voucher_pdf"),
     path("dashboard/mauzo/", views.sales, name="sales"),
     path("dashboard/salio/", views.wallet_view, name="wallet"),
     path("dashboard/usajili/", views.subscription, name="subscription"),

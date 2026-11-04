@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 22:52+0300\n"
+"POT-Creation-Date: 2026-11-04 23:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgid "Imeshindwa"
 msgstr "Failed"
 
 #: billing/models.py:192 dashboard/templates/dashboard/signup.html:8
-#: dashboard/views.py:56 dashboard/views.py:521
+#: dashboard/views.py:58 dashboard/views.py:539
 #: pages/templates/pages/_journey.html:40
 msgid "Mauzo"
 msgstr "Sales"
@@ -983,8 +983,8 @@ msgstr "No router added yet."
 
 #: control/templates/control/owner_detail.html:98
 #: dashboard/templates/dashboard/home.html:32
-#: dashboard/templates/dashboard/package_edit.html:4 dashboard/views.py:54
-#: dashboard/views.py:443 pages/templates/pages/_journey.html:25
+#: dashboard/templates/dashboard/package_edit.html:4 dashboard/views.py:56
+#: dashboard/views.py:445 pages/templates/pages/_journey.html:25
 #: portal/templates/portal/home.html:27
 msgid "Vifurushi"
 msgstr "Packages"
@@ -1038,8 +1038,8 @@ msgstr "Ends"
 
 #: control/templates/control/owners.html:23
 #: dashboard/templates/dashboard/home.html:18
-#: dashboard/templates/dashboard/subscription.html:26 dashboard/views.py:57
-#: dashboard/views.py:574 pages/templates/pages/_journey.html:40
+#: dashboard/templates/dashboard/subscription.html:26 dashboard/views.py:59
+#: dashboard/views.py:592 pages/templates/pages/_journey.html:40
 #: pages/templates/pages/_sim.html:84
 msgid "Salio"
 msgstr "Balance"
@@ -1092,8 +1092,8 @@ msgid "Hakuna malipo kwenye kundi hili."
 msgstr "No payments in this group."
 
 #: control/templates/control/router_detail.html:4 control/views.py:36
-#: dashboard/templates/dashboard/router_detail.html:4 dashboard/views.py:53
-#: dashboard/views.py:342
+#: dashboard/templates/dashboard/router_detail.html:4 dashboard/views.py:55
+#: dashboard/views.py:344
 msgid "Routers"
 msgstr "Routers"
 
@@ -1369,11 +1369,11 @@ msgstr "Nothing here."
 msgid "Maombi mapya yakiingia, yataonekana hapa na kwenye menyu."
 msgstr "New requests will show up here and in the menu."
 
-#: control/views.py:32 dashboard/views.py:51 dashboard/views.py:292
+#: control/views.py:32 dashboard/views.py:53 dashboard/views.py:294
 msgid "Muhtasari"
 msgstr "Overview"
 
-#: control/views.py:33 control/views.py:322 dashboard/views.py:302
+#: control/views.py:33 control/views.py:322 dashboard/views.py:304
 msgid "Mtandao live"
 msgstr "Live network"
 
@@ -1381,7 +1381,7 @@ msgstr "Live network"
 msgid "Mfumo"
 msgstr "System"
 
-#: control/views.py:70 dashboard/views.py:59 dashboard/views.py:614
+#: control/views.py:70 dashboard/views.py:61 dashboard/views.py:632
 msgid "Mipangilio"
 msgstr "Settings"
 
@@ -1845,14 +1845,14 @@ msgid "Toa pesa"
 msgstr "Withdraw"
 
 #: dashboard/templates/dashboard/home.html:31
-#: dashboard/templates/dashboard/voucher_print.html:6 dashboard/views.py:55
-#: dashboard/views.py:495 pages/templates/pages/_journey.html:8
+#: dashboard/templates/dashboard/voucher_print.html:6 dashboard/views.py:57
+#: dashboard/views.py:497 pages/templates/pages/_journey.html:8
 #: pages/templates/pages/_journey.html:35
 #: pages/templates/pages/_journey.html:45
 msgid "Vocha"
 msgstr "Vouchers"
 
-#: dashboard/templates/dashboard/home.html:33 dashboard/views.py:52
+#: dashboard/templates/dashboard/home.html:33 dashboard/views.py:54
 msgid "Live"
 msgstr "Live"
 
@@ -2036,24 +2036,24 @@ msgstr "Off sale"
 msgid "Anza na vifurushi vinavyouzwa zaidi"
 msgstr "Start with the best-selling packages"
 
-#: dashboard/templates/dashboard/packages.html:32 dashboard/views.py:400
+#: dashboard/templates/dashboard/packages.html:32 dashboard/views.py:402
 #: pages/templates/pages/_sim.html:31 pages/views.py:26
 #: ui/templates/ui/auth_base.html:71 ui/templates/ui/auth_base.html:76
 msgid "Saa 1"
 msgstr "1 hour"
 
-#: dashboard/templates/dashboard/packages.html:33 dashboard/views.py:401
+#: dashboard/templates/dashboard/packages.html:33 dashboard/views.py:403
 #: pages/templates/pages/_sim.html:32 pages/views.py:27
 #: ui/templates/ui/auth_base.html:56 ui/templates/ui/auth_base.html:73
 msgid "Siku 1"
 msgstr "1 day"
 
-#: dashboard/templates/dashboard/packages.html:34 dashboard/views.py:402
+#: dashboard/templates/dashboard/packages.html:34 dashboard/views.py:404
 msgid "Wiki 1"
 msgstr "1 week"
 
 #: dashboard/templates/dashboard/packages.html:35
-#: dashboard/templates/dashboard/subscription.html:33 dashboard/views.py:403
+#: dashboard/templates/dashboard/subscription.html:33 dashboard/views.py:405
 msgid "Mwezi 1"
 msgstr "1 month"
 
@@ -2260,8 +2260,8 @@ msgstr "Remove"
 msgid "Inaonekana kwenye ukurasa wa kulipia."
 msgstr "Shown on the payment page."
 
-#: dashboard/templates/dashboard/settings.html:53 dashboard/views.py:58
-#: dashboard/views.py:597
+#: dashboard/templates/dashboard/settings.html:53 dashboard/views.py:60
+#: dashboard/views.py:615
 msgid "Usajili"
 msgstr "Subscription"
 
@@ -2463,19 +2463,26 @@ msgid "Rudi"
 msgstr "Back"
 
 #: dashboard/templates/dashboard/voucher_print.html:19
+msgid "Pakua PDF"
+msgstr "Download PDF"
+
+#: dashboard/templates/dashboard/voucher_print.html:20
 msgid "Chapisha"
 msgstr "Print"
 
-#: dashboard/templates/dashboard/voucher_print.html:37
+#: dashboard/templates/dashboard/voucher_print.html:38
+#: dashboard/voucher_pdf.py:157
 #, python-format
 msgid "Washa WiFi kwenye simu au kifaa chako, kisha chagua <b>%(wifi)s</b>."
 msgstr "Turn on WiFi on your phone or device, then choose <b>%(wifi)s</b>."
 
-#: dashboard/templates/dashboard/voucher_print.html:38
+#: dashboard/templates/dashboard/voucher_print.html:39
+#: dashboard/voucher_pdf.py:158
 msgid "Ingiza msimbo huu, kisha bonyeza <b>Unganisha</b>."
 msgstr "Enter this code, then tap <b>Connect</b>."
 
 #: dashboard/templates/dashboard/voucher_print.html:43
+#: dashboard/voucher_pdf.py:190
 msgid "Imetumika"
 msgstr "Used"
 
@@ -2550,7 +2557,7 @@ msgstr "Balance history"
 msgid "Bado hakuna miamala."
 msgstr "No transactions yet."
 
-#: dashboard/views.py:100
+#: dashboard/views.py:102
 #, python-format
 msgid ""
 "Akaunti nyingi zimefunguliwa kutoka hapa. Subiri dakika %(n)s, kisha ujaribu"
@@ -2558,27 +2565,27 @@ msgid ""
 msgstr ""
 "Too many accounts were opened from here. Wait %(n)s minutes, then try again."
 
-#: dashboard/views.py:110
+#: dashboard/views.py:112
 #, python-format
 msgid "Karibu %(name)s! Una siku %(days)s za majaribio bure."
 msgstr "Welcome, %(name)s! You have %(days)s free trial days."
 
-#: dashboard/views.py:126 ui/ratelimit.py:82
+#: dashboard/views.py:128 ui/ratelimit.py:82
 #, python-format
 msgid "Umejaribu mara nyingi. Subiri dakika %(n)s, kisha ujaribu tena."
 msgstr "Too many attempts. Wait %(n)s minutes, then try again."
 
-#: dashboard/views.py:330
+#: dashboard/views.py:332
 #, python-format
 msgid "%(name)s imeongezwa. Sasa iunganishe kwa mstari wa usanidi."
 msgstr "%(name)s has been added. Now connect it with the setup line."
 
-#: dashboard/views.py:358
+#: dashboard/views.py:360
 #, python-format
 msgid "Jina la WiFi litabadilika kuwa “%(name)s” ndani ya dakika 1."
 msgstr "The WiFi name will change to “%(name)s” within a minute."
 
-#: dashboard/views.py:364
+#: dashboard/views.py:366
 msgid ""
 "Siri mpya imewekwa. Mstari wa zamani haufanyi kazi tena: bandika huu mpya "
 "kwenye router."
@@ -2586,47 +2593,47 @@ msgstr ""
 "New secret set. The old line no longer works: paste this new one into the "
 "router."
 
-#: dashboard/views.py:371
+#: dashboard/views.py:373
 msgid "Agizo limetumwa. Router italitekeleza ndani ya dakika 1 ikiwa online."
 msgstr ""
 "Command sent. The router will carry it out within a minute if it is online."
 
-#: dashboard/views.py:417
+#: dashboard/views.py:419
 msgid ""
 "Vifurushi 4 vimewekwa. Gusa kifurushi chochote kubadilisha bei au kasi."
 msgstr "4 packages added. Tap any package to change its price or speed."
 
-#: dashboard/views.py:425
+#: dashboard/views.py:427
 #, python-format
 msgid "Kifurushi “%(name)s” kimeongezwa."
 msgstr "Package “%(name)s” added."
 
-#: dashboard/views.py:439
+#: dashboard/views.py:441
 #, python-format
 msgid "simu %(n)s"
 msgid_plural "simu %(n)s"
 msgstr[0] "%(n)s phone"
 msgstr[1] "%(n)s phones"
 
-#: dashboard/views.py:454
+#: dashboard/views.py:456
 msgid "Mabadiliko yamehifadhiwa. Yanaanza kufanya kazi papo hapo."
 msgstr "Changes saved. They take effect immediately."
 
-#: dashboard/views.py:470
+#: dashboard/views.py:472
 msgid "Usajili wako umeisha. Lipia ada ya mwezi ili kutengeneza vocha mpya."
 msgstr ""
 "Your subscription has ended. Pay the monthly fee to create new vouchers."
 
-#: dashboard/views.py:564
+#: dashboard/views.py:582
 msgid "Ombi lako limepokelewa. Pesa itatumwa kwenye namba yako hivi karibuni."
 msgstr "Request received. The money will be sent to your number shortly."
 
-#: dashboard/views.py:591
+#: dashboard/views.py:609
 #, python-format
 msgid "Asante! Umelipia miezi %(months)s."
 msgstr "Thank you! You paid for %(months)s month(s)."
 
-#: dashboard/views.py:612
+#: dashboard/views.py:630
 msgid "Mipangilio imehifadhiwa."
 msgstr "Settings saved."
 
