@@ -14,10 +14,27 @@ class SeoTests(TestCase):
     def test_canonical_and_hreflang_for_each_language(self):
         head = self.head(reverse("pages:home") + "?lang=en")
         self.assertIn('<link rel="canonical" href="http://testserver/?lang=en">', head)
-        self.assertIn('hreflang="sw" href="http://testserver/?lang=sw"', head)
+        self.assertIn('hreflang="sw" href="http://testserver/"', head)
         self.assertIn('hreflang="en" href="http://testserver/?lang=en"', head)
         self.assertIn('hreflang="x-default" href="http://testserver/"', head)
         self.assertIn('<html lang="en">', self.client.get("/?lang=en").content.decode())
+
+    def test_swahili_is_canonical_at_clean_address(self):
+        head = self.head("/")
+        self.assertIn('<link rel="canonical" href="http://testserver/">', head)
+        self.assertIn('hreflang="sw" href="http://testserver/"', head)
+
+    def test_clean_public_address_is_swahili_whatever_the_browser(self):
+        html = self.client.get("/", HTTP_ACCEPT_LANGUAGE="en-US,en;q=0.9").content.decode()
+        self.assertIn('<html lang="sw">', html)
+        self.client.get("/?lang=en")  # aliyechagua Kiingereza anakumbukwa
+        self.assertIn('<html lang="en">', self.client.get("/", HTTP_ACCEPT_LANGUAGE="en").content.decode())
+
+    @override_settings(GOOGLE_SITE_VERIFICATION="g-abc123", BING_SITE_VERIFICATION="b-xyz789")
+    def test_search_console_verification_tags(self):
+        head = self.head("/")
+        self.assertIn('<meta name="google-site-verification" content="g-abc123">', head)
+        self.assertIn('<meta name="msvalidate.01" content="b-xyz789">', head)
 
     def test_lang_param_is_remembered(self):
         self.client.get("/?lang=en")
@@ -60,6 +77,8 @@ class SeoTests(TestCase):
         self.assertEqual(sitemap["Content-Type"], "application/xml; charset=utf-8")
         body = sitemap.content.decode()
         self.assertIn("<loc>http://testserver/mahitaji/?lang=en</loc>", body)
+        self.assertIn("<loc>http://testserver/mahitaji/</loc>", body)
+        self.assertNotIn("?lang=sw", body)
         self.assertIn('hreflang="x-default" href="http://testserver/mwongozo/"', body)
 
     def test_favicon_redirects_to_png(self):

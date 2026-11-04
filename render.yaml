@@ -59,6 +59,11 @@ services:
         value: live
       - key: JAMIILITE_WHATSAPP_NUMBER
         sync: false
+      # Google Search Console / Bing Webmaster: weka msimbo wa "HTML tag" (content="...") peke yake.
+      - key: GOOGLE_SITE_VERIFICATION
+        sync: false
+      - key: BING_SITE_VERIFICATION
+        sync: false
       # Sentry (si lazima): kila kosa linakufikia kwa email. Angalia docs/DEPLOY.md.
       - key: SENTRY_DSN
         sync: false

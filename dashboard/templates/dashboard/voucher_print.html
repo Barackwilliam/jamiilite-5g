@@ -16,6 +16,7 @@
     <p class="tk-count">{% icon "ticket" 18 %} {% blocktranslate count n=vouchers|length %}Vocha {{ n }}{% plural %}Vocha {{ n }}{% endblocktranslate %} · {{ vouchers.0.package.name }}</p>
     <div class="tk-bar-actions">
       <a class="tk-btn tk-btn-ghost" href="{% url 'dashboard:vouchers' %}">← {% translate "Rudi" %}</a>
+      <a class="tk-btn tk-btn-ghost" href="{% url 'dashboard:voucher_pdf' batch %}" download>{% icon "download" 18 %} {% translate "Pakua PDF" %}</a>
       <button type="button" class="tk-btn tk-btn-print" data-print>{% icon "print" 18 %} {% translate "Chapisha" %}</button>
     </div>
   </header>

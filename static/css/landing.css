@@ -280,7 +280,7 @@ body.page-landing {
 .sim-net.is-shake { animation: lp-shake 0.4s; }
 @keyframes lp-shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 .sim-net-name { flex: 1; }
-.sim-net-tag { font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 99px; background: rgba(60, 207, 126, 0.2); color: var(--lp-green); }
+.sim-net-tag { font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 99px; background: rgba(60, 207, 126, 0.14); color: #6fe3a3; }
 .sim-lock { font-size: 0.8rem; opacity: 0.7; }
 .sim-bars { width: 18px; height: 14px; background: linear-gradient(90deg, #fff 0 20%, transparent 20% 27%, #fff 27% 47%, transparent 47% 54%, #fff 54% 74%, transparent 74% 81%, #fff 81%); clip-path: polygon(0 100%, 100% 0, 100% 100%); }
 .sim-bars.b3 { opacity: 0.8; } .sim-bars.b2 { opacity: 0.6; } .sim-bars.b1 { opacity: 0.4; }
