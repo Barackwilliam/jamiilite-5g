@@ -34,8 +34,8 @@
         <p class="tk-code">{{ voucher.code }}</p>
         <div class="tk-foot">
           <ol class="tk-how">
-            <li>{% blocktranslate with wifi=voucher.router.wifi_name|default:voucher.router.name %}Washa WiFi, chagua <b>{{ wifi }}</b>{% endblocktranslate %}</li>
-            <li>{% blocktranslate %}Andika namba hii, bonyeza <b>Unganisha</b>{% endblocktranslate %}</li>
+            <li>{% blocktranslate with wifi=voucher.router.wifi_name|default:voucher.router.name %}Washa WiFi kwenye simu au kifaa chako, kisha chagua <b>{{ wifi }}</b>.{% endblocktranslate %}</li>
+            <li>{% blocktranslate %}Ingiza msimbo huu, kisha bonyeza <b>Unganisha</b>.{% endblocktranslate %}</li>
           </ol>
           <span class="tk-signal" aria-hidden="true">{% icon "wifi" 18 %}</span>
         </div>

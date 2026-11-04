@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 22:46+0300\n"
+"POT-Creation-Date: 2026-11-04 22:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2468,12 +2468,12 @@ msgstr "Print"
 
 #: dashboard/templates/dashboard/voucher_print.html:37
 #, python-format
-msgid "Washa WiFi, chagua <b>%(wifi)s</b>"
-msgstr "Turn on WiFi, join <b>%(wifi)s</b>"
+msgid "Washa WiFi kwenye simu au kifaa chako, kisha chagua <b>%(wifi)s</b>."
+msgstr "Turn on WiFi on your phone or device, then choose <b>%(wifi)s</b>."
 
 #: dashboard/templates/dashboard/voucher_print.html:38
-msgid "Andika namba hii, bonyeza <b>Unganisha</b>"
-msgstr "Type this code, tap <b>Connect</b>"
+msgid "Ingiza msimbo huu, kisha bonyeza <b>Unganisha</b>."
+msgstr "Enter this code, then tap <b>Connect</b>."
 
 #: dashboard/templates/dashboard/voucher_print.html:43
 msgid "Imetumika"
@@ -3957,7 +3957,7 @@ msgid "Weka namba ya simu utakayolipia."
 msgstr "Enter the phone number you will pay with."
 
 #: portal/templates/portal/_voucher_login.html:11
-msgid "Namba ya vocha"
+msgid "Msimbo wa vocha"
 msgstr "Voucher code"
 
 #: portal/templates/portal/_voucher_login.html:12
