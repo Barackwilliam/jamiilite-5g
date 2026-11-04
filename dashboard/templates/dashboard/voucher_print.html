@@ -33,7 +33,10 @@
         </div>
         <p class="tk-code">{{ voucher.code }}</p>
         <div class="tk-foot">
-          <p class="tk-how">{% icon "info" 13 %}<span>{% blocktranslate with wifi=voucher.router.wifi_name|default:voucher.router.name %}Unganisha WiFi “{{ wifi }}”, kisha andika namba hii kwenye “Una vocha tayari?”.{% endblocktranslate %}</span></p>
+          <ol class="tk-how">
+            <li>{% blocktranslate with wifi=voucher.router.wifi_name|default:voucher.router.name %}Washa WiFi, chagua <b>{{ wifi }}</b>{% endblocktranslate %}</li>
+            <li>{% blocktranslate %}Andika namba hii, bonyeza <b>Unganisha</b>{% endblocktranslate %}</li>
+          </ol>
           <span class="tk-signal" aria-hidden="true">{% icon "wifi" 18 %}</span>
         </div>
         <p class="tk-site">{{ site_host }}</p>

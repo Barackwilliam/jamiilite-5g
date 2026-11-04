@@ -77,3 +77,9 @@
   .tk-head { padding-right: 12mm; }
   .tk-wave { width: 34%; }
 }
+
+/* Hatua mbili zenye namba */
+ol.tk-how { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; list-style: none; counter-reset: tk-step; }
+ol.tk-how li { position: relative; padding-left: 1.9em; line-height: 1.6; counter-increment: tk-step; }
+ol.tk-how li::before { content: counter(tk-step); position: absolute; left: 0; top: 0.15em; display: grid; place-items: center; width: 1.35em; height: 1.35em; border-radius: 50%; background: #1557d6; color: #fff; font-size: 0.9em; font-weight: 800; line-height: 1; }
+ol.tk-how b { color: #0a2245; }
