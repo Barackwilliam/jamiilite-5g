@@ -1,0 +1,62 @@
+{% extends "pages/makala/_article.html" %}
+
+{% block body %}
+<p class="lead">Watu wengi Tanzania wanahitaji internet kila siku lakini hawana bando la kutosha. Ukiwa na internet ya uhakika na sehemu yenye watu, unaweza kuwauzia WiFi kwa saa, siku au wiki. Huu ni mwongozo wa hatua kwa hatua wa kuanzisha biashara hiyo.</p>
+
+<section>
+  <h2>1. Chagua mahali penye watu wanaokaa muda mrefu</h2>
+  <p>WiFi inauzwa vizuri pale ambapo watu wanakaa kwa muda, si wanapopita tu. Mifano ni:</p>
+  <ul>
+    <li>maeneo ya hosteli na nyumba za kupanga za wanafunzi;</li>
+    <li>vituo vya mabasi, stendi na sehemu za kusubiri;</li>
+    <li>migahawa, saluni, vinyozi na maduka ya rejareja;</li>
+    <li>nyumba za kulala wageni na gesti;</li>
+    <li>mitaa yenye nyumba nyingi karibu na duka lako.</li>
+  </ul>
+  <p>Kabla ya kununua kitu chochote, kaa hapo siku moja au mbili uone ni watu wangapi wanatumia simu na kwa muda gani.</p>
+</section>
+
+<section>
+  <h2>2. Pata chanzo cha internet cha uhakika</h2>
+  <p>Wateja wako watapata kasi ile ile unayoipata wewe, ikigawanywa kwa wote walio online. Chaguo za kawaida ni:</p>
+  <ul>
+    <li><strong>Fiber</strong> au internet ya waya: kasi na uhakika zaidi, inafaa kwa wateja wengi.</li>
+    <li><strong>Router ya 4G/5G yenye laini</strong>: inafaa pale fiber haijafika.</li>
+    <li><strong>MiFi</strong>: inafaa kuanzia na wateja wachache.</li>
+  </ul>
+  <p>Chagua kifurushi kikubwa au kisicho na kikomo. Pia uliza mtoa huduma wako kama anaruhusu internet yake kuuzwa tena kwa wengine, na wasiliana na TCRA kujua kama biashara yako inahitaji leseni.</p>
+</section>
+
+<section>
+  <h2>3. Nunua router ya MikroTik</h2>
+  <p>Router ya MikroTik ndiyo inayowaonyesha wateja ukurasa wa kulipia, kuwaruhusu kuingia wakishalipa, na kuwakata muda ukiisha. Kwa kuanzia, <strong>hAP lite</strong> inatosha kwa duka dogo. Kwa wateja wengi zaidi, chagua <strong>hAP ac lite</strong> au <strong>hAP ax lite</strong>. Router hii inaunganishwa nyuma ya MiFi, router ya 4G au fiber uliyonayo.</p>
+  <p>Ukurasa wa <a href="{% url 'pages:mahitaji' %}">Mahitaji</a> unakuonyesha hasa unachohitaji kulingana na router uliyonayo sasa.</p>
+</section>
+
+<section>
+  <h2>4. Panga vifurushi na bei</h2>
+  <p>Anza na vifurushi vinne vinavyoeleweka na kila mtu: saa 1, siku 1, wiki 1 na mwezi 1. Bei ndogo ya kuanzia (kama Tsh 500 kwa saa) inamfanya mteja ajaribu bila kusita. Soma zaidi kwenye <a href="{% url 'pages:makala_detail' 'bei-za-vifurushi-vya-wifi' %}">jinsi ya kupanga bei za vifurushi vya WiFi</a>.</p>
+</section>
+
+<section>
+  <h2>5. Weka malipo ya simu yanayojiendesha</h2>
+  <p>Ukiuza kwa mkono, inabidi uwepo kila mteja anapotaka kulipa, na ni rahisi kupoteza pesa au kusahau kumkata mtu muda. Ni bora mteja alipe mwenyewe kwa <strong>M-Pesa, Mixx by Yas, Airtel Money au HaloPesa</strong>, kisha aunganishwe papo hapo.</p>
+  <p>JamiiLite 5G inafanya kazi hiyo: mteja anachagua kifurushi, analipa kwa simu, anaunganishwa, na anakatwa muda ukiisha. Kila mauzo yanaingia kwenye salio lako, na unatoa pesa kwenda namba yako ya simu.</p>
+</section>
+
+<section>
+  <h2>6. Unganisha router na ujaribu kama mteja</h2>
+  <p>Ukishafungua akaunti, unaongeza router yako na kubandika mstari mmoja kwenye Terminal ya MikroTik. <a href="{% url 'pages:mwongozo' %}">Mwongozo wetu</a> unaonyesha kila hatua kwa picha. Kisha unganisha simu yako kwenye WiFi, nunua kifurushi kidogo, na uhakikishe kila kitu kinafanya kazi kabla ya kuwaambia wateja.</p>
+</section>
+
+<section>
+  <h2>7. Wajulishe watu kuwa WiFi ipo</h2>
+  <ul>
+    <li>Bandika bango lenye jina la WiFi na bei mahali panapoonekana.</li>
+    <li>Chapisha vocha kwa wale wanaopenda kulipa kwa pesa taslimu.</li>
+    <li>Waambie wateja wa duka lako, na uweke jina la WiFi linalokumbukika.</li>
+    <li>Toa kifurushi cha bei ndogo kwa siku za mwanzo ili watu wajaribu.</li>
+  </ul>
+  <p>Biashara ikianza kwenda, angalia mauzo yako kila wiki. Kifurushi kinachouzwa zaidi kinakuonyesha wateja wako wanataka nini.</p>
+</section>
+{% endblock %}

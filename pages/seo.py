@@ -112,3 +112,81 @@ def home_schema(request, *, monthly_fee_value, trial_days, faqs):
     ]
     # "</" isiweze kufunga <script> mapema.
     return mark_safe(json.dumps(data, ensure_ascii=False).replace("</", "<\\/"))
+
+
+def swahili_only_urls(request):
+    """Kurasa zilizoandikwa kwa Kiswahili peke yake: anwani moja, bila toleo la Kiingereza."""
+    base = request.build_absolute_uri(request.path)
+    return {
+        "alternates": [{"code": "sw", "url": base}],
+        "x_default": base,
+        "canonical": base,
+        "og_locale": "sw_TZ",
+        "og_locale_alt": "en_TZ",
+        "image": request.build_absolute_uri(static("img/og.jpg")),
+        "google_verification": settings.GOOGLE_SITE_VERIFICATION,
+        "bing_verification": settings.BING_SITE_VERIFICATION,
+    }
+
+
+def _breadcrumbs(request, items):
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i, "name": name, "item": request.build_absolute_uri(url)}
+            for i, (name, url) in enumerate(items, start=1)
+        ],
+    }
+
+
+def _dump(data):
+    return mark_safe(json.dumps(data, ensure_ascii=False).replace("</", "<\\/"))
+
+
+def article_schema(request, article):
+    """JSON-LD ya makala moja: Article + njia ya kufika (breadcrumb)."""
+    url = request.build_absolute_uri(request.path)
+    publisher = {
+        "@type": "Organization",
+        "name": "JamiiTek",
+        "url": "https://www.jamiitek.com/",
+        "logo": {"@type": "ImageObject", "url": request.build_absolute_uri(static("img/apple-touch-icon.png"))},
+    }
+    return _dump([
+        {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": article.title,
+            "description": article.description,
+            "inLanguage": "sw",
+            "datePublished": article.published.isoformat(),
+            "dateModified": article.updated.isoformat(),
+            "image": request.build_absolute_uri(static("img/og.jpg")),
+            "mainEntityOfPage": url,
+            "author": publisher,
+            "publisher": publisher,
+        },
+        _breadcrumbs(request, [
+            ("JamiiLite 5G", reverse("pages:home")),
+            ("Makala", reverse("pages:makala")),
+            (article.title, request.path),
+        ]),
+    ])
+
+
+def articles_index_schema(request, articles):
+    return _dump([
+        {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Makala za biashara ya WiFi",
+            "inLanguage": "sw",
+            "url": request.build_absolute_uri(request.path),
+            "hasPart": [
+                {"@type": "Article", "headline": a.title, "url": request.build_absolute_uri(reverse("pages:makala_detail", args=[a.slug]))}
+                for a in articles
+            ],
+        },
+        _breadcrumbs(request, [("JamiiLite 5G", reverse("pages:home")), ("Makala", request.path)]),
+    ])

@@ -1,0 +1,58 @@
+{% extends "pages/makala/_article.html" %}
+
+{% block body %}
+<p class="lead">Kabla ya kuanza biashara ya WiFi, ni vizuri kujua kama itakulipa. Hesabu yenyewe ni rahisi: mapato ya mwezi, ukiondoa gharama za mwezi, ndiyo faida. Hapa kuna mfano unaoweza kuubadilisha kwa namba zako.</p>
+
+<section>
+  <h2>Gharama za kuanzia (mara moja)</h2>
+  <ul>
+    <li><strong>Router ya MikroTik</strong>, mfano hAP lite au hAP ac lite.</li>
+    <li><strong>Chanzo cha internet</strong>: MiFi, router ya 4G/5G au gharama ya kuunganisha fiber, kama huna tayari.</li>
+    <li><strong>Vitu vidogo</strong>: waya, soketi, na bango la kutangaza WiFi yako.</li>
+  </ul>
+  <p>Bei za vifaa hivi zinabadilika, kwa hiyo uliza maduka mawili au matatu kabla ya kununua.</p>
+</section>
+
+<section>
+  <h2>Gharama za kila mwezi</h2>
+  <ul>
+    <li><strong>Internet</strong>: kifurushi chako cha fiber, 4G au 5G.</li>
+    <li><strong>Umeme</strong>: router ndogo inatumia umeme kidogo sana.</li>
+    <li><strong>Mfumo wa malipo</strong>: kwa JamiiLite 5G ni Tsh {{ monthly_fee }} kwa mwezi, baada ya siku {{ trial_days }} za majaribio bure.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Mfano wa hesabu</h2>
+  <p>Tuseme kwa siku unauza wastani wa vifurushi 10 vya saa 1 (Tsh 500) na vifurushi 5 vya siku 1 (Tsh 1,000):</p>
+  <div class="table-scroll">
+    <table>
+      <tbody>
+        <tr><td>Saa 1: 10 × Tsh 500</td><td class="num">Tsh 5,000</td></tr>
+        <tr><td>Siku 1: 5 × Tsh 1,000</td><td class="num">Tsh 5,000</td></tr>
+        <tr><th>Mapato kwa siku</th><th class="num">Tsh 10,000</th></tr>
+        <tr><th>Mapato kwa mwezi (siku 30)</th><th class="num">Tsh 300,000</th></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Kutoka hapo, ondoa gharama zako za mwezi (internet, umeme na ada ya mfumo). Kilichobaki ndiyo faida yako.</p>
+  <p class="note">Hii ni mfano tu, si ahadi ya mapato. Mauzo yako halisi yanategemea idadi ya watu, ubora wa internet yako na bei zako. Anza na makadirio ya chini, kisha rekebisha ukiona mauzo halisi.</p>
+</section>
+
+<section>
+  <h2>Muda wa kurudisha mtaji</h2>
+  <p>Gawanya gharama zako za kuanzia kwa faida ya mwezi. Mfano: kama ulitumia Tsh 200,000 kuanza, na faida yako ni Tsh 100,000 kwa mwezi, mtaji unarudi ndani ya miezi 2.</p>
+  <p>Ada ya mfumo pia ina hesabu yake rahisi: kwa Tsh {{ monthly_fee }} kwa mwezi, unahitaji kuuza vifurushi {{ breakeven_packages }} tu vya Tsh {{ example_package_price }} kwa mwezi mzima ili ijilipie.</p>
+</section>
+
+<section>
+  <h2>Njia za kuongeza faida</h2>
+  <ul>
+    <li><strong>Uza saa 24.</strong> Malipo ya simu yanakuruhusu kuuza hata usiku, bila kuwepo.</li>
+    <li><strong>Ongeza eneo la pili.</strong> Router nyingine kwenye eneo jingine, zote zikionekana kwenye dashboard moja.</li>
+    <li><strong>Panga bei vizuri.</strong> Soma <a href="{% url 'pages:makala_detail' 'bei-za-vifurushi-vya-wifi' %}">jinsi ya kupanga bei za vifurushi vya WiFi</a>.</li>
+    <li><strong>Linda kasi.</strong> Weka kikomo cha kasi kwenye vifurushi vya bei ndogo, ili wateja wote wapate internet nzuri na warudi.</li>
+  </ul>
+  <p>Unaanza sasa? Fuata <a href="{% url 'pages:makala_detail' 'jinsi-ya-kuanzisha-biashara-ya-wifi' %}">hatua 7 za kuanzisha biashara ya WiFi</a>.</p>
+</section>
+{% endblock %}

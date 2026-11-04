@@ -1,0 +1,53 @@
+{% extends "pages/makala/_article.html" %}
+
+{% block body %}
+<p class="lead">Bei sahihi inaamua kama mteja atanunua mara moja tu au atarudi kila siku. Hakuna bei moja inayofaa kila mahali: inategemea wateja wako, ubora wa internet yako, na bei ya bando la simu kwenye eneo lako.</p>
+
+<section>
+  <h2>Anza na vifurushi vinne</h2>
+  <p>Vifurushi vingi vinamchanganya mteja. Vinne vinatosha kwa kuanzia:</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Kifurushi</th><th class="num">Bei ya kuanzia</th><th>Kinamfaa nani</th></tr></thead>
+      <tbody>
+        <tr><td>Saa 1</td><td class="num">Tsh 500</td><td>Anayepita, au anayetaka kujaribu</td></tr>
+        <tr><td>Siku 1</td><td class="num">Tsh 1,000</td><td>Anayekaa eneo lako siku nzima</td></tr>
+        <tr><td>Wiki 1</td><td class="num">Tsh 5,000</td><td>Mteja wa kila siku anayetaka kuokoa</td></tr>
+        <tr><td>Mwezi 1</td><td class="num">Tsh 20,000</td><td>Mpangaji, mwanafunzi au mfanyakazi wa karibu</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Hizi ni bei za kuanzia tu, si bei sahihi kwa kila mahali. Zibadilishe kulingana na eneo lako.</p>
+</section>
+
+<section>
+  <h2>Kanuni tatu za kupanga bei</h2>
+  <h3>1. Kifurushi kikubwa kiwe nafuu kwa kila siku</h3>
+  <p>Siku 7 kwa Tsh 5,000 ni nafuu kuliko kununua siku moja moja mara saba (Tsh 7,000). Hiyo inamvutia mteja kununua kifurushi kikubwa, na wewe unapata pesa yake mapema.</p>
+  <h3>2. Linganisha na bando la simu</h3>
+  <p>Mteja anajiuliza: "Ni nafuu kununua bando au kununua WiFi?" WiFi yako iwe na sababu ya kuichagua: kasi zaidi, data bila kuhesabu, au bei nafuu kwa matumizi makubwa kama video na kupakua.</p>
+  <h3>3. Bei ndogo ya kuanzia</h3>
+  <p>Kifurushi cha Tsh 500 kinamfanya mtu ajaribu bila kufikiri sana. Akiridhika na kasi, atarudi kununua kifurushi kikubwa.</p>
+</section>
+
+<section>
+  <h2>Tofautisha vifurushi kwa kasi na idadi ya simu</h2>
+  <p>Mbali na muda, unaweza kutofautisha vifurushi kwa njia mbili:</p>
+  <ul>
+    <li><strong>Kasi:</strong> kifurushi cha bei ndogo kinaweza kuwa hadi 2 Mbps, na cha bei kubwa hadi 5 Mbps. Hii pia inazuia mtu mmoja kumaliza internet ya wote.</li>
+    <li><strong>Simu ngapi kwa vocha moja:</strong> familia au marafiki wanaweza kununua kifurushi kimoja cha simu 2 au 3, kwa bei kubwa kidogo.</li>
+  </ul>
+  <p>Kwenye JamiiLite 5G unaweka muda, bei, kasi na idadi ya simu kwa kila kifurushi, na unaweza kubadilisha bei wakati wowote. Mabadiliko yanaanza papo hapo.</p>
+</section>
+
+<section>
+  <h2>Angalia kinachouzwa, kisha rekebisha</h2>
+  <p>Baada ya wiki mbili au tatu, angalia ni kifurushi kipi kinauzwa zaidi:</p>
+  <ul>
+    <li>Kama saa 1 kinauzwa sana lakini siku 1 hakiuzwi, huenda bei ya siku 1 iko juu mno.</li>
+    <li>Kama mwezi 1 hakiuzwi kabisa, huenda wateja wako ni wapita njia, si wakazi.</li>
+    <li>Kama internet inakuwa nzito jioni, punguza kasi ya vifurushi vya bei ndogo.</li>
+  </ul>
+  <p>Unataka kujua bei zako zinakuletea faida kiasi gani? Soma <a href="{% url 'pages:makala_detail' 'faida-ya-biashara-ya-wifi' %}">jinsi ya kukokotoa faida ya biashara ya WiFi</a>.</p>
+</section>
+{% endblock %}
