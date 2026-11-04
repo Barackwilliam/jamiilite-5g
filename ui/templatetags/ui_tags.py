@@ -1,5 +1,9 @@
+import re
+from datetime import timedelta
+
 from django import template
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
@@ -21,6 +25,7 @@ ICONS = {
     "shield": '<path d="M12 3 5 6v5c0 4.5 3 8.4 7 10 4-1.6 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/>',
     "eye": '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
     "eye-off": '<path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.6 9.6 0 0 0 4.4-1.1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
+    "receive": '<path d="M17 7 7 17"/><path d="M17 17H7V7"/>',
     "send": '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
     "logout": '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/>',
     "menu": '<path d="M4 7h16M4 12h16M4 17h16"/>',
@@ -97,6 +102,29 @@ def phone_display(value):
         local = "0" + value[3:]
         return f"{local[:4]} {local[4:7]} {local[7:]}"
     return value
+
+
+_PHONE_RE = re.compile(r"\b(?:255|0)[67]\d{8}\b")
+
+
+@register.filter
+def phones_display(text):
+    """Namba za simu ndani ya maandishi (255… au 07…) → 0712 345 678."""
+    return _PHONE_RE.sub(lambda m: phone_display("255" + m.group(0)[-9:]), str(text or ""))
+
+
+@register.filter
+def day_label(value):
+    """Kichwa cha siku kwenye historia: 'Leo', 'Jana', au 'Jumatano, 30 Oktoba'."""
+    if not value:
+        return ""
+    day = timezone.localtime(value).date()
+    today = timezone.localdate()
+    if day == today:
+        return _("Leo")
+    if day == today - timedelta(days=1):
+        return _("Jana")
+    return date_format(day, "l, j F" if day.year == today.year else "j F Y")
 
 
 @register.simple_tag(takes_context=True)

@@ -179,14 +179,28 @@ class PackageForm(forms.ModelForm):
 
 
 class VoucherBatchForm(forms.Form):
-    package = forms.ModelChoiceField(label=_("Kifurushi"), queryset=Package.objects.none(), empty_label=None)
-    router = forms.ModelChoiceField(label=_("Eneo (router)"), queryset=Router.objects.none(), empty_label=None)
-    count = forms.IntegerField(label=_("Idadi ya vocha"), min_value=1, max_value=100, initial=10)
+    COUNT_CHOICES = (10, 20, 50, 100)
+
+    package = forms.ModelChoiceField(
+        label=_("Kifurushi"), queryset=Package.objects.none(), empty_label=None, widget=forms.RadioSelect,
+    )
+    router = forms.ModelChoiceField(
+        label=_("Eneo (router)"), queryset=Router.objects.none(), empty_label=None, widget=forms.RadioSelect,
+    )
+    count = forms.IntegerField(
+        label=_("Idadi ya vocha"), min_value=1, max_value=100, initial=10,
+        widget=forms.NumberInput(attrs={"inputmode": "numeric"}),
+    )
 
     def __init__(self, owner, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["package"].queryset = owner.packages.filter(is_active=True)
         self.fields["router"].queryset = owner.routers.filter(is_active=True)
+        # Chaguo la kwanza linakuwa tayari limechaguliwa, kama kwenye app za simu.
+        for name in ("package", "router"):
+            first = self.fields[name].queryset.first()
+            if first and not self.is_bound:
+                self.initial.setdefault(name, first.pk)
 
 
 class WithdrawForm(forms.Form):

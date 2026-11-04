@@ -460,7 +460,8 @@ def vouchers(request):
     )
     return render_owner(
         request, "dashboard/vouchers.html",
-        {"form": form, "batches": batches, "has_routers": owner.routers.exists(), "has_packages": owner.packages.exists()},
+        {"form": form, "batches": batches, "count_choices": VoucherBatchForm.COUNT_CHOICES,
+         "has_routers": owner.routers.exists(), "has_packages": owner.packages.exists()},
         "vouchers", _("Vocha"),
     )
 
@@ -490,11 +491,15 @@ def sales(request):
 
 # --- Salio na kutoa pesa -------------------------------------------------------------
 
+QUICK_WITHDRAW_AMOUNTS = (5_000, 10_000, 20_000, 50_000, 100_000)
+
+
 @owner_required
 @require_http_methods(["GET", "POST"])
 def wallet_view(request):
     owner = request.owner
-    form = WithdrawForm(request.POST or None, initial={"phone": owner.phone})
+    phone = "0" + owner.phone[3:] if owner.phone.startswith("255") else owner.phone
+    form = WithdrawForm(request.POST or None, initial={"phone": phone})
     if request.method == "POST" and form.is_valid():
         try:
             wallet.request_withdrawal(owner, form.cleaned_data["amount"], form.cleaned_data["phone"])
@@ -504,10 +509,13 @@ def wallet_view(request):
             messages.success(request, _("Ombi lako limepokelewa. Pesa itatumwa kwenye namba yako hivi karibuni."))
             return redirect("dashboard:wallet")
     page = Paginator(owner.ledger.all(), 20).get_page(request.GET.get("ukurasa"))
+    balance = wallet.balance(owner)
+    min_withdrawal = config.current().min_withdrawal
+    quick_amounts = [v for v in QUICK_WITHDRAW_AMOUNTS if min_withdrawal <= v < balance][:3]
     return render_owner(
         request, "dashboard/wallet.html",
-        {"balance": wallet.balance(owner), "form": form, "page": page,
-         "withdrawals": owner.withdrawals.all()[:8], "min_withdrawal": config.current().min_withdrawal},
+        {"balance": balance, "form": form, "page": page, "quick_amounts": quick_amounts if balance >= min_withdrawal else [],
+         "withdrawals": owner.withdrawals.all()[:8], "min_withdrawal": min_withdrawal},
         "wallet", _("Salio"),
     )
 

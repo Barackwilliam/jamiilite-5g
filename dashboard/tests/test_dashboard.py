@@ -158,7 +158,8 @@ class OwnerPagesTests(TestCase):
         for voucher in Voucher.objects.all():
             self.assertContains(page, voucher.code)
         listing = self.client.get(reverse("dashboard:vouchers"))
-        self.assertContains(listing, "Saa 1 × 5")
+        self.assertContains(listing, "<b>5</b>", html=False)
+        self.assertContains(listing, "zimetumika 0 kati ya 5")
 
     def test_vouchers_blocked_when_subscription_expired(self):
         self.owner.trial_ends_at = timezone.now() - timedelta(days=1)

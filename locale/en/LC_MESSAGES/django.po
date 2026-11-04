@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 04:41+0300\n"
+"POT-Creation-Date: 2026-11-04 18:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,12 +35,13 @@ msgid "Imeshindwa"
 msgstr "Failed"
 
 #: billing/models.py:192 dashboard/templates/dashboard/signup.html:8
-#: dashboard/views.py:53 dashboard/views.py:487
+#: dashboard/views.py:53 dashboard/views.py:488
 #: pages/templates/pages/_journey.html:40
 msgid "Mauzo"
 msgstr "Sales"
 
 #: billing/models.py:193 control/templates/control/config.html:30
+#: dashboard/templates/dashboard/wallet.html:14
 msgid "Ada ya mwezi"
 msgstr "Monthly fee"
 
@@ -91,7 +92,7 @@ msgstr "The payment didn't go through."
 msgid "Salio halitoshi. Unahitaji Tsh %(amount)s."
 msgstr "Not enough balance. You need Tsh %(amount)s."
 
-#: billing/wallet.py:48 dashboard/forms.py:203
+#: billing/wallet.py:48 dashboard/forms.py:217
 #, python-format
 msgid "Kiasi cha chini ni Tsh %(amount)s."
 msgstr "The minimum amount is Tsh %(amount)s."
@@ -1037,7 +1038,7 @@ msgstr "Ends"
 
 #: control/templates/control/owners.html:23
 #: dashboard/templates/dashboard/home.html:18 dashboard/views.py:54
-#: dashboard/views.py:511 pages/templates/pages/_journey.html:40
+#: dashboard/views.py:519 pages/templates/pages/_journey.html:40
 #: pages/templates/pages/_sim.html:84
 msgid "Salio"
 msgstr "Balance"
@@ -1049,6 +1050,7 @@ msgstr "No owner matches this search."
 #: control/templates/control/payments.html:10
 #: control/templates/control/withdrawals.html:10
 #: dashboard/templates/dashboard/home.html:79
+#: dashboard/templates/dashboard/wallet.html:31
 msgid "Yote"
 msgstr "All"
 
@@ -1071,7 +1073,7 @@ msgstr "Owner"
 msgid "Router"
 msgstr "Router"
 
-#: control/templates/control/payments.html:18 dashboard/forms.py:182
+#: control/templates/control/payments.html:18 dashboard/forms.py:185
 #: dashboard/templates/dashboard/sales.html:34
 #: pages/templates/pages/_sim.html:5 portal/templates/portal/status.html:13
 msgid "Kifurushi"
@@ -1361,7 +1363,7 @@ msgid "salio lililobaki"
 msgstr "remaining balance"
 
 #: control/templates/control/withdrawals.html:32
-#: dashboard/templates/dashboard/wallet.html:34
+#: dashboard/templates/dashboard/wallet.html:53
 msgid "Kumb:"
 msgstr "Ref:"
 
@@ -1385,7 +1387,7 @@ msgstr "Live network"
 msgid "Mfumo"
 msgstr "System"
 
-#: control/views.py:70 dashboard/views.py:56 dashboard/views.py:549
+#: control/views.py:70 dashboard/views.py:56 dashboard/views.py:557
 msgid "Mipangilio"
 msgstr "Settings"
 
@@ -1412,7 +1414,7 @@ msgstr "Added %(months)s month(s). They are now paid until %(date)s."
 msgid "Chagua idadi sahihi ya miezi."
 msgstr "Choose a valid number of months."
 
-#: control/views.py:205 dashboard/templates/dashboard/wallet.html:27
+#: control/views.py:205 dashboard/templates/dashboard/wallet.html:46
 msgid "Maombi ya kutoa pesa"
 msgstr "Withdrawal requests"
 
@@ -1701,39 +1703,39 @@ msgstr "Custom (%(speed)s)"
 msgid "Weka namba kati ya 1 na 10."
 msgstr "Enter a number between 1 and 10."
 
-#: dashboard/forms.py:183
+#: dashboard/forms.py:188
 msgid "Eneo (router)"
 msgstr "Location (router)"
 
-#: dashboard/forms.py:184
+#: dashboard/forms.py:191
 msgid "Idadi ya vocha"
 msgstr "Number of vouchers"
 
-#: dashboard/forms.py:194
+#: dashboard/forms.py:208
 msgid "Kiasi (Tsh)"
 msgstr "Amount (Tsh)"
 
-#: dashboard/forms.py:195
+#: dashboard/forms.py:209
 msgid "mfano 20000"
 msgstr "e.g. 20000"
 
-#: dashboard/forms.py:197
+#: dashboard/forms.py:211
 msgid "Tuma kwenda namba"
 msgstr "Send to number"
 
-#: dashboard/forms.py:214
+#: dashboard/forms.py:228
 msgid "Jina la biashara"
 msgstr "Business name"
 
-#: dashboard/forms.py:215
+#: dashboard/forms.py:229
 msgid "Namba ya kupokea pesa"
 msgstr "Payout number"
 
-#: dashboard/forms.py:216
+#: dashboard/forms.py:230
 msgid "Logo (inaonekana kwenye ukurasa wa kulipia)"
 msgstr "Logo (shown on the payment page)"
 
-#: dashboard/forms.py:227
+#: dashboard/forms.py:241
 msgid "Picha isizidi MB 2."
 msgstr "The image must not exceed 2 MB."
 
@@ -1794,15 +1796,17 @@ msgid "Chapisha vocha"
 msgstr "Print vouchers"
 
 #: dashboard/templates/dashboard/home.html:19
+#: dashboard/templates/dashboard/wallet.html:10
 msgid "Ficha salio"
 msgstr "Hide balance"
 
 #: dashboard/templates/dashboard/home.html:19
+#: dashboard/templates/dashboard/wallet.html:10
 msgid "Onyesha salio"
 msgstr "Show balance"
 
 #: dashboard/templates/dashboard/home.html:23
-#: dashboard/templates/dashboard/sales.html:7
+#: dashboard/templates/dashboard/sales.html:7 ui/templatetags/ui_tags.py:124
 msgid "Leo"
 msgstr "Today"
 
@@ -1822,13 +1826,14 @@ msgid "Vitendo vya haraka"
 msgstr "Quick actions"
 
 #: dashboard/templates/dashboard/home.html:30
-#: dashboard/templates/dashboard/wallet.html:14
+#: dashboard/templates/dashboard/wallet.html:20
+#: dashboard/templates/dashboard/wallet.html:39
 msgid "Toa pesa"
 msgstr "Withdraw"
 
 #: dashboard/templates/dashboard/home.html:31
 #: dashboard/templates/dashboard/voucher_print.html:6 dashboard/views.py:52
-#: dashboard/views.py:464 pages/templates/pages/_journey.html:8
+#: dashboard/views.py:465 pages/templates/pages/_journey.html:8
 #: pages/templates/pages/_journey.html:35
 #: pages/templates/pages/_journey.html:45
 msgid "Vocha"
@@ -2156,7 +2161,7 @@ msgstr ""
 "Each place where you sell WiFi is one router. Start with the first one here."
 
 #: dashboard/templates/dashboard/routers.html:32
-#: dashboard/templates/dashboard/vouchers.html:35
+#: dashboard/templates/dashboard/vouchers.html:11
 msgid "Ongeza router"
 msgstr "Add a router"
 
@@ -2399,69 +2404,77 @@ msgid "Imetumika"
 msgstr "Used"
 
 #: dashboard/templates/dashboard/vouchers.html:9
+msgid "Tengeneza vocha"
+msgstr "Create vouchers"
+
+#: dashboard/templates/dashboard/vouchers.html:11
+msgid "Ongeza router kwanza."
+msgstr "Add a router first."
+
+#: dashboard/templates/dashboard/vouchers.html:14
+msgid "Weka kifurushi kwanza."
+msgstr "Add a package first."
+
+#: dashboard/templates/dashboard/vouchers.html:14
+msgid "Weka vifurushi"
+msgstr "Add packages"
+
+#: dashboard/templates/dashboard/vouchers.html:59
+#, python-format
+msgid "Chapisha vocha %%(n)s"
+msgstr "Print %%(n)s vouchers"
+
+#: dashboard/templates/dashboard/vouchers.html:59
+msgid "Tengeneza na chapisha"
+msgstr "Create and print"
+
+#: dashboard/templates/dashboard/vouchers.html:65
 msgid "Vocha ulizochapisha"
 msgstr "Your printed vouchers"
 
-#: dashboard/templates/dashboard/vouchers.html:18
+#: dashboard/templates/dashboard/vouchers.html:71
+msgid "vocha"
+msgstr "vouchers"
+
+#: dashboard/templates/dashboard/vouchers.html:76
 #, python-format
 msgid "zimetumika %(used)s kati ya %(total)s"
 msgstr "%(used)s of %(total)s used"
 
-#: dashboard/templates/dashboard/vouchers.html:27
+#: dashboard/templates/dashboard/vouchers.html:78
+msgid "Chapisha tena"
+msgstr "Print again"
+
+#: dashboard/templates/dashboard/vouchers.html:84
 msgid "Bado hujachapisha vocha."
 msgstr "You haven't printed any vouchers yet."
 
-#: dashboard/templates/dashboard/vouchers.html:27
-msgid "Vocha zako zitaonekana hapa, tayari kuchapishwa tena."
-msgstr "Your vouchers will appear here, ready to print again."
-
-#: dashboard/templates/dashboard/vouchers.html:33
-msgid "Tengeneza vocha"
-msgstr "Create vouchers"
-
-#: dashboard/templates/dashboard/vouchers.html:35
-msgid "Ongeza router kwanza."
-msgstr "Add a router first."
-
-#: dashboard/templates/dashboard/vouchers.html:37
-msgid "Weka kifurushi kwanza."
-msgstr "Add a package first."
-
-#: dashboard/templates/dashboard/vouchers.html:37
-msgid "Weka vifurushi"
-msgstr "Add packages"
-
-#: dashboard/templates/dashboard/vouchers.html:44
-msgid "Tengeneza na chapisha"
-msgstr "Create and print"
-
-#: dashboard/templates/dashboard/wallet.html:8
+#: dashboard/templates/dashboard/wallet.html:9
 msgid "Salio linaloweza kutolewa"
 msgstr "Available balance"
 
-#: dashboard/templates/dashboard/wallet.html:10
+#: dashboard/templates/dashboard/wallet.html:15
+msgid "Kiasi cha chini"
+msgstr "Minimum"
+
+#: dashboard/templates/dashboard/wallet.html:29
+msgid "Kiasi cha haraka"
+msgstr "Quick amounts"
+
+#: dashboard/templates/dashboard/wallet.html:39
 #, python-format
-msgid "Ada ya mwezi (%(fee)s) inakatwa hapa."
-msgstr "The monthly fee (%(fee)s) is taken from here."
+msgid "Toa Tsh %%(amount)s"
+msgstr "Withdraw Tsh %%(amount)s"
 
-#: dashboard/templates/dashboard/wallet.html:19
-msgid "Omba kutoa"
-msgstr "Request withdrawal"
-
-#: dashboard/templates/dashboard/wallet.html:21
-#, python-format
-msgid "Kiasi cha chini ni %(min)s."
-msgstr "The minimum is %(min)s."
-
-#: dashboard/templates/dashboard/wallet.html:46
+#: dashboard/templates/dashboard/wallet.html:68
 msgid "Historia ya salio"
 msgstr "Balance history"
 
-#: dashboard/templates/dashboard/wallet.html:59
+#: dashboard/templates/dashboard/wallet.html:84
 msgid "Bado hakuna miamala."
 msgstr "No transactions yet."
 
-#: dashboard/views.py:55 dashboard/views.py:534
+#: dashboard/views.py:55 dashboard/views.py:542
 msgid "Usajili"
 msgstr "Subscription"
 
@@ -2525,16 +2538,16 @@ msgid "Usajili wako umeisha. Lipia ada ya mwezi ili kutengeneza vocha mpya."
 msgstr ""
 "Your subscription has ended. Pay the monthly fee to create new vouchers."
 
-#: dashboard/views.py:504
+#: dashboard/views.py:509
 msgid "Ombi lako limepokelewa. Pesa itatumwa kwenye namba yako hivi karibuni."
 msgstr "Request received. The money will be sent to your number shortly."
 
-#: dashboard/views.py:528
+#: dashboard/views.py:536
 #, python-format
 msgid "Asante! Umelipia miezi %(months)s."
 msgstr "Thank you! You paid for %(months)s month(s)."
 
-#: dashboard/views.py:547
+#: dashboard/views.py:555
 msgid "Mipangilio imehifadhiwa."
 msgstr "Settings saved."
 
@@ -3844,7 +3857,7 @@ msgstr "Pay Tsh %(amount)s to JAMIITEK WIFI? Enter your M-Pesa PIN."
 msgid "Mauzo mapya"
 msgstr "New sale"
 
-#: pages/views.py:35 ui/templatetags/ui_tags.py:81
+#: pages/views.py:35 ui/templatetags/ui_tags.py:86
 msgid "sasa hivi"
 msgstr "just now"
 
@@ -4138,27 +4151,31 @@ msgstr "They're cut off automatically when time runs out"
 msgid "Unaona kila shilingi kwenye simu yako, papo hapo"
 msgstr "You see every shilling on your phone, instantly"
 
-#: ui/templatetags/ui_tags.py:78
+#: ui/templatetags/ui_tags.py:83
 msgid "bado"
 msgstr "never"
 
-#: ui/templatetags/ui_tags.py:84
+#: ui/templatetags/ui_tags.py:89
 #, python-format
 msgid "siku %(n)s iliyopita"
 msgid_plural "siku %(n)s zilizopita"
 msgstr[0] "%(n)s day ago"
 msgstr[1] "%(n)s days ago"
 
-#: ui/templatetags/ui_tags.py:87
+#: ui/templatetags/ui_tags.py:92
 #, python-format
 msgid "saa %(n)s iliyopita"
 msgid_plural "saa %(n)s zilizopita"
 msgstr[0] "%(n)s hour ago"
 msgstr[1] "%(n)s hours ago"
 
-#: ui/templatetags/ui_tags.py:89
+#: ui/templatetags/ui_tags.py:94
 #, python-format
 msgid "dakika %(n)s iliyopita"
 msgid_plural "dakika %(n)s zilizopita"
 msgstr[0] "%(n)s minute ago"
 msgstr[1] "%(n)s minutes ago"
+
+#: ui/templatetags/ui_tags.py:126
+msgid "Jana"
+msgstr "Yesterday"

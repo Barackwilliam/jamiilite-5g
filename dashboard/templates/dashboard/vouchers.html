@@ -4,45 +4,85 @@
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
 {% block content %}
-<div class="two-col two-col-wide">
+<div class="voucher-layout">
+  <section class="card voucher-maker">
+    <h2>{% translate "Tengeneza vocha" %}</h2>
+    {% if not has_routers %}
+      {% translate "Ongeza router kwanza." as text %}{% translate "Ongeza router" as link_text %}{% url 'dashboard:routers' as link_url %}
+      {% include "ui/_empty.html" with icon="router" text=text link_url=link_url link_text=link_text %}
+    {% elif not has_packages %}
+      {% translate "Weka kifurushi kwanza." as text %}{% translate "Weka vifurushi" as link_text %}{% url 'dashboard:packages' as link_url %}
+      {% include "ui/_empty.html" with icon="package" text=text link_url=link_url link_text=link_text %}
+    {% else %}
+      <form method="post" class="form-stack" novalidate data-voucher-form>
+        {% csrf_token %}
+        <fieldset class="tile-group">
+          <legend>{{ form.package.label }}</legend>
+          <div class="tiles">
+            {% for choice in form.package %}
+              {% with pkg=choice.data.value.instance %}
+                <label class="tile">
+                  {{ choice.tag }}
+                  <span class="tile-check" aria-hidden="true">{% icon "check" 12 %}</span>
+                  <span class="tile-name">{{ pkg.name }}</span>
+                  <span class="tile-price">{{ pkg.price|tsh }}</span>
+                </label>
+              {% endwith %}
+            {% endfor %}
+          </div>
+          {% for error in form.package.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+        </fieldset>
+
+        {% if form.fields.router.queryset.count > 1 %}
+          <fieldset class="tile-group">
+            <legend>{{ form.router.label }}</legend>
+            <div class="chips">
+              {% for choice in form.router %}<label class="chip">{{ choice.tag }}<span>{{ choice.choice_label }}</span></label>{% endfor %}
+            </div>
+            {% for error in form.router.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+          </fieldset>
+        {% else %}
+          {% for choice in form.router %}<span hidden>{{ choice.tag }}</span>{% endfor %}
+        {% endif %}
+
+        <fieldset class="tile-group">
+          <legend><label for="{{ form.count.id_for_label }}">{{ form.count.label }}</label></legend>
+          <div class="count-row">
+            <div class="chips" role="group">
+              {% for n in count_choices %}<button type="button" class="chip" data-count="{{ n }}">{{ n }}</button>{% endfor %}
+            </div>
+            <span class="count-input">{{ form.count }}</span>
+          </div>
+          {% for error in form.count.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary btn-block btn-tall" data-voucher-button data-label="{% translate 'Chapisha vocha %(n)s' %}">{% icon "print" 18 %} <span>{% translate "Tengeneza na chapisha" %}</span></button>
+      </form>
+    {% endif %}
+  </section>
+
   <section class="card">
     <div class="card-head"><h2>{% translate "Vocha ulizochapisha" %}</h2></div>
     {% if batches %}
-      <ul class="list">
+      <ul class="batches">
         {% for batch in batches %}
           <li>
-            <a class="list-row" href="{% url 'dashboard:voucher_print' batch.batch %}">
-              <span class="router-badge is-online">{% icon "ticket" 18 %}</span>
-              <span class="list-main">
-                <strong>{{ batch.package__name }} × {{ batch.count }}</strong>
-                <small>{{ batch.created_at|date:"d/m/Y H:i" }} · {% blocktranslate with used=batch.used total=batch.count %}zimetumika {{ used }} kati ya {{ total }}{% endblocktranslate %}</small>
+            <a class="batch" href="{% url 'dashboard:voucher_print' batch.batch %}">
+              <span class="batch-stub" aria-hidden="true"><b>{{ batch.count }}</b><small>{% translate "vocha" %}</small></span>
+              <span class="batch-main">
+                <strong>{{ batch.package__name }}</strong>
+                <small>{{ batch.created_at|date:"j M Y, H:i" }}</small>
+                <span class="batch-meter" aria-hidden="true"><span style="width: {% widthratio batch.used batch.count 100 %}%"></span></span>
+                <small>{% blocktranslate with used=batch.used total=batch.count %}zimetumika {{ used }} kati ya {{ total }}{% endblocktranslate %}</small>
               </span>
-              <span class="meter" aria-hidden="true"><span style="width: {% widthratio batch.used batch.count 100 %}%"></span></span>
-              {% icon "print" 16 %}
+              <span class="batch-print" title="{% translate 'Chapisha tena' %}">{% icon "print" 18 %}</span>
             </a>
           </li>
         {% endfor %}
       </ul>
     {% else %}
-      {% translate "Bado hujachapisha vocha." as title %}{% translate "Vocha zako zitaonekana hapa, tayari kuchapishwa tena." as text %}
-      {% include "ui/_empty.html" with icon="ticket" title=title text=text %}
-    {% endif %}
-  </section>
-
-  <section class="card card-accent">
-    <div class="card-head"><h2>{% translate "Tengeneza vocha" %}</h2></div>
-    {% if not has_routers %}
-      <p class="muted">{% translate "Ongeza router kwanza." %} <a href="{% url 'dashboard:routers' %}">{% translate "Ongeza router" %}</a></p>
-    {% elif not has_packages %}
-      <p class="muted">{% translate "Weka kifurushi kwanza." %} <a href="{% url 'dashboard:packages' %}">{% translate "Weka vifurushi" %}</a></p>
-    {% else %}
-      <form method="post" class="form-stack" novalidate>
-        {% csrf_token %}
-        {% include "dashboard/_field.html" with field=form.package %}
-        {% include "dashboard/_field.html" with field=form.router %}
-        {% include "dashboard/_field.html" with field=form.count %}
-        <button type="submit" class="btn btn-primary btn-block">{% icon "print" 18 %} {% translate "Tengeneza na chapisha" %}</button>
-      </form>
+      {% translate "Bado hujachapisha vocha." as title %}
+      {% include "ui/_empty.html" with icon="ticket" title=title %}
     {% endif %}
   </section>
 </div>
