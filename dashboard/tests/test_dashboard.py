@@ -147,6 +147,14 @@ class OwnerPagesTests(TestCase):
         package.refresh_from_db()
         self.assertEqual((package.price, package.is_active), (1200, False))
 
+    @override_settings(JAMIILITE_PUBLIC_URL="https://wifi.jamiitek.co.tz")
+    def test_printed_vouchers_carry_site_address(self):
+        router = make_router(self.owner)
+        self.client.post(reverse("dashboard:vouchers"), {"package": make_package(self.owner).pk, "router": router.pk, "count": 2})
+        batch = Voucher.objects.values_list("batch", flat=True).first()
+        page = self.client.get(reverse("dashboard:voucher_print", args=[batch]))
+        self.assertContains(page, "wifi.jamiitek.co.tz", count=2)
+
     def test_voucher_batch_and_print(self):
         router = make_router(self.owner)
         package = make_package(self.owner)
@@ -157,6 +165,7 @@ class OwnerPagesTests(TestCase):
         page = self.client.get(response["Location"])
         for voucher in Voucher.objects.all():
             self.assertContains(page, voucher.code)
+        self.assertContains(page, '<p class="tk-site">', count=5)
         listing = self.client.get(reverse("dashboard:vouchers"))
         self.assertContains(listing, "<b>5</b>", html=False)
         self.assertContains(listing, "zimetumika 0 kati ya 5")

@@ -1,5 +1,6 @@
 import math
 import secrets
+from urllib.parse import urlsplit
 from datetime import timedelta
 from functools import wraps
 
@@ -501,7 +502,8 @@ def voucher_print(request, batch):
     items = Voucher.objects.filter(router__owner=owner, batch=batch).select_related("package", "router")
     if not items:
         raise Http404
-    return render(request, "dashboard/voucher_print.html", {"owner": owner, "vouchers": items})
+    site_host = urlsplit(settings.JAMIILITE_PUBLIC_URL).hostname or request.get_host()
+    return render(request, "dashboard/voucher_print.html", {"owner": owner, "vouchers": items, "site_host": site_host})
 
 
 # --- Mauzo -------------------------------------------------------------------------

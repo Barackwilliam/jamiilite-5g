@@ -5,22 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% translate "Vocha" %} · {{ owner.business_name }}</title>
   <link rel="stylesheet" href="{% static 'ui/app.css' %}">
+  <link rel="stylesheet" href="{% static 'ui/voucher.css' %}">
 </head>
-<body class="print-page">
-  <header class="print-bar">
-    <a class="btn btn-ghost" href="{% url 'dashboard:vouchers' %}">← {% translate "Rudi" %}</a>
-    <p><strong>{% blocktranslate count n=vouchers|length %}Vocha {{ n }}{% plural %}Vocha {{ n }}{% endblocktranslate %}</strong> · {{ vouchers.0.package.name }}</p>
-    <button type="button" class="btn btn-primary" data-print>{% icon "print" 18 %} {% translate "Chapisha" %}</button>
+<body class="tk-page">
+  <header class="tk-bar">
+    <div class="tk-brand">
+      <span class="tk-brand-mark">{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="">{% else %}{% icon "wifi" 26 %}{% endif %}</span>
+      <strong>{{ owner.business_name }}</strong>
+    </div>
+    <p class="tk-count">{% icon "ticket" 18 %} {% blocktranslate count n=vouchers|length %}Vocha {{ n }}{% plural %}Vocha {{ n }}{% endblocktranslate %} · {{ vouchers.0.package.name }}</p>
+    <div class="tk-bar-actions">
+      <a class="tk-btn tk-btn-ghost" href="{% url 'dashboard:vouchers' %}">← {% translate "Rudi" %}</a>
+      <button type="button" class="tk-btn tk-btn-print" data-print>{% icon "print" 18 %} {% translate "Chapisha" %}</button>
+    </div>
   </header>
-  <main class="voucher-grid">
+
+  <main class="tk-grid">
     {% for voucher in vouchers %}
-      <article class="voucher-card{% if voucher.activated_at %} is-used{% endif %}">
-        <span class="voucher-wifi" aria-hidden="true">{% icon "wifi" 16 %}</span>
-        <p class="voucher-biz">{{ owner.business_name }}</p>
-        <p class="voucher-pkg">{{ voucher.package.name }} · {{ voucher.package.price|tsh }}</p>
-        <p class="voucher-code">{{ voucher.code }}</p>
-        <p class="voucher-how">{% blocktranslate with wifi=voucher.router.wifi_name|default:voucher.router.name %}Unganisha WiFi “{{ wifi }}”, kisha andika namba hii kwenye “Una vocha tayari?”.{% endblocktranslate %}</p>
-        {% if voucher.activated_at %}<span class="voucher-used">{% translate "Imetumika" %}</span>{% endif %}
+      <article class="tk{% if voucher.activated_at %} is-used{% endif %}">
+        <svg class="tk-wave" viewBox="0 0 120 60" preserveAspectRatio="none" aria-hidden="true"><path d="M30 0h90v60C98 34 70 50 52 30 40 16 44 6 30 0z"/><path class="tk-wave-2" d="M58 0h62v34C104 18 86 26 74 14 68 8 66 3 58 0z"/></svg>
+        <div class="tk-head">
+          <span class="tk-mark" aria-hidden="true">{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="">{% else %}{% icon "wifi" 20 %}{% endif %}</span>
+          <div>
+            <p class="tk-biz">{{ owner.business_name }}</p>
+            <p class="tk-pkg">{% icon "clock" 13 %} {{ voucher.package.name }} · {{ voucher.package.price|tsh }}</p>
+          </div>
+        </div>
+        <p class="tk-code">{{ voucher.code }}</p>
+        <div class="tk-foot">
+          <p class="tk-how">{% icon "info" 13 %}<span>{% blocktranslate with wifi=voucher.router.wifi_name|default:voucher.router.name %}Unganisha WiFi “{{ wifi }}”, kisha andika namba hii kwenye “Una vocha tayari?”.{% endblocktranslate %}</span></p>
+          <span class="tk-signal" aria-hidden="true">{% icon "wifi" 18 %}</span>
+        </div>
+        <p class="tk-site">{{ site_host }}</p>
+        {% if voucher.activated_at %}<span class="tk-used">{% translate "Imetumika" %}</span>{% endif %}
       </article>
     {% endfor %}
   </main>

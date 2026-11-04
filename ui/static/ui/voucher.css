@@ -1,0 +1,79 @@
+/* JamiiLite 5G: vocha za kuchapisha. Rangi zinachapishwa kama zilivyo (print-color-adjust). */
+
+.tk-page {
+  margin: 0; min-height: 100vh; color: #0a2245;
+  background: radial-gradient(900px 400px at 85% -10%, rgba(34, 120, 255, 0.35), transparent 60%), linear-gradient(180deg, #0a1f4d 0%, #071533 100%);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+
+/* Upau wa juu (skrini tu) */
+.tk-bar {
+  position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 20px; color: #fff; background: rgba(7, 21, 51, 0.85); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tk-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.tk-brand strong { font-family: var(--font-head, inherit); font-size: 1.3rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tk-brand-mark { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; overflow: hidden; color: #fff; background: linear-gradient(140deg, #2f8cff, #0b47c9); }
+.tk-brand-mark img { width: 100%; height: 100%; object-fit: cover; background: #fff; }
+.tk-count { display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(120, 170, 255, 0.35); background: rgba(255, 255, 255, 0.05); font-weight: 700; }
+.tk-bar-actions { display: flex; gap: 8px; }
+.tk-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+.tk-btn-ghost { color: #fff; border: 1px solid rgba(120, 170, 255, 0.45); background: transparent; }
+.tk-btn-print { border: 0; color: #2a1702; background: linear-gradient(100deg, #ffb627, #f5a623 55%, #ff7a3d); box-shadow: 0 10px 24px -12px rgba(245, 140, 35, 0.9); }
+
+/* Vocha */
+.tk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; max-width: 1100px; margin: 0 auto; padding: 20px; }
+.tk {
+  position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 9px;
+  padding: 14px 14px 10px; border-radius: 16px; break-inside: avoid; page-break-inside: avoid;
+  background: linear-gradient(160deg, #ffffff 55%, #eef4ff); border: 1px solid #c8d8f5;
+  box-shadow: 0 14px 30px -18px rgba(0, 0, 0, 0.7);
+}
+.tk p { margin: 0; }
+.tk-wave { position: absolute; top: 0; right: 0; width: 46%; height: 52px; fill: #2d7cf6; opacity: 0.9; pointer-events: none; }
+.tk-wave .tk-wave-2 { fill: #0b47c9; }
+.tk-head { position: relative; display: flex; align-items: center; gap: 10px; padding-right: 30%; }
+.tk-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; overflow: hidden; color: #fff; background: linear-gradient(140deg, #2f8cff, #0b47c9); box-shadow: 0 4px 10px -4px rgba(11, 71, 201, 0.7); }
+.tk-mark img { width: 100%; height: 100%; object-fit: cover; background: #fff; }
+.tk-biz { font-weight: 800; font-size: 0.98rem; line-height: 1.2; color: #0a2245; }
+.tk-pkg { display: flex; align-items: center; gap: 4px; margin-top: 2px !important; font-weight: 700; font-size: 0.82rem; color: #1557d6; font-variant-numeric: tabular-nums; }
+.tk-code {
+  padding: 7px 10px; border-radius: 10px; text-align: center; color: #fff;
+  font: 800 1.45rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.16em;
+  background: linear-gradient(180deg, #0d3b9c 0%, #0a2a6b 100%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+.tk-foot { display: flex; align-items: flex-end; gap: 8px; }
+.tk-how { flex: 1; display: flex; align-items: flex-start; gap: 6px; font-size: 0.7rem; line-height: 1.35; color: #3b4a66; }
+.tk-how svg { flex-shrink: 0; margin-top: 1px; color: #1557d6; }
+.tk-signal { color: #18a957; flex-shrink: 0; }
+.tk-site { margin-top: -3px !important; font-size: 0.55rem; letter-spacing: 0.04em; color: #8a97b0; text-align: right; }
+.tk.is-used { opacity: 0.5; }
+.tk-used { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-12deg); padding: 4px 12px; border: 2px solid #c43d2f; border-radius: 8px; color: #c43d2f; background: rgba(255, 255, 255, 0.85); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+
+@media (max-width: 640px) {
+  .tk-bar { padding: 12px 16px; }
+  .tk-count { order: 3; width: 100%; justify-content: center; }
+  .tk-grid { padding: 16px; }
+}
+
+/* Kuchapisha: A4, safu 3, bila upau wa juu na bila kivuli. */
+@page { size: A4; margin: 8mm; }
+@media print {
+  .tk-page { background: #fff; min-height: 0; }
+  .tk-bar { display: none; }
+  .tk-grid { grid-template-columns: repeat(3, 1fr); gap: 3mm; max-width: none; padding: 0; }
+  .tk { gap: 2mm; padding: 3mm 3mm 2mm; border-radius: 3mm; box-shadow: none; border-color: #9fb5dd; }
+  .tk-wave { height: 11mm; }
+  .tk-mark { width: 8mm; height: 8mm; }
+  .tk-mark svg { width: 4.5mm; height: 4.5mm; }
+  .tk-biz { font-size: 9.5pt; }
+  .tk-pkg { font-size: 8pt; }
+  .tk-code { font-size: 13pt; padding: 1.5mm 2mm; border-radius: 2mm; }
+  .tk-how { font-size: 6.5pt; }
+  .tk-site { font-size: 5.5pt; }
+}
+.tk-pkg { white-space: nowrap; }
+@media print {
+  .tk-head { padding-right: 12mm; }
+  .tk-wave { width: 34%; }
+}
