@@ -165,7 +165,7 @@ class OwnerPagesTests(TestCase):
         page = self.client.get(response["Location"])
         for voucher in Voucher.objects.all():
             self.assertContains(page, voucher.code)
-        self.assertContains(page, '<p class="tk-site">', count=5)
+        self.assertContains(page, 'class="tk-site"', count=5)
         listing = self.client.get(reverse("dashboard:vouchers"))
         self.assertContains(listing, "<b>5</b>", html=False)
         self.assertContains(listing, "zimetumika 0 kati ya 5")
