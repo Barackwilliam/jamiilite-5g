@@ -81,7 +81,8 @@ class RouterConnectTests(TestCase):
         self.router.save()
         response = self.client.get(reverse("dashboard:router_detail", args=[self.router.pk]))
         self.assertNotContains(response, "data-router-wait")
-        self.assertContains(response, "Simamia ukiwa mbali")
+        self.assertContains(response, 'value="reboot"')
+        self.assertContains(response, 'value="reapply"')
 
     def test_status_of_another_owners_router_is_hidden(self):
         other = make_router(make_owner(username="mwingine", business_name="Mwingine"), slug="x")

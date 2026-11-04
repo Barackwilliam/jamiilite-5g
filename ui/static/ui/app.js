@@ -169,3 +169,32 @@ document.querySelectorAll("[data-stepper]").forEach(function (stepper) {
     });
   });
 });
+
+/* Logo: onyesha picha uliyochagua kabla ya kuhifadhi. */
+(function () {
+  var input = document.querySelector("[data-logo-input]");
+  var preview = document.querySelector("[data-logo-preview]");
+  if (!input || !preview || !window.URL) return;
+  input.addEventListener("change", function () {
+    var file = input.files && input.files[0];
+    if (!file) return;
+    var img = document.createElement("img");
+    img.alt = "";
+    img.src = URL.createObjectURL(file);
+    preview.replaceChildren(img);
+  });
+})();
+
+/* Usajili: kitufe kinaonyesha kiasi cha mpango uliochaguliwa. */
+(function () {
+  var form = document.querySelector("[data-plan-form]");
+  var button = form && form.querySelector("[data-plan-button]");
+  if (!button) return;
+  var label = button.querySelector("span");
+  function sync() {
+    var picked = form.querySelector("input[name=months]:checked");
+    if (picked) label.textContent = button.dataset.label.replace("%(amount)s", picked.dataset.price);
+  }
+  form.addEventListener("change", sync);
+  sync();
+})();

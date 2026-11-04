@@ -1,14 +1,14 @@
-{% load i18n %}{% comment %}
+{% load i18n ui_tags %}{% comment %}
 Ramani ya Live. `endpoint` tupu = hali ya mfano peke yake (ukurasa wa hadhara).
 `demo` = anza na mfano (mfano mmiliki asiye na router bado).
 {% endcomment %}
 <div class="live" data-live data-endpoint="{{ endpoint|default:'' }}" data-demo="{% if demo %}1{% endif %}">
   <section class="live-stats" aria-label="{% translate 'Takwimu za sasa' %}">
-    <div class="live-stat"><span class="live-stat-label">{% translate "Mapato ya leo" %}</span><strong data-stat="today_amount">Tsh 0</strong></div>
-    <div class="live-stat"><span class="live-stat-label">{% translate "Wateja online" %}</span><strong data-stat="clients">0</strong></div>
-    <div class="live-stat"><span class="live-stat-label">{% translate "Wameingia leo" %}</span><strong data-stat="accepts">0</strong></div>
-    <div class="live-stat"><span class="live-stat-label">{% translate "Wamekataliwa leo" %}</span><strong data-stat="rejects">0</strong></div>
-    <div class="live-stat"><span class="live-stat-label">{% translate "Packets dakika hii" %}</span><strong data-stat="per_minute">0</strong></div>
+    <div class="live-stat live-stat-hero"><span class="live-stat-label">{% translate "Mapato ya leo" %}</span><strong data-stat="today_amount">Tsh 0</strong></div>
+    <div class="live-stat"><span class="live-stat-icon tone-good">{% icon "users" 16 %}</span><span class="live-stat-label">{% translate "Wateja online" %}</span><strong data-stat="clients">0</strong></div>
+    <div class="live-stat"><span class="live-stat-icon tone-good">{% icon "check" 16 %}</span><span class="live-stat-label">{% translate "Wameingia leo" %}</span><strong data-stat="accepts">0</strong></div>
+    <div class="live-stat"><span class="live-stat-icon tone-bad">{% icon "alert" 16 %}</span><span class="live-stat-label">{% translate "Wamekataliwa leo" %}</span><strong data-stat="rejects">0</strong></div>
+    <div class="live-stat"><span class="live-stat-icon">{% icon "pulse" 16 %}</span><span class="live-stat-label">{% translate "Packets dakika hii" %}</span><strong data-stat="per_minute">0</strong></div>
   </section>
 
   <div class="live-grid">
