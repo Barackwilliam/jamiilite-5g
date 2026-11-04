@@ -361,25 +361,6 @@ a.list-row > .icon:last-child { color: var(--faint); }
 /* --- Kuingia / kujisajili --- */
 
 /* --- Vocha za kuchapisha --- */
-.print-page { background: var(--bg); }
-.print-bar { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
-.print-bar p { margin: 0; }
-.voucher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; padding: 16px; max-width: 1000px; margin: 0 auto; }
-.voucher-card { position: relative; padding: 14px; border: 1.5px dashed #9aa6bd; border-radius: 12px; background: #fff; color: #101a33; break-inside: avoid; }
-.voucher-card p { margin: 0; }
-.voucher-biz { font-weight: 800; font-size: 0.95rem; }
-.voucher-pkg { color: #0b5cd6; font-weight: 700; font-size: 0.86rem; }
-.voucher-code { font: 800 1.5rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.12em; margin: 10px 0 8px !important; }
-.voucher-how { font-size: 0.72rem; color: #56627a; line-height: 1.35; }
-.voucher-card.is-used { opacity: 0.45; }
-.voucher-used { position: absolute; top: 10px; right: 10px; font-size: 0.68rem; font-weight: 700; color: #c43d2f; }
-
-@media print {
-  .print-bar { display: none; }
-  body.print-page { background: #fff; }
-  .voucher-grid { grid-template-columns: repeat(3, 1fr); padding: 0; gap: 6px; }
-  .voucher-card { border-color: #555; }
-}
 
 /* --- Super Admin --- */
 a.banner-link { color: inherit; text-decoration: none; }
@@ -668,9 +649,6 @@ a.card:hover, .stat-link:hover { box-shadow: var(--shadow-lift); }
 /* Kuingia / kujisajili: angalia auth.css */
 
 /* Vocha za kuchapisha */
-.voucher-card { overflow: hidden; }
-.voucher-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, #0b5cd6, #6d4fd8); }
-.voucher-wifi { position: absolute; right: 12px; bottom: 10px; color: #0b5cd6; opacity: 0.35; }
 
 @media (max-width: 860px) {
   .appbar-lang { display: inline-flex; }
@@ -956,10 +934,6 @@ a.card:hover, .stat-link:hover { transform: translateY(-2px); }
 .banner-info .icon { color: #22b8e0; }
 
 /* Vocha za kuchapisha zinabaki nyeupe (karatasi) */
-.voucher-card::before { background: var(--grad-brand); }
-.voucher-wifi { color: #e08a00; }
-body.print-page { background: #0b1a36; }
-@media print { body.print-page { background: #fff; } }
 
 @media (prefers-reduced-motion: reduce) {
   .btn, .card, a.card, .package-tile { transition: none; }
