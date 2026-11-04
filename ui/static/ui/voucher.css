@@ -83,3 +83,34 @@ ol.tk-how { display: flex; flex-direction: column; gap: 2px; margin: 0; padding:
 ol.tk-how li { position: relative; padding-left: 1.9em; line-height: 1.6; counter-increment: tk-step; }
 ol.tk-how li::before { content: counter(tk-step); position: absolute; left: 0; top: 0.15em; display: grid; place-items: center; width: 1.35em; height: 1.35em; border-radius: 50%; background: #1557d6; color: #fff; font-size: 0.9em; font-weight: 800; line-height: 1; }
 ol.tk-how b { color: #0a2245; }
+
+/* Kadi fupi zaidi */
+.tk { gap: 7px; padding: 11px 12px 9px; }
+.tk-wave { height: 40px; width: 40%; }
+.tk-mark { width: 32px; height: 32px; }
+.tk-biz { font-size: 0.92rem; line-height: 1.15; }
+.tk-pkg { margin-top: 0 !important; font-size: 0.78rem; }
+.tk-code { padding: 4px 8px; font-size: 1.3rem; line-height: 1.15; }
+.tk-foot { align-items: flex-end; gap: 6px; }
+ol.tk-how li { line-height: 1.35; }
+ol.tk-how { gap: 1px; }
+.tk-side { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+.tk-site { margin: 0 !important; font-size: 0.5rem; white-space: nowrap; }
+@media print {
+  .tk { gap: 1.2mm; padding: 2.2mm 2.5mm 1.8mm; }
+  .tk-wave { height: 8mm; }
+  .tk-mark { width: 6.5mm; height: 6.5mm; }
+  .tk-mark svg { width: 4mm; height: 4mm; }
+  .tk-biz { font-size: 9pt; }
+  .tk-pkg { font-size: 7.5pt; }
+  .tk-code { font-size: 12pt; padding: 0.8mm 2mm; }
+  .tk-how { font-size: 6.3pt; }
+  .tk-signal svg { width: 3.6mm; height: 3.6mm; }
+  .tk-site { font-size: 5pt; }
+}
+.tk-foot { position: relative; display: block; }
+.tk-side { position: absolute; right: 0; bottom: 0; }
+ol.tk-how li:last-child { padding-right: 6.2rem; }
+@media print {
+  ol.tk-how li:last-child { padding-right: 17mm; }
+}

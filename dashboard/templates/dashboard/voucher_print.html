@@ -37,9 +37,8 @@
             <li>{% blocktranslate with wifi=voucher.router.wifi_name|default:voucher.router.name %}Washa WiFi kwenye simu au kifaa chako, kisha chagua <b>{{ wifi }}</b>.{% endblocktranslate %}</li>
             <li>{% blocktranslate %}Ingiza msimbo huu, kisha bonyeza <b>Unganisha</b>.{% endblocktranslate %}</li>
           </ol>
-          <span class="tk-signal" aria-hidden="true">{% icon "wifi" 18 %}</span>
+          <span class="tk-side"><span class="tk-signal" aria-hidden="true">{% icon "wifi" 16 %}</span><span class="tk-site">{{ site_host }}</span></span>
         </div>
-        <p class="tk-site">{{ site_host }}</p>
         {% if voucher.activated_at %}<span class="tk-used">{% translate "Imetumika" %}</span>{% endif %}
       </article>
     {% endfor %}
