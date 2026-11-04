@@ -601,7 +601,9 @@ def subscription(request):
 @owner_required
 @require_http_methods(["GET", "POST"])
 def settings_view(request):
-    form = OwnerSettingsForm(request.POST or None, request.FILES or None, instance=request.owner)
+    owner = request.owner
+    local_phone = "0" + owner.phone[3:] if owner.phone.startswith("255") else owner.phone
+    form = OwnerSettingsForm(request.POST or None, request.FILES or None, instance=owner, initial={"phone": local_phone})
     if request.method == "POST" and form.is_valid():
         owner = form.save()
         translation.activate(owner.language)

@@ -2,24 +2,62 @@
 {% load i18n ui_tags %}
 
 {% block content %}
-<section class="card card-narrow">
-  <form method="post" enctype="multipart/form-data" class="form-stack" novalidate>
+<div class="settings-page">
+  <section class="profile-card">
+    <span class="profile-avatar">{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="">{% else %}{{ owner.business_name|slice:":1"|upper }}{% endif %}</span>
+    <span class="profile-main">
+      <strong>{{ owner.business_name }}</strong>
+      <small>{{ owner.user.username|phone_display }}</small>
+    </span>
+    <a class="pill {% if sub.state == 'expired' %}pill-bad{% elif sub.state == 'trial' %}pill-info{% else %}pill-good{% endif %}" href="{% url 'dashboard:subscription' %}">
+      {% if sub.state == "expired" %}{% translate "Usajili umeisha" %}{% elif sub.state == "trial" %}{% blocktranslate count n=sub.days_left %}Majaribio · siku {{ n }}{% plural %}Majaribio · siku {{ n }}{% endblocktranslate %}{% else %}{% blocktranslate count n=sub.days_left %}Hai · siku {{ n }}{% plural %}Hai · siku {{ n }}{% endblocktranslate %}{% endif %}
+    </a>
+  </section>
+
+  <form method="post" enctype="multipart/form-data" class="card form-stack" novalidate>
     {% csrf_token %}
-    <div class="field">
-      <span class="field-label">{{ form.language.label }}</span>
-      <div class="choice-pills" role="radiogroup" aria-label="{{ form.language.label }}">
-        {% for choice in form.language %}
-          <label class="choice-pill">{{ choice.tag }}<span>{% if choice.data.value == "sw" %}🇹🇿 {% else %}🇬🇧 {% endif %}{{ choice.choice_label }}</span></label>
-        {% endfor %}
-      </div>
-    </div>
+    <h2 class="group-title">{% translate "Biashara" %}</h2>
     {% include "dashboard/_field.html" with field=form.business_name %}
-    {% include "dashboard/_field.html" with field=form.phone %}
-    {% if owner.logo %}<img class="logo-preview" src="{{ owner.logo.url }}" alt="{% translate 'Logo ya sasa' %}">{% endif %}
-    {% include "dashboard/_field.html" with field=form.logo %}
-    <button type="submit" class="btn btn-primary btn-block">{% translate "Hifadhi" %}</button>
+
+    <div class="field{% if form.phone.errors %} has-error{% endif %}">
+      <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+      <span class="phone-input"><span class="phone-flag" aria-hidden="true">🇹🇿</span>{{ form.phone }}</span>
+      {% for error in form.phone.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+    </div>
+
+    <div class="field{% if form.logo.errors %} has-error{% endif %}">
+      <span class="field-label">{% translate "Logo" %}</span>
+      <div class="logo-picker">
+        <span class="logo-thumb" data-logo-preview>{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="">{% else %}{% icon "plus" 20 %}{% endif %}</span>
+        <span class="logo-actions">
+          <label class="btn btn-small btn-ghost" for="{{ form.logo.id_for_label }}">{% if owner.logo %}{% translate "Badilisha logo" %}{% else %}{% translate "Chagua logo" %}{% endif %}</label>
+          <input type="file" name="{{ form.logo.html_name }}" id="{{ form.logo.id_for_label }}" accept="image/*" class="sr-only" data-logo-input>
+          {% if owner.logo %}<label class="logo-clear"><input type="checkbox" name="{{ form.logo.html_name }}-clear"> {% translate "Ondoa" %}</label>{% endif %}
+          <small class="muted">{% translate "Inaonekana kwenye ukurasa wa kulipia." %}</small>
+        </span>
+      </div>
+      {% for error in form.logo.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+    </div>
+
+    <h2 class="group-title">{{ form.language.label }}</h2>
+    <div class="segmented" role="radiogroup" aria-label="{{ form.language.label }}">
+      {% for choice in form.language %}
+        <label>{{ choice.tag }}<span>{% if choice.data.value == "sw" %}🇹🇿 {% else %}🇬🇧 {% endif %}{{ choice.choice_label }}</span></label>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block btn-tall">{% translate "Hifadhi" %}</button>
   </form>
-  <hr>
-  <p class="muted small">{% blocktranslate with phone=owner.user.username|phone_display %}Unaingia kwa namba <strong>{{ phone }}</strong>. Kubadilisha password au namba ya kuingia, wasiliana nasi.{% endblocktranslate %}</p>
-</section>
+
+  <section class="card settings-links">
+    <a class="settings-row" href="{% url 'dashboard:subscription' %}"><span class="tx-icon tx-out">{% icon "calendar" 18 %}</span><span>{% translate "Usajili" %}</span>{% icon "arrow-right" 16 %}</a>
+    <a class="settings-row" href="{% url 'pages:masharti' %}"><span class="tx-icon tx-out">{% icon "shield" 18 %}</span><span>{% translate "Masharti ya huduma" %}</span>{% icon "arrow-right" 16 %}</a>
+    <a class="settings-row" href="{% url 'pages:faragha' %}"><span class="tx-icon tx-out">{% icon "key" 18 %}</span><span>{% translate "Sera ya faragha" %}</span>{% icon "arrow-right" 16 %}</a>
+    <form method="post" action="{% url 'dashboard:logout' %}">
+      {% csrf_token %}
+      <button type="submit" class="settings-row settings-row-danger"><span class="tx-icon">{% icon "logout" 18 %}</span><span>{% translate "Toka" %}</span></button>
+    </form>
+  </section>
+  <p class="muted small settings-note">{% translate "Kubadilisha password au namba ya kuingia, wasiliana nasi." %}</p>
+</div>
 {% endblock %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 19:14+0300\n"
+"POT-Creation-Date: 2026-11-04 19:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -202,6 +202,7 @@ msgstr "Leave empty to use the link MikroTik sends."
 
 #: control/queries.py:12 control/templates/control/config.html:31
 #: control/templates/control/owner_detail.html:37
+#: dashboard/templates/dashboard/subscription.html:8
 msgid "Majaribio"
 msgstr "Trial"
 
@@ -903,6 +904,7 @@ msgstr "Subscription ends"
 
 #: control/templates/control/owner_detail.html:33
 #: control/templates/control/owners.html:23
+#: dashboard/templates/dashboard/settings.html:19
 msgid "Biashara"
 msgstr "Business"
 
@@ -951,7 +953,7 @@ msgstr "Add %(n)s month(s) for %(name)s?"
 
 #: control/templates/control/owner_detail.html:59
 #: control/templates/control/owner_detail.html:67
-#: dashboard/templates/dashboard/subscription.html:46
+#: dashboard/templates/dashboard/subscription.html:59
 #, python-format
 msgid "Mwezi %(n)s"
 msgid_plural "Miezi %(n)s"
@@ -1035,7 +1037,8 @@ msgid "Inaisha"
 msgstr "Ends"
 
 #: control/templates/control/owners.html:23
-#: dashboard/templates/dashboard/home.html:18 dashboard/views.py:56
+#: dashboard/templates/dashboard/home.html:18
+#: dashboard/templates/dashboard/subscription.html:26 dashboard/views.py:56
 #: dashboard/views.py:572 pages/templates/pages/_journey.html:40
 #: pages/templates/pages/_sim.html:84
 msgid "Salio"
@@ -1219,7 +1222,7 @@ msgid "Badilisha taarifa"
 msgstr "Edit details"
 
 #: control/templates/control/router_detail.html:76
-#: dashboard/templates/dashboard/settings.html:20
+#: dashboard/templates/dashboard/settings.html:49
 msgid "Hifadhi"
 msgstr "Save"
 
@@ -1378,7 +1381,7 @@ msgstr "Live network"
 msgid "Mfumo"
 msgstr "System"
 
-#: control/views.py:70 dashboard/views.py:58 dashboard/views.py:610
+#: control/views.py:70 dashboard/views.py:58 dashboard/views.py:612
 msgid "Mipangilio"
 msgstr "Settings"
 
@@ -2050,7 +2053,7 @@ msgid "Wiki 1"
 msgstr "1 week"
 
 #: dashboard/templates/dashboard/packages.html:35
-#: dashboard/templates/dashboard/subscription.html:27 dashboard/views.py:402
+#: dashboard/templates/dashboard/subscription.html:33 dashboard/views.py:402
 msgid "Mwezi 1"
 msgstr "1 month"
 
@@ -2218,18 +2221,67 @@ msgstr "Every sale"
 msgid "Bado hakuna mauzo."
 msgstr "No sales yet."
 
-#: dashboard/templates/dashboard/settings.html:18
-msgid "Logo ya sasa"
-msgstr "Current logo"
+#: dashboard/templates/dashboard/settings.html:13
+#: ui/templates/ui/app_base.html:39
+msgid "Usajili umeisha"
+msgstr "Subscription ended"
 
-#: dashboard/templates/dashboard/settings.html:23
+#: dashboard/templates/dashboard/settings.html:13
 #, python-format
-msgid ""
-"Unaingia kwa namba <strong>%(phone)s</strong>. Kubadilisha password au namba"
-" ya kuingia, wasiliana nasi."
-msgstr ""
-"You log in with <strong>%(phone)s</strong>. To change your password or login"
-" number, contact us."
+msgid "Majaribio · siku %(n)s"
+msgid_plural "Majaribio · siku %(n)s"
+msgstr[0] "Trial · %(n)s day"
+msgstr[1] "Trial · %(n)s days"
+
+#: dashboard/templates/dashboard/settings.html:13
+#, python-format
+msgid "Hai · siku %(n)s"
+msgid_plural "Hai · siku %(n)s"
+msgstr[0] "Active · %(n)s day"
+msgstr[1] "Active · %(n)s days"
+
+#: dashboard/templates/dashboard/settings.html:29
+msgid "Logo"
+msgstr "Logo"
+
+#: dashboard/templates/dashboard/settings.html:33
+msgid "Badilisha logo"
+msgstr "Change logo"
+
+#: dashboard/templates/dashboard/settings.html:33
+msgid "Chagua logo"
+msgstr "Choose logo"
+
+#: dashboard/templates/dashboard/settings.html:35
+msgid "Ondoa"
+msgstr "Remove"
+
+#: dashboard/templates/dashboard/settings.html:36
+msgid "Inaonekana kwenye ukurasa wa kulipia."
+msgstr "Shown on the payment page."
+
+#: dashboard/templates/dashboard/settings.html:53 dashboard/views.py:57
+#: dashboard/views.py:595
+msgid "Usajili"
+msgstr "Subscription"
+
+#: dashboard/templates/dashboard/settings.html:54
+msgid "Masharti ya huduma"
+msgstr "Terms of service"
+
+#: dashboard/templates/dashboard/settings.html:55
+msgid "Sera ya faragha"
+msgstr "Privacy policy"
+
+#: dashboard/templates/dashboard/settings.html:58
+#: dashboard/templates/dashboard/suspended.html:7
+#: ui/templates/ui/app_base.html:55
+msgid "Toka"
+msgstr "Log out"
+
+#: dashboard/templates/dashboard/settings.html:61
+msgid "Kubadilisha password au namba ya kuingia, wasiliana nasi."
+msgstr "To change your password or login number, contact us."
 
 #: dashboard/templates/dashboard/signup.html:3
 #: pages/templates/pages/base.html:80
@@ -2318,79 +2370,72 @@ msgstr "We're not taking new owners right now. We'll reopen soon."
 msgid "Tuandikie WhatsApp tukuweke kwenye orodha"
 msgstr "Message us on WhatsApp to join the waiting list"
 
-#: dashboard/templates/dashboard/subscription.html:7
-msgid "Hali ya usajili"
-msgstr "Subscription status"
-
-#: dashboard/templates/dashboard/subscription.html:9
+#: dashboard/templates/dashboard/subscription.html:8
 msgid "Umeisha"
 msgstr "Expired"
 
-#: dashboard/templates/dashboard/subscription.html:10
+#: dashboard/templates/dashboard/subscription.html:8
+msgid "Hai"
+msgstr "Active"
+
+#: dashboard/templates/dashboard/subscription.html:15
+msgid "siku"
+msgid_plural "siku"
+msgstr[0] "day"
+msgstr[1] "days"
+
+#: dashboard/templates/dashboard/subscription.html:17
 msgid "Mauzo mapya yamesimama."
 msgstr "New sales are paused."
 
-#: dashboard/templates/dashboard/subscription.html:12
-#, python-format
-msgid "Majaribio · siku %(days)s"
-msgid_plural "Majaribio · siku %(days)s"
-msgstr[0] "Trial · %(days)s day"
-msgstr[1] "Trial · %(days)s days"
-
-#: dashboard/templates/dashboard/subscription.html:13
-#, python-format
-msgid "Inaisha %(date)s."
-msgstr "Ends %(date)s."
-
-#: dashboard/templates/dashboard/subscription.html:15
-#, python-format
-msgid "Hai · siku %(days)s"
-msgid_plural "Hai · siku %(days)s"
-msgstr[0] "Active · %(days)s day"
-msgstr[1] "Active · %(days)s days"
-
-#: dashboard/templates/dashboard/subscription.html:16
-#, python-format
-msgid "Imelipiwa mpaka %(date)s."
-msgstr "Paid until %(date)s."
-
 #: dashboard/templates/dashboard/subscription.html:18
 #, python-format
-msgid "Ada ni %(fee)s kwa mwezi, inakatwa kutoka kwenye salio."
-msgstr "The fee is %(fee)s a month, taken from your balance."
+msgid "Majaribio yanaisha %(date)s"
+msgstr "Trial ends %(date)s"
 
-#: dashboard/templates/dashboard/subscription.html:22
-msgid "Lipia sasa kutoka salio"
-msgstr "Pay now from balance"
+#: dashboard/templates/dashboard/subscription.html:19
+#, python-format
+msgid "Imelipiwa mpaka %(date)s"
+msgstr "Paid until %(date)s"
 
-#: dashboard/templates/dashboard/subscription.html:23
-msgid "Salio lako:"
-msgstr "Your balance:"
+#: dashboard/templates/dashboard/subscription.html:20
+#, python-format
+msgid "%(fee)s kwa mwezi"
+msgstr "%(fee)s a month"
 
-#: dashboard/templates/dashboard/subscription.html:30
+#: dashboard/templates/dashboard/subscription.html:26
+msgid "Lipia kutoka salio"
+msgstr "Pay from balance"
+
+#: dashboard/templates/dashboard/subscription.html:39
 msgid "Miezi 3"
 msgstr "3 months"
 
-#: dashboard/templates/dashboard/subscription.html:34
-msgid ""
-"Salio halitoshi bado. Unaweza pia kulipa kwa mkono kupitia WhatsApp ya "
-"JamiiLite, tukakuongezea muda."
-msgstr ""
-"Not enough balance yet. You can also pay by hand through JamiiLite's "
-"WhatsApp and we'll extend your time."
+#: dashboard/templates/dashboard/subscription.html:44
+msgid "Salio halitoshi. Unaweza pia kulipa kupitia WhatsApp ya JamiiLite."
+msgstr "Balance too low. You can also pay through JamiiLite's WhatsApp."
 
-#: dashboard/templates/dashboard/subscription.html:40
+#: dashboard/templates/dashboard/subscription.html:46
+#, python-format
+msgid "Lipia %%(amount)s"
+msgstr "Pay %%(amount)s"
+
+#: dashboard/templates/dashboard/subscription.html:46
+msgid "Lipia"
+msgstr "Pay"
+
+#: dashboard/templates/dashboard/subscription.html:53
 msgid "Malipo ya usajili"
 msgstr "Subscription payments"
 
-#: dashboard/templates/dashboard/subscription.html:46
+#: dashboard/templates/dashboard/subscription.html:59
 #, python-format
 msgid "mpaka %(date)s"
 msgstr "until %(date)s"
 
-#: dashboard/templates/dashboard/subscription.html:52
-msgid "Bado hujalipia. Furahia majaribio yako."
-msgstr "No payments yet. Enjoy your trial."
+#: dashboard/templates/dashboard/subscription.html:65
+msgid "Bado hujalipia."
+msgstr "No payments yet."
 
 #: dashboard/templates/dashboard/suspended.html:3
 #: dashboard/templates/dashboard/suspended.html:5
@@ -2405,11 +2450,6 @@ msgid ""
 msgstr ""
 "The <strong>%(name)s</strong> account is temporarily suspended. Contact "
 "JamiiLite 5G for help."
-
-#: dashboard/templates/dashboard/suspended.html:7
-#: ui/templates/ui/app_base.html:55
-msgid "Toka"
-msgstr "Log out"
 
 #: dashboard/templates/dashboard/voucher_print.html:11
 msgid "Rudi"
@@ -2510,10 +2550,6 @@ msgstr "Balance history"
 msgid "Bado hakuna miamala."
 msgstr "No transactions yet."
 
-#: dashboard/views.py:57 dashboard/views.py:595
-msgid "Usajili"
-msgstr "Subscription"
-
 #: dashboard/views.py:99
 #, python-format
 msgid ""
@@ -2590,7 +2626,7 @@ msgstr "Request received. The money will be sent to your number shortly."
 msgid "Asante! Umelipia miezi %(months)s."
 msgstr "Thank you! You paid for %(months)s month(s)."
 
-#: dashboard/views.py:608
+#: dashboard/views.py:610
 msgid "Mipangilio imehifadhiwa."
 msgstr "Settings saved."
 
@@ -4141,10 +4177,6 @@ msgstr "Page %(number)s of %(total)s"
 #: ui/templates/ui/_pager.html:6
 msgid "Mbele"
 msgstr "Next"
-
-#: ui/templates/ui/app_base.html:39
-msgid "Usajili umeisha"
-msgstr "Subscription ended"
 
 #: ui/templates/ui/app_base.html:39
 msgid "Majaribio bure"
