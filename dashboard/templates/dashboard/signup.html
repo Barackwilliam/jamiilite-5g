@@ -26,6 +26,7 @@
     {% include "dashboard/_field.html" with field=form.password1 %}
     {% include "dashboard/_field.html" with field=form.password2 %}
     <button type="submit" class="btn btn-primary btn-block btn-lg auth-submit">{% translate "Fungua akaunti" %} <span aria-hidden="true">→</span></button>
+    <p class="auth-terms">{% url 'pages:masharti' as terms_url %}{% url 'pages:faragha' as privacy_url %}{% blocktranslate %}Kwa kufungua akaunti, unakubali <a href="{{ terms_url }}" target="_blank" rel="noopener">Masharti</a> na <a href="{{ privacy_url }}" target="_blank" rel="noopener">Sera ya Faragha</a>.{% endblocktranslate %}</p>
   </form>
   <ul class="auth-trust">
     <li>💳 {% translate "Hakuna kadi" %}</li>

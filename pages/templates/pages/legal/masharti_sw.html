@@ -1,0 +1,106 @@
+{% extends "pages/legal/_base.html" %}
+
+{% block title %}Masharti ya Huduma · JamiiLite 5G{% endblock %}
+{% block description %}Masharti ya kutumia JamiiLite 5G kwa wamiliki wa WiFi na wateja wao, pamoja na sera ya kurudisha pesa.{% endblock %}
+{% block eyebrow %}Masharti{% endblock %}
+{% block heading %}Masharti ya Huduma{% endblock %}
+{% block updated_label %}Yamesasishwa{% endblock %}
+{% block contact_heading %}13. Mawasiliano{% endblock %}
+
+{% block body %}
+<section>
+  <h2>1. Kuhusu huduma</h2>
+  <p>JamiiLite 5G ni mfumo wa kuuza WiFi kwa vifurushi, unaoendeshwa na JamiiTek ("sisi"). Masharti haya yanawahusu:</p>
+  <ul>
+    <li><strong>Wamiliki:</strong> watu au biashara wanaofungua akaunti na kuuza WiFi kupitia mfumo huu.</li>
+    <li><strong>Wateja:</strong> watu wanaonunua vifurushi vya WiFi kutoka kwa mmiliki.</li>
+  </ul>
+  <p>Kwa kufungua akaunti au kununua kifurushi, unakubali masharti haya na <a href="{% url 'pages:faragha' %}">Sera ya Faragha</a>.</p>
+</section>
+
+<section>
+  <h2>2. Akaunti ya mmiliki</h2>
+  <ul>
+    <li>Lazima uwe na umri wa miaka 18 au zaidi, na utoe taarifa sahihi.</li>
+    <li>Namba ya simu unayojisajili nayo ndiyo ya kuingia, na ndiyo inayopokea pesa unazotoa.</li>
+    <li>Wewe ndiye unayewajibika kwa password yako na kwa kila kinachofanyika kwenye akaunti yako, pamoja na mstari wa usanidi wa routers zako.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>3. Wajibu wa mmiliki</h2>
+  <ul>
+    <li>Internet unayouza iwe yako kihalali, na mtoa huduma wako wa internet akuruhusu kuiuza.</li>
+    <li>Kufuata sheria za Tanzania, pamoja na leseni au vibali vyovyote vinavyohitajika kwa biashara yako.</li>
+    <li>Kuwapa wateja huduma waliyolipia, kwa bei na muda ulioweka kwenye vifurushi vyako.</li>
+    <li>Kununua na kutunza vifaa vyako (router ya MikroTik, umeme na internet).</li>
+    <li>Kutotumia mfumo kwa udanganyifu, kwa kuingilia mifumo mingine, au kwa jambo lolote lililo kinyume cha sheria.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>4. Ada</h2>
+  <ul>
+    <li>Akaunti mpya inapata siku {{ trial_days }} za majaribio bure.</li>
+    <li>Baada ya hapo ada ni Tsh {{ monthly_fee }} kwa mwezi, inayokatwa kutoka kwenye salio lako.</li>
+    <li>Salio lisipotosha, mauzo mapya yanasimama mpaka ada ilipwe. Vocha zilizokwisha kuuzwa zinaendelea kufanya kazi mpaka muda wake uishe.</li>
+    {% if sale_fee_percent %}<li>Asilimia {{ sale_fee_percent }} ya kila mauzo inakatwa kufidia gharama za malipo.</li>{% endif %}
+    <li>Ada ikibadilika, tutakujulisha angalau siku 30 kabla kupitia dashboard yako.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>5. Malipo ya wateja na salio la mmiliki</h2>
+  <ul>
+    <li>Wateja wanalipa kupitia Pesapal (M-Pesa, Mixx by Yas, Airtel Money, HaloPesa au kadi). Hatuoni wala kuhifadhi PIN wala taarifa za kadi.</li>
+    <li>Pesa za mauzo zinapokelewa na JamiiTek kwa niaba yako, kisha zinaingizwa kwenye salio lako mara malipo yanapothibitishwa.</li>
+    <li>Unaweza kuomba kutoa salio lako kwenda namba yako ya simu wakati wowote. Kiasi cha chini ni Tsh {{ min_withdrawal }}.</li>
+    <li>Tunaweza kushikilia malipo yanayoshukiwa kuwa ya udanganyifu mpaka yachunguzwe.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>6. Kwa wateja wa WiFi</h2>
+  <ul>
+    <li>Muda wa kifurushi unaanza unapounganishwa mara ya kwanza, na unaendelea hata usipotumia internet.</li>
+    <li>Idadi ya simu na kasi ni kama zilivyoandikwa kwenye kifurushi.</li>
+    <li>Ubora wa internet unategemea internet ya mmiliki. Matatizo ya mtandao wa eneo hilo yashughulikiwe kwanza na mmiliki.</li>
+    <li>Vocha ni yako. Usiigawe kwa watu usiowajua.</li>
+  </ul>
+</section>
+
+<section id="kurudisha-pesa">
+  <h2>7. Kurudisha pesa</h2>
+  <ul>
+    <li><strong>Umelipa lakini hukupata vocha au huduma</strong> kwa sababu ya hitilafu ya mfumo: wasiliana na mmiliki au nasi ndani ya siku 7, ukiwa na namba ya muamala. Baada ya kuthibitisha, utarudishiwa pesa au utapewa vocha mpya.</li>
+    <li><strong>Umelipa mara mbili kwa kifurushi kimoja:</strong> malipo ya ziada yanarudishwa baada ya kuthibitishwa.</li>
+    <li>Muda wa kifurushi uliokwisha kutumika haurudishwi.</li>
+    <li>Ada ya mwezi ya mmiliki hairudishwi kwa sehemu ya mwezi.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>8. Kusimamisha akaunti</h2>
+  <p>Tunaweza kusimamisha au kufunga akaunti inayovunja masharti haya, inayohusika na udanganyifu, au tunapotakiwa na sheria. Akaunti ikifungwa, salio lililobaki linalipwa kwa mmiliki baada ya kutoa ada zinazodaiwa, isipokuwa pale panapochunguzwa udanganyifu.</p>
+</section>
+
+<section>
+  <h2>9. Upatikanaji wa huduma</h2>
+  <p>Tunajitahidi mfumo ufanye kazi muda wote, lakini hatuwezi kuahidi kwamba hautasimama kamwe. Unaweza kusimama kwa matengenezo, au kwa hitilafu za mitandao, watoa huduma wetu au umeme.</p>
+</section>
+
+<section>
+  <h2>10. Kikomo cha dhima</h2>
+  <p>Kwa kiwango kinachoruhusiwa na sheria, hatuwajibiki kwa hasara isiyo ya moja kwa moja, kama faida iliyopotea, au hitilafu za internet ya mmiliki na vifaa vyake. Dhima yetu yote kwa mmiliki haizidi ada alizolipa katika miezi 3 iliyopita.</p>
+</section>
+
+<section>
+  <h2>11. Mabadiliko ya masharti</h2>
+  <p>Tunaweza kubadilisha masharti haya. Tutawajulisha wamiliki kupitia dashboard kabla mabadiliko makubwa hayajaanza. Kuendelea kutumia huduma baada ya hapo ni kukubali masharti mapya.</p>
+</section>
+
+<section>
+  <h2>12. Sheria</h2>
+  <p>Masharti haya yanaongozwa na sheria za Jamhuri ya Muungano wa Tanzania.</p>
+</section>
+{% endblock %}

@@ -23,6 +23,9 @@
     </header>
     {% block content %}{% endblock %}
   </main>
-  <footer class="footer">{% blocktranslate %}Inaendeshwa na <strong>JamiiLite 5G</strong>{% endblocktranslate %}</footer>
+  <footer class="footer">
+    {% blocktranslate %}Inaendeshwa na <strong>JamiiLite 5G</strong>{% endblocktranslate %}
+    <nav class="footer-links"><a href="{% url 'pages:masharti' %}">{% translate "Masharti" %}</a> · <a href="{% url 'pages:faragha' %}">{% translate "Faragha" %}</a></nav>
+  </footer>
 </body>
 </html>

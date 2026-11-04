@@ -209,3 +209,5 @@ body {
   .order { padding: 12px 14px; }
   .order-amount { font-size: 1.2rem; }
 }
+.footer-links { margin-top: 6px; }
+.footer-links a { color: var(--muted); }

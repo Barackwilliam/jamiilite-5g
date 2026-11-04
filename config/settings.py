@@ -267,6 +267,8 @@ JAMIILITE_HOTSPOT_INTERFACE = os.environ.get("JAMIILITE_HOTSPOT_INTERFACE", "bri
 # --- Tovuti ya hadhara ---------------------------------------------------------
 # Namba ya WhatsApp ya kupokea wateja wapya (bila +), mfano 255712345678.
 JAMIILITE_WHATSAPP_NUMBER = os.environ.get("JAMIILITE_WHATSAPP_NUMBER", "").lstrip("+")
+# Barua pepe ya mawasiliano inayoonekana kwenye Masharti na Sera ya Faragha (si lazima).
+JAMIILITE_CONTACT_EMAIL = os.environ.get("JAMIILITE_CONTACT_EMAIL", "")
 
 
 # --- Biashara ya JamiiLite -----------------------------------------------------

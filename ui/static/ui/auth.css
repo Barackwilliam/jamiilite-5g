@@ -256,3 +256,5 @@ body.auth h1, body.auth h2, .auth-submit, .auth-logo, .auth-art-logo { font-fami
 /* Nembo ya JamiiTek: dhahabu kama ukurasa wa mwanzo */
 .auth .app-logo-mark { background: linear-gradient(100deg, #FFB627 0%, #F5A623 40%, #FF7A3D 100%); color: #2A1702; box-shadow: 0 6px 16px -4px rgba(245, 166, 35, 0.55); }
 .auth .app-logo b { background: linear-gradient(100deg, #FFB627 0%, #F5A623 40%, #FF7A3D 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.auth-terms { margin: 12px 0 0; font-size: 0.82rem; color: var(--muted, #a7b3ca); text-align: center; }
+.auth-terms a { color: #ffc456; }

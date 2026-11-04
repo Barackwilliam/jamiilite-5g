@@ -457,3 +457,19 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   .need-wide { grid-column: 2; grid-row: 1 / span 3; grid-template-columns: 1fr; align-content: start; }
   .need-wide .models { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   Masharti na Faragha: maandishi rahisi kusoma
+   ============================================================ */
+.legal { width: min(760px, 100% - 32px); margin: 0 auto; padding: 56px 0 72px; }
+.legal-head { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.legal-head h1 { font-size: clamp(2rem, 5vw, 2.8rem); margin-bottom: 6px; }
+.legal-body section { padding: 22px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06); scroll-margin-top: 84px; }
+.legal-body section:last-child { border-bottom: 0; }
+.legal-body h2 { font-size: 1.2rem; margin-bottom: 10px; }
+.legal-body h3 { font-size: 1rem; margin: 16px 0 6px; color: var(--text); }
+.legal-body p, .legal-body li { color: #cfd8e8; line-height: 1.7; }
+.legal-body ul { margin: 0 0 8px; padding-left: 20px; display: grid; gap: 6px; }
+.legal-body li::marker { color: var(--brand); }
+.legal-body strong { color: var(--text); }
+.legal-contact { list-style: none; padding: 0 !important; }
