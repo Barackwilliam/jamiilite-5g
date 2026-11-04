@@ -8,6 +8,8 @@
   <meta name="description" content="{% block description %}{% translate 'Uza WiFi yako kiotomatiki: wateja wanalipa kwa simu, wanapata vocha, na wanakatwa muda ukiisha. Wewe unaona mapato kwenye simu yako.' %}{% endblock %}">
   {% if seo %}
   <link rel="canonical" href="{{ seo.canonical }}">
+  {% if seo.google_verification %}<meta name="google-site-verification" content="{{ seo.google_verification }}">{% endif %}
+  {% if seo.bing_verification %}<meta name="msvalidate.01" content="{{ seo.bing_verification }}">{% endif %}
   {% for alt in seo.alternates %}<link rel="alternate" hreflang="{{ alt.code }}" href="{{ alt.url }}">
   {% endfor %}<link rel="alternate" hreflang="x-default" href="{{ seo.x_default }}">
   <meta property="og:url" content="{{ seo.canonical }}">

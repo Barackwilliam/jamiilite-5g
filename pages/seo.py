@@ -14,10 +14,12 @@ from django.utils.translation import get_language, gettext
 
 
 def language_urls(request):
-    """Anwani kamili za ukurasa huu kwa kila lugha, pamoja na x-default (bila ?lang)."""
+    """Anwani kamili za ukurasa huu kwa kila lugha, pamoja na x-default."""
     path = request.path
     base = request.build_absolute_uri(path)
-    urls = {code: f"{base}?lang={code}" for code, _name in settings.LANGUAGES}
+    default = settings.LANGUAGE_CODE[:2]
+    # Kiswahili (lugha ya msingi) kiko kwenye anwani safi; lugha nyingine zina ?lang=.
+    urls = {code: base if code == default else f"{base}?lang={code}" for code, _name in settings.LANGUAGES}
     current = (get_language() or settings.LANGUAGE_CODE)[:2]
     return {
         "alternates": [{"code": code, "url": url} for code, url in urls.items()],
@@ -26,6 +28,9 @@ def language_urls(request):
         "og_locale": "en_TZ" if current == "en" else "sw_TZ",
         "og_locale_alt": "sw_TZ" if current == "en" else "en_TZ",
         "image": request.build_absolute_uri(static("img/og.jpg")),
+        # Misimbo ya kuthibitisha umiliki kwenye Google Search Console na Bing Webmaster Tools.
+        "google_verification": settings.GOOGLE_SITE_VERIFICATION,
+        "bing_verification": settings.BING_SITE_VERIFICATION,
     }
 
 

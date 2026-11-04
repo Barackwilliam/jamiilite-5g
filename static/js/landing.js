@@ -120,6 +120,7 @@
     this.buildSkyline();
     this.stars = [];
     for (var i = 0; i < 80; i++) this.stars.push({ x: rand(0, w), y: rand(0, h * 0.5), r: rand(0.4, 1.4), p: rand(0, 6.28), sp: rand(0.6, 2) });
+    this.paintBackground();
   };
 
   Scene.prototype.buildSkyline = function () {
@@ -145,6 +146,7 @@
     this.last = performance.now();
     requestAnimationFrame(function loop(now) {
       if (!self.visible || document.hidden) { self.running = false; return; }
+      if (now - self.last < 32) { requestAnimationFrame(loop); return; } // fremu 30 kwa sekunde zinatosha
       var dt = Math.max(0, Math.min(50, now - self.last)) / 1000;
       self.last = now;
       self.update(dt, now / 1000);
@@ -246,15 +248,19 @@
     this.bubbles = this.bubbles.filter(function (b) { return b.a > 0; });
   };
 
-  Scene.prototype.draw = function (t) {
-    var c = this.ctx, W = this.W, H = this.H, s = this.s, self = this;
-    c.clearRect(0, 0, W, H);
+  // Sehemu zisizobadilika (mwezi, majengo, ardhi, wingu, kibanda) zinachorwa mara moja tu
+  // kwenye picha ya nyuma; kila fremu inachora vinavyosogea peke yake.
+  Scene.prototype.paintBackground = function () {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var bg = this.bg || (this.bg = document.createElement("canvas"));
+    bg.width = this.canvas.width; bg.height = this.canvas.height;
+    var c = bg.getContext("2d"), W = this.W, H = this.H, s = this.s, self = this;
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    // nyota na mwezi
-    this.stars.forEach(function (st) {
-      c.globalAlpha = 0.35 + 0.45 * Math.sin(t * st.sp + st.p) * 0.5 + 0.25;
-      c.fillStyle = "#D6E0F0";
-      c.beginPath(); c.arc(st.x, st.y, st.r, 0, 6.28); c.fill();
+    c.fillStyle = "#D6E0F0";
+    this.stars.forEach(function (st, i) {
+      if (i < 18) return; // nyota 18 za kwanza zinang'aa kwenye fremu
+      c.globalAlpha = 0.5; c.beginPath(); c.arc(st.x, st.y, st.r, 0, 6.28); c.fill();
     });
     c.globalAlpha = 1;
     var moon = c.createRadialGradient(W * 0.14, H * 0.13, 0, W * 0.14, H * 0.13, 60 * s);
@@ -262,39 +268,31 @@
     c.fillStyle = moon; c.beginPath(); c.arc(W * 0.14, H * 0.13, 60 * s, 0, 6.28); c.fill();
     c.fillStyle = "#fff6e0"; c.beginPath(); c.arc(W * 0.14, H * 0.13, 13 * s, 0, 6.28); c.fill();
 
-    // majengo ya nyuma na madirisha
+    this.flicker = [];
     this.skyline.forEach(function (b) {
       var top = self.ground - b.h;
-      c.fillStyle = b.tone > 0.5 ? "#0d1a3d" : "#0b1634";
+      b.color = b.tone > 0.5 ? "#0d1a3d" : "#0b1634";
+      c.fillStyle = b.color;
       c.fillRect(b.x, top, b.w, b.h);
+      c.fillStyle = "rgba(255, 205, 120, 0.55)";
       b.windows.forEach(function (wd) {
-        var on = wd.on && !(wd.f && Math.sin(t * 7 + wd.x) > 0.6);
-        if (!on) return;
-        c.fillStyle = "rgba(255, 205, 120, 0.55)";
+        if (!wd.on) return;
         c.fillRect(b.x + wd.x, top + wd.y, 5 * s, 7 * s);
+        if (wd.f) self.flicker.push({ x: b.x + wd.x, y: top + wd.y, color: b.color, k: wd.x });
       });
     });
 
-    // ardhi na barabara
     var g = c.createLinearGradient(0, this.ground, 0, H);
     g.addColorStop(0, "#111d3f"); g.addColorStop(1, "#0B1A36");
     c.fillStyle = g; c.fillRect(0, this.ground, W, H - this.ground);
     c.strokeStyle = "rgba(255,255,255,0.08)"; c.setLineDash([14 * s, 12 * s]); c.lineWidth = 2;
     c.beginPath(); c.moveTo(0, H - 14); c.lineTo(W, H - 14); c.stroke(); c.setLineDash([]);
 
-    // njia ya internet: router -> JamiiLite
     var r = this.router, cl = this.cloud;
     c.strokeStyle = "rgba(34,184,224,0.25)"; c.lineWidth = 1.5; c.setLineDash([4, 6]);
     c.beginPath(); c.moveTo(r.x, r.y); c.quadraticCurveTo((r.x + cl.x) / 2, Math.min(r.y, cl.y) - 30 * s, cl.x, cl.y); c.stroke();
     c.setLineDash([]);
-    for (var k = 0; k < 4; k++) {
-      var tt = ((t * 0.35 + k / 4) % 1);
-      var px = (1 - tt) * (1 - tt) * r.x + 2 * (1 - tt) * tt * ((r.x + cl.x) / 2) + tt * tt * cl.x;
-      var py = (1 - tt) * (1 - tt) * r.y + 2 * (1 - tt) * tt * (Math.min(r.y, cl.y) - 30 * s) + tt * tt * cl.y;
-      c.fillStyle = "rgba(125,216,240,0.6)"; c.beginPath(); c.arc(px, py, 1.8, 0, 6.28); c.fill();
-    }
 
-    // JamiiLite (wingu)
     var halo = c.createRadialGradient(cl.x, cl.y, 0, cl.x, cl.y, 70 * s);
     halo.addColorStop(0, "rgba(34,184,224,0.55)"); halo.addColorStop(1, "rgba(34,184,224,0)");
     c.fillStyle = halo; c.beginPath(); c.arc(cl.x, cl.y, 70 * s, 0, 6.28); c.fill();
@@ -303,13 +301,6 @@
     c.fillStyle = "#fff"; c.font = "800 " + Math.round(12 * s) + "px system-ui, sans-serif"; c.textAlign = "center"; c.textBaseline = "middle";
     c.fillText("JamiiLite", cl.x, cl.y + 1);
 
-    // mawimbi ya WiFi
-    this.rings.forEach(function (ring) {
-      c.strokeStyle = "rgba(34,184,224," + ring.a.toFixed(3) + ")"; c.lineWidth = 2;
-      c.beginPath(); c.arc(r.x, r.y, ring.r, 0, 6.28); c.stroke();
-    });
-
-    // kibanda cha mmiliki
     var kx = r.x - 70 * s, ky = this.ground - 96 * s, kw = 140 * s, kh = 96 * s;
     c.fillStyle = "#1a2a55"; c.fillRect(kx, ky + 22 * s, kw, kh - 22 * s);
     for (var i = 0; i < 7; i++) {
@@ -324,12 +315,49 @@
     c.fillStyle = "#0B1F40"; c.font = "800 " + Math.round(10 * s) + "px system-ui, sans-serif";
     c.fillText("JAMIITEK WiFi", r.x, ky + 50 * s);
 
-    // router juu ya kibanda
     c.fillStyle = "#e9eef8"; roundRect(c, r.x - 18 * s, r.y - 6 * s, 36 * s, 12 * s, 4 * s); c.fill();
     c.strokeStyle = "#e9eef8"; c.lineWidth = 2;
     c.beginPath(); c.moveTo(r.x - 12 * s, r.y - 6 * s); c.lineTo(r.x - 16 * s, r.y - 22 * s); c.moveTo(r.x + 12 * s, r.y - 6 * s); c.lineTo(r.x + 16 * s, r.y - 22 * s); c.stroke();
-    var blink = Math.sin(t * 9) > 0 ? "#3ccf7e" : "#1d6b45";
-    c.fillStyle = blink; c.beginPath(); c.arc(r.x + 10 * s, r.y, 2.4 * s, 0, 6.28); c.fill();
+  };
+
+  Scene.prototype.draw = function (t) {
+    var c = this.ctx, W = this.W, H = this.H, s = this.s, self = this;
+    c.clearRect(0, 0, W, H);
+    if (this.bg && this.bg.width) c.drawImage(this.bg, 0, 0, W, H);
+
+    // nyota chache zinazong'aa, na madirisha yanayozimika-zimika
+    c.fillStyle = "#D6E0F0";
+    for (var n = 0; n < 18 && n < this.stars.length; n++) {
+      var st = this.stars[n];
+      c.globalAlpha = 0.35 + 0.45 * Math.sin(t * st.sp + st.p) * 0.5 + 0.25;
+      c.beginPath(); c.arc(st.x, st.y, st.r, 0, 6.28); c.fill();
+    }
+    c.globalAlpha = 1;
+    this.flicker.forEach(function (wd) {
+      if (Math.sin(t * 7 + wd.k) > 0.6) { c.fillStyle = wd.color; c.fillRect(wd.x, wd.y, 5 * s, 7 * s); }
+    });
+
+    // vifurushi vya data kwenye njia ya router -> JamiiLite
+    var r = this.router, cl = this.cloud;
+    c.fillStyle = "rgba(125,216,240,0.6)";
+    for (var k = 0; k < 4; k++) {
+      var tt = ((t * 0.35 + k / 4) % 1);
+      var px = (1 - tt) * (1 - tt) * r.x + 2 * (1 - tt) * tt * ((r.x + cl.x) / 2) + tt * tt * cl.x;
+      var py = (1 - tt) * (1 - tt) * r.y + 2 * (1 - tt) * tt * (Math.min(r.y, cl.y) - 30 * s) + tt * tt * cl.y;
+      c.beginPath(); c.arc(px, py, 1.8, 0, 6.28); c.fill();
+    }
+
+    // mawimbi ya WiFi
+    c.lineWidth = 2;
+    this.rings.forEach(function (ring) {
+      c.strokeStyle = "rgba(34,184,224," + ring.a.toFixed(3) + ")";
+      c.beginPath(); c.arc(r.x, r.y, ring.r, 0, 6.28); c.stroke();
+    });
+
+    // taa ya router
+    c.fillStyle = Math.sin(t * 9) > 0 ? "#3ccf7e" : "#1d6b45";
+    c.beginPath(); c.arc(r.x + 10 * s, r.y, 2.4 * s, 0, 6.28); c.fill();
+    c.textAlign = "center"; c.textBaseline = "middle";
 
     // watu, kuanzia walio mbali
     this.walkers.slice().sort(function (a, b) { return a.depth - b.depth; }).forEach(function (w) { self.drawWalker(w); });

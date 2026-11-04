@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.urls import reverse
 from django.utils import translation
 
 
@@ -33,6 +34,11 @@ class UrlLanguageMiddleware:
     def __call__(self, request):
         lang = request.GET.get("lang", "")
         if lang not in dict(settings.LANGUAGES):
+            if self._is_clean_public_page(request):
+                # Anwani safi ya ukurasa wa hadhara ni ya Kiswahili kila mara (kama hreflang
+                # inavyosema), bila kujali lugha ya kivinjari. Aliyechagua lugha anaikumbukwa kwa cookie.
+                translation.activate(settings.LANGUAGE_CODE)
+                request.LANGUAGE_CODE = settings.LANGUAGE_CODE
             return self.get_response(request)
         translation.activate(lang)
         request.LANGUAGE_CODE = lang
@@ -42,3 +48,23 @@ class UrlLanguageMiddleware:
             samesite="Lax", secure=request.is_secure(),
         )
         return response
+
+    @staticmethod
+    def _is_clean_public_page(request):
+        if settings.LANGUAGE_COOKIE_NAME in request.COOKIES:
+            return False
+        if getattr(getattr(request, "user", None), "is_authenticated", False):
+            return False
+        return request.path in _public_paths()
+
+
+_PUBLIC_PATHS = None
+
+
+def _public_paths():
+    global _PUBLIC_PATHS
+    if _PUBLIC_PATHS is None:
+        from pages.views import SITEMAP_PAGES
+
+        _PUBLIC_PATHS = {reverse(name) for name in SITEMAP_PAGES}
+    return _PUBLIC_PATHS

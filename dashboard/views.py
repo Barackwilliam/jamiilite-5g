@@ -1,6 +1,5 @@
 import math
 import secrets
-from urllib.parse import urlsplit
 from datetime import timedelta
 from functools import wraps
 
@@ -521,7 +520,7 @@ def voucher_pdf(request, batch):
 
 
 def _site_host(request):
-    return urlsplit(settings.JAMIILITE_PUBLIC_URL).hostname or request.get_host()
+    return settings.JAMIILITE_VOUCHER_SITE
 
 
 # --- Mauzo -------------------------------------------------------------------------

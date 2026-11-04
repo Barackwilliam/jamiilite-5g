@@ -46,7 +46,7 @@ class LandingLanguageTests(TestCase):
             ("pages:mwongozo", "Connect your router in 7 steps"),
         ]:
             with self.subTest(name):
-                response = self.client.get(reverse(name), HTTP_ACCEPT_LANGUAGE="en")
+                response = self.client.get(reverse(name) + "?lang=en")
                 self.assertContains(response, text)
                 self.assertContains(response, '<html lang="en">')
 
@@ -58,7 +58,7 @@ class LandingLanguageTests(TestCase):
         self.assertNotContains(response, "si data halisi")
 
     def test_landing_scripts_are_embedded_without_extra_requests(self):
-        response = self.client.get(reverse("pages:home"), HTTP_ACCEPT_LANGUAGE="en")
+        response = self.client.get(reverse("pages:home") + "?lang=en")
         self.assertContains(response, 'id="landing-i18n"')
         self.assertContains(response, "1 hour")
         self.assertNotContains(response, reverse("javascript-catalog"))

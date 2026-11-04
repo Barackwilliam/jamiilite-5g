@@ -122,11 +122,13 @@ def sitemap_xml(request):
     entries = []
     for name in SITEMAP_PAGES:
         base = escape(request.build_absolute_uri(reverse(name)))
+        default = settings.LANGUAGE_CODE[:2]
+        urls = {code: base if code == default else f"{base}?lang={code}" for code in langs}
         alternates = "".join(
-            f'<xhtml:link rel="alternate" hreflang="{code}" href="{base}?lang={code}"/>' for code in langs
+            f'<xhtml:link rel="alternate" hreflang="{code}" href="{url}"/>' for code, url in urls.items()
         ) + f'<xhtml:link rel="alternate" hreflang="x-default" href="{base}"/>'
-        for code in langs:
-            entries.append(f"<url><loc>{base}?lang={code}</loc>{alternates}</url>")
+        for url in urls.values():
+            entries.append(f"<url><loc>{url}</loc>{alternates}</url>")
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'

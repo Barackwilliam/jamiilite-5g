@@ -147,7 +147,7 @@ class OwnerPagesTests(TestCase):
         package.refresh_from_db()
         self.assertEqual((package.price, package.is_active), (1200, False))
 
-    @override_settings(JAMIILITE_PUBLIC_URL="https://wifi.jamiitek.co.tz")
+    @override_settings(JAMIILITE_VOUCHER_SITE="wifi.jamiitek.co.tz")
     def test_printed_vouchers_carry_site_address(self):
         router = make_router(self.owner)
         self.client.post(reverse("dashboard:vouchers"), {"package": make_package(self.owner).pk, "router": router.pk, "count": 2})
@@ -155,7 +155,7 @@ class OwnerPagesTests(TestCase):
         page = self.client.get(reverse("dashboard:voucher_print", args=[batch]))
         self.assertContains(page, "wifi.jamiitek.co.tz", count=2)
 
-    @override_settings(JAMIILITE_PUBLIC_URL="https://wifi.jamiitek.co.tz")
+    @override_settings(JAMIILITE_VOUCHER_SITE="wifi.jamiitek.co.tz")
     def test_vouchers_download_as_pdf(self):
         router = make_router(self.owner)
         self.client.post(reverse("dashboard:vouchers"), {"package": make_package(self.owner).pk, "router": router.pk, "count": 25})

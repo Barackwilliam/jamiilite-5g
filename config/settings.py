@@ -269,6 +269,10 @@ JAMIILITE_HOTSPOT_INTERFACE = os.environ.get("JAMIILITE_HOTSPOT_INTERFACE", "bri
 JAMIILITE_WHATSAPP_NUMBER = os.environ.get("JAMIILITE_WHATSAPP_NUMBER", "").lstrip("+")
 # Barua pepe ya mawasiliano inayoonekana kwenye Masharti na Sera ya Faragha (si lazima).
 JAMIILITE_CONTACT_EMAIL = os.environ.get("JAMIILITE_CONTACT_EMAIL", "")
+GOOGLE_SITE_VERIFICATION = os.environ.get("GOOGLE_SITE_VERIFICATION", "")
+BING_SITE_VERIFICATION = os.environ.get("BING_SITE_VERIFICATION", "")
+# Anwani ndogo inayochapishwa chini ya kila vocha.
+JAMIILITE_VOUCHER_SITE = os.environ.get("JAMIILITE_VOUCHER_SITE", "wifi.jamiitek.co.tz")
 
 
 # --- Biashara ya JamiiLite -----------------------------------------------------
