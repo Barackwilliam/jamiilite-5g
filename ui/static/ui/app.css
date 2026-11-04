@@ -1096,3 +1096,39 @@ button:focus-visible, summary:focus-visible { outline: 2px solid var(--brand); o
   .amount-chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .amount-chips .chip { justify-content: center; padding: 8px 4px; font-size: 0.8rem; }
 }
+
+/* ============================================================
+   Vifurushi na Mauzo
+   ============================================================ */
+.bundle-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.bundle { position: relative; display: flex; flex-direction: column; gap: 2px; height: 100%; padding: 14px; border-radius: 16px; border: 1px solid var(--border); background: linear-gradient(160deg, var(--surface-2) 40%, color-mix(in srgb, var(--brand) 10%, var(--surface-2))); color: var(--text); text-decoration: none; transition: border-color 0.15s, transform 0.15s; }
+.bundle:hover { border-color: var(--brand); transform: translateY(-2px); }
+.bundle:active { transform: scale(0.98); }
+.bundle.is-off { opacity: 0.55; background: var(--surface-2); }
+.bundle-name { font-weight: 800; font-size: 1.02rem; }
+.bundle-price { font-family: var(--font-head); font-size: 1.3rem; font-weight: 800; color: var(--brand); font-variant-numeric: tabular-nums; }
+.bundle-meta { color: var(--muted); font-size: 0.78rem; }
+.bundle-foot { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: auto; padding-top: 10px; }
+.bundle-sold { padding: 2px 8px; border-radius: 99px; background: var(--money-soft); color: var(--money); font-size: 0.74rem; font-weight: 700; }
+.bundle-edit { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); color: var(--muted); }
+.bundle:hover .bundle-edit { color: var(--brand); border-color: var(--brand); }
+
+.package-form .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.stepper { display: inline-flex; align-items: center; align-self: flex-start; border: 1px solid var(--border); border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+.stepper button { width: 44px; height: 42px; border: 0; background: none; color: var(--brand); font-size: 1.3rem; font-weight: 700; cursor: pointer; }
+.stepper button:hover { background: color-mix(in srgb, var(--brand) 12%, transparent); }
+.stepper input { width: 48px; border: 0 !important; background: none !important; box-shadow: none !important; padding: 0 !important; text-align: center; font-weight: 800; font-size: 1.05rem; -moz-appearance: textfield; appearance: textfield; }
+.stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.switch-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface-2); cursor: pointer; font-weight: 600; }
+.switch { position: relative; display: inline-flex; flex-shrink: 0; }
+.switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.switch-track { width: 46px; height: 26px; border-radius: 99px; background: var(--border); transition: background 0.15s; }
+.switch-track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); transition: transform 0.15s; }
+.switch input:checked + .switch-track { background: var(--money); }
+.switch input:checked + .switch-track::after { transform: translateX(20px); }
+.switch input:focus-visible + .switch-track { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+.chart-card { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.chart-card h2 { font-size: 1rem; }
+.statement-day { display: flex; justify-content: space-between; gap: 8px; }
+.statement-day span:last-child { font-variant-numeric: tabular-nums; text-transform: none; letter-spacing: 0; }

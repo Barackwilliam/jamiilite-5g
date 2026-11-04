@@ -26,6 +26,7 @@ ICONS = {
     "eye": '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
     "eye-off": '<path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.6 9.6 0 0 0 4.4-1.1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
     "receive": '<path d="M17 7 7 17"/><path d="M17 17H7V7"/>',
+    "edit": '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
     "send": '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
     "logout": '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/>',
     "menu": '<path d="M4 7h16M4 12h16M4 17h16"/>',
@@ -96,11 +97,12 @@ def ago(value):
 
 @register.filter
 def phone_display(value):
-    """255712345678 → 0712 345 678"""
+    """255712345678 au 0712345678 → 0712 345 678"""
     value = str(value or "")
     if len(value) == 12 and value.startswith("255"):
-        local = "0" + value[3:]
-        return f"{local[:4]} {local[4:7]} {local[7:]}"
+        value = "0" + value[3:]
+    if len(value) == 10 and value.startswith("0") and value.isdigit():
+        return f"{value[:4]} {value[4:7]} {value[7:]}"
     return value
 
 

@@ -157,3 +157,15 @@
   input.addEventListener("input", sync);
   sync();
 })();
+
+/* Kitufe cha − / + kwa namba ndogo (mfano simu ngapi kwa vocha moja). */
+document.querySelectorAll("[data-stepper]").forEach(function (stepper) {
+  var input = stepper.querySelector("input");
+  stepper.querySelectorAll("[data-step]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var min = parseInt(input.min, 10) || 1, max = parseInt(input.max, 10) || 99;
+      var value = (parseInt(input.value, 10) || min) + parseInt(button.dataset.step, 10);
+      input.value = Math.min(max, Math.max(min, value));
+    });
+  });
+});

@@ -2,49 +2,45 @@
 {% load i18n ui_tags %}
 
 {% block content %}
-<section class="stats-grid stats-grid-3">
-  <article class="card stat tone-blue"><span class="stat-icon">{% icon "clock" 18 %}</span>
-    <p class="stat-label">{% translate "Leo" %}</p>
-    <p class="stat-value">{{ summary.today_amount|tsh }}</p>
-    <p class="stat-sub">{% blocktranslate count n=summary.today_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
-  </article>
-  <article class="card stat tone-violet"><span class="stat-icon">{% icon "chart" 18 %}</span>
-    <p class="stat-label">{% translate "Siku 7" %}</p>
-    <p class="stat-value">{{ summary.week_amount|tsh }}</p>
-    <p class="stat-sub">{% blocktranslate count n=summary.week_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
-  </article>
-  <article class="card stat tone-green"><span class="stat-icon">{% icon "calendar" 18 %}</span>
-    <p class="stat-label">{% translate "Siku 30" %}</p>
-    <p class="stat-value">{{ summary.month_amount|tsh }}</p>
-    <p class="stat-sub">{% blocktranslate count n=summary.month_count %}Kifurushi {{ n }}{% plural %}Vifurushi {{ n }}{% endblocktranslate %}</p>
-  </article>
-</section>
+<div class="wallet-hero">
+  <div class="wallet-card">
+    <svg class="wallet-deco" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="10"><path d="M40 120a85 85 0 0 1 120 0" opacity=".5"/><path d="M10 90a125 125 0 0 1 180 0" opacity=".28"/><path d="M70 150a42 42 0 0 1 60 0" opacity=".75"/></g><circle cx="100" cy="178" r="10" fill="currentColor"/></svg>
+    <span class="wallet-top"><span>{% translate "Mauzo ya siku 30" %}</span></span>
+    <span class="wallet-amount">{{ summary.month_amount|tsh }}</span>
+    <span class="wallet-meta">
+      <span>{% blocktranslate count n=summary.month_count %}kifurushi {{ n }}{% plural %}vifurushi {{ n }}{% endblocktranslate %}</span>
+      <span>{% translate "Wastani kwa siku" %} <b>{{ month_average|tsh }}</b></span>
+    </span>
+  </div>
 
-<section class="card">
-  <div class="card-head"><h2>{% translate "Mauzo ya siku 30" %}</h2></div>
-  {% translate "Mauzo ya siku 30" as chart_title %}
-  {% include "ui/_bar_chart.html" with chart=chart title=chart_title %}
-</section>
+  <section class="card chart-card">
+    <h2>{% translate "Kila siku" %}</h2>
+    {% translate "Mauzo ya siku 30" as chart_title %}
+    {% include "ui/_bar_chart.html" with chart=chart title=chart_title %}
+  </section>
+
+  <ul class="mini-stats">
+    <li><span class="ms-label">{% translate "Leo" %}</span><b>{{ summary.today_amount|tsh }}</b><small>{% blocktranslate count n=summary.today_count %}kifurushi {{ n }}{% plural %}vifurushi {{ n }}{% endblocktranslate %}</small></li>
+    <li><span class="ms-label">{% translate "Jana" %}</span><b>{{ summary.yesterday_amount|tsh }}</b><small>{% blocktranslate count n=summary.yesterday_count %}kifurushi {{ n }}{% plural %}vifurushi {{ n }}{% endblocktranslate %}</small></li>
+    <li><span class="ms-label">{% translate "Siku 7" %}</span><b>{{ summary.week_amount|tsh }}</b><small>{% blocktranslate count n=summary.week_count %}kifurushi {{ n }}{% plural %}vifurushi {{ n }}{% endblocktranslate %}</small></li>
+  </ul>
+</div>
 
 <section class="card">
   <div class="card-head"><h2>{% translate "Kila mauzo" %}</h2></div>
-  {% if page.object_list %}
-    <div class="table-wrap">
-      <table class="table">
-        <thead><tr><th scope="col">{% translate "Muda" %}</th><th scope="col">{% translate "Kifurushi" %}</th><th scope="col">{% translate "Eneo" %}</th><th scope="col">{% translate "Mteja" %}</th><th scope="col" class="num">{% translate "Kiasi" %}</th></tr></thead>
-        <tbody>
-          {% for sale in page.object_list %}
-            <tr>
-              <td>{{ sale.paid_at|date:"d/m H:i" }}</td>
-              <td>{{ sale.package.name }}</td>
-              <td>{{ sale.router.name }}</td>
-              <td>{{ sale.phone|phone_display }}</td>
-              <td class="num">{{ sale.amount|tsh }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+  {% if days %}
+    <ul class="list statement">
+      {% for day in days %}
+        <li class="statement-day"><span>{{ day.first|day_label }}</span><span>{{ day.total|tsh }}</span></li>
+        {% for sale in day.sales %}
+          <li class="list-row">
+            <span class="sale-avatar" aria-hidden="true">{{ sale.package.name|slice:":1"|upper }}</span>
+            <span class="list-main"><strong>{{ sale.package.name }}</strong><small>{{ sale.phone|phone_display }} · {{ sale.router.name }} · {{ sale.paid_at|date:"H:i" }}</small></span>
+            <span class="amount-in">+{{ sale.amount|tsh }}</span>
+          </li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
     {% include "ui/_pager.html" %}
   {% else %}
     {% translate "Bado hakuna mauzo." as text %}

@@ -139,8 +139,10 @@ SPEED_CHOICES = [
 
 class PackageForm(forms.ModelForm):
     duration_value = forms.IntegerField(label=_("Muda"), min_value=1, max_value=1000)
-    duration_unit = forms.TypedChoiceField(label=_("Kipimo"), choices=DURATION_UNITS, coerce=int, initial=60)
-    rate_limit = forms.ChoiceField(label=_("Kasi"), choices=SPEED_CHOICES, required=False)
+    duration_unit = forms.TypedChoiceField(
+        label=_("Kipimo"), choices=DURATION_UNITS, coerce=int, initial=60, widget=forms.RadioSelect,
+    )
+    rate_limit = forms.ChoiceField(label=_("Kasi"), choices=SPEED_CHOICES, required=False, widget=forms.RadioSelect)
 
     class Meta:
         model = Package
@@ -152,7 +154,7 @@ class PackageForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={"placeholder": _("mfano Siku 1")}),
             "price": forms.NumberInput(attrs={"inputmode": "numeric", "min": 1}),
-            "shared_users": forms.NumberInput(attrs={"min": 1, "max": 10}),
+            "shared_users": forms.NumberInput(attrs={"min": 1, "max": 10, "inputmode": "numeric"}),
         }
 
     def __init__(self, *args, **kwargs):

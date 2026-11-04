@@ -202,6 +202,17 @@ class OwnerPagesTests(TestCase):
         response = self.client.get(reverse("dashboard:sales"))
         self.assertEqual(list(response.context["page"].object_list), list(Payment.objects.filter(router=mine)))
 
+    def test_sales_grouped_by_day_with_full_day_total(self):
+        router = make_router(self.owner)
+        for price in (700, 1300):
+            start_payment(router=router, package=make_package(self.owner, price=price), phone="255712345678")
+        Payment.objects.update(status=Payment.Status.PAID, paid_at=timezone.now())
+        response = self.client.get(reverse("dashboard:sales"))
+        days = response.context["days"]
+        self.assertEqual(len(days), 1)
+        self.assertEqual((days[0]["total"], days[0]["count"], len(days[0]["sales"])), (2000, 2, 2))
+        self.assertContains(response, "0712 345 678")
+
     def test_superuser_without_owner_goes_to_control(self):
         from django.contrib.auth import get_user_model
 
