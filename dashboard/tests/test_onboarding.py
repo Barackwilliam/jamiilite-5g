@@ -16,7 +16,7 @@ class OnboardingTests(TestCase):
         response = self.client.get(reverse("dashboard:home"))
         self.assertEqual(response.context["next_step"], 1)
         self.assertContains(response, "0 kati ya 4")
-        self.assertNotContains(response, "Mapato ya leo")
+        self.assertNotContains(response, "wallet-card")
 
     def test_next_step_moves_to_connecting_the_router(self):
         router = make_router(self.owner, slug="duka")
@@ -30,7 +30,7 @@ class OnboardingTests(TestCase):
         response = self.client.get(reverse("dashboard:home"))
         self.assertEqual(response.context["next_step"], 4)
         self.assertContains(response, reverse("portal:home", args=["duka"]))
-        self.assertContains(response, "Mapato ya leo")
+        self.assertContains(response, "wallet-card")
 
     def test_trial_counts_today(self):
         self.owner.trial_ends_at = timezone.now() + timedelta(days=14)

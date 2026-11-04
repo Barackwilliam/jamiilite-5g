@@ -27,13 +27,12 @@
           <legend class="sr-only">{% translate "Vifurushi" %}</legend>
           {% for choice in form.package %}
             {% with pkg=choice.data.value.instance %}
-              <label class="package">
+              <label class="package" data-price="{{ pkg.price_display }}">
                 {{ choice.tag }}
-                <span class="package-body">
-                  <span class="package-name">{{ pkg.name }}</span>
-                  {% if pkg.summary %}<span class="package-meta">{{ pkg.summary }}</span>{% endif %}
-                </span>
+                <span class="package-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+                <span class="package-name">{{ pkg.name }}</span>
                 <span class="package-price">Tsh {{ pkg.price_display }}</span>
+                {% if pkg.summary %}<span class="package-meta">{{ pkg.summary }}</span>{% endif %}
               </label>
             {% endwith %}
           {% endfor %}
@@ -42,12 +41,25 @@
 
         <label class="field">
           <span>{{ form.phone.label }}</span>
-          {{ form.phone }}
+          <span class="phone-input"><span class="phone-flag" aria-hidden="true">🇹🇿</span>{{ form.phone }}</span>
           {% for error in form.phone.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
         </label>
 
-        <button type="submit" class="btn">{% translate "Lipa kwa simu" %}</button>
+        <button type="submit" class="btn btn-pay" data-pay-button data-label="{% translate 'Lipa Tsh %(amount)s' %}">{% translate "Lipa kwa simu" %}</button>
+        <ul class="pay-methods" aria-label="{% translate 'Njia za malipo' %}"><li>M-Pesa</li><li>Mixx by Yas</li><li>Airtel Money</li><li>HaloPesa</li></ul>
       </form>
+      <script>
+        (function () {
+          // Kitufe kinaonyesha bei ya kifurushi kilichochaguliwa, kama app za kununua bando.
+          var button = document.querySelector("[data-pay-button]");
+          function update() {
+            var picked = document.querySelector(".package input:checked");
+            if (picked) button.textContent = button.dataset.label.replace("%(amount)s", picked.closest(".package").dataset.price);
+          }
+          document.querySelectorAll(".package input").forEach(function (input) { input.addEventListener("change", update); });
+          update();
+        })();
+      </script>
     {% else %}
       <p class="muted">{% translate "Hakuna kifurushi kinachouzwa kwa sasa." %}</p>
     {% endif %}
