@@ -9,7 +9,7 @@
   {% if returning and login_target %}
     <section class="welcome-back">
       <h2>{% translate "Karibu tena!" %}</h2>
-      <p>{% blocktranslate with name=returning.package.name left=returning_left %}Kifurushi chako cha <strong>{{ name }}</strong> bado kina muda: <strong>{{ left }}</strong>. Tunakuunganisha sasa hivi…{% endblocktranslate %}</p>
+      <p>{% blocktranslate with name=returning.package.name left=returning_left %}Kifurushi chako cha <strong>{{ name }}</strong> bado kina muda: <strong>{{ left }}</strong>.{% endblocktranslate %}</p>
       {% include "portal/_voucher_login.html" with code=returning.code autosubmit=True %}
     </section>
   {% endif %}
@@ -47,7 +47,6 @@
         </label>
 
         <button type="submit" class="btn">{% translate "Lipa kwa simu" %}</button>
-        <p class="muted small">{% translate "Utapokea ombi la kulipia kwenye simu yako. Weka PIN kuthibitisha." %}</p>
       </form>
     {% else %}
       <p class="muted">{% translate "Hakuna kifurushi kinachouzwa kwa sasa." %}</p>

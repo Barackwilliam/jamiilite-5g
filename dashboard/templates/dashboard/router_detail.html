@@ -43,7 +43,6 @@
     <span class="connect-pulse" aria-hidden="true"></span>
     <div>
       <strong data-wait-text>{% translate "Inasubiri router yako iunganishwe…" %}</strong>
-      <small>{% translate "Ukimaliza hatua hizi, ukurasa huu utabadilika wenyewe." %}</small>
     </div>
   </div>
   <ol class="connect-steps">
@@ -58,9 +57,9 @@
     </div>
   {% endif %}
   <ol class="connect-steps" start="3">
-    <li><span class="flow-num">3</span><div><strong>{% translate "Subiri hapa sekunde chache" %}</strong><small>{% translate "Router ikiunganishwa utaona alama ya kijani. Mstari huu ni siri yako: usimpe mtu." %}</small></div></li>
+    <li><span class="flow-num">3</span><div><strong>{% translate "Subiri hapa sekunde chache" %}</strong><small>{% translate "Mstari huu ni siri yako: usimpe mtu." %}</small></div></li>
   </ol>
-  <p class="small"><a href="{% url 'pages:mwongozo' %}" target="_blank" rel="noopener">{% translate "Unahitaji msaada zaidi? Ona mwongozo wenye picha" %} {% icon "external" 14 %}</a></p>
+  <p class="small"><a href="{% url 'pages:mwongozo' %}" target="_blank" rel="noopener">{% translate "Mwongozo wenye picha" %} {% icon "external" 14 %}</a></p>
   <form method="post" class="rotate-form">
     {% csrf_token %}
     <button type="submit" name="action" value="rotate" class="btn btn-small btn-ghost" data-confirm="{% translate 'Tengeneza siri mpya? Mstari wa zamani utaacha kufanya kazi, na router itahitaji mstari mpya.' %}">{% icon "refresh" 16 %} {% translate "Mstari umevuja? Badilisha siri" %}</button>
@@ -68,7 +67,7 @@
 </section>
 {% else %}
 <details class="card setup-again">
-  <summary>{% translate "Mstari wa usanidi" %} <small class="muted">{% translate "kwa router mpya au uliyoiweka upya" %}</small></summary>
+  <summary>{% translate "Mstari wa usanidi" %}</summary>
   {% if setup_command %}
     <div class="code-box">
       <span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -85,29 +84,18 @@
 {% endif %}
 
 <section class="card wifi-card">
-  <div class="card-head"><h2>{% translate "WiFi yako kwa wateja" %}</h2></div>
-  <div class="two-col">
-    <div>
-      <ol class="flow">
-        <li><span class="flow-num">1</span><div><strong>{% if router.wifi_name %}{% blocktranslate with name=router.wifi_name %}Mteja anaona “{{ name }}”{% endblocktranslate %}{% else %}{% translate "Mteja anaona jina la WiFi yako" %}{% endif %}</strong><small>{% translate "Kwenye orodha ya WiFi ya simu yake. Haina password." %}</small></div></li>
-        <li><span class="flow-num">2</span><div><strong>{% translate "Anagusa, ukurasa wa kulipia unajifungua wenyewe" %}</strong><small>{% translate "Simu inaona kuwa WiFi inahitaji kulipiwa na inaufungua bila yeye kufungua browser." %}</small></div></li>
-        <li><span class="flow-num">3</span><div><strong>{% translate "Analipa kwa simu, anaunganishwa papo hapo" %}</strong><small>{% translate "Akirudi baadaye akiwa bado na muda, anaunganishwa tena bila kuandika vocha." %}</small></div></li>
-      </ol>
-    </div>
-    <form method="post" class="form-stack" novalidate>
-      {% csrf_token %}
-      <input type="hidden" name="action" value="wifi">
-      {% include "dashboard/_field.html" with field=wifi_form.wifi_name %}
-      <button type="submit" class="btn btn-primary">{% icon "wifi" 18 %} {% translate "Hifadhi jina la WiFi" %}</button>
-      <p class="muted small">{% translate "Router ikiwa online, jina jipya linaonekana ndani ya dakika 1. Wateja walioko wataondolewa kwenye WiFi kwa sekunde chache." %}</p>
-    </form>
-  </div>
+  <form method="post" class="form-stack wifi-form" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="action" value="wifi">
+    {% include "dashboard/_field.html" with field=wifi_form.wifi_name %}
+    <button type="submit" class="btn btn-primary">{% icon "wifi" 18 %} {% translate "Hifadhi jina la WiFi" %}</button>
+    <p class="muted small">{% translate "Wateja walio online wataondolewa kwa sekunde chache." %}</p>
+  </form>
 </section>
 
 <div class="{% if router.last_seen_at %}two-col{% endif %}">
   <section class="card">
     <div class="card-head"><h2>{% translate "Ukurasa wa kulipia" %}</h2></div>
-    <p class="muted">{% translate "Wateja wako wanauona wanapounganisha WiFi. Unaweza pia kuufungua hapa kujaribu." %}</p>
     <div class="code-box code-box-light">
       <code id="portal-url">{{ portal_url }}</code>
       <button type="button" class="btn btn-small btn-ghost" data-copy="#portal-url" data-copied="{% translate 'Imenakiliwa' %}">{% icon "copy" 16 %} <span>{% translate "Nakili" %}</span></button>
@@ -132,8 +120,6 @@
           </li>
         {% endfor %}
       </ul>
-    {% else %}
-      <p class="muted small">{% translate "Maagizo utakayotuma yataonekana hapa." %}</p>
     {% endif %}
   </section>
   {% endif %}

@@ -44,10 +44,10 @@ class SignupForm(forms.Form):
         label=_("Jina la biashara yako"), max_length=120,
         widget=forms.TextInput(attrs={"placeholder": _("mfano Neema WiFi"), "autocomplete": "organization"}),
     )
-    phone = PhoneField(help_text=_("Utaitumia kuingia, na kupokea pesa zako."))
+    phone = PhoneField()
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
     password2 = forms.CharField(label=_("Rudia nenosiri"), widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
-    language = LanguageField(required=False, help_text=_("Unaweza kubadilisha baadaye wakati wowote."))
+    language = LanguageField(required=False)
 
     def clean_phone(self):
         phone = self.cleaned_data["phone"]
@@ -102,7 +102,7 @@ class RouterForm(forms.ModelForm):
         model = Router
         fields = ["name", "location", "wifi_name"]
         labels = {"name": _("Jina la eneo"), "location": _("Mahali (si lazima)"), "wifi_name": _("Jina la WiFi (si lazima)")}
-        help_texts = {"wifi_name": _("Jina linaloonekana kwenye simu za wateja. Acha tupu kutobadilisha WiFi ya router.")}
+        help_texts = {"wifi_name": _("Acha tupu kutobadilisha WiFi ya router.")}
         widgets = {
             "name": forms.TextInput(attrs={"placeholder": _("mfano Duka la Kati")}),
             "location": forms.TextInput(attrs={"placeholder": _("mfano Sinza, Dar es Salaam")}),
@@ -122,7 +122,7 @@ class WifiNameForm(forms.ModelForm):
         model = Router
         fields = ["wifi_name"]
         labels = {"wifi_name": _("Jina la WiFi")}
-        help_texts = {"wifi_name": _("Jina linaloonekana kwenye simu za wateja. Acha tupu kutobadilisha WiFi ya router.")}
+        help_texts = {"wifi_name": _("Acha tupu kutobadilisha WiFi ya router.")}
         widgets = {"wifi_name": forms.TextInput(attrs={"placeholder": _("mfano Neema WiFi")})}
 
 

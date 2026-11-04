@@ -24,21 +24,17 @@
       </div>
 
       <div class="pay-frame" data-pay-frame>
-        <div class="pay-frame-loading" aria-hidden="true"><div class="spinner"></div><p>{% translate "Inafungua njia za malipo…" %}</p></div>
-        <iframe src="{{ payment.checkout_url }}" title="{% translate 'Malipo salama' %}" allow="payment" referrerpolicy="no-referrer"></iframe>
+        <div class="pay-frame-loading" aria-hidden="true"><div class="spinner"></div></div>
+        <iframe src="{{ payment.checkout_url }}" title="{% translate 'Malipo salama' %}" allow="payment" referrerpolicy="no-referrer" onload="this.parentNode.classList.add('is-ready')"></iframe>
       </div>
 
-      <p class="secure small">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-        {% translate "Malipo salama kupitia Pesapal. Ukishathibitisha kwa PIN, ukurasa huu unajibadilisha wenyewe." %}
-      </p>
       <a class="btn btn-secondary" href="{% url 'portal:home' router.slug %}">{% translate "Badilisha kifurushi" %}</a>
     </section>
     <script>
       (function () {
         var box = document.querySelector("[data-checkout]");
-        var frame = document.querySelector("[data-pay-frame]");
-        frame.querySelector("iframe").addEventListener("load", function () { frame.classList.add("is-ready"); });
+        // Fomu ionekane hata kama tukio la "load" halikufika (mtandao wa polepole, kizuizi cha browser).
+        setTimeout(function () { document.querySelector("[data-pay-frame]").classList.add("is-ready"); }, 5000);
         // Malipo yakikamilika (au kushindwa), fungua ukurasa huu upya ili mteja aone hatua inayofuata.
         setInterval(function () {
           fetch(box.dataset.stateUrl, { credentials: "same-origin", headers: { Accept: "application/json" } })
@@ -54,7 +50,6 @@
       <div class="spinner" aria-hidden="true"></div>
       <h2>{% translate "Tunasubiri malipo yako" %}</h2>
       <p>{% blocktranslate with amount=payment.amount_display phone=payment.phone %}Ombi la kulipia Tsh {{ amount }} limetumwa kwa <strong>{{ phone }}</strong>.{% endblocktranslate %}</p>
-      <p class="muted">{% translate "Weka PIN kwenye simu yako. Ukurasa huu utajisasisha wenyewe." %}</p>
     </section>
 
   {% elif payment.status == "failed" %}
@@ -66,21 +61,18 @@
 
   {% elif voucher %}
     <section class="center">
-      <h2>{% translate "Asante! Malipo yamepokelewa" %}</h2>
+      <h2>{% translate "Malipo yamepokelewa" %}</h2>
       <p>{{ payment.package.name }}{% if payment.package.summary %} · {{ payment.package.summary }}{% endif %}</p>
       <p class="muted small">{% translate "Namba yako ya vocha" %}</p>
       <p class="voucher-code">{{ voucher.code }}</p>
-      <p class="muted small">{% translate "Ihifadhi. Utaihitaji ukiunganishwa upya." %}</p>
       {% if login_target and router_ready %}
         {% include "portal/_voucher_login.html" with code=voucher.code autosubmit=True %}
       {% elif login_target %}
         <div class="connecting">
           <div class="spinner" aria-hidden="true"></div>
           <p><strong>{% translate "Tunakuunganisha…" %}</strong></p>
-          <p class="muted small">{% translate "Router ya WiFi inapokea vocha yako. Inachukua sekunde chache tu." %}</p>
         </div>
         {% if waited_long %}
-          <p class="muted small">{% translate "Inachelewa? Bonyeza Unganisha." %}</p>
           {% include "portal/_voucher_login.html" with code=voucher.code autosubmit=False %}
         {% endif %}
       {% else %}

@@ -6,7 +6,7 @@ na `title`. Hakuna legend: kichwa cha kadi kinasema chati inaonyesha nini.
   {% if chart.is_empty %}
     <div class="chart-empty">
       <p><strong>{% if empty %}{{ empty }}{% else %}{% translate "Bado hakuna mauzo kwenye kipindi hiki." %}{% endif %}</strong></p>
-      <p class="muted">{% if empty_hint %}{{ empty_hint }}{% else %}{% translate "Mauzo yakianza, utayaona hapa kila siku." %}{% endif %}</p>
+      {% if empty_hint %}<p class="muted">{{ empty_hint }}</p>{% endif %}
     </div>
   {% else %}
     <svg viewBox="0 0 {{ chart.width }} {{ chart.height }}" role="img" aria-label="{{ title }}, {% translate "jumla" %} {{ chart.total_display }}">

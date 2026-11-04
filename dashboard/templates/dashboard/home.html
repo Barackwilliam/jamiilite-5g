@@ -19,22 +19,22 @@
     <ol class="checklist">
       <li class="{% if routers %}is-done{% elif next_step == 1 %}is-next{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>{% translate "Ongeza router yako" %}</strong><small>{% translate "Kila eneo unalouzia WiFi ni router moja." %}</small></div>
+        <div><strong>{% translate "Ongeza router yako" %}</strong></div>
         {% if next_step == 1 %}<a class="btn btn-small btn-primary" href="{% url 'dashboard:routers' %}">{% translate "Ongeza" %}</a>{% endif %}
       </li>
       <li class="{% if online_routers %}is-done{% elif next_step == 2 %}is-next{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>{% translate "Iunganishe na JamiiLite" %}</strong><small>{% translate "Unabandika mstari mmoja kwenye MikroTik. Tunakuonyesha jinsi." %}</small></div>
+        <div><strong>{% translate "Iunganishe na JamiiLite" %}</strong></div>
         {% if next_step == 2 %}<a class="btn btn-small btn-primary" href="{% url 'dashboard:router_detail' routers.0.pk %}">{% translate "Unganisha" %}</a>{% endif %}
       </li>
       <li class="{% if has_packages %}is-done{% elif next_step == 3 %}is-next{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>{% translate "Weka vifurushi na bei" %}</strong><small>{% translate "Vipo tayari, unabofya mara moja tu." %}</small></div>
+        <div><strong>{% translate "Weka vifurushi na bei" %}</strong></div>
         {% if next_step == 3 %}<a class="btn btn-small btn-primary" href="{% url 'dashboard:packages' %}">{% translate "Weka" %}</a>{% endif %}
       </li>
       <li class="{% if has_sales %}is-done{% elif next_step == 4 %}is-next{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>
-        <div><strong>{% translate "Jaribu kama mteja" %}</strong><small>{% translate "Unganisha simu kwenye WiFi yako na ununue kifurushi cha bei ndogo." %}</small></div>
+        <div><strong>{% translate "Jaribu kama mteja" %}</strong></div>
         {% if next_step == 4 and try_portal_url %}<a class="btn btn-small btn-primary" href="{{ try_portal_url }}" target="_blank" rel="noopener">{% translate "Ona ukurasa wa mteja" %}</a>{% endif %}
       </li>
     </ol>

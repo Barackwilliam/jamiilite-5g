@@ -8,7 +8,7 @@
 {% elif sub.state == "trial" %}
   <div class="banner banner-info">
     {% icon "calendar" %}
-    <p><strong>{% blocktranslate count days=sub.days_left %}Majaribio bure: imebaki siku {{ days }}.{% plural %}Majaribio bure: zimebaki siku {{ days }}.{% endblocktranslate %}</strong> {% blocktranslate with fee=monthly_fee|tsh %}Baada ya hapo ni {{ fee }} kwa mwezi, inayolipwa kutoka kwenye mauzo yako.{% endblocktranslate %}</p>
+    <p><strong>{% blocktranslate count days=sub.days_left %}Majaribio bure: imebaki siku {{ days }}.{% plural %}Majaribio bure: zimebaki siku {{ days }}.{% endblocktranslate %}</strong></p>
   </div>
 {% elif sub.days_left <= 3 %}
   <div class="banner banner-warn">

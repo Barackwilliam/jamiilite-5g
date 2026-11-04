@@ -3,7 +3,6 @@
 
 {% block banner %}{% include "dashboard/_sub_banner.html" %}{% endblock %}
 
-{% block intro %}<p class="appbar-intro">{% translate "Kila eneo unalouzia WiFi ni router moja. Iongeze hapa, kisha iunganishe." %}</p>{% endblock %}
 {% block content %}
 <div class="two-col two-col-wide">
   <section class="card">
@@ -38,7 +37,6 @@
       {% include "dashboard/_field.html" with field=form.wifi_name %}
       <button type="submit" class="btn btn-primary btn-block">{% icon "plus" 18 %} {% translate "Ongeza" %}</button>
     </form>
-    <p class="muted small">{% translate "Ukishaongeza, utapewa mstari mmoja wa kubandika kwenye MikroTik yako." %}</p>
   </section>
 </div>
 {% endblock %}
