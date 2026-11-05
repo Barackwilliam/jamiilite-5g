@@ -553,3 +553,4 @@ body .side .side-cta { color: #2A1702; }
 @media (max-width: 900px) {
   .topbar-login { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.16); color: var(--text); font-weight: 700; font-size: 0.9rem; text-decoration: none; }
 }
+body .topbar .topbar-login { color: var(--text); }

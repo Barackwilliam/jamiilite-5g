@@ -44,7 +44,7 @@ class Owner(models.Model):
     )
     business_name = models.CharField("jina la biashara", max_length=120)
     language = models.CharField(
-        "lugha", max_length=5, choices=settings.LANGUAGES, default="sw",
+        "lugha", max_length=5, choices=settings.LANGUAGES, default="en",
         help_text="Lugha ya dashboard yake.",
     )
     phone = models.CharField("namba ya simu", max_length=20)

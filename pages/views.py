@@ -80,7 +80,7 @@ class LegalPage(PublicPage):
     document = ""
 
     def get_template_names(self):
-        language = "en" if (get_language() or "sw").startswith("en") else "sw"
+        language = "sw" if (get_language() or "en").startswith("sw") else "en"
         return [f"pages/legal/{self.document}_{language}.html"]
 
     def get_context_data(self, **kwargs):
