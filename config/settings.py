@@ -90,6 +90,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "ui.context_processors.payment_methods",
             ],
         },
     },
@@ -271,6 +272,12 @@ JAMIILITE_WHATSAPP_NUMBER = os.environ.get("JAMIILITE_WHATSAPP_NUMBER", "").lstr
 JAMIILITE_CONTACT_EMAIL = os.environ.get("JAMIILITE_CONTACT_EMAIL", "")
 GOOGLE_SITE_VERIFICATION = os.environ.get("GOOGLE_SITE_VERIFICATION", "")
 BING_SITE_VERIFICATION = os.environ.get("BING_SITE_VERIFICATION", "")
+# Njia ambazo akaunti ya Pesapal inakubali kwa wateja, kwa mpangilio wa kuonyesha.
+JAMIILITE_PAYMENT_METHODS = [
+    name.strip()
+    for name in os.environ.get("JAMIILITE_PAYMENT_METHODS", "Airtel Money,Mixx by Yas,Visa,American Express").split(",")
+    if name.strip()
+]
 # Anwani ndogo inayochapishwa chini ya kila vocha.
 JAMIILITE_VOUCHER_SITE = os.environ.get("JAMIILITE_VOUCHER_SITE", "wifi.jamiitek.co.tz")
 

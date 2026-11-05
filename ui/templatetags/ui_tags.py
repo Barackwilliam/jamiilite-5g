@@ -88,6 +88,15 @@ def flag(code, height=14):
 
 
 @register.filter
+def join_words(items, conjunction):
+    """["A", "B", "C"] → "A, B na C" (neno la kuunganisha linatoka kwenye template)."""
+    items = [str(item) for item in items]
+    if len(items) <= 1:
+        return "".join(items)
+    return f"{', '.join(items[:-1])} {conjunction} {items[-1]}"
+
+
+@register.filter
 def tsh(value):
     try:
         return f"Tsh {int(value):,}"

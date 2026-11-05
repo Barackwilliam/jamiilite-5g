@@ -1,4 +1,5 @@
 {% extends "pages/legal/_base.html" %}
+{% load ui_tags %}
 
 {% block title %}Terms of Service · JamiiLite 5G{% endblock %}
 {% block description %}Terms for using JamiiLite 5G, for WiFi owners and their customers, including the refund policy.{% endblock %}
@@ -52,7 +53,7 @@
 <section>
   <h2>5. Customer payments and owner balances</h2>
   <ul>
-    <li>Customers pay through Pesapal (M-Pesa, Mixx by Yas, Airtel Money, HaloPesa or card). We never see or store PINs or card details.</li>
+    <li>Customers pay through Pesapal ({{ payment_methods|join_words:"or" }}). We never see or store PINs or card details.</li>
     <li>Sales are received by JamiiTek on your behalf and added to your balance once the payment is confirmed.</li>
     <li>You can withdraw your balance to your phone number at any time. The minimum is Tsh {{ min_withdrawal }}.</li>
     <li>We may hold payments suspected of fraud until they are reviewed.</li>

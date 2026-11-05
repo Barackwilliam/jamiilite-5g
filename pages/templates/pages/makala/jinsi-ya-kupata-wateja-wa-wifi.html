@@ -1,4 +1,5 @@
 {% extends "pages/makala/_article.html" %}
+{% load ui_tags %}
 
 {% block body %}
 <p class="lead">WiFi nzuri isiyojulikana haiuzi. Habari njema ni kwamba watu walio karibu na WiFi yako tayari wanaiona kwenye simu zao. Kazi yako ni kuwafanya waijaribu mara ya kwanza, kisha warudi.</p>
@@ -19,7 +20,7 @@
   <ol>
     <li>jina la WiFi;</li>
     <li>bei ya kifurushi kidogo, mfano "Saa 1 · Tsh 500";</li>
-    <li>"Lipa kwa M-Pesa, Mixx, Airtel Money".</li>
+    <li>"Lipa kwa {{ payment_methods|join_words:"au" }}".</li>
   </ol>
   <p>Bango lenye maneno machache linasomwa; lenye maneno mengi linapitwa.</p>
 </section>

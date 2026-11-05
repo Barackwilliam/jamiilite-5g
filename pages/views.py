@@ -30,8 +30,8 @@ def landing_strings():
         "Wiki": gettext("Wiki"),
         "Muda umeisha · mteja ametoka": gettext("Muda umeisha · mteja ametoka"),
         "Mteja ameingia · JamiiTek WiFi": gettext("Mteja ameingia · JamiiTek WiFi"),
-        "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa.": gettext(
-            "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa."
+        "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako.": gettext(
+            "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako."
         ),
         "Mauzo mapya": gettext("Mauzo mapya"),
         "sasa hivi": gettext("sasa hivi"),

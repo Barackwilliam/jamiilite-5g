@@ -57,6 +57,9 @@ services:
         sync: false
       - key: PESAPAL_ENV
         value: live
+      # Njia ambazo akaunti yako ya Pesapal inakubali, zikitenganishwa kwa koma. Zinaonyeshwa kwa wateja.
+      - key: JAMIILITE_PAYMENT_METHODS
+        value: Airtel Money,Mixx by Yas,Visa,American Express
       - key: JAMIILITE_WHATSAPP_NUMBER
         sync: false
       # Google Search Console / Bing Webmaster: weka msimbo wa "HTML tag" (content="...") peke yake.

@@ -1,4 +1,5 @@
 {% extends "pages/makala/_article.html" %}
+{% load ui_tags %}
 
 {% block body %}
 <p class="lead">Watu wengi Tanzania wanahitaji internet kila siku lakini hawana bando la kutosha. Ukiwa na internet ya uhakika na sehemu yenye watu, unaweza kuwauzia WiFi kwa saa, siku au wiki. Huu ni mwongozo wa hatua kwa hatua wa kuanzisha biashara hiyo.</p>
@@ -40,7 +41,7 @@
 
 <section>
   <h2>5. Weka malipo ya simu yanayojiendesha</h2>
-  <p>Ukiuza kwa mkono, inabidi uwepo kila mteja anapotaka kulipa, na ni rahisi kupoteza pesa au kusahau kumkata mtu muda. Ni bora mteja alipe mwenyewe kwa <strong>M-Pesa, Mixx by Yas, Airtel Money au HaloPesa</strong>, kisha aunganishwe papo hapo.</p>
+  <p>Ukiuza kwa mkono, inabidi uwepo kila mteja anapotaka kulipa, na ni rahisi kupoteza pesa au kusahau kumkata mtu muda. Ni bora mteja alipe mwenyewe kwa <strong>{{ payment_methods|join_words:"au" }}</strong>, kisha aunganishwe papo hapo.</p>
   <p>JamiiLite 5G inafanya kazi hiyo: mteja anachagua kifurushi, analipa kwa simu, anaunganishwa, na anakatwa muda ukiisha. Kila mauzo yanaingia kwenye salio lako, na unatoa pesa kwenda namba yako ya simu.</p>
 </section>
 

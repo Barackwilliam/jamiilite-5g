@@ -61,7 +61,7 @@
 
       <h2>{% translate "Uza WiFi yako kiotomatiki" %}</h2>
       <ul class="auth-points">
-        <li>{% icon "check" 16 %} {% translate "Wateja wanalipa kwa M-Pesa, Mixx by Yas na Airtel Money" %}</li>
+        <li>{% icon "check" 16 %} {% translate "na" as and_word %}{% blocktranslate with methods=payment_methods|join_words:and_word %}Wateja wanalipa kwa {{ methods }}{% endblocktranslate %}</li>
         <li>{% icon "check" 16 %} {% translate "Wanakatwa wenyewe muda ukiisha" %}</li>
         <li>{% icon "check" 16 %} {% translate "Unaona kila shilingi kwenye simu yako, papo hapo" %}</li>
       </ul>

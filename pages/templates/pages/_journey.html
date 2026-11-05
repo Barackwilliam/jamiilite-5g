@@ -6,7 +6,7 @@
     <button type="button" class="jr-node" data-node="phone"><span class="jr-ico">📱</span><b>{% translate "Simu ya mteja" %}</b><small>0712 345 678</small></button>
     <button type="button" class="jr-node" data-node="router"><span class="jr-ico">📡</span><b>{% translate "Router" %}</b><small>MikroTik · JamiiTek WiFi</small></button>
     <button type="button" class="jr-node is-core" data-node="cloud"><span class="jr-ico">⚡</span><b>JamiiLite</b><small>{% translate "Vocha" %} · {% translate "Malipo" %}</small></button>
-    <button type="button" class="jr-node" data-node="pay"><span class="jr-ico">💳</span><b>M-Pesa</b><small>{% translate "Mtoa huduma wa malipo" %}</small></button>
+    <button type="button" class="jr-node" data-node="pay"><span class="jr-ico">💳</span><b>Pesapal</b><small>{% translate "Mtoa huduma wa malipo" %}</small></button>
     <button type="button" class="jr-node" data-node="owner"><span class="jr-ico">👤</span><b>{% translate "Simu ya mmiliki" %}</b><small>Dashboard</small></button>
     <span class="jr-packet" data-jr-packet aria-hidden="true"><i></i><em data-jr-tag>HTTP</em></span>
   </div>
@@ -25,13 +25,13 @@
         <dl><dt>GET</dt><dd>/p/jamiitek-wifi/</dd><dt>TLS</dt><dd>1.3 ✓</dd><dt>{% translate "Vifurushi" %}</dt><dd>3</dd></dl>
       </li>
       <li data-from="cloud" data-to="pay" data-tag="STK" data-color="#f0b54a">
-        <h3>{% translate "Ombi la malipo linaenda kwa M-Pesa" %}</h3>
+        <h3>{% translate "Ombi la malipo linaenda kwa Pesapal" %}</h3>
         <p>{% translate "Mteja anachagua Saa 1 na kubonyeza Lipa. Simu yake inapokea ombi la kuweka PIN." %}</p>
         <dl><dt>{% translate "Kiasi" %}</dt><dd>Tsh 500</dd><dt>{% translate "Simu" %}</dt><dd>2557••••5678</dd><dt>Ref</dt><dd>JL-8F3A21</dd></dl>
       </li>
       <li data-from="pay" data-to="cloud" data-tag="PAID" data-color="#3ccf7e">
         <h3>{% translate "Malipo yamethibitishwa" %}</h3>
-        <p>{% translate "M-Pesa inathibitisha. JamiiLite inatengeneza vocha ya mteja papo hapo." %}</p>
+        <p>{% translate "Pesapal inathibitisha. JamiiLite inatengeneza vocha ya mteja papo hapo." %}</p>
         <dl><dt>Status</dt><dd>PAID ✓</dd><dt>{% translate "Risiti" %}</dt><dd>QK71H2MZ9P</dd><dt>{% translate "Vocha" %}</dt><dd>7K4QX9MP</dd></dl>
       </li>
       <li data-from="cloud" data-to="owner" data-tag="+500" data-color="#3ccf7e">

@@ -533,7 +533,7 @@
       this.price = parseInt(this.pkgEl.dataset.simPkg, 10);
       this.minutes = parseInt(this.pkgEl.dataset.simMins, 10);
       this.pkgName = this.pkgEl.dataset.simName;
-      this.$("[data-sim-stk-text]").textContent = fmt(_("Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa."), { amount: money(this.price) });
+      this.$("[data-sim-stk-text]").textContent = fmt(_("Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako."), { amount: money(this.price) });
       this.pin = 0;
       this.root.querySelectorAll("[data-sim-pin] i").forEach(function (d) { d.classList.remove("is-on"); });
       this.show("stk");

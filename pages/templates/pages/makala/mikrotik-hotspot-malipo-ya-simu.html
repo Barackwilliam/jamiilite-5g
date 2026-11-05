@@ -1,4 +1,5 @@
 {% extends "pages/makala/_article.html" %}
+{% load ui_tags %}
 
 {% block body %}
 <p class="lead">MikroTik Hotspot ni njia inayotumiwa na wauzaji wengi wa WiFi duniani kuwaonyesha wateja ukurasa wa kuingia kabla ya kutumia internet. Ukiunganisha Hotspot hiyo na malipo ya simu, mteja analipa na kuunganishwa mwenyewe, hata ukiwa umelala.</p>
@@ -32,7 +33,7 @@
     <li>vocha zikiisha usiku, mauzo yanasimama mpaka asubuhi;</li>
     <li>ni vigumu kujua kwa usahihi umeuza kiasi gani.</li>
   </ul>
-  <p>Ukiongeza malipo ya simu, mteja anaona vifurushi kwenye simu yake, analipa kwa <strong>M-Pesa, Mixx by Yas, Airtel Money au HaloPesa</strong>, na router inamruhusu papo hapo. Kila mauzo yanaonekana kwenye dashboard yako.</p>
+  <p>Ukiongeza malipo ya simu, mteja anaona vifurushi kwenye simu yake, analipa kwa <strong>{{ payment_methods|join_words:"au" }}</strong>, na router inamruhusu papo hapo. Kila mauzo yanaonekana kwenye dashboard yako.</p>
 </section>
 
 <section>

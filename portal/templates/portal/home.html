@@ -46,7 +46,7 @@
         </label>
 
         <button type="submit" class="btn btn-pay" data-pay-button data-label="{% translate 'Lipa Tsh %(amount)s' %}">{% translate "Lipa kwa simu" %}</button>
-        <ul class="pay-methods" aria-label="{% translate 'Njia za malipo' %}"><li>M-Pesa</li><li>Mixx by Yas</li><li>Airtel Money</li><li>HaloPesa</li></ul>
+        <ul class="pay-methods" aria-label="{% translate 'Njia za malipo' %}">{% for method in payment_methods %}<li>{{ method }}</li>{% endfor %}</ul>
       </form>
       <script>
         (function () {
