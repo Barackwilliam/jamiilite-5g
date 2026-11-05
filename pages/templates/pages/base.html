@@ -38,14 +38,14 @@
 <body class="{% block body_class %}page-content{% endblock %}">
   <header class="topbar">
     <div class="wrap topbar-inner">
+      <a class="side-open" href="#menyu" aria-controls="menyu" aria-expanded="false" aria-label="{% translate 'Fungua menyu' %}" data-side-open><span></span><span></span><span></span></a>
       <a class="logo" href="{% url 'pages:home' %}" aria-label="{% translate 'JamiiLite 5G, mwanzo' %}">
         <span class="logo-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5.5 12.5a10 10 0 0 1 13 0"/><path d="M9 16a5 5 0 0 1 6 0"/><circle cx="12" cy="19.5" r="1.3" fill="currentColor" stroke="none"/></svg>
         </span>
         JamiiLite <span class="logo-5g">5G</span>
       </a>
-      <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="{% translate 'Menyu' %}" aria-controls="site-nav">
-      <label for="menu-toggle" class="menu-button" aria-hidden="true"><span></span><span></span><span></span></label>
+      <a class="topbar-login" href="{% url 'dashboard:login' %}">{% translate "Ingia" %}</a>
       <nav class="nav" id="site-nav" aria-label="{% translate 'Kurasa' %}">
         <a href="{% url 'pages:home' %}#jaribu">{% translate "Jaribu" %}</a>
         <a href="{% url 'pages:home' %}#bei">{% translate "Bei" %}</a>
@@ -57,6 +57,46 @@
       </nav>
     </div>
   </header>
+
+  <div class="side-backdrop" data-side-close hidden></div>
+  <aside class="side" id="menyu" aria-label="{% translate 'Menyu' %}" tabindex="-1">
+    <div class="side-head">
+      <a class="logo" href="{% url 'pages:home' %}">
+        <span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5.5 12.5a10 10 0 0 1 13 0"/><path d="M9 16a5 5 0 0 1 6 0"/><circle cx="12" cy="19.5" r="1.3" fill="currentColor" stroke="none"/></svg></span>
+        JamiiLite <span class="logo-5g">5G</span>
+      </a>
+      <a class="side-close" href="#" aria-label="{% translate 'Funga menyu' %}" data-side-close>&times;</a>
+    </div>
+    {% with here=request.resolver_match.url_name %}
+    <nav class="side-nav">
+      <p class="side-group">{% translate "Bidhaa" %}</p>
+      <a href="{% url 'pages:home' %}" {% if here == 'home' %}aria-current="page"{% endif %}>{% translate "Mwanzo" %}</a>
+      <a href="{% url 'pages:home' %}#jaribu">{% translate "Jaribu kama mteja" %}</a>
+      <a href="{% url 'pages:home' %}#bei">{% translate "Bei" %}</a>
+      <a href="{% url 'pages:mahitaji' %}" {% if here == 'mahitaji' %}aria-current="page"{% endif %}>{% translate "Mahitaji" %}</a>
+      <a href="{% url 'pages:mwongozo' %}" {% if here == 'mwongozo' %}aria-current="page"{% endif %}>{% translate "Mwongozo wa kuunganisha" %}</a>
+
+      <p class="side-group">{% translate "Makala" %}</p>
+      <a href="{% url 'pages:makala' %}" {% if here == 'makala' %}aria-current="page"{% endif %}>{% translate "Makala zote" %}</a>
+      <a href="{% url 'pages:makala_detail' 'jinsi-ya-kuanzisha-biashara-ya-wifi' %}">{% translate "Kuanzisha biashara ya WiFi" %}</a>
+      <a href="{% url 'pages:makala_detail' 'bei-za-vifurushi-vya-wifi' %}">{% translate "Bei za vifurushi" %}</a>
+      <a href="{% url 'pages:makala_detail' 'faida-ya-biashara-ya-wifi' %}">{% translate "Faida ya biashara ya WiFi" %}</a>
+
+      <p class="side-group">{% translate "Akaunti" %}</p>
+      <a href="{% url 'dashboard:login' %}">{% translate "Ingia" %}</a>
+      <a href="{% url 'dashboard:signup' %}" {% if here == 'signup' %}aria-current="page"{% endif %}>{% translate "Jisajili" %}</a>
+      {% if whatsapp_url %}<a href="{{ whatsapp_url }}" rel="noopener">WhatsApp</a>{% endif %}
+
+      <p class="side-group">{% translate "Kisheria" %}</p>
+      <a href="{% url 'pages:masharti' %}" {% if here == 'masharti' %}aria-current="page"{% endif %}>{% translate "Masharti" %}</a>
+      <a href="{% url 'pages:faragha' %}" {% if here == 'faragha' %}aria-current="page"{% endif %}>{% translate "Faragha" %}</a>
+    </nav>
+    {% endwith %}
+    <div class="side-foot">
+      {% include "ui/_lang_switch.html" %}
+      <a class="side-cta" href="{% url 'dashboard:signup' %}">{% translate "Anza bure" %}</a>
+    </div>
+  </aside>
 
   <main>{% block content %}{% endblock %}</main>
 

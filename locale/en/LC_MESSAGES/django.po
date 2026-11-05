@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 03:33+0300\n"
+"POT-Creation-Date: 2026-11-05 03:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1903,7 +1903,8 @@ msgid "Weka"
 msgstr "Set"
 
 #: dashboard/templates/dashboard/home.html:69
-#: pages/templates/pages/home.html:22 pages/templates/pages/home.html:62
+#: pages/templates/pages/base.html:73 pages/templates/pages/home.html:22
+#: pages/templates/pages/home.html:62
 msgid "Jaribu kama mteja"
 msgstr "Try it as a customer"
 
@@ -1977,7 +1978,8 @@ msgstr "Connecting…"
 #: dashboard/templates/dashboard/login.html:13
 #: dashboard/templates/dashboard/signup.html:38
 #: dashboard/templates/dashboard/signup_closed.html:10
-#: pages/templates/pages/base.html:55 pages/templates/pages/base.html:84
+#: pages/templates/pages/base.html:54 pages/templates/pages/base.html:85
+#: pages/templates/pages/base.html:123
 msgid "Ingia"
 msgstr "Log in"
 
@@ -2280,7 +2282,7 @@ msgid "Kubadilisha password au namba ya kuingia, wasiliana nasi."
 msgstr "To change your password or login number, contact us."
 
 #: dashboard/templates/dashboard/signup.html:3
-#: pages/templates/pages/base.html:83
+#: pages/templates/pages/base.html:86 pages/templates/pages/base.html:122
 msgid "Jisajili"
 msgstr "Sign up"
 
@@ -2290,7 +2292,8 @@ msgid "Hatua"
 msgstr "Steps"
 
 #: dashboard/templates/dashboard/signup.html:6
-#: pages/templates/pages/base.html:81 pages/templates/pages/base.html:82
+#: pages/templates/pages/base.html:84 pages/templates/pages/base.html:120
+#: pages/templates/pages/base.html:121
 msgid "Akaunti"
 msgstr "Account"
 
@@ -2706,7 +2709,8 @@ msgstr "Per month, %(days)s-day free trial"
 msgid "Anza sasa kwa WhatsApp"
 msgstr "Start now on WhatsApp"
 
-#: pages/templates/pages/_cta.html:8 pages/templates/pages/base.html:56
+#: pages/templates/pages/_cta.html:8 pages/templates/pages/base.html:55
+#: pages/templates/pages/base.html:96
 msgid "Anza bure"
 msgstr "Start free"
 
@@ -3002,62 +3006,98 @@ msgstr "and"
 msgid "Wateja wanalipa kwa %(methods)s. Wewe unaona mapato kwenye simu."
 msgstr "Customers pay with %(methods)s. You see the income on your phone."
 
-#: pages/templates/pages/base.html:41
+#: pages/templates/pages/base.html:41 ui/templates/ui/app_base.html:64
+msgid "Fungua menyu"
+msgstr "Open menu"
+
+#: pages/templates/pages/base.html:42
 msgid "JamiiLite 5G, mwanzo"
 msgstr "JamiiLite 5G, home"
 
-#: pages/templates/pages/base.html:47 ui/templates/ui/app_base.html:13
-msgid "Menyu"
-msgstr "Menu"
-
-#: pages/templates/pages/base.html:49 ui/templates/ui/_pager.html:3
+#: pages/templates/pages/base.html:48 ui/templates/ui/_pager.html:3
 msgid "Kurasa"
 msgstr "Pages"
 
-#: pages/templates/pages/base.html:50 pages/templates/pages/base.html:75
+#: pages/templates/pages/base.html:49 pages/templates/pages/base.html:114
 msgid "Jaribu"
 msgstr "Try it"
 
-#: pages/templates/pages/base.html:51 pages/templates/pages/base.html:76
-#: pages/templates/pages/home.html:149
+#: pages/templates/pages/base.html:50 pages/templates/pages/base.html:74
+#: pages/templates/pages/base.html:115 pages/templates/pages/home.html:149
 msgid "Bei"
 msgstr "Pricing"
 
-#: pages/templates/pages/base.html:52 pages/templates/pages/base.html:77
-#: pages/templates/pages/mahitaji.html:4
+#: pages/templates/pages/base.html:51 pages/templates/pages/base.html:75
+#: pages/templates/pages/base.html:116 pages/templates/pages/mahitaji.html:4
 #: pages/templates/pages/mahitaji.html:10
 msgid "Mahitaji"
 msgstr "Requirements"
 
-#: pages/templates/pages/base.html:53 pages/templates/pages/mwongozo.html:10
+#: pages/templates/pages/base.html:52 pages/templates/pages/mwongozo.html:10
 msgid "Mwongozo"
 msgstr "Guide"
 
-#: pages/templates/pages/base.html:70
-msgid "Mfumo wa kuuza WiFi kwa vifurushi, kwa wamiliki wa WiFi Tanzania."
-msgstr "The system for selling WiFi in packages, for WiFi owners in Tanzania."
+#: pages/templates/pages/base.html:61 ui/templates/ui/app_base.html:13
+msgid "Menyu"
+msgstr "Menu"
 
-#: pages/templates/pages/base.html:73 pages/templates/pages/base.html:74
+#: pages/templates/pages/base.html:67
+msgid "Funga menyu"
+msgstr "Close menu"
+
+#: pages/templates/pages/base.html:71 pages/templates/pages/base.html:112
+#: pages/templates/pages/base.html:113
 msgid "Bidhaa"
 msgstr "Product"
 
-#: pages/templates/pages/base.html:78 pages/templates/pages/mwongozo.html:4
+#: pages/templates/pages/base.html:72
+msgid "Mwanzo"
+msgstr "Home"
+
+#: pages/templates/pages/base.html:76 pages/templates/pages/base.html:117
+#: pages/templates/pages/mwongozo.html:4
 msgid "Mwongozo wa kuunganisha"
 msgstr "Setup guide"
 
-#: pages/templates/pages/base.html:79
+#: pages/templates/pages/base.html:78 pages/templates/pages/base.html:118
 msgid "Makala"
 msgstr "Articles"
 
-#: pages/templates/pages/base.html:89 portal/templates/portal/base.html:28
+#: pages/templates/pages/base.html:79
+msgid "Makala zote"
+msgstr "All articles"
+
+#: pages/templates/pages/base.html:80
+msgid "Kuanzisha biashara ya WiFi"
+msgstr "Starting a WiFi business"
+
+#: pages/templates/pages/base.html:81
+msgid "Bei za vifurushi"
+msgstr "Package pricing"
+
+#: pages/templates/pages/base.html:82
+msgid "Faida ya biashara ya WiFi"
+msgstr "WiFi business profit"
+
+#: pages/templates/pages/base.html:89
+msgid "Kisheria"
+msgstr "Legal"
+
+#: pages/templates/pages/base.html:90 pages/templates/pages/base.html:128
+#: portal/templates/portal/base.html:28
 msgid "Masharti"
 msgstr "Terms"
 
-#: pages/templates/pages/base.html:89 portal/templates/portal/base.html:28
+#: pages/templates/pages/base.html:91 pages/templates/pages/base.html:128
+#: portal/templates/portal/base.html:28
 msgid "Faragha"
 msgstr "Privacy"
 
-#: pages/templates/pages/base.html:90
+#: pages/templates/pages/base.html:109
+msgid "Mfumo wa kuuza WiFi kwa vifurushi, kwa wamiliki wa WiFi Tanzania."
+msgstr "The system for selling WiFi in packages, for WiFi owners in Tanzania."
+
+#: pages/templates/pages/base.html:129
 msgid "Imetengenezwa Tanzania"
 msgstr "Made in Tanzania"
 
@@ -4195,10 +4235,6 @@ msgstr "Free trial"
 #: ui/templates/ui/app_base.html:39
 msgid "Usajili hai"
 msgstr "Subscription active"
-
-#: ui/templates/ui/app_base.html:64
-msgid "Fungua menyu"
-msgstr "Open menu"
 
 #: ui/templates/ui/app_base.html:82
 msgid "Tangazo:"
