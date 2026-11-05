@@ -1,0 +1,26 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Makala za biashara ya WiFi Tanzania · JamiiLite 5G{% endblock %}
+{% block description %}Miongozo ya Kiswahili ya kuanzisha na kukuza biashara ya WiFi Tanzania: MikroTik Hotspot, vocha za WiFi, bei za vifurushi na faida.{% endblock %}
+{% block og_title %}Makala za biashara ya WiFi Tanzania{% endblock %}
+
+{% block content %}
+<section class="legal article-index">
+  <header class="legal-head">
+    <p class="eyebrow">Makala</p>
+    <h1>Biashara ya WiFi Tanzania</h1>
+    <p class="muted">Miongozo ya kuanzisha, kupanga bei na kukuza biashara ya kuuza WiFi.</p>
+  </header>
+  <ul class="article-list">
+    {% for item in articles %}
+      <li>
+        <a class="article-card" href="{% url 'pages:makala_detail' item.slug %}">
+          <h2>{{ item.title }}</h2>
+          <p>{{ item.description }}</p>
+          <span class="muted">Dakika {{ item.minutes }} za kusoma →</span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

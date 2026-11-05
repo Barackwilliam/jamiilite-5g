@@ -473,3 +473,37 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .legal-body li::marker { color: var(--brand); }
 .legal-body strong { color: var(--text); }
 .legal-contact { list-style: none; padding: 0 !important; }
+
+/* ============================================================
+   Makala
+   ============================================================ */
+.crumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; font-size: 0.86rem; color: var(--muted); }
+.crumbs a { color: var(--muted); text-decoration: none; }
+.crumbs a:hover { color: var(--brand); }
+.article-meta { font-size: 0.9rem; }
+.article-body h2 { font-size: 1.35rem; margin: 30px 0 10px; }
+.article-body section:first-child h2 { margin-top: 0; }
+.article-body p { margin-bottom: 12px; }
+.article-body ol { margin: 0 0 12px; padding-left: 22px; display: grid; gap: 8px; }
+.article-body ol li::marker { color: var(--brand); font-weight: 700; }
+.article-body a { color: var(--brand); }
+.article-body .lead { font-size: 1.12rem; color: var(--text); }
+.article-body table { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: 0.95rem; }
+.article-body th, .article-body td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; color: #cfd8e8; }
+.article-body th { color: var(--text); }
+.article-body td.num, .article-body th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.article-body .note { padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(245, 166, 35, 0.35); background: rgba(245, 166, 35, 0.08); }
+.table-scroll { overflow-x: auto; }
+.article-cta { margin: 36px 0 28px; padding: 24px; border-radius: 20px; border: 1px solid rgba(245, 166, 35, 0.3); background: radial-gradient(400px 200px at 100% 0%, rgba(245, 166, 35, 0.18), transparent 65%), var(--surface); }
+.article-cta-title { font-family: var(--font-head); font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.article-cta p { color: #cfd8e8; }
+.article-cta-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.article-related h2 { font-size: 1.1rem; margin-bottom: 10px; }
+.article-related ul { padding-left: 20px; display: grid; gap: 8px; }
+.article-related a { color: var(--text); }
+.article-related a:hover { color: var(--brand); }
+.article-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.article-card { display: block; padding: 20px; border-radius: 18px; border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none; transition: border-color 0.15s, transform 0.15s; }
+.article-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+.article-card h2 { font-size: 1.15rem; margin-bottom: 6px; }
+.article-card p { color: #cfd8e8; line-height: 1.6; margin-bottom: 8px; }

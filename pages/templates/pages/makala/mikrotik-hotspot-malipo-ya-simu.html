@@ -1,0 +1,59 @@
+{% extends "pages/makala/_article.html" %}
+
+{% block body %}
+<p class="lead">MikroTik Hotspot ni njia inayotumiwa na wauzaji wengi wa WiFi duniani kuwaonyesha wateja ukurasa wa kuingia kabla ya kutumia internet. Ukiunganisha Hotspot hiyo na malipo ya simu, mteja analipa na kuunganishwa mwenyewe, hata ukiwa umelala.</p>
+
+<section>
+  <h2>MikroTik Hotspot ni nini?</h2>
+  <p>Hotspot ni huduma iliyo ndani ya router ya MikroTik (RouterOS). Mtu akiunganisha simu kwenye WiFi, router inamzuia kufungua internet mpaka aingie. Badala yake inamuonyesha ukurasa (captive portal) wa kulipia au kuweka msimbo wa vocha.</p>
+  <p>Akishaingia, router inahesabu muda na data anayotumia, na inamkata kifurushi kikiisha. Kila mteja anatambuliwa kwa kifaa chake, kwa hiyo mtu mmoja hawezi kutumia kifurushi cha mwingine bila ruhusa.</p>
+</section>
+
+<section>
+  <h2>Router ipi ya MikroTik ninunue?</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Router</th><th>Inafaa kwa</th></tr></thead>
+      <tbody>
+        <tr><td>hAP lite</td><td>Duka dogo au nyumbani, wateja wachache kwa wakati mmoja.</td></tr>
+        <tr><td>hAP ac lite / hAP ax lite</td><td>Kasi zaidi na wateja wengi zaidi, WiFi ya 5GHz.</td></tr>
+        <tr><td>LtAP mini LTE, hAP ac³ LTE6</td><td>Unaweka laini ndani yake moja kwa moja, bila MiFi.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Router yoyote unayochagua inahitaji RouterOS 7.15 au zaidi. Unaweza kuisasisha bure kwenye Winbox: System › Packages › Check For Updates.</p>
+</section>
+
+<section>
+  <h2>Hotspot ya kawaida dhidi ya Hotspot yenye malipo ya simu</h2>
+  <p>Kwa MikroTik peke yake, unatengeneza vocha mwenyewe, unazichapisha, na unamuuzia kila mteja kwa mkono. Inafanya kazi, lakini:</p>
+  <ul>
+    <li>inabidi uwepo kila mteja anapotaka kununua;</li>
+    <li>vocha zikiisha usiku, mauzo yanasimama mpaka asubuhi;</li>
+    <li>ni vigumu kujua kwa usahihi umeuza kiasi gani.</li>
+  </ul>
+  <p>Ukiongeza malipo ya simu, mteja anaona vifurushi kwenye simu yake, analipa kwa <strong>M-Pesa, Mixx by Yas, Airtel Money au HaloPesa</strong>, na router inamruhusu papo hapo. Kila mauzo yanaonekana kwenye dashboard yako.</p>
+</section>
+
+<section>
+  <h2>Jinsi ya kuunganisha MikroTik na malipo ya simu kwa JamiiLite 5G</h2>
+  <ol>
+    <li>Fungua akaunti ya bure kwenye JamiiLite 5G na uweke jina la biashara yako.</li>
+    <li>Ongeza router, kisha nakili mstari wa usanidi unaoonyeshwa.</li>
+    <li>Fungua Winbox, bonyeza <strong>New Terminal</strong>, bandika mstari huo na ubonyeze Enter.</li>
+    <li>Subiri sekunde chache: dashboard itaonyesha router yako iko online.</li>
+    <li>Weka vifurushi na bei zako, kisha jaribu kununua kama mteja.</li>
+  </ol>
+  <p>Mstari huo unaweka Hotspot, ukurasa wa kulipia na ulinzi wote unaohitajika. Huhitaji kujua mambo ya RouterOS. <a href="{% url 'pages:mwongozo' %}">Mwongozo wenye picha</a> unaonyesha kila hatua.</p>
+</section>
+
+<section>
+  <h2>Maswali ya kawaida</h2>
+  <h3>Internet ikikatika, wateja wanapoteza muda wao?</h3>
+  <p>Hapana. Router ikiwaka tena inajiunganisha yenyewe, na muda wa mteja unaendelea kama ulivyokuwa.</p>
+  <h3>Naweza kuendelea kuuza vocha za karatasi?</h3>
+  <p>Ndiyo. Unaweza kuchapisha vocha kutoka kwenye dashboard na kuziuza kwa pesa taslimu, huku wengine wakilipa kwa simu. Soma <a href="{% url 'pages:makala_detail' 'vocha-za-wifi' %}">jinsi ya kuuza internet kwa vocha</a>.</p>
+  <h3>Pesa za wateja zinanifikiaje?</h3>
+  <p>Kila mauzo yanaongezwa kwenye salio lako, na unaomba kutoa pesa kwenda namba yako ya simu wakati wowote.</p>
+</section>
+{% endblock %}

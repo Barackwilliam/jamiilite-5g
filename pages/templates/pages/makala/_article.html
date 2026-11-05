@@ -1,0 +1,38 @@
+{% extends "pages/base.html" %}
+
+{% block title %}{{ article.title }} · JamiiLite 5G{% endblock %}
+{% block description %}{{ article.description }}{% endblock %}
+{% block og_title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<article class="legal article">
+  <nav class="crumbs" aria-label="Ulipo">
+    <a href="{% url 'pages:home' %}">Mwanzo</a><span aria-hidden="true">›</span><a href="{% url 'pages:makala' %}">Makala</a>
+  </nav>
+  <header class="legal-head">
+    <h1>{{ article.title }}</h1>
+    <p class="muted article-meta"><time datetime="{{ article.updated|date:'Y-m-d' }}">{{ article.updated|date:"j F Y" }}</time> · dakika {{ article.minutes }} za kusoma</p>
+  </header>
+  <div class="legal-body article-body">
+    {% block body %}{% endblock %}
+  </div>
+
+  <aside class="article-cta">
+    <p class="article-cta-title">Anza kuuza WiFi yako leo</p>
+    <p>Siku {{ trial_days }} za majaribio bure, kisha Tsh {{ monthly_fee }} kwa mwezi. Hakuna kamisheni kwenye mauzo yako.</p>
+    <div class="article-cta-actions">
+      <a class="btn btn-primary" href="{% url 'dashboard:signup' %}">Anza bure</a>
+      <a class="btn btn-ghost" href="{% url 'pages:mahitaji' %}">Ona mahitaji</a>
+    </div>
+  </aside>
+
+  {% if related %}
+  <section class="article-related" aria-labelledby="zaidi">
+    <h2 id="zaidi">Soma pia</h2>
+    <ul>
+      {% for other in related %}<li><a href="{% url 'pages:makala_detail' other.slug %}">{{ other.title }}</a></li>{% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+</article>
+{% endblock %}

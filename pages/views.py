@@ -3,11 +3,12 @@ from datetime import date
 from urllib.parse import quote
 
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import escape
+from django.utils import translation
 from django.utils.translation import get_language, gettext, ngettext
 from django.views.decorators.cache import cache_control
 from django.views.generic import TemplateView
@@ -15,6 +16,7 @@ from django.views.generic import TemplateView
 from core import config
 
 from . import seo
+from .articles import ARTICLES, BY_SLUG, related
 
 # Bei ya kifurushi kidogo kinachotumika kwenye mfano wa "ada inajilipia".
 EXAMPLE_PACKAGE_PRICE = 500
@@ -93,6 +95,47 @@ class LegalPage(PublicPage):
         return context
 
 
+class SwahiliPage(PublicPage):
+    """Makala zimeandikwa kwa Kiswahili tu, kwa hiyo ukurasa wote unaonyeshwa kwa Kiswahili."""
+
+    def dispatch(self, request, *args, **kwargs):
+        translation.activate("sw")
+        request.LANGUAGE_CODE = "sw"
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["seo"] = seo.swahili_only_urls(self.request)
+        return context
+
+
+class ArticleIndex(SwahiliPage):
+    template_name = "pages/makala/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["articles"] = ARTICLES
+        context["schema"] = seo.articles_index_schema(self.request, ARTICLES)
+        return context
+
+
+class ArticleDetail(SwahiliPage):
+    def get_article(self):
+        article = BY_SLUG.get(self.kwargs["slug"])
+        if article is None:
+            raise Http404
+        return article
+
+    def get_template_names(self):
+        return [self.get_article().template]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        article = self.get_article()
+        context.update(article=article, related=related(article), schema=seo.article_schema(self.request, article))
+        return context
+
+
 # Kurasa ambazo Google inapaswa kuzijua, kwa kila lugha.
 SITEMAP_PAGES = [
     "pages:home", "pages:mahitaji", "pages:mwongozo", "dashboard:signup", "pages:masharti", "pages:faragha",
@@ -129,6 +172,11 @@ def sitemap_xml(request):
         ) + f'<xhtml:link rel="alternate" hreflang="x-default" href="{base}"/>'
         for url in urls.values():
             entries.append(f"<url><loc>{url}</loc>{alternates}</url>")
+    # Makala ni za Kiswahili tu: anwani moja kila moja, pamoja na tarehe ya kusasishwa.
+    entries.append(f"<url><loc>{escape(request.build_absolute_uri(reverse('pages:makala')))}</loc></url>")
+    for article in ARTICLES:
+        loc = escape(request.build_absolute_uri(reverse("pages:makala_detail", args=[article.slug])))
+        entries.append(f"<url><loc>{loc}</loc><lastmod>{article.updated.isoformat()}</lastmod></url>")
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
