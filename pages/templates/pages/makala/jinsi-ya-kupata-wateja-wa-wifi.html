@@ -1,0 +1,56 @@
+{% extends "pages/makala/_article.html" %}
+
+{% block body %}
+<p class="lead">WiFi nzuri isiyojulikana haiuzi. Habari njema ni kwamba watu walio karibu na WiFi yako tayari wanaiona kwenye simu zao. Kazi yako ni kuwafanya waijaribu mara ya kwanza, kisha warudi.</p>
+
+<section>
+  <h2>1. Jina la WiFi ni tangazo lako la kwanza</h2>
+  <p>Kila mtu anayefungua WiFi kwenye simu yake anaona jina lako. Lifanye lieleweke na kukumbukwa:</p>
+  <ul>
+    <li>tumia jina la biashara au eneo, mfano <strong>Duka la Kati WiFi</strong>;</li>
+    <li>epuka majina ya kiufundi kama "MikroTik-4A2F" au "hAP lite";</li>
+    <li>usiweke password kwenye WiFi ya kulipia: mteja aunganishe moja kwa moja na aone ukurasa wa kulipia.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>2. Bango linaloonekana</h2>
+  <p>Bandika bango dogo mahali watu wanapokaa au kusubiri. Liwe na mambo matatu tu:</p>
+  <ol>
+    <li>jina la WiFi;</li>
+    <li>bei ya kifurushi kidogo, mfano "Saa 1 · Tsh 500";</li>
+    <li>"Lipa kwa M-Pesa, Mixx, Airtel Money".</li>
+  </ol>
+  <p>Bango lenye maneno machache linasomwa; lenye maneno mengi linapitwa.</p>
+</section>
+
+<section>
+  <h2>3. Kifurushi kidogo cha kujaribu</h2>
+  <p>Mtu ambaye hajawahi kutumia WiFi yako ana wasiwasi: "Itakuwa na kasi? Pesa yangu itapotea?" Kifurushi cha bei ndogo kinaondoa wasiwasi huo. Akiridhika na kasi, atarudi kununua kifurushi kikubwa.</p>
+</section>
+
+<section>
+  <h2>4. Vocha kwa wanaolipa pesa taslimu</h2>
+  <p>Si kila mtu ana salio kwenye simu. Kuwa na vocha chache zilizochapishwa dukani kunakupa wateja ambao vinginevyo wangeondoka. Soma <a href="{% url 'pages:makala_detail' 'vocha-za-wifi' %}">jinsi ya kuuza internet kwa vocha</a>.</p>
+</section>
+
+<section>
+  <h2>5. Huduma inayowafanya warudi</h2>
+  <ul>
+    <li><strong>Kasi thabiti:</strong> weka kikomo cha kasi ili kila mteja apate internet nzuri, hata jioni.</li>
+    <li><strong>Router iwe hai kila wakati:</strong> angalia dashboard kuhakikisha router iko online, na iwashe haraka umeme ukirudi.</li>
+    <li><strong>Jibu matatizo haraka:</strong> mteja aliyelipa lakini hakuunganishwa asisubiri; mpe vocha au mrudishie pesa.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>6. Wasikilize wateja na uangalie mauzo</h2>
+  <p>Dashboard inakuonyesha kifurushi kinachouzwa zaidi, mauzo ya kila siku, na saa ya kila mauzo. Tumia taarifa hizo:</p>
+  <ul>
+    <li>Kama mauzo mengi ni jioni, hakikisha internet inatosha saa hizo.</li>
+    <li>Kama kifurushi fulani hakiuzwi, badilisha bei au kiondoe.</li>
+    <li>Waulize wateja wa kudumu wangependa kifurushi gani kingine.</li>
+  </ul>
+  <p>Unataka kujua mauzo hayo yanakuletea faida kiasi gani? Soma <a href="{% url 'pages:makala_detail' 'faida-ya-biashara-ya-wifi' %}">jinsi ya kukokotoa faida ya biashara ya WiFi</a>.</p>
+</section>
+{% endblock %}

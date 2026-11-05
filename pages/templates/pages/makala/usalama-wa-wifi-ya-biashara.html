@@ -1,0 +1,58 @@
+{% extends "pages/makala/_article.html" %}
+
+{% block body %}
+<p class="lead">WiFi ya biashara inabeba mapato yako. Mtu akipata njia ya kuingia bila kulipa, au akaingia kwenye router yako, unapoteza pesa na wateja. Hatua hizi rahisi zinalinda router, vocha na mapato yako.</p>
+
+<section>
+  <h2>1. Badilisha password ya router</h2>
+  <p>Router mpya ya MikroTik inakuja na mtumiaji <strong>admin</strong> na password ya kiwandani. Ibadilishe mara tu unapoanza kuitumia:</p>
+  <ul>
+    <li>tumia password ndefu, isiyo jina lako wala namba ya simu;</li>
+    <li>usimpe mtu password hiyo, hata fundi, bila sababu maalum;</li>
+    <li>fundi akimaliza kazi, ibadilishe tena.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>2. Sasisha RouterOS</h2>
+  <p>Matoleo mapya ya RouterOS yanaziba mianya ya usalama iliyogunduliwa. Kwenye Winbox, fungua System › Packages › Check For Updates mara kwa mara. JamiiLite 5G inahitaji RouterOS 7.15 au zaidi, na dashboard inakuonyesha kama router yako ina toleo la zamani.</p>
+</section>
+
+<section>
+  <h2>3. Linda mstari wa usanidi</h2>
+  <p>Mstari unaobandika kwenye Terminal kuunganisha router na JamiiLite 5G una siri ya router yako. Usiutume kwenye makundi ya WhatsApp wala kuuweka mahali wazi. Kama unadhani umevuja, bonyeza <strong>Badilisha siri</strong> kwenye ukurasa wa router: mstari wa zamani unaacha kufanya kazi mara moja.</p>
+</section>
+
+<section>
+  <h2>4. Simu ngapi kwa kifurushi kimoja</h2>
+  <p>Kifurushi kimoja kikiruhusu simu nyingi bila kikomo, mteja mmoja anaweza kuwapa marafiki wake wote. Weka idadi ya simu kwa kila kifurushi, kwa kawaida simu 1. Kwa wanaotaka zaidi, weka kifurushi maalum cha simu 2 au 3 kwa bei kubwa kidogo.</p>
+</section>
+
+<section>
+  <h2>5. Tunza vocha kama pesa</h2>
+  <ul>
+    <li>Hifadhi vocha zilizochapishwa mahali salama, si juu ya meza.</li>
+    <li>Chapisha kiasi utakachouza ndani ya muda mfupi.</li>
+    <li>Linganisha vocha zilizotumika na pesa uliyopokea, kila wiki.</li>
+  </ul>
+  <p>Soma zaidi kwenye <a href="{% url 'pages:makala_detail' 'vocha-za-wifi' %}">vocha za WiFi: makosa ya kuepuka</a>.</p>
+</section>
+
+<section>
+  <h2>6. Linda router yenyewe</h2>
+  <ul>
+    <li>Weka router mahali wateja hawawezi kuifikia kwa mkono.</li>
+    <li>Usimruhusu mtu kuchomeka waya kwenye router bila ruhusa yako.</li>
+    <li>Tumia kifaa cha kulinda umeme (stabilizer au UPS) ili umeme ukikatika na kurudi kwa nguvu usiharibu router.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>7. Linda akaunti yako ya JamiiLite 5G</h2>
+  <ul>
+    <li>Tumia password tofauti na ya router au ya simu yako.</li>
+    <li>Usimpe mtu namba na password ya kuingia kwenye dashboard.</li>
+    <li>Angalia mauzo na maombi ya kutoa pesa mara kwa mara, ili ukiona jambo lisilo la kawaida ulishughulikie mapema.</li>
+  </ul>
+</section>
+{% endblock %}

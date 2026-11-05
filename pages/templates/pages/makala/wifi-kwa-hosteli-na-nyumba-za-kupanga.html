@@ -1,0 +1,53 @@
+{% extends "pages/makala/_article.html" %}
+
+{% block body %}
+<p class="lead">Hosteli za wanafunzi, nyumba za kupanga na gesti ni sehemu nzuri za kuuza WiFi: wapangaji wanaishi hapo, wanatumia internet kila siku, na wengi wangependa kuacha kununua bando la simu kila mara.</p>
+
+<section>
+  <h2>Kwa nini WiFi ya kulipia badala ya password moja?</h2>
+  <p>Wenye nyumba wengi huanza kwa kuweka WiFi yenye password moja na kugawana gharama na wapangaji. Mara nyingi hili linaleta matatizo:</p>
+  <ul>
+    <li>password inasambaa kwa marafiki na majirani;</li>
+    <li>wengine hawalipi sehemu yao, lakini wanaendelea kutumia;</li>
+    <li>mtu mmoja anayepakua sana anamaliza internet ya wote.</li>
+  </ul>
+  <p>Kwa WiFi ya kulipia, kila mpangaji analipa kifurushi chake mwenyewe kwa simu, anatumia kwa muda alioulipia, na anakatwa muda ukiisha. Hakuna haja ya kudai pesa wala kubadilisha password.</p>
+</section>
+
+<section>
+  <h2>Vifurushi vinavyofaa wapangaji</h2>
+  <p>Wapangaji wanakaa muda mrefu, kwa hiyo vifurushi vya wiki na mwezi vinauzwa zaidi kuliko vya saa:</p>
+  <ul>
+    <li><strong>Siku 1</strong> kwa wageni wa muda mfupi;</li>
+    <li><strong>Wiki 1</strong> kwa wanaolipa kidogo kidogo;</li>
+    <li><strong>Mwezi 1</strong> kwa wapangaji wa kudumu, kwa bei nafuu zaidi kwa siku.</li>
+  </ul>
+  <p>Unaweza pia kuweka kifurushi cha "simu 2" kwa mpangaji mwenye simu na laptop. Soma zaidi kwenye <a href="{% url 'pages:makala_detail' 'bei-za-vifurushi-vya-wifi' %}">jinsi ya kupanga bei za vifurushi</a>.</p>
+</section>
+
+<section>
+  <h2>Kufikisha WiFi kila chumba</h2>
+  <p>Router moja mara nyingi haifiki vyumba vyote, hasa kwenye nyumba yenye kuta za tofali au ghorofa. Njia za kuongeza ufikiaji:</p>
+  <ul>
+    <li>Weka router katikati ya jengo, juu, mbali na vyuma na kuta nene.</li>
+    <li>Ongeza access point nyingine kwenye korido au ghorofa ya pili, ikiunganishwa kwa waya kwenye router kuu.</li>
+    <li>Kwa jengo kubwa, tumia access points kadhaa zenye jina moja la WiFi.</li>
+  </ul>
+  <p>Wapangaji wote wanaona ukurasa uleule wa kulipia, bila kujali wameunganishwa kwenye access point ipi.</p>
+</section>
+
+<section>
+  <h2>Kasi ya kutosha jioni</h2>
+  <p>Kwenye hosteli, wateja wengi wanatumia internet kwa wakati mmoja jioni na usiku. Hakikisha internet yako inatosha saa hizo, na weka kikomo cha kasi kwa kila kifurushi ili mtu mmoja asimalize internet ya wote. Soma <a href="{% url 'pages:makala_detail' 'kasi-ya-internet-kwa-wateja' %}">kasi ya internet kiasi gani kwa wateja wangapi</a>.</p>
+</section>
+
+<section>
+  <h2>Kuepuka migogoro na wapangaji</h2>
+  <ul>
+    <li>Bandika bei za vifurushi mahali wazi, ili kila mtu ajue analipia nini.</li>
+    <li>Eleza mapema kuwa muda wa kifurushi unaendelea hata simu ikiwa imezimwa.</li>
+    <li>Kama internet ya chanzo imekatika kwa muda mrefu, kuwa tayari kumpa mpangaji vocha ya fidia.</li>
+    <li>Jibu malalamiko haraka: mpangaji aliyeridhika atanunua tena mwezi ujao.</li>
+  </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "pages/makala/_article.html" %}
+
+{% block body %}
+<p class="lead">Chanzo cha internet ndicho moyo wa biashara yako ya WiFi. Wateja wako watapata kasi ile ile unayoipata wewe, ikigawanywa kwa wote. Hapa tunalinganisha 4G, 5G na fiber ili uchague kinachofaa eneo lako.</p>
+
+<section>
+  <h2>Ulinganisho kwa haraka</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th></th><th>4G</th><th>5G</th><th>Fiber</th></tr></thead>
+      <tbody>
+        <tr><td>Inapatikana wapi</td><td>Maeneo mengi nchini</td><td>Baadhi ya maeneo ya mijini</td><td>Mijini, pale ambapo waya umefika</td></tr>
+        <tr><td>Kasi</td><td>Ya wastani</td><td>Ya juu</td><td>Ya juu na thabiti</td></tr>
+        <tr><td>Uthabiti</td><td>Inabadilika kulingana na mnara na msongamano</td><td>Inabadilika kulingana na mnara</td><td>Thabiti zaidi</td></tr>
+        <tr><td>Kuanza</td><td>Haraka: laini na router</td><td>Haraka: laini na router ya 5G</td><td>Inahitaji kufungiwa waya</td></tr>
+        <tr><td>Inafaa kwa</td><td>Wateja wachache hadi wa wastani</td><td>Wateja wa wastani hadi wengi</td><td>Wateja wengi na matumizi makubwa</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>4G: rahisi kuanza nayo</h2>
+  <p>Kama unaanza au uko eneo ambalo fiber haijafika, 4G ndiyo njia rahisi. Unahitaji MiFi, router ya 4G ya mezani, au router ya MikroTik yenye sehemu ya laini (kama LtAP mini LTE). Chagua kifurushi kikubwa au kisicho na kikomo, na weka router mahali penye mtandao mzuri, mara nyingi karibu na dirisha au juu.</p>
+</section>
+
+<section>
+  <h2>5G: kasi zaidi pale inapopatikana</h2>
+  <p>Kama eneo lako lina 5G, router ya 5G inaweza kukupa kasi kubwa zaidi bila kusubiri waya. Kabla ya kununua, hakikisha 5G inapatikana mahali hasa utakapoweka router, si tu mjini kwa ujumla, na uliza bei ya vifurushi vyake.</p>
+</section>
+
+<section>
+  <h2>Fiber: bora kwa wateja wengi</h2>
+  <p>Kama una wateja wengi au wanaotumia video sana, fiber ndiyo bora: kasi yake ni thabiti hata jioni. Gharama ya kuanza inaweza kuwa kubwa zaidi kwa sababu ya kufungiwa waya, lakini kwa biashara inayokua mara nyingi inalipa.</p>
+</section>
+
+<section>
+  <h2>Router ya MikroTik inaunganishwaje?</h2>
+  <p>Vyovyote utakavyochagua, router ya MikroTik inakaa nyuma ya chanzo hicho cha internet. Inapokea internet kutoka MiFi, router ya 4G/5G au fiber, kisha inawapa wateja WiFi yenye ukurasa wa kulipia. Ukurasa wa <a href="{% url 'pages:mahitaji' %}">Mahitaji</a> unakuonyesha jinsi ya kuunganisha kwa kila aina ya router.</p>
+</section>
+
+<section>
+  <h2>Ushauri wa mwisho</h2>
+  <ul>
+    <li>Anza na unachoweza kumudu, kisha panda daraja mauzo yakiongezeka.</li>
+    <li>Pima kasi halisi saa za jioni kabla ya kuamua.</li>
+    <li>Uliza mtoa huduma kama anaruhusu internet yake kuuzwa kwa wengine.</li>
+  </ul>
+  <p>Unajiuliza kasi kiasi gani inatosha? Soma <a href="{% url 'pages:makala_detail' 'kasi-ya-internet-kwa-wateja' %}">kasi ya internet kiasi gani kwa wateja wangapi</a>.</p>
+</section>
+{% endblock %}

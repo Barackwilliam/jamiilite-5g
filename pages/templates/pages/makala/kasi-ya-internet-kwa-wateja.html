@@ -1,0 +1,53 @@
+{% extends "pages/makala/_article.html" %}
+
+{% block body %}
+<p class="lead">Swali la kwanza la kila muuzaji wa WiFi ni: "Internet yangu inatosha wateja wangapi?" Jibu linategemea wateja wako wanafanya nini mtandaoni, na wangapi wako online kwa wakati mmoja. Huu ni mwongozo wa kukadiria.</p>
+
+<section>
+  <h2>Matumizi tofauti yanahitaji kasi tofauti</h2>
+  <p>Makadirio haya ni ya mteja mmoja anayetumia internet kwa wakati huo:</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Matumizi</th><th class="num">Kasi ya takriban</th></tr></thead>
+      <tbody>
+        <tr><td>WhatsApp, ujumbe na kusoma habari</td><td class="num">chini ya 1 Mbps</td></tr>
+        <tr><td>Mitandao ya kijamii yenye picha na video fupi</td><td class="num">1 – 2 Mbps</td></tr>
+        <tr><td>Video za kawaida (YouTube, TikTok)</td><td class="num">2 – 3 Mbps</td></tr>
+        <tr><td>Video za HD na kupakua mafaili makubwa</td><td class="num">5 Mbps au zaidi</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Hizi ni namba za makadirio tu. Lengo ni kukupa picha ya jumla, si hesabu kamili.</p>
+</section>
+
+<section>
+  <h2>Si wateja wote wanatumia kwa wakati mmoja</h2>
+  <p>Wateja 20 walio online hawapakui wote kwa sekunde moja. Wengi wanasoma, wanaandika ujumbe au wanasubiri ukurasa ufunguke. Kwa hiyo hauhitaji kuzidisha kasi ya mteja mmoja mara idadi ya wateja wote.</p>
+  <p class="note">Kanuni rahisi ya kuanzia: chukua idadi ya wateja unaotarajia kuwa online saa za msongamano (mfano jioni), zidisha kwa 1 Mbps, kisha gawa kwa 2. Wateja 20 → 10 Mbps. Kama wateja wako wengi wanaangalia video, usigawe kwa 2.</p>
+</section>
+
+<section>
+  <h2>Gawa kasi kwa haki kwa vifurushi</h2>
+  <p>Bila kikomo, mtu mmoja anayepakua filamu anaweza kumaliza internet ya wote, na wateja wengine wakaona WiFi yako ni nzito. Weka kikomo cha kasi kwenye kila kifurushi:</p>
+  <ul>
+    <li><strong>Vifurushi vya bei ndogo</strong> (saa 1, siku 1): mfano hadi 2 Mbps.</li>
+    <li><strong>Vifurushi vya wiki na mwezi</strong>: mfano hadi 3 au 5 Mbps.</li>
+  </ul>
+  <p>Kwenye JamiiLite 5G unachagua kasi ya kila kifurushi unapokiweka, na router inaitekeleza yenyewe kwa kila mteja.</p>
+</section>
+
+<section>
+  <h2>Dalili kuwa internet yako haitoshi</h2>
+  <ul>
+    <li>Wateja wanalalamika kuwa WiFi ni nzito jioni lakini nzuri asubuhi.</li>
+    <li>Video zinasimama mara kwa mara, hata kwa wateja wachache.</li>
+    <li>Wateja wanakaa muda mfupi kisha hawarudi.</li>
+  </ul>
+  <p>Ukiona dalili hizi, kwanza punguza kasi ya vifurushi vya bei ndogo. Kama haitoshi, ongeza kifurushi chako cha internet au fikiria kuhamia fiber. Soma <a href="{% url 'pages:makala_detail' 'router-ya-4g-5g-au-fiber' %}">router ya 4G, 5G au fiber: ipi bora</a>.</p>
+</section>
+
+<section>
+  <h2>Pima kasi yako halisi</h2>
+  <p>Kasi uliyoahidiwa na mtoa huduma si lazima iwe kasi unayoipata. Pima mara kadhaa kwa siku, hasa jioni, ukiwa umeunganishwa moja kwa moja kwenye router yako. Kasi ya chini kabisa unayoipata ndiyo unayopaswa kupangia wateja wako.</p>
+</section>
+{% endblock %}
