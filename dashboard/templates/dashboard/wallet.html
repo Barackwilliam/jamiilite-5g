@@ -33,7 +33,7 @@
       {% endif %}
       <div class="field{% if form.phone.errors %} has-error{% endif %}">
         <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
-        <span class="phone-input"><span class="phone-flag" aria-hidden="true">🇹🇿</span>{{ form.phone }}</span>
+        <span class="phone-input"><span class="phone-flag">{% flag "tz" 15 %}</span>{{ form.phone }}</span>
         {% for error in form.phone.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
       </div>
       <button type="submit" class="btn btn-primary btn-block btn-tall" data-withdraw-button data-label="{% translate 'Toa Tsh %(amount)s' %}">{% icon "send" 18 %} <span>{% translate "Toa pesa" %}</span></button>

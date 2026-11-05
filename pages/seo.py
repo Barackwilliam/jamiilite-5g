@@ -18,7 +18,7 @@ def language_urls(request):
     path = request.path
     base = request.build_absolute_uri(path)
     default = settings.LANGUAGE_CODE[:2]
-    # Kiswahili (lugha ya msingi) kiko kwenye anwani safi; lugha nyingine zina ?lang=.
+    # Lugha ya msingi (LANGUAGE_CODE) iko kwenye anwani safi; nyingine zina ?lang=.
     urls = {code: base if code == default else f"{base}?lang={code}" for code, _name in settings.LANGUAGES}
     current = (get_language() or settings.LANGUAGE_CODE)[:2]
     return {

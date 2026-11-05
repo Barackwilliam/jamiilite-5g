@@ -90,6 +90,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "ui.context_processors.payment_methods",
             ],
         },
     },
@@ -134,10 +135,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-LANGUAGE_CODE = "sw"
-# Lugha mbili: mmiliki anachagua anapojisajili, na anaweza kubadilisha wakati wowote.
+# Kiingereza ndiyo lugha ya kwanza; Kiswahili kwa anayekichagua (kinakumbukwa kwa cookie/akaunti).
 # Maandishi ya asili (msgid) ni Kiswahili; tafsiri ya Kiingereza iko locale/en.
-LANGUAGES = [("sw", "Kiswahili"), ("en", "English")]
+LANGUAGE_CODE = "en"
+LANGUAGES = [("en", "English"), ("sw", "Kiswahili")]
+TEST_RUNNER = "config.test_runner.SwahiliBaselineRunner"
 LOCALE_PATHS = [BASE_DIR / "locale"]
 LANGUAGE_COOKIE_AGE = 60 * 60 * 24 * 365
 TIME_ZONE = "Africa/Dar_es_Salaam"
@@ -271,6 +273,12 @@ JAMIILITE_WHATSAPP_NUMBER = os.environ.get("JAMIILITE_WHATSAPP_NUMBER", "").lstr
 JAMIILITE_CONTACT_EMAIL = os.environ.get("JAMIILITE_CONTACT_EMAIL", "")
 GOOGLE_SITE_VERIFICATION = os.environ.get("GOOGLE_SITE_VERIFICATION", "")
 BING_SITE_VERIFICATION = os.environ.get("BING_SITE_VERIFICATION", "")
+# Njia ambazo akaunti ya Pesapal inakubali kwa wateja, kwa mpangilio wa kuonyesha.
+JAMIILITE_PAYMENT_METHODS = [
+    name.strip()
+    for name in os.environ.get("JAMIILITE_PAYMENT_METHODS", "Airtel Money,Mixx by Yas,Visa,American Express").split(",")
+    if name.strip()
+]
 # Anwani ndogo inayochapishwa chini ya kila vocha.
 JAMIILITE_VOUCHER_SITE = os.environ.get("JAMIILITE_VOUCHER_SITE", "wifi.jamiitek.co.tz")
 

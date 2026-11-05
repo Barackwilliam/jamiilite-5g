@@ -28,7 +28,7 @@ ARTICLES = [
         title="Jinsi ya kuanzisha biashara ya WiFi Tanzania: hatua 7",
         description=(
             "Mwongozo kamili wa kuanzisha biashara ya kuuza WiFi Tanzania: mahali, internet, router ya "
-            "MikroTik, vifurushi, malipo ya M-Pesa na Mixx, na jinsi ya kupata wateja wa kwanza."
+            "MikroTik, vifurushi, malipo ya simu na kadi, na jinsi ya kupata wateja wa kwanza."
         ),
         published=date(2026, 11, 5),
         updated=date(2026, 11, 5),
@@ -37,7 +37,7 @@ ARTICLES = [
     ),
     Article(
         slug="mikrotik-hotspot-malipo-ya-simu",
-        title="MikroTik Hotspot: jinsi ya kuuza WiFi kwa malipo ya M-Pesa, Mixx na Airtel Money",
+        title="MikroTik Hotspot: jinsi ya kuuza WiFi kwa malipo ya simu na kadi",
         description=(
             "Jinsi MikroTik Hotspot inavyofanya kazi, router ipi ya kununua, na jinsi ya kuunganisha "
             "malipo ya simu ili mteja alipe na kuunganishwa papo hapo bila wewe kuwepo."

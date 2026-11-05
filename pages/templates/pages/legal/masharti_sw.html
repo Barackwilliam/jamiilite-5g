@@ -1,4 +1,5 @@
 {% extends "pages/legal/_base.html" %}
+{% load ui_tags %}
 
 {% block title %}Masharti ya Huduma · JamiiLite 5G{% endblock %}
 {% block description %}Masharti ya kutumia JamiiLite 5G kwa wamiliki wa WiFi na wateja wao, pamoja na sera ya kurudisha pesa.{% endblock %}
@@ -52,7 +53,7 @@
 <section>
   <h2>5. Malipo ya wateja na salio la mmiliki</h2>
   <ul>
-    <li>Wateja wanalipa kupitia Pesapal (M-Pesa, Mixx by Yas, Airtel Money, HaloPesa au kadi). Hatuoni wala kuhifadhi PIN wala taarifa za kadi.</li>
+    <li>Wateja wanalipa kupitia Pesapal ({{ payment_methods|join_words:"au" }}). Hatuoni wala kuhifadhi PIN wala taarifa za kadi.</li>
     <li>Pesa za mauzo zinapokelewa na JamiiTek kwa niaba yako, kisha zinaingizwa kwenye salio lako mara malipo yanapothibitishwa.</li>
     <li>Unaweza kuomba kutoa salio lako kwenda namba yako ya simu wakati wowote. Kiasi cha chini ni Tsh {{ min_withdrawal }}.</li>
     <li>Tunaweza kushikilia malipo yanayoshukiwa kuwa ya udanganyifu mpaka yachunguzwe.</li>

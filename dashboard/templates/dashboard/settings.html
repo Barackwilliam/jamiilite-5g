@@ -21,7 +21,7 @@
 
     <div class="field{% if form.phone.errors %} has-error{% endif %}">
       <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
-      <span class="phone-input"><span class="phone-flag" aria-hidden="true">🇹🇿</span>{{ form.phone }}</span>
+      <span class="phone-input"><span class="phone-flag">{% flag "tz" 15 %}</span>{{ form.phone }}</span>
       {% for error in form.phone.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
     </div>
 
@@ -42,7 +42,7 @@
     <h2 class="group-title">{{ form.language.label }}</h2>
     <div class="segmented" role="radiogroup" aria-label="{{ form.language.label }}">
       {% for choice in form.language %}
-        <label>{{ choice.tag }}<span>{% if choice.data.value == "sw" %}🇹🇿 {% else %}🇬🇧 {% endif %}{{ choice.choice_label }}</span></label>
+        <label>{{ choice.tag }}<span>{% if choice.data.value == "sw" %}{% flag "tz" %}{% else %}{% flag "gb" %}{% endif %} {{ choice.choice_label }}</span></label>
       {% endfor %}
     </div>
 

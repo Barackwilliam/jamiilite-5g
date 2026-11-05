@@ -1,5 +1,5 @@
 {% extends "ui/auth_base.html" %}
-{% load i18n %}
+{% load i18n ui_tags %}
 {% block title %}{% translate "Jisajili" %}{% endblock %}
 {% block content %}
   <ol class="auth-steps" aria-label="{% translate 'Hatua' %}">
@@ -16,7 +16,7 @@
       <span class="field-label">{{ form.language.label }}</span>
       <div class="choice-pills" role="radiogroup" aria-label="{{ form.language.label }}">
         {% for choice in form.language %}
-          <label class="choice-pill">{{ choice.tag }}<span>{% if choice.data.value == "sw" %}🇹🇿 {% else %}🇬🇧 {% endif %}{{ choice.choice_label }}</span></label>
+          <label class="choice-pill">{{ choice.tag }}<span>{% if choice.data.value == "sw" %}{% flag "tz" %}{% else %}{% flag "gb" %}{% endif %} {{ choice.choice_label }}</span></label>
         {% endfor %}
       </div>
       <small class="field-help">{{ form.language.help_text }}</small>

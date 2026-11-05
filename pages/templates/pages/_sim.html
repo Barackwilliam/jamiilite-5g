@@ -38,7 +38,7 @@
 
           <div class="sim-screen sim-stk" data-screen="stk">
             <div class="sim-stk-card">
-              <p class="sim-stk-title">M-Pesa</p>
+              <p class="sim-stk-title">{{ payment_methods.0|default:"Airtel Money" }}</p>
               <p class="sim-stk-text" data-sim-stk-text></p>
               <p class="sim-pin" data-sim-pin><i></i><i></i><i></i><i></i></p>
               <div class="sim-keypad">
@@ -51,7 +51,7 @@
           <div class="sim-screen sim-center" data-screen="paid">
             <span class="sim-big-check">✓</span>
             <p class="sim-h">{% translate "Asante! Malipo yamepokelewa" %}</p>
-            <p class="sim-small">{% translate "Namba yako ya vocha" %}</p>
+            <p class="sim-small">{% translate "Msimbo wako wa vocha" %}</p>
             <p class="sim-code">7K4QX9MP</p>
             <p class="sim-joining"><span class="sim-spin"></span>{% translate "Unaunganishwa…" %}</p>
           </div>

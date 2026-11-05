@@ -5,7 +5,7 @@ from billing.subscriptions import start_trial
 from core.models import Owner
 
 
-def create_owner_account(business_name, phone, password, language="sw"):
+def create_owner_account(business_name, phone, password, language="en"):
     """Akaunti mpya ya mmiliki: user (username = namba ya simu) + Owner + majaribio."""
     with transaction.atomic():
         user = get_user_model().objects.create_user(username=phone, password=password)

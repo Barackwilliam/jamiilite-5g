@@ -1,5 +1,5 @@
 {% extends "portal/base.html" %}
-{% load i18n %}
+{% load i18n ui_tags %}
 
 {% block content %}
   {% if hotspot_error %}
@@ -41,12 +41,12 @@
 
         <label class="field">
           <span>{{ form.phone.label }}</span>
-          <span class="phone-input"><span class="phone-flag" aria-hidden="true">🇹🇿</span>{{ form.phone }}</span>
+          <span class="phone-input"><span class="phone-flag">{% flag "tz" 15 %}</span>{{ form.phone }}</span>
           {% for error in form.phone.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
         </label>
 
         <button type="submit" class="btn btn-pay" data-pay-button data-label="{% translate 'Lipa Tsh %(amount)s' %}">{% translate "Lipa kwa simu" %}</button>
-        <ul class="pay-methods" aria-label="{% translate 'Njia za malipo' %}"><li>M-Pesa</li><li>Mixx by Yas</li><li>Airtel Money</li><li>HaloPesa</li></ul>
+        <ul class="pay-methods" aria-label="{% translate 'Njia za malipo' %}">{% for method in payment_methods %}<li>{{ method }}</li>{% endfor %}</ul>
       </form>
       <script>
         (function () {

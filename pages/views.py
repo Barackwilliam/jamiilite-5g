@@ -30,8 +30,8 @@ def landing_strings():
         "Wiki": gettext("Wiki"),
         "Muda umeisha · mteja ametoka": gettext("Muda umeisha · mteja ametoka"),
         "Mteja ameingia · JamiiTek WiFi": gettext("Mteja ameingia · JamiiTek WiFi"),
-        "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa.": gettext(
-            "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako ya M-Pesa."
+        "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako.": gettext(
+            "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako."
         ),
         "Mauzo mapya": gettext("Mauzo mapya"),
         "sasa hivi": gettext("sasa hivi"),
@@ -80,7 +80,7 @@ class LegalPage(PublicPage):
     document = ""
 
     def get_template_names(self):
-        language = "en" if (get_language() or "sw").startswith("en") else "sw"
+        language = "sw" if (get_language() or "en").startswith("sw") else "en"
         return [f"pages/legal/{self.document}_{language}.html"]
 
     def get_context_data(self, **kwargs):

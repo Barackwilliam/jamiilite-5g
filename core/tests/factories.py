@@ -9,6 +9,7 @@ from core.models import Owner, Package, Router
 def make_owner(username="mmiliki", business_name="Mama Neema WiFi", **kwargs):
     user = get_user_model().objects.create_user(username=username, password="test-pass-123")
     kwargs.setdefault("phone", "255712345678")
+    kwargs.setdefault("language", "sw")
     kwargs.setdefault("trial_ends_at", timezone.now() + timedelta(days=14))
     return Owner.objects.create(user=user, business_name=business_name, **kwargs)
 

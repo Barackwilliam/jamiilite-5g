@@ -62,3 +62,15 @@ class LandingLanguageTests(TestCase):
         self.assertContains(response, 'id="landing-i18n"')
         self.assertContains(response, "1 hour")
         self.assertNotContains(response, reverse("javascript-catalog"))
+
+
+class SideMenuTests(TestCase):
+    def test_side_menu_has_every_section(self):
+        for url in ["/", reverse("pages:mahitaji"), reverse("pages:makala")]:
+            with self.subTest(url):
+                html = self.client.get(url).content.decode()
+                self.assertIn('id="menyu"', html)
+                self.assertIn('aria-controls="menyu"', html)
+                for name in ("pages:mahitaji", "pages:mwongozo", "pages:makala", "dashboard:login",
+                             "dashboard:signup", "pages:masharti", "pages:faragha"):
+                    self.assertIn(f'href="{reverse(name)}"', html)

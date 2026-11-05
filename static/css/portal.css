@@ -242,3 +242,21 @@ body {
 .btn-pay { min-height: 54px; font-size: 1.05rem; }
 .pay-methods { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
 .pay-methods li { padding: 3px 9px; border-radius: 99px; border: 1px solid var(--border); font-size: 0.72rem; font-weight: 700; color: var(--muted); }
+
+/* Simu ndogo (upana 320–360): hakuna kitu kinachozidi upana wa skrini. */
+.card { width: 100%; }
+.packages { min-width: 0; min-inline-size: 0; }
+.package { min-width: 0; }
+.package-name, .package-price { overflow-wrap: anywhere; }
+.phone-input input { width: 100%; min-width: 0; }
+.flag { display: block; border-radius: 3px; flex-shrink: 0; }
+.phone-flag { display: flex; align-items: center; padding: 0 2px 0 14px; }
+@media (max-width: 380px) {
+  body { padding: 10px; }
+  .card { padding: 16px; border-radius: 18px; }
+  .packages { gap: 8px; }
+  .package { padding: 12px 10px; min-height: 84px; }
+  .package-name { font-size: 0.95rem; }
+  .package-price { font-size: 1.02rem; }
+  .package-check { top: 8px; right: 8px; }
+}

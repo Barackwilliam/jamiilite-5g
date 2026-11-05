@@ -4,7 +4,7 @@
     {% csrf_token %}
     <input type="hidden" name="action" value="pay">
     <input type="hidden" name="back" value="{{ request.get_full_path }}">
-    <input class="input" name="reference" placeholder="{% translate 'Namba ya muamala M-Pesa' %}" required aria-label="{% translate 'Namba ya muamala' %}">
+    <input class="input" name="reference" placeholder="{% translate 'Namba ya muamala' %}" required aria-label="{% translate 'Namba ya muamala' %}">
     <button type="submit" class="btn btn-small btn-good">{% icon "check" 16 %} {% translate "Nimelipa" %}</button>
   </form>
   <form method="post" action="{% url 'control:withdrawal_action' w.pk %}" class="inline-form">

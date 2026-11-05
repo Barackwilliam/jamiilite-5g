@@ -195,7 +195,7 @@
     this.routers = names.slice(0, 4).map(function (name, i) {
       return { id: "demo" + i, name: name, owner: _("Mfano"), online: true, clients: 2 + ((i * 3) % 5), seen: Date.now() };
     });
-    this.gateway = _("M-Pesa (mfano)");
+    this.gateway = _("Pesapal (mfano)");
     this.stats = { today_amount: 18500, today_count: 21, accepts: 34, rejects: 2, clients: 0 };
     this.status("demo", _("MFANO"));
     this.layout(true);
@@ -339,7 +339,7 @@
     var gw = el("g", { class: "lv-node lv-gateway", transform: "translate(" + g.x + "," + g.y + ")" }, nodeLayer);
     el("rect", { x: -72, y: -28, width: 144, height: 56, rx: 12, class: "lv-box" }, gw);
     this.gatewayLabel = text(gw, 0, -3, clip(this.gateway, 20), "lv-title");
-    text(gw, 0, 16, "M-Pesa · Mixx · Airtel", "lv-sub");
+    text(gw, 0, 16, "Airtel · Mixx · Visa", "lv-sub");
     this.nodes.gateway = gw;
 
     if (!routers.length) {
