@@ -4,7 +4,7 @@
 {% block content %}
 <div class="settings-page">
   <section class="profile-card">
-    <span class="profile-avatar">{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="">{% else %}{{ owner.business_name|slice:":1"|upper }}{% endif %}</span>
+    <span class="profile-avatar">{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="" width="60" height="60" decoding="async">{% else %}{{ owner.business_name|slice:":1"|upper }}{% endif %}</span>
     <span class="profile-main">
       <strong>{{ owner.business_name }}</strong>
       <small>{{ owner.user.username|phone_display }}</small>
@@ -28,7 +28,7 @@
     <div class="field{% if form.logo.errors %} has-error{% endif %}">
       <span class="field-label">{% translate "Logo" %}</span>
       <div class="logo-picker">
-        <span class="logo-thumb" data-logo-preview>{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="">{% else %}{% icon "plus" 20 %}{% endif %}</span>
+        <span class="logo-thumb" data-logo-preview>{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="" width="64" height="64" loading="lazy" decoding="async">{% else %}{% icon "plus" 20 %}{% endif %}</span>
         <span class="logo-actions">
           <label class="btn btn-small btn-ghost" for="{{ form.logo.id_for_label }}">{% if owner.logo %}{% translate "Badilisha logo" %}{% else %}{% translate "Chagua logo" %}{% endif %}</label>
           <input type="file" name="{{ form.logo.html_name }}" id="{{ form.logo.id_for_label }}" accept="image/*" class="sr-only" data-logo-input>

@@ -56,6 +56,8 @@ class Payment(models.Model):
         indexes = [
             models.Index(fields=["router", "-created_at"], name="payment_router_recent_idx"),
             models.Index(fields=["status", "-created_at"], name="payment_status_recent_idx"),
+            # Hesabu za mauzo (leo, siku 7, siku 30) kwa kila router.
+            models.Index(fields=["router", "status", "paid_at"], name="payment_router_paid_idx"),
         ]
         constraints = [
             models.UniqueConstraint(
@@ -150,6 +152,8 @@ class VoucherDevice(models.Model):
         constraints = [
             models.UniqueConstraint(fields=["voucher", "mac_address"], name="voucher_device_unique"),
         ]
+        # Mteja anayerudi anatambuliwa kwa MAC ya kifaa chake.
+        indexes = [models.Index(fields=["mac_address"], name="voucher_device_mac_idx")]
 
     def __str__(self):
         return self.mac_address

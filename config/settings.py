@@ -66,6 +66,9 @@ LOGIN_URL = "dashboard:login"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # HTML inabanwa (gzip). Django 4.2+ inaongeza kinga ya BREACH ("Heal The Breach").
+    "django.middleware.gzip.GZipMiddleware",
+    "core.config.RequestConfigMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -172,6 +175,8 @@ USE_SUPABASE_STORAGE = all(
 )
 
 if USE_SUPABASE_STORAGE:
+    from botocore.config import Config as BotoConfig
+
     default_storage = {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
@@ -185,6 +190,11 @@ if USE_SUPABASE_STORAGE:
             "querystring_auth": False,
             "file_overwrite": False,
             "default_acl": None,
+            # Kila picha ina jina jipya (file_overwrite=False), kwa hiyo browser na CDN ya Supabase
+            # zinaweza kuikumbuka kwa mwaka mzima.
+            "object_parameters": {"CacheControl": "public, max-age=31536000, immutable"},
+            # Supabase ikichelewa, picha isishikilie ombi la mtumiaji kwa dakika nzima.
+            "client_config": BotoConfig(connect_timeout=5, read_timeout=15, retries={"max_attempts": 2}),
             # URL za picha zinapitia njia ya public objects ya Supabase.
             "custom_domain": (
                 f"{SUPABASE_PROJECT_REF}.supabase.co/storage/v1/object/public/"

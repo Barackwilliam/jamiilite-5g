@@ -32,6 +32,8 @@ COMPLETED, FAILED, REVERSED = 1, 2, 3
 TOKEN_CACHE_KEY = "pesapal:token"
 IPN_CACHE_KEY = "pesapal:ipn"
 TIMEOUT = 20
+# Kukagua hali kunarudiwa kila sekunde chache; Pesapal ikichelewa, tusishikilie server.
+STATUS_TIMEOUT = 8
 
 
 class PesapalError(Exception):
@@ -42,7 +44,7 @@ def _environment():
     return "live" if settings.PESAPAL_ENV == "live" else "sandbox"
 
 
-def _call(method, path, payload=None, token=None):
+def _call(method, path, payload=None, token=None, timeout=TIMEOUT):
     url = BASE_URLS[_environment()] + path
     headers = {"Accept": "application/json", "Content-Type": "application/json"}
     if token:
@@ -50,7 +52,7 @@ def _call(method, path, payload=None, token=None):
     data = json.dumps(payload).encode() if payload is not None else None
     request = urllib.request.Request(url, data=data, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
             body = json.loads(response.read() or b"null")
     except (urllib.error.URLError, TimeoutError, ValueError) as exc:
         raise PesapalError(f"{method} {path}: {exc}") from exc
@@ -129,7 +131,7 @@ class PesapalProvider(PaymentProvider):
             return PaymentStatusResult(state="pending")
         body = _call(
             "GET", f"/Transactions/GetTransactionStatus?orderTrackingId={payment.provider_reference}",
-            token=access_token(),
+            token=access_token(), timeout=STATUS_TIMEOUT,
         )
         code = int(body.get("status_code") or 0)
         state = {COMPLETED: "paid", FAILED: "failed", REVERSED: "failed"}.get(code, "pending")

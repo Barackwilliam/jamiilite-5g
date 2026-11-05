@@ -24,11 +24,13 @@ class FakePesapal:
 
     def __init__(self):
         self.calls = []
+        self.timeouts = []
         self.orders = 0
         self.status = {"status_code": 0, "payment_status_description": "INVALID"}
 
-    def __call__(self, method, path, payload=None, token=None):
+    def __call__(self, method, path, payload=None, token=None, timeout=pesapal.TIMEOUT):
         self.calls.append((method, path, payload))
+        self.timeouts.append((path.split("?")[0], timeout))
         if path == "/Auth/RequestToken":
             return {"token": "tok", "expiryDate": "2030-01-01T00:00:00Z", "status": "200"}
         if path == "/URLSetup/GetIpnList":
@@ -93,6 +95,10 @@ class PesapalFlowTests(TestCase):
         self.assertEqual((payment.status, payment.confirmation_code), (Payment.Status.PAID, "MPESA123"))
         self.ipn(payment)  # Pesapal ikirudia IPN: vocha bado ni moja tu
         self.assertEqual(Voucher.objects.count(), 1)
+        # Kuanzisha malipo kuna muda mrefu zaidi; kukagua hali kuna muda mfupi.
+        timeouts = dict(self.fake.timeouts)
+        self.assertEqual(timeouts["/Transactions/SubmitOrderRequest"], pesapal.TIMEOUT)
+        self.assertEqual(timeouts["/Transactions/GetTransactionStatus"], pesapal.STATUS_TIMEOUT)
 
     def test_wrong_amount_is_not_accepted(self):
         payment, _ = self.buy()

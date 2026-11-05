@@ -260,3 +260,11 @@ body {
   .package-price { font-size: 1.02rem; }
   .package-check { top: 8px; right: 8px; }
 }
+
+/* Kitufe kinachosubiri jibu la server */
+.is-busy { position: relative; color: transparent !important; pointer-events: none; }
+.is-busy > * { visibility: hidden; }
+.is-busy::after { content: ""; position: absolute; inset: 0; margin: auto; width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; animation: busy-spin 0.7s linear infinite; }
+@keyframes busy-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .is-busy::after { animation-duration: 2s; } }
+.btn-primary.is-busy::after, .btn-pay.is-busy::after { border-color: rgba(42, 23, 2, 0.3); border-top-color: #2a1702; }

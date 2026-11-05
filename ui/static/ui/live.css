@@ -148,3 +148,10 @@
 .live-stat:not(.live-stat-hero) { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 10px; row-gap: 0; align-items: center; }
 .live-stat:not(.live-stat-hero) .live-stat-icon { grid-row: 1 / 3; margin: 0; width: 36px; height: 36px; }
 .live-stat:not(.live-stat-hero) .live-stat-label { white-space: normal; line-height: 1.25; }
+
+/* Skeleton: kabla ya data ya kwanza, namba zinaonyesha mistari inayong'aa badala ya "0". */
+.live.is-loading .live-stat strong { color: transparent; border-radius: 8px; background: linear-gradient(90deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.14) 50%, rgba(255, 255, 255, 0.06) 75%); background-size: 200% 100%; animation: lv-skeleton 1.2s ease-in-out infinite; }
+.live.is-loading .live-stat-hero strong { -webkit-background-clip: border-box; background-clip: border-box; max-width: 60%; }
+.live.is-loading .live-stat:not(.live-stat-hero) strong { max-width: 3.5em; }
+@keyframes lv-skeleton { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .live.is-loading .live-stat strong { animation: none; } }

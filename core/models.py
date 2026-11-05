@@ -314,6 +314,12 @@ class PlatformConfig(models.Model):
     def load(cls):
         return cls.objects.filter(pk=1).first() or cls(pk=1)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        from core import config
+
+        config.forget()
+
 
 class ServiceHeartbeat(models.Model):
     """Huduma inayoendeshwa kando (mfano RADIUS server) inaripoti kuwa iko hai."""

@@ -1,9 +1,13 @@
+import io
+
 from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, password_validation
 from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import UploadedFile
 from django.utils.translation import gettext_lazy as _
+from PIL import Image, ImageOps
 
 from billing.phone import normalize_tz_phone
 from core import config
@@ -220,6 +224,24 @@ class WithdrawForm(forms.Form):
         return amount
 
 
+LOGO_SIZE = 256
+
+
+def logo_as_webp(upload):
+    """Logo ndogo ya WebP (256×256 au chini): ukurasa wa mteja unafunguka haraka hata kwenye WiFi ya router."""
+    try:
+        image = Image.open(upload)
+        image.load()
+    except (OSError, Image.DecompressionBombError) as exc:
+        raise forms.ValidationError(_("Faili hili si picha.")) from exc
+    image = ImageOps.exif_transpose(image)
+    image = image.convert("RGBA" if image.mode in ("RGBA", "LA", "P") else "RGB")
+    image.thumbnail((LOGO_SIZE, LOGO_SIZE), Image.LANCZOS)
+    out = io.BytesIO()
+    image.save(out, "WEBP", quality=85, method=6)
+    return ContentFile(out.getvalue(), name="logo.webp")
+
+
 class OwnerSettingsForm(forms.ModelForm):
     language = LanguageField()
 
@@ -241,4 +263,6 @@ class OwnerSettingsForm(forms.ModelForm):
         # Faili jipya tu: logo iliyopo (FieldFile) ikikosekana kwenye storage, .size ingeleta 500.
         if isinstance(logo, UploadedFile) and logo.size > 2 * 1024 * 1024:
             raise forms.ValidationError(_("Picha isizidi MB 2."))
+        if isinstance(logo, UploadedFile):
+            return logo_as_webp(logo)
         return logo
