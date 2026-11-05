@@ -1207,3 +1207,7 @@ i.qa-icon { font-style: normal; }
 .tile.is-disabled { opacity: 0.45; cursor: not-allowed; }
 .logo-actions { position: relative; }
 .logo-actions input[type=file].sr-only { left: 0; top: 0; max-width: 1px; }
+
+.flag { display: inline-block; vertical-align: -2px; border-radius: 2px; flex-shrink: 0; }
+.phone-flag { display: flex; align-items: center; }
+.phone-input input { width: 100%; min-width: 0; }

@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.test import SimpleTestCase
 from django.utils import timezone, translation
 
-from ui.templatetags.ui_tags import day_label, phone_display, phones_display
+from ui.templatetags.ui_tags import day_label, flag, phone_display, phones_display
 
 
 class StatementTagsTests(SimpleTestCase):
@@ -25,3 +25,12 @@ class StatementTagsTests(SimpleTestCase):
         with translation.override("en"):
             self.assertEqual(day_label(now - timedelta(days=1)), "Yesterday")
         self.assertEqual(day_label(None), "")
+
+
+class FlagTests(SimpleTestCase):
+    def test_flags_are_svg_not_emoji(self):
+        # Emoji za bendera zinaonekana kama "TZ" kwenye Windows, kwa hiyo tunatumia SVG.
+        self.assertTrue(flag("tz").startswith('<svg class="flag"'))
+        self.assertIn('width="21" height="14"', flag("tz"))
+        self.assertTrue(flag("gb").startswith('<svg class="flag"'))
+        self.assertEqual(flag("xx"), "")

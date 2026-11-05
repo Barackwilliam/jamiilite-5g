@@ -507,3 +507,4 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .article-card:hover { border-color: var(--brand); transform: translateY(-2px); }
 .article-card h2 { font-size: 1.15rem; margin-bottom: 6px; }
 .article-card p { color: #cfd8e8; line-height: 1.6; margin-bottom: 8px; }
+.flag { display: inline-block; vertical-align: -2px; border-radius: 2px; }

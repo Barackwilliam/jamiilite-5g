@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 00:30+0300\n"
+"POT-Creation-Date: 2026-11-05 03:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1814,7 +1814,7 @@ msgstr "Show balance"
 
 #: dashboard/templates/dashboard/home.html:23
 #: dashboard/templates/dashboard/router_detail.html:28
-#: dashboard/templates/dashboard/sales.html:23 ui/templatetags/ui_tags.py:127
+#: dashboard/templates/dashboard/sales.html:23 ui/templatetags/ui_tags.py:150
 msgid "Leo"
 msgstr "Today"
 
@@ -2209,7 +2209,7 @@ msgstr "Daily average"
 msgid "Kila siku"
 msgstr "Per day"
 
-#: dashboard/templates/dashboard/sales.html:24 ui/templatetags/ui_tags.py:129
+#: dashboard/templates/dashboard/sales.html:24 ui/templatetags/ui_tags.py:152
 msgid "Jana"
 msgstr "Yesterday"
 
@@ -2917,7 +2917,7 @@ msgid "Asante! Malipo yamepokelewa"
 msgstr "Thank you! Payment received"
 
 #: pages/templates/pages/_sim.html:54 portal/templates/portal/status.html:66
-msgid "Namba yako ya vocha"
+msgid "Msimbo wako wa vocha"
 msgstr "Your voucher code"
 
 #: pages/templates/pages/_sim.html:56
@@ -3947,7 +3947,7 @@ msgstr "Pay Tsh %(amount)s to JAMIITEK WIFI? Enter your M-Pesa PIN."
 msgid "Mauzo mapya"
 msgstr "New sale"
 
-#: pages/views.py:37 ui/templatetags/ui_tags.py:88
+#: pages/views.py:37 ui/templatetags/ui_tags.py:111
 msgid "sasa hivi"
 msgstr "just now"
 
@@ -4065,8 +4065,9 @@ msgid "Tunakuunganisha…"
 msgstr "Connecting you…"
 
 #: portal/templates/portal/status.html:79
-msgid "Fungua ukurasa wa WiFi tena kisha weka vocha hii kuunganishwa."
-msgstr "Open the WiFi page again and enter this voucher to connect."
+msgid ""
+"Fungua ukurasa wa WiFi tena, ingiza msimbo huu, kisha bonyeza Unganisha."
+msgstr "Open the WiFi page again, enter this code, then tap Connect."
 
 #: portal/views.py:194
 msgid ""
@@ -4245,25 +4246,25 @@ msgstr "They're cut off automatically when time runs out"
 msgid "Unaona kila shilingi kwenye simu yako, papo hapo"
 msgstr "You see every shilling on your phone, instantly"
 
-#: ui/templatetags/ui_tags.py:85
+#: ui/templatetags/ui_tags.py:108
 msgid "bado"
 msgstr "never"
 
-#: ui/templatetags/ui_tags.py:91
+#: ui/templatetags/ui_tags.py:114
 #, python-format
 msgid "siku %(n)s iliyopita"
 msgid_plural "siku %(n)s zilizopita"
 msgstr[0] "%(n)s day ago"
 msgstr[1] "%(n)s days ago"
 
-#: ui/templatetags/ui_tags.py:94
+#: ui/templatetags/ui_tags.py:117
 #, python-format
 msgid "saa %(n)s iliyopita"
 msgid_plural "saa %(n)s zilizopita"
 msgstr[0] "%(n)s hour ago"
 msgstr[1] "%(n)s hours ago"
 
-#: ui/templatetags/ui_tags.py:96
+#: ui/templatetags/ui_tags.py:119
 #, python-format
 msgid "dakika %(n)s iliyopita"
 msgid_plural "dakika %(n)s zilizopita"

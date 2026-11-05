@@ -1,4 +1,4 @@
-{% load static i18n %}{% get_current_language as LANG %}<!doctype html>
+{% load static i18n ui_tags %}{% get_current_language as LANG %}<!doctype html>
 <html lang="{{ LANG }}">
 <head>
   <meta charset="utf-8">
@@ -87,7 +87,7 @@
     </div>
     <div class="wrap footer-bottom">
       <span>© {% now "Y" %} <a href="https://www.jamiitek.com/" rel="noopener">JamiiTek</a> · <a href="{% url 'pages:masharti' %}">{% translate "Masharti" %}</a> · <a href="{% url 'pages:faragha' %}">{% translate "Faragha" %}</a></span>
-      <span>{% translate "Imetengenezwa Tanzania" %} 🇹🇿</span>
+      <span>{% translate "Imetengenezwa Tanzania" %} {% flag "tz" 12 %}</span>
     </div>
   </footer>
   <script src="{% static 'js/site.js' %}" defer></script>

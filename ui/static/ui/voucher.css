@@ -114,3 +114,7 @@ ol.tk-how li:last-child { padding-right: 6.2rem; }
 @media print {
   ol.tk-how li:last-child { padding-right: 17mm; }
 }
+@media (max-width: 640px) {
+  .tk-bar-actions { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tk-btn { justify-content: center; padding: 10px 8px; font-size: 0.88rem; white-space: nowrap; }
+}

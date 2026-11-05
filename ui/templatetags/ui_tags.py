@@ -64,6 +64,29 @@ def icon(name, size=20):
     )
 
 
+FLAGS = {
+    "tz": (
+        '<svg class="flag" viewBox="0 0 30 20" width="{w}" height="{h}" aria-hidden="true">'
+        '<path fill="#1eb53a" d="M0 0h30L0 20z"/><path fill="#00a3dd" d="M30 0v20H0z"/>'
+        '<path stroke="#fcd116" stroke-width="7" d="M0 20 30 0"/><path stroke="#000" stroke-width="4.4" d="M0 20 30 0"/></svg>'
+    ),
+    "gb": (
+        '<svg class="flag" viewBox="0 0 60 40" width="{w}" height="{h}" aria-hidden="true"><path fill="#012169" d="M0 0h60v40H0z"/>'
+        '<path stroke="#fff" stroke-width="8" d="m0 0 60 40M60 0 0 40"/><path stroke="#c8102e" stroke-width="3" d="m0 0 60 40M60 0 0 40"/>'
+        '<path stroke="#fff" stroke-width="12" d="M30 0v40M0 20h60"/><path stroke="#c8102e" stroke-width="7" d="M30 0v40M0 20h60"/></svg>'
+    ),
+}
+
+
+@register.simple_tag
+def flag(code, height=14):
+    """Bendera ndogo ya SVG: emoji za bendera hazionekani kwenye Windows na simu nyingi."""
+    svg = FLAGS.get(code)
+    if not svg:
+        return ""
+    return mark_safe(svg.format(w=round(height * 1.5), h=height))
+
+
 @register.filter
 def tsh(value):
     try:
