@@ -70,7 +70,9 @@ def checkin(request, token):
 
     with transaction.atomic():
         router = get_object_or_404(
-            Router.objects.select_for_update(), provision_token=token, is_active=True
+            # Mmiliki analetwa pamoja (si swali la pili); router peke yake ndiyo inafungwa.
+            Router.objects.select_related("owner").select_for_update(of=("self",)),
+            provision_token=token, is_active=True,
         )
         router.last_seen_at = timezone.now()
         router.routeros_version = report.get("v", "")[:60]

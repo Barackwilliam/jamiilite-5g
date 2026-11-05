@@ -3,6 +3,7 @@ Mipangilio ya biashara ya JamiiLite: kutoka PlatformConfig (dashboard ya Super
 Admin) ikiwa imewekwa, vinginevyo kutoka `.env`.
 """
 
+import threading
 from dataclasses import dataclass
 
 from django.conf import settings
@@ -21,7 +22,38 @@ class Config:
     announcement: str
 
 
+_request = threading.local()
+
+
 def current():
+    """Inasomwa mara moja tu kwa kila ombi (RequestConfigMiddleware), si kila inapoitwa."""
+    if getattr(_request, "active", False):
+        if _request.value is None:
+            _request.value = _build()
+        return _request.value
+    return _build()
+
+
+def forget():
+    """Baada ya kuhifadhi mipangilio mipya, ombi hili lisome upya."""
+    _request.value = None
+
+
+class RequestConfigMiddleware:
+    """Mipangilio inakumbukwa kwa muda wa ombi moja, kisha inasahaulika."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        _request.active, _request.value = True, None
+        try:
+            return self.get_response(request)
+        finally:
+            _request.active, _request.value = False, None
+
+
+def _build():
     row = PlatformConfig.load()
 
     def pick(field, default):

@@ -287,3 +287,37 @@ class RadiusHeartbeatTests(TestCase):
         beat = ServiceHeartbeat.objects.get(name="radius")
         self.assertEqual(beat.stats["counts"]["ignored"], 1)
         self.assertIn("haijulikani", beat.stats["warnings"][0]["message"])
+
+
+class LogoUploadTests(TestCase):
+    def setUp(self):
+        self.owner = make_owner()
+        self.client.force_login(self.owner.user)
+
+    def _png(self, size):
+        import io
+
+        from PIL import Image
+        from django.core.files.uploadedfile import SimpleUploadedFile
+
+        buffer = io.BytesIO()
+        Image.new("RGB", size, (245, 166, 35)).save(buffer, "PNG")
+        return SimpleUploadedFile("logo.png", buffer.getvalue(), content_type="image/png")
+
+    @override_settings(STORAGES={
+        "default": {"BACKEND": "django.core.files.storage.InMemoryStorage"},
+        "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+    })
+    def test_logo_is_resized_to_small_webp(self):
+        from PIL import Image
+
+        response = self.client.post(reverse("dashboard:settings"), {
+            "business_name": "Logo WiFi", "phone": "0712345678", "language": "sw", "logo": self._png((1600, 900)),
+        })
+        self.assertEqual(response.status_code, 302)
+        self.owner.refresh_from_db()
+        self.assertTrue(self.owner.logo.name.endswith(".webp"))
+        with self.owner.logo.open("rb") as fh:
+            image = Image.open(fh)
+            self.assertEqual(image.format, "WEBP")
+            self.assertLessEqual(max(image.size), 256)

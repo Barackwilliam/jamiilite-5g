@@ -194,6 +194,12 @@ def pay(request, slug):
         form.add_error("phone", gettext("Maombi mengi ya malipo kwa namba hii. Subiri dakika chache, kisha ujaribu tena."))
         return _render_home(request, router, form, status=429)
 
+    # Mbonyezo wa pili (au kurudi nyuma na kutuma tena) kutoka kifaa hiki hiki: rudi kwenye
+    # malipo yaliyokwisha anza, usianzishe ombi jipya la Pesapal.
+    repeat = _recent_same_payment(request, router, form.cleaned_data["package"], form.cleaned_data["phone"])
+    if repeat is not None:
+        return redirect("portal:payment_status", slug=router.slug, payment_id=repeat.pk)
+
     params = request.session.get(_hotspot_session_key(router), {})
     payment = start_payment(
         router=router,
@@ -207,6 +213,24 @@ def pay(request, slug):
     owned.append(str(payment.pk))
     request.session[SESSION_PAYMENTS_KEY] = owned[-20:]
     return redirect("portal:payment_status", slug=router.slug, payment_id=payment.pk)
+
+
+REPEAT_WINDOW = timedelta(minutes=2)
+
+
+def _recent_same_payment(request, router, package, phone):
+    """Malipo yanayosubiri, ya kifaa hiki, kwa kifurushi na namba ile ile, ndani ya dakika 2."""
+    owned = request.session.get(SESSION_PAYMENTS_KEY, [])
+    if not owned:
+        return None
+    return (
+        Payment.objects.filter(
+            pk__in=owned, router=router, package=package, phone=phone,
+            status=Payment.Status.PENDING, created_at__gte=timezone.now() - REPEAT_WINDOW,
+        )
+        .order_by("-created_at")
+        .first()
+    )
 
 
 @require_http_methods(["GET"])

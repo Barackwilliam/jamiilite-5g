@@ -26,7 +26,7 @@
       <article class="tk{% if voucher.activated_at %} is-used{% endif %}">
         <svg class="tk-wave" viewBox="0 0 120 60" preserveAspectRatio="none" aria-hidden="true"><path d="M30 0h90v60C98 34 70 50 52 30 40 16 44 6 30 0z"/><path class="tk-wave-2" d="M58 0h62v34C104 18 86 26 74 14 68 8 66 3 58 0z"/></svg>
         <div class="tk-head">
-          <span class="tk-mark" aria-hidden="true">{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="">{% else %}{% icon "wifi" 20 %}{% endif %}</span>
+          <span class="tk-mark" aria-hidden="true">{% if owner.logo %}<img src="{{ owner.logo.url }}" alt="" width="38" height="38" decoding="async">{% else %}{% icon "wifi" 20 %}{% endif %}</span>
           <div>
             <p class="tk-biz">{{ owner.business_name }}</p>
             <p class="tk-pkg">{% icon "clock" 13 %} {{ voucher.package.name }} · {{ voucher.package.price|tsh }}</p>

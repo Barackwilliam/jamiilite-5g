@@ -23,6 +23,11 @@
   var rand = function (a, b) { return a + Math.random() * (b - a); };
   var pick = function (list) { return list[Math.floor(Math.random() * list.length)]; };
   var sleep = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+  // Sehemu zilizo chini ya skrini zinaanza kivinjari kikiwa huru, si wakati ukurasa unafunguka.
+  var whenIdle = function (fn) {
+    if ("requestIdleCallback" in window) window.requestIdleCallback(fn, { timeout: 2500 });
+    else setTimeout(fn, 400);
+  };
 
   var PACKAGES = [[_("Saa 1"), 500], [_("Siku 1"), 1000], [_("Saa 1"), 500], [_("Wiki"), 5000]];
 
@@ -659,7 +664,7 @@
     }
   };
 
-  document.querySelectorAll("[data-sim]").forEach(function (el) { new Sim(el); });
+  whenIdle(function () { document.querySelectorAll("[data-sim]").forEach(function (el) { new Sim(el); }); });
 
   // ======================================================================
   // 3. Bila / Na JamiiLite
@@ -828,7 +833,7 @@
   Journey.prototype.play = function () { this.playing = true; this.renderPlay(); this.go((this.index + 1) % this.steps.length); };
   Journey.prototype.pause = function () { this.playing = false; clearTimeout(this.timer); this.renderPlay(); };
 
-  document.querySelectorAll("[data-journey]").forEach(function (el) { new Journey(el); });
+  whenIdle(function () { document.querySelectorAll("[data-journey]").forEach(function (el) { new Journey(el); }); });
 
   // ======================================================================
   // 6. Tabs: sehemu zinafunguka unapogusa

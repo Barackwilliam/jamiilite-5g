@@ -507,6 +507,7 @@
     var cutoff = Date.now() - 60000;
     this.recent = this.recent.filter(function (t) { return t >= cutoff; });
     var clients = this.routers.reduce(function (sum, r) { return sum + (r.online ? r.clients : 0); }, 0);
+    this.root.classList.remove("is-loading"); // data ya kwanza imefika: ondoa skeleton
     var values = {
       today_amount: tsh(this.stats.today_amount || 0),
       clients: String(this.demo ? clients : this.stats.clients || clients),

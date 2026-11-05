@@ -175,7 +175,8 @@ def owner_required(view):
     @login_required(login_url="dashboard:login")
     @wraps(view)
     def wrapper(request, *args, **kwargs):
-        owner = Owner.objects.filter(user=request.user).first()
+        # Middleware ya lugha imeshamleta mmiliki (user.owner), kwa hiyo hakuna swali jipya.
+        owner = getattr(request.user, "owner", None)
         if owner is None:
             if request.user.is_superuser:
                 return redirect("control:home")

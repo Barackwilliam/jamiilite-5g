@@ -12,7 +12,7 @@
   <main class="card">
     <header class="brand">
       {% if owner.logo %}
-        <img class="brand-logo" src="{{ owner.logo.url }}" alt="{{ owner.business_name }}">
+        <img class="brand-logo" src="{{ owner.logo.url }}" alt="{{ owner.business_name }}" width="52" height="52" decoding="async" fetchpriority="high">
       {% else %}
         <div class="brand-mark" aria-hidden="true">{{ owner.business_name|slice:":1"|upper }}</div>
       {% endif %}
@@ -27,5 +27,6 @@
     {% blocktranslate %}Inaendeshwa na <strong>JamiiLite 5G</strong>{% endblocktranslate %}
     <nav class="footer-links"><a href="{% url 'pages:masharti' %}">{% translate "Masharti" %}</a> · <a href="{% url 'pages:faragha' %}">{% translate "Faragha" %}</a></nav>
   </footer>
+  {% include "ui/_busy_forms.html" %}
 </body>
 </html>

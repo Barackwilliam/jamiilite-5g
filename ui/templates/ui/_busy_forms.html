@@ -1,0 +1,20 @@
+<script>
+/* Fomu inatumwa mara moja tu: kitufe kinaonyesha kinazunguka papo hapo, mbonyezo wa pili unazuiwa. */
+(function () {
+  document.addEventListener("submit", function (e) {
+    var form = e.target;
+    if (e.defaultPrevented || (form.method || "").toLowerCase() !== "post" || form.hasAttribute("data-no-busy")) return;
+    if (form.dataset.busy) { e.preventDefault(); return; }
+    form.dataset.busy = "1";
+    var button = e.submitter || form.querySelector("[type=submit]");
+    if (button) { button.classList.add("is-busy"); button.setAttribute("aria-busy", "true"); }
+    setTimeout(function () { reset(form); }, 12000);
+  });
+  function reset(form) {
+    delete form.dataset.busy;
+    form.querySelectorAll(".is-busy").forEach(function (b) { b.classList.remove("is-busy"); b.removeAttribute("aria-busy"); });
+  }
+  /* Ukirudi nyuma kwenye ukurasa ulioukumbuka kivinjari, vitufe viwe hai tena. */
+  window.addEventListener("pageshow", function () { document.querySelectorAll("form[data-busy]").forEach(reset); });
+})();
+</script>
