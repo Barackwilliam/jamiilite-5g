@@ -28,6 +28,7 @@ ICONS = {
     "receive": '<path d="M17 7 7 17"/><path d="M17 17H7V7"/>',
     "edit": '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
     "info": '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5h.01"/>',
+    "pin": '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
     "send": '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
     "logout": '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/>',
     "menu": '<path d="M4 7h16M4 12h16M4 17h16"/>',

@@ -554,3 +554,13 @@ body .side .side-cta { color: #2A1702; }
   .topbar-login { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.16); color: var(--text); font-weight: 700; font-size: 0.9rem; text-decoration: none; }
 }
 body .topbar .topbar-login { color: var(--text); }
+
+/* Mji wa usiku chini ya kila ukurasa wa nje */
+.footer { padding-top: 0; border-top: 0; }
+.footer-skyline { position: relative; margin-bottom: 36px; }
+.footer-skyline img { display: block; width: 100%; height: clamp(70px, 10vw, 122px); object-fit: cover; object-position: center bottom;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 60%); mask-image: linear-gradient(to bottom, transparent 0, #000 60%); }
+.footer-skyline::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, #22b8e0 25%, transparent 50%, #ff8a1f 80%, transparent); opacity: 0.7; }
+.footer-place { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 14px 0 0; color: var(--text); font-weight: 700; letter-spacing: 0.08em; font-size: 0.85rem; }
+.footer-place svg { color: #ff9f2a; }

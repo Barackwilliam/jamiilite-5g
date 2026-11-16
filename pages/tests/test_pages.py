@@ -36,7 +36,8 @@ class LandingLanguageTests(TestCase):
     def test_landing_has_simulator_and_language_switch(self):
         response = self.client.get(reverse("pages:home"))
         self.assertContains(response, "data-sim")
-        self.assertContains(response, "data-scene")
+        self.assertContains(response, "img/hero-router")
+        self.assertContains(response, "img/skyline")
         self.assertContains(response, 'name="language" value="en"')
 
     def test_public_pages_in_english(self):
