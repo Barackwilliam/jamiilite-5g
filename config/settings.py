@@ -38,6 +38,8 @@ if not SECRET_KEY:
 
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1" if DEBUG else "")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
+# Fomu ikitumwa na tiketi ya zamani: ukurasa rafiki wa "jaribu tena", si ukurasa wa kiufundi.
+CSRF_FAILURE_VIEW = "ui.views.csrf_failure"
 # Render inaweka jina la huduma (mfano jamiilite.onrender.com) kwenye mazingira.
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
@@ -77,6 +79,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "ui.middleware.UserLanguageMiddleware",
     "ui.middleware.UrlLanguageMiddleware",
+    "ui.middleware.FreshFormPagesMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]

@@ -1,7 +1,7 @@
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from django.conf import settings
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.utils import translation
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
@@ -33,3 +33,14 @@ def set_language(request):
         max_age=settings.LANGUAGE_COOKIE_AGE, samesite="Lax", secure=request.is_secure(),
     )
     return response
+
+
+def csrf_failure(request, reason=""):
+    """
+    Fomu ilitumwa na "tiketi" ya zamani (ukurasa ulikaa muda mrefu, au mtu aliingia kwenye tab
+    nyingine). Badala ya ukurasa wa kiufundi, mrudishe kwenye ukurasa uleule aujaribu tena.
+    """
+    back = request.META.get("HTTP_REFERER", "")
+    if not back or not url_has_allowed_host_and_scheme(back, {request.get_host()}, request.is_secure()):
+        back = request.path if request.method == "GET" else "/"
+    return render(request, "ui/csrf_failure.html", {"back_url": back}, status=403)
