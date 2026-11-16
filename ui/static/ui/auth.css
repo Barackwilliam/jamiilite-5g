@@ -258,3 +258,24 @@ body.auth h1, body.auth h2, .auth-submit, .auth-logo, .auth-art-logo { font-fami
 .auth .app-logo b { background: linear-gradient(100deg, #FFB627 0%, #F5A623 40%, #FF7A3D 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .auth-terms { margin: 12px 0 0; font-size: 0.82rem; color: var(--muted, #a7b3ca); text-align: center; }
 .auth-terms a { color: #ffc456; }
+
+/* ============================================================
+   Mandhari ya usiku sawa na kurasa za nje: navy nzito, mwanga wa
+   bluu kulia na chini, nyota chache badala ya gridi.
+   ============================================================ */
+body.auth {
+  --bg: #020B1F; --surface: #071433; --surface-2: #0A1A3C;
+  background:
+    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.6), transparent 60%),
+    radial-gradient(1.2px 1.2px at 46% 12%, rgba(255, 255, 255, 0.5), transparent 60%),
+    radial-gradient(1px 1px at 72% 30%, rgba(255, 255, 255, 0.45), transparent 60%),
+    radial-gradient(1.2px 1.2px at 88% 64%, rgba(255, 255, 255, 0.4), transparent 60%),
+    radial-gradient(1px 1px at 30% 70%, rgba(255, 255, 255, 0.35), transparent 60%),
+    radial-gradient(1100px 700px at 100% 8%, rgba(0, 60, 140, 0.5), transparent 65%),
+    radial-gradient(800px 420px at 50% 115%, rgba(0, 70, 150, 0.4), transparent 70%),
+    linear-gradient(180deg, #01081A 0%, #020B1F 45%, #03153A 100%);
+  background-attachment: fixed;
+}
+.auth-art { background: linear-gradient(160deg, #031030 0%, #04163D 50%, #020B1F 100%); }
+.auth-card { background: linear-gradient(180deg, rgba(8, 30, 66, 0.92), rgba(2, 11, 31, 0.96)); }
+@media (max-width: 900px) { .auth-art { background: transparent; } }
