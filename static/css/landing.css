@@ -1,8 +1,8 @@
 /* JamiiLite 5G: ukurasa wa mwanzo (landing). Muonekano wa usiku, wenye mwanga. */
 
 body.page-landing {
-  --lp-bg: #0B1A36;
-  --lp-bg-2: #0A2245;
+  --lp-bg: #020B1F;
+  --lp-bg-2: #071a3c;
   --lp-card: rgba(255, 255, 255, 0.045);
   --lp-card-2: rgba(255, 255, 255, 0.07);
   --lp-line: rgba(255, 255, 255, 0.1);
