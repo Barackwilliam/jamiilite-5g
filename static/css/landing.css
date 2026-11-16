@@ -1,8 +1,8 @@
 /* JamiiLite 5G: ukurasa wa mwanzo (landing). Muonekano wa usiku, wenye mwanga. */
 
 body.page-landing {
-  --lp-bg: #0B1A36;
-  --lp-bg-2: #0A2245;
+  --lp-bg: #020B1F;
+  --lp-bg-2: #071a3c;
   --lp-card: rgba(255, 255, 255, 0.045);
   --lp-card-2: rgba(255, 255, 255, 0.07);
   --lp-line: rgba(255, 255, 255, 0.1);
@@ -589,4 +589,26 @@ body.page-landing {
 @media (max-width: 520px) {
   .lp-tablist { display: grid; grid-template-columns: 1fr 1fr; overflow: visible; width: 100%; border-radius: 18px; }
   .lp-tablist button { justify-content: center; text-align: center; white-space: normal; line-height: 1.2; min-height: 44px; }
+}
+
+/* ============================================================
+   Hero kama picha ya mmiliki: router, mnara na mwanga upande wa kulia
+   ============================================================ */
+.lp-visual { position: relative; justify-self: end; height: clamp(480px, 74vh, 700px); aspect-ratio: 444 / 885; margin: -40px -8px -60px 0; }
+.lp-visual::before { content: ""; position: absolute; inset: 10% -30% 0 -40%; z-index: -1; background: radial-gradient(closest-side at 60% 70%, rgba(255, 140, 40, 0.28), transparent 70%), radial-gradient(closest-side at 40% 25%, rgba(34, 140, 255, 0.35), transparent 70%); filter: blur(10px); }
+.lp-visual img { display: block; width: 100%; height: 100%; object-fit: cover;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28%, #000 88%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 18%, #000 78%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 28%, #000 88%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 18%, #000 78%, transparent 100%);
+  mask-composite: intersect; }
+/* Mstari wa rangi chini ya neno linalobadilika ("sells") */
+.lp-rotate > span { position: relative; justify-self: start; }
+.lp-rotate > span::after { content: ""; position: absolute; left: 0; right: 0.05em; bottom: -0.08em; height: 0.2em; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M3 11C60 3 140 1 197 6' fill='none' stroke='%23ff8a1f' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%; }
+.lp-pill .flag { display: inline-block; vertical-align: -2px; margin-left: 4px; border-radius: 2px; }
+@media (max-width: 900px) {
+  .lp-visual { justify-self: center; width: min(100%, 520px); height: 340px; aspect-ratio: auto; margin: 0 auto 10px; }
+  .lp-visual img { object-position: 50% 62%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 80%, transparent 100%), linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 80%, transparent 100%), linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%); }
 }

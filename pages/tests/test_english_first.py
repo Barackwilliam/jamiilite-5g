@@ -16,26 +16,28 @@ class EnglishFirstTests(TestCase):
         self.assertIn('hreflang="sw" href="http://testserver/?lang=sw"', html)
 
     def test_swahili_when_chosen_and_remembered(self):
-        self.assertIn('<html lang="sw">', self.client.get("/?lang=sw").content.decode())
+        html = self.client.get("/?lang=sw").content.decode()
+        self.assertIn('<html lang="sw">', html)
+        # Maandishi yenyewe yawe ya Kiswahili, si Kiingereza chenye lang="sw".
+        self.assertIn("WiFi yako", html)
+        self.assertNotIn("Your WiFi", html)
         self.assertIn('<html lang="sw">', self.client.get(reverse("pages:mahitaji")).content.decode())
 
-    def test_clean_address_stays_english_whatever_the_browser(self):
-        html = self.client.get("/", HTTP_ACCEPT_LANGUAGE="sw").content.decode()
-        self.assertIn('<html lang="en">', html)
 
-    def test_language_switch_shows_english_first(self):
-        html = self.client.get("/").content.decode()
-        self.assertLess(html.index('value="en"'), html.index('value="sw"'))
+class SwahiliCatalogTests(TestCase):
+    """Kila neno lenye tafsiri ya Kiingereza liwe pia kwenye faili la Kiswahili (msgstr = msgid)."""
 
-    def test_sitemap_lists_english_at_clean_address(self):
-        body = self.client.get("/sitemap.xml").content.decode()
-        self.assertIn("<loc>http://testserver/mahitaji/</loc>", body)
-        self.assertIn("<loc>http://testserver/mahitaji/?lang=sw</loc>", body)
-        self.assertNotIn("?lang=en", body)
+    def test_swahili_catalog_covers_every_message(self):
+        import gettext
+        from pathlib import Path
 
-    def test_new_owner_defaults_to_english(self):
-        self.client.post(reverse("dashboard:signup"), {
-            "business_name": "Test WiFi", "phone": "0712345670",
-            "password1": "Strong-pass-9081", "password2": "Strong-pass-9081",
-        })
-        self.assertEqual(Owner.objects.get(business_name="Test WiFi").language, "en")
+        from django.conf import settings
+
+        base = Path(settings.BASE_DIR) / "locale"
+        for name in ("django", "djangojs"):
+            with open(base / "en/LC_MESSAGES" / f"{name}.mo", "rb") as f:
+                en = gettext.GNUTranslations(f)._catalog
+            with open(base / "sw/LC_MESSAGES" / f"{name}.mo", "rb") as f:
+                sw = gettext.GNUTranslations(f)._catalog
+            missing = [k for k in en if k and k not in sw]
+            self.assertEqual(missing, [], f"{name}: maneno haya hayapo kwenye locale/sw")

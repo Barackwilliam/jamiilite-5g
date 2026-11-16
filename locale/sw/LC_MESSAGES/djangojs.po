@@ -1,0 +1,164 @@
+# Kiswahili: maandishi asilia (msgid) ni Kiswahili, kwa hiyo kila msgstr ni msgid wake.
+# Bila faili hili, Django ingerudi kwenye LANGUAGE_CODE (Kiingereza) mtu akichagua Kiswahili.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 03:33+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: static/js/landing.js:27 static/js/landing.js:100 static/js/landing.js:899
+#: ui/static/ui/live.js:34
+msgid "Saa 1"
+msgstr "Saa 1"
+
+#: static/js/landing.js:27 static/js/landing.js:99 static/js/landing.js:439
+#: static/js/landing.js:901 ui/static/ui/live.js:34
+msgid "Siku 1"
+msgstr "Siku 1"
+
+#: static/js/landing.js:27 static/js/landing.js:903 ui/static/ui/live.js:34
+msgid "Wiki"
+msgstr "Wiki"
+
+#: static/js/landing.js:233 static/js/landing.js:597 static/js/landing.js:902
+msgid "Muda umeisha · mteja ametoka"
+msgstr "Muda umeisha · mteja ametoka"
+
+#: static/js/landing.js:440 static/js/landing.js:574 static/js/landing.js:900
+msgid "Mteja ameingia · JamiiTek WiFi"
+msgstr "Mteja ameingia · JamiiTek WiFi"
+
+#: static/js/landing.js:536
+msgid "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako."
+msgstr "Lipa Tsh %(amount)s kwa JAMIITEK WIFI? Weka PIN yako."
+
+#: static/js/landing.js:710
+msgid "siku %(n)s"
+msgid_plural "siku %(n)s"
+msgstr[0] "siku %(n)s"
+msgstr[1] "siku %(n)s"
+
+#: static/js/landing.js:825
+msgid "Simamisha"
+msgstr "Simamisha"
+
+#: static/js/landing.js:825
+msgid "Cheza"
+msgstr "Cheza"
+
+#: static/js/landing.js:899 static/js/landing.js:900 static/js/landing.js:901
+#: static/js/landing.js:903
+msgid "sasa hivi"
+msgstr "sasa hivi"
+
+#: static/js/landing.js:902
+msgid "Router imemkata yenyewe"
+msgstr "Router imemkata yenyewe"
+
+#: ui/static/ui/live.js:33
+msgid "Duka la Kati"
+msgstr "Duka la Kati"
+
+#: ui/static/ui/live.js:33
+msgid "Kibanda cha Stendi"
+msgstr "Kibanda cha Stendi"
+
+#: ui/static/ui/live.js:33
+msgid "Saluni ya Mama Asha"
+msgstr "Saluni ya Mama Asha"
+
+#: ui/static/ui/live.js:70
+msgid "Malipo"
+msgstr "Malipo"
+
+#: ui/static/ui/live.js:105
+msgid "Rudi kwenye data halisi"
+msgstr "Rudi kwenye data halisi"
+
+#: ui/static/ui/live.js:105
+msgid "Onyesha mfano"
+msgstr "Onyesha mfano"
+
+#: ui/static/ui/live.js:144
+msgid "Ingia tena"
+msgstr "Ingia tena"
+
+#: ui/static/ui/live.js:144
+msgid "Imekatika, inajaribu tena…"
+msgstr "Imekatika, inajaribu tena…"
+
+#: ui/static/ui/live.js:196
+msgid "Mfano"
+msgstr "Mfano"
+
+#: ui/static/ui/live.js:198
+msgid "Pesapal (mfano)"
+msgstr "Pesapal (mfano)"
+
+#: ui/static/ui/live.js:200
+msgid "MFANO"
+msgstr "MFANO"
+
+#: ui/static/ui/live.js:223
+msgid "Ombi la malipo"
+msgstr "Ombi la malipo"
+
+#: ui/static/ui/live.js:228
+msgid "Amelipa"
+msgstr "Amelipa"
+
+#: ui/static/ui/live.js:233 ui/static/ui/live.js:242
+msgid "Ameingia"
+msgstr "Ameingia"
+
+#: ui/static/ui/live.js:233 ui/static/ui/live.js:242
+msgid "vocha"
+msgstr "vocha"
+
+#: ui/static/ui/live.js:239
+msgid "Matumizi"
+msgstr "Matumizi"
+
+#: ui/static/ui/live.js:245
+msgid "Amekataliwa"
+msgstr "Amekataliwa"
+
+#: ui/static/ui/live.js:245
+msgid "Vocha si sahihi"
+msgstr "Vocha si sahihi"
+
+#: ui/static/ui/live.js:245
+msgid "Muda wa vocha umeisha"
+msgstr "Muda wa vocha umeisha"
+
+#: ui/static/ui/live.js:248
+msgid "Ametoka"
+msgstr "Ametoka"
+
+#: ui/static/ui/live.js:336
+msgid "Vocha · Malipo"
+msgstr "Vocha · Malipo"
+
+#: ui/static/ui/live.js:346
+msgid "Ongeza router ili uone mtandao wako hapa"
+msgstr "Ongeza router ili uone mtandao wako hapa"
+
+#: ui/static/ui/live.js:349
+msgid "+ routers %(n)s zaidi"
+msgstr "+ routers %(n)s zaidi"
+
+#: ui/static/ui/live.js:395
+msgid "mteja 1"
+msgstr "mteja 1"
+
+#: ui/static/ui/live.js:395
+msgid "wateja %(n)s"
+msgstr "wateja %(n)s"

@@ -1,5 +1,5 @@
 {% extends "pages/base.html" %}
-{% load static i18n %}
+{% load static i18n ui_tags %}
 
 {% block title %}{% translate "JamiiLite 5G: uza WiFi yako kiotomatiki" %}{% endblock %}
 {% block body_class %}page-landing{% endblock %}
@@ -13,7 +13,7 @@
   <div class="lp-aurora" aria-hidden="true"></div>
   <div class="wrap lp-hero-grid">
     <div class="lp-hero-copy">
-      <p class="lp-pill"><span class="lp-live-dot"></span>{% translate "Mfumo wa WiFi za kulipia, Tanzania" %}</p>
+      <p class="lp-pill"><span class="lp-live-dot"></span>{% translate "Mfumo wa WiFi za kulipia, Tanzania" %} {% flag "tz" 13 %}</p>
       {% translate "inauza" as w1 %}{% translate "inapokea malipo" as w2 %}{% translate "inatoa vocha" as w3 %}
       <h1>{% blocktranslate %}WiFi yako <span class="lp-rotate" data-rotate><span class="lp-grad-text is-on">{{ w1 }}</span><span class="lp-grad-text" aria-hidden="true">{{ w2 }}</span><span class="lp-grad-text" aria-hidden="true">{{ w3 }}</span></span> yenyewe.{% endblocktranslate %}</h1>
       <p class="lp-lead">{% translate "Wateja wanalipa kwa simu na kuunganishwa papo hapo. Muda ukiisha, wanakatwa wenyewe." %}</p>
@@ -26,20 +26,8 @@
       </ul>
     </div>
 
-    <div class="lp-scene" data-scene>
-      <canvas class="lp-scene-canvas" role="img" aria-label="{% translate 'Wateja wakiunganishwa kwenye WiFi ya duka na kulipa kwa simu' %}"></canvas>
-      <span class="lp-scene-tag">📍 JamiiTek WiFi · Sinza</span>
-      <div class="lp-scene-stats" aria-hidden="true">
-        <span><b data-scene-online>0</b> {% translate "online" %}</span>
-        <span><b data-scene-sales>0</b> {% translate "mauzo" %}</span>
-      </div>
-      <aside class="owner-phone" aria-label="{% translate 'Simu ya mmiliki' %}">
-        <div class="owner-notch"></div>
-        <p class="owner-app">JamiiLite · JamiiTek WiFi</p>
-        <p class="owner-label">{% translate "Mapato ya leo" %}</p>
-        <p class="owner-balance">Tsh <span data-owner-balance>0</span></p>
-        <ol class="owner-feed" data-owner-feed></ol>
-      </aside>
+    <div class="lp-visual">
+      <img src="{% static 'img/hero-router.webp' %}" width="444" height="885" alt="{% translate 'Router ya WiFi ya JamiiLite 5G na mnara wa mtandao usiku' %}" fetchpriority="high" decoding="async">
     </div>
   </div>
 

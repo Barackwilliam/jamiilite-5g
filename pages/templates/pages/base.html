@@ -99,6 +99,10 @@
   <main>{% block content %}{% endblock %}</main>
 
   <footer class="footer">
+    <div class="footer-skyline">
+      <img src="{% static 'img/skyline.webp' %}" width="1199" height="122" alt="" loading="lazy" decoding="async">
+      <p class="footer-place">{% icon "pin" 16 %} JAMIITEK WIFI · TANZANIA</p>
+    </div>
     <div class="wrap footer-grid">
       <div class="footer-brand">
         <a class="logo" href="{% url 'pages:home' %}">
