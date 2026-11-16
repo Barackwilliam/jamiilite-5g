@@ -4305,3 +4305,11 @@ msgid "dakika %(n)s iliyopita"
 msgid_plural "dakika %(n)s zilizopita"
 msgstr[0] "%(n)s minute ago"
 msgstr[1] "%(n)s minutes ago"
+
+#: ui/templates/ui/csrf_failure.html
+msgid "Ukurasa umepitwa na wakati"
+msgstr "This page has expired"
+
+#: ui/templates/ui/csrf_failure.html
+msgid "Fungua ukurasa upya, kisha ujaribu tena."
+msgstr "Reload the page, then try again."

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.urls import reverse
 from django.utils import translation
+from django.utils.cache import patch_cache_control
 
 
 class UserLanguageMiddleware:
@@ -68,3 +69,19 @@ def _public_paths():
 
         _PUBLIC_PATHS = {reverse(name) for name in SITEMAP_PAGES}
     return _PUBLIC_PATHS
+
+
+class FreshFormPagesMiddleware:
+    """
+    Ukurasa wenye fomu (tiketi ya CSRF) usiwekwe na kivinjari na kurudishwa ukiwa wa zamani:
+    kila unapofunguliwa, kivinjari kiulize server upya, ili tiketi iwe mpya.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        if request.META.get("CSRF_COOKIE_NEEDS_UPDATE") and response.get("Content-Type", "").startswith("text/html"):
+            patch_cache_control(response, private=True, no_cache=True, must_revalidate=True)
+        return response
