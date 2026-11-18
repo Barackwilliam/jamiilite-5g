@@ -230,6 +230,18 @@ class Package(models.Model):
         return " · ".join(parts)
 
     @property
+    def duration_group(self):
+        """Kundi la muda kwa vichupo vya ukurasa wa wateja: saa, siku, wiki au mwezi."""
+        minutes = self.duration_minutes
+        if minutes < 60 * 24:
+            return "saa"
+        if minutes < 60 * 24 * 7:
+            return "siku"
+        if minutes < 60 * 24 * 28:
+            return "wiki"
+        return "mwezi"
+
+    @property
     def duration_label(self):
         minutes = self.duration_minutes
         if minutes % (60 * 24 * 7) == 0:

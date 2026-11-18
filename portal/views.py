@@ -6,6 +6,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
+from django.db.models import Count
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods, require_POST
@@ -134,7 +135,28 @@ def _remaining_label(seconds):
     return min_part
 
 
+def _popular_package_id(router, packages):
+    """Kifurushi kilichouzwa zaidi siku 30 zilizopita kinapata alama "Maarufu" (angalau mauzo 3)."""
+    since = timezone.now() - timedelta(days=30)
+    top = (
+        Payment.objects.filter(
+            status=Payment.Status.PAID, package__in=packages, created_at__gte=since, package__owner=router.owner,
+        )
+        .values("package_id")
+        .annotate(n=Count("id"))
+        .order_by("-n")
+        .first()
+    )
+    return top["package_id"] if top and top["n"] >= 3 else None
+
+
 def _render_home(request, router, form, status=200):
+    packages = list(form.fields["package"].queryset)
+    groups = []
+    for pkg in packages:
+        if pkg.duration_group not in groups:
+            groups.append(pkg.duration_group)
+    order = ["saa", "siku", "wiki", "mwezi"]
     return render(
         request,
         "portal/home.html",
@@ -142,6 +164,9 @@ def _render_home(request, router, form, status=200):
             "router": router,
             "owner": router.owner,
             "form": form,
+            "popular_id": _popular_package_id(router, packages) if len(packages) > 1 else None,
+            # Vichupo vinaonekana tu kukiwa na vifurushi vingi vya aina tofauti za muda.
+            "package_groups": sorted(groups, key=order.index) if len(packages) >= 4 and len(groups) > 1 else [],
             # Usajili wa mmiliki ukiisha, mauzo mapya yanasimama, lakini vocha za
             # zamani bado zinaweza kutumika.
             "selling_paused": not ensure_active(router.owner),

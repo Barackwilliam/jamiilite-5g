@@ -4317,3 +4317,50 @@ msgstr "Ukurasa umepitwa na wakati"
 #: ui/templates/ui/csrf_failure.html
 msgid "Fungua ukurasa upya, kisha ujaribu tena."
 msgstr "Fungua ukurasa upya, kisha ujaribu tena."
+
+msgid "Kipima kasi ya mtandao"
+msgstr "Kipima kasi ya mtandao"
+
+msgid ""
+"Mauzo ya vifurushi yamesimama kwa muda. Kama una vocha, unganisha simu "
+"kwenye WiFi hii kisha uiweke."
+msgstr ""
+"Mauzo ya vifurushi yamesimama kwa muda. Kama una vocha, unganisha simu "
+"kwenye WiFi hii kisha uiweke."
+
+msgid "Aina ya kifurushi"
+msgstr "Aina ya kifurushi"
+
+msgctxt "kichupo"
+msgid "Saa"
+msgstr "Saa"
+
+msgctxt "kichupo"
+msgid "Siku"
+msgstr "Siku"
+
+msgctxt "kichupo"
+msgid "Wiki"
+msgstr "Wiki"
+
+msgctxt "kichupo"
+msgid "Mwezi"
+msgstr "Mwezi"
+
+msgid "Maarufu"
+msgstr "Maarufu"
+
+msgid "Namba ya simu ya kulipia"
+msgstr "Namba ya simu ya kulipia"
+
+msgid "Utapokea ombi la kuthibitisha malipo kwenye simu hii."
+msgstr "Utapokea ombi la kuthibitisha malipo kwenye simu hii."
+
+msgid "Chagua kifurushi"
+msgstr "Chagua kifurushi"
+
+msgid "Lipa sasa"
+msgstr "Lipa sasa"
+
+msgid "Weka msimbo uunganishwe papo hapo."
+msgstr "Weka msimbo uunganishwe papo hapo."
