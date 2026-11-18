@@ -169,3 +169,15 @@ def page_url(context, number):
     query = context["request"].GET.copy()
     query["ukurasa"] = number
     return "?" + query.urlencode()
+
+
+@register.simple_tag(takes_context=True)
+def lang_href(context, language):
+    """Anwani ya ukurasa huu huu kwa lugha nyingine (?lang=...), bila fomu wala tiketi ya CSRF.
+
+    Kurasa za hadhara zinabaki bila cookie ya CSRF, hivyo zinaweza kuhifadhiwa (cache) na
+    kurudishwa haraka kwa kila mtu.
+    """
+    request = context.get("request")
+    path = request.path if request is not None else ""
+    return f"{path}?lang={language}"

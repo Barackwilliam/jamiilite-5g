@@ -1,0 +1,5 @@
+{% load i18n ui_tags %}{% get_current_language as LANG %}
+<nav class="lang-switch{% if variant %} lang-switch-{{ variant }}{% endif %}" aria-label="{% translate 'Lugha' %} / Language">
+  <a href="{% lang_href 'en' %}" hreflang="en" lang="en" title="English" rel="alternate"{% if LANG == "en" %} aria-current="true"{% endif %}>EN</a>
+  <a href="{% lang_href 'sw' %}" hreflang="sw" lang="sw" title="Kiswahili" rel="alternate"{% if LANG == "sw" %} aria-current="true"{% endif %}>SW</a>
+</nav>

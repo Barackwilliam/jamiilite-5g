@@ -38,7 +38,7 @@ class LandingLanguageTests(TestCase):
         self.assertContains(response, "data-sim")
         self.assertContains(response, "img/hero-router")
         self.assertContains(response, "img/skyline")
-        self.assertContains(response, 'name="language" value="en"')
+        self.assertContains(response, 'href="/?lang=en"')
 
     def test_public_pages_in_english(self):
         for name, text in [
