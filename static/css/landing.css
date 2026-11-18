@@ -53,7 +53,7 @@ body.page-landing {
 /* --- Hero --- */
 .lp-hero { position: relative; padding: 56px 0 40px; overflow: hidden; isolation: isolate; }
 .lp-aurora {
-  position: absolute; inset: -20% -10% auto -10%; height: 900px; z-index: -1; pointer-events: none; filter: blur(60px); opacity: 0.85;
+  position: absolute; inset: -20% -10% auto -10%; height: 900px; z-index: -1; pointer-events: none; opacity: 0.85;
   background:
     radial-gradient(40% 35% at 20% 30%, rgba(34, 184, 224, 0.45), transparent 70%),
     radial-gradient(35% 30% at 75% 20%, rgba(245, 166, 35, 0.4), transparent 70%),
