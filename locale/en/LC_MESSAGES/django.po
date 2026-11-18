@@ -4313,3 +4313,50 @@ msgstr "This page has expired"
 #: ui/templates/ui/csrf_failure.html
 msgid "Fungua ukurasa upya, kisha ujaribu tena."
 msgstr "Reload the page, then try again."
+
+msgid "Kipima kasi ya mtandao"
+msgstr "Internet speed meter"
+
+msgid ""
+"Mauzo ya vifurushi yamesimama kwa muda. Kama una vocha, unganisha simu "
+"kwenye WiFi hii kisha uiweke."
+msgstr ""
+"Package sales are paused for now. If you have a voucher, connect your phone "
+"to this WiFi and enter it."
+
+msgid "Aina ya kifurushi"
+msgstr "Package type"
+
+msgctxt "kichupo"
+msgid "Saa"
+msgstr "Hours"
+
+msgctxt "kichupo"
+msgid "Siku"
+msgstr "Days"
+
+msgctxt "kichupo"
+msgid "Wiki"
+msgstr "Weeks"
+
+msgctxt "kichupo"
+msgid "Mwezi"
+msgstr "Months"
+
+msgid "Maarufu"
+msgstr "Popular"
+
+msgid "Namba ya simu ya kulipia"
+msgstr "Phone number to pay with"
+
+msgid "Utapokea ombi la kuthibitisha malipo kwenye simu hii."
+msgstr "You'll get a prompt on this phone to confirm the payment."
+
+msgid "Chagua kifurushi"
+msgstr "Choose a package"
+
+msgid "Lipa sasa"
+msgstr "Pay now"
+
+msgid "Weka msimbo uunganishwe papo hapo."
+msgstr "Enter your code to get online instantly."

@@ -1,270 +1,248 @@
-:root {
-  --bg: #f3f6fb;
-  --card: #ffffff;
-  --text: #14213d;
-  --muted: #5c6b86;
-  --border: #dbe2ee;
-  --accent: #0b6bcb;
-  --accent-text: #ffffff;
-  --accent-soft: #e6f0fb;
-  --danger-bg: #fdecec;
-  --danger: #b42318;
-}
+/* ============================================================
+   Ukurasa wa wateja wa hotspot (JamiiLite 5G).
+   Navy ya usiku na machungwa, kama website. Unafunguka kabla mteja
+   hajaunganishwa, mara nyingi kwa mtandao mdogo: hakuna picha nzito,
+   fonti moja ndogo tu (Sora 800) kwa vichwa na bei.
+   ============================================================ */
+@font-face { font-family: "Sora"; font-weight: 800; font-display: swap; src: url("../fonts/sora-800.woff2") format("woff2"); }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d1424;
-    --card: #151f33;
-    --text: #e6ecf7;
-    --muted: #9aa8c2;
-    --border: #2a3753;
-    --accent: #4d9cf0;
-    --accent-text: #0d1424;
-    --accent-soft: #1c2c47;
-    --danger-bg: #3a1d1f;
-    --danger: #f39b92;
-  }
+:root {
+  color-scheme: dark;
+  --bg: #020B1F;
+  --card: #0A1A38;
+  --text: #EEF2F9;
+  --muted: #8A98B3;
+  --soft: #B9C4D8;
+  --border: rgba(255, 255, 255, 0.11);
+  --accent: #F5A623;
+  --accent-text: #2A1702;
+  --accent-soft: rgba(245, 166, 35, 0.12);
+  --cyan: #22B8E0;
+  --green: #3CCF7E;
+  --danger-bg: rgba(240, 139, 128, 0.12);
+  --danger: #F4A59C;
+  --grad: linear-gradient(100deg, #FFB627 0%, #F5A623 40%, #FF7A3D 100%);
+  --head: "Sora", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 * { box-sizing: border-box; }
-
+html { -webkit-text-size-adjust: 100%; background: #03153A; }
 body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  padding: 16px;
+  margin: 0; min-height: 100dvh; color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding: max(18px, env(safe-area-inset-top)) 20px 24px;
+  background:
+    radial-gradient(1px 1px at 12% 6%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 78% 4%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.4px 1.4px at 92% 18%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 30% 22%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1px 1px at 60% 12%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(520px 380px at 50% 14%, rgba(0, 90, 200, 0.42), transparent 70%),
+    radial-gradient(360px 260px at 0 60%, rgba(245, 166, 35, 0.07), transparent 70%),
+    linear-gradient(180deg, #01081A 0%, #020B1F 40%, #03153A 100%);
 }
+body > * { max-width: 460px; margin-left: auto; margin-right: auto; }
+body.has-bar { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
 
-.card {
-  max-width: 440px;
-  margin: 0 auto;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 20px;
-}
-
-.brand { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-.brand h1 { font-size: 1.25rem; margin: 0; }
-.brand-logo { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; }
-.brand-mark {
-  width: 52px; height: 52px; border-radius: 12px;
-  display: grid; place-items: center;
-  background: var(--accent); color: var(--accent-text);
-  font-weight: 700; font-size: 1.4rem;
-}
-
-h2 { font-size: 1.05rem; margin: 0 0 12px; }
+h1, h2 { font-family: var(--head); letter-spacing: -0.02em; margin: 0; }
 .muted { color: var(--muted); margin: 4px 0; }
-.small { font-size: 0.875rem; }
+.small { font-size: 0.85rem; }
 .center { text-align: center; }
 .stack { display: grid; gap: 14px; }
-.divider { border-top: 1px solid var(--border); margin-top: 24px; padding-top: 20px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.packages { border: 0; margin: 0; padding: 0; display: grid; gap: 10px; }
+/* --- Kichwa: nembo, jina, mahali, lugha --- */
+.p-top { display: flex; align-items: center; gap: 14px; }
+.brand-mark, .brand-logo { flex: none; width: 52px; height: 52px; border-radius: 16px; }
+.brand-logo { object-fit: cover; box-shadow: 0 0 26px -6px rgba(245, 140, 35, 0.6); }
+.brand-mark {
+  display: grid; place-items: center; background: var(--grad); color: var(--accent-text);
+  font: 800 1.45rem var(--head); box-shadow: 0 0 28px rgba(245, 140, 35, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.brand-text { min-width: 0; }
+.brand-text h1 { font-size: 1.35rem; font-weight: 800; line-height: 1.2; overflow-wrap: anywhere; }
+.brand-loc { display: flex; align-items: center; gap: 7px; margin: 2px 0 0; color: var(--muted); font-size: 0.85rem; }
+.brand-loc i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+.portal-lang { margin-left: auto; flex: none; }
+.lang-switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 99px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14); }
+.lang-switch button { font: 700 0.75rem/1 system-ui, sans-serif; padding: 7px 11px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.14); color: #fff; }
+
+/* --- Kipima kasi --- */
+.meter { position: relative; width: min(300px, 100%); margin: 14px auto -6px; }
+.meter svg { display: block; width: 100%; height: auto; overflow: visible; }
+.m-track { fill: none; stroke: rgba(255, 255, 255, 0.07); stroke-width: 10; stroke-linecap: round; }
+.m-fill { fill: none; stroke: url(#mg); stroke-width: 10; stroke-linecap: round; }
+.m-glow { opacity: 0.7; }
+.m-ticks line { stroke-linecap: round; }
+.m-ticks .tk { stroke: rgba(255, 255, 255, 0.22); stroke-width: 1.4; }
+.m-ticks .tk-b { stroke: rgba(255, 255, 255, 0.55); stroke-width: 2.4; }
+.m-nums text { font: 600 11px system-ui, sans-serif; fill: #6F7D98; text-anchor: middle; }
+.m-needle { fill: #fff; transform-box: view-box; transform-origin: 150px 128px; transform: rotate(77deg); filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.45)); }
+.m-hub { fill: #0B1A36; stroke: url(#mg); stroke-width: 3; }
+.m-cap { fill: #fff; }
+.m-unit { position: absolute; left: 0; right: 0; top: 76%; text-align: center; font: 700 0.68rem system-ui, sans-serif; letter-spacing: 0.2em; color: #6F7D98; }
+@media (prefers-reduced-motion: no-preference) {
+  .m-needle { animation: needle-in 1.4s cubic-bezier(.2, .8, .2, 1) both, needle-idle 3.2s ease-in-out 1.4s infinite alternate; }
+  .m-fill { animation: fill-in 1.4s cubic-bezier(.2, .8, .2, 1) both; }
+}
+@keyframes needle-in { from { transform: rotate(-120deg); } to { transform: rotate(77deg); } }
+@keyframes needle-idle { from { transform: rotate(77deg); } to { transform: rotate(70deg); } }
+@keyframes fill-in { from { stroke-dashoffset: 300; } to { stroke-dashoffset: 0; } }
+
+/* --- Sehemu kuu --- */
+.p-main { display: grid; gap: 22px; }
+.p-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 14px; }
+.pay-form { display: grid; gap: 14px; }
+
+.tabs { display: flex; gap: 6px; }
+.tab {
+  flex: 1; min-width: 0; padding: 9px 0; border-radius: 99px; cursor: pointer;
+  font: 600 0.82rem system-ui, sans-serif; color: var(--soft);
+  background: transparent; border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.tab[aria-pressed="true"] { background: #fff; color: #0B1A36; border-color: #fff; }
+
+.packages { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 12px; }
 .package {
-  display: flex; align-items: center; gap: 12px;
-  border: 1px solid var(--border); border-radius: 12px;
-  padding: 12px 14px; cursor: pointer;
+  position: relative; display: flex; align-items: center; gap: 14px; min-width: 0; padding: 16px; border-radius: 20px; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.2s;
 }
-.package:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
-.package input { accent-color: var(--accent); width: 18px; height: 18px; margin: 0; }
-.package-body { flex: 1; display: grid; }
-.package-name { font-weight: 600; }
-.package-meta { color: var(--muted); font-size: 0.875rem; }
-.package-price { font-weight: 700; white-space: nowrap; }
-
-.field { display: grid; gap: 6px; font-weight: 600; }
-.field input {
-  font: inherit; padding: 12px 14px;
-  border: 1px solid var(--border); border-radius: 10px;
-  background: var(--card); color: var(--text);
+.package[hidden] { display: none; }
+.package:active { transform: scale(0.99); }
+.package input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.package:has(input:checked) {
+  border: 1.5px solid transparent;
+  background: linear-gradient(rgba(18, 48, 96, 0.97), rgba(10, 28, 64, 0.97)) padding-box, linear-gradient(120deg, var(--cyan), var(--accent)) border-box;
+  box-shadow: 0 18px 40px -20px rgba(245, 166, 35, 0.55), 0 0 0 4px rgba(245, 166, 35, 0.08);
 }
-.field input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-.field-error { color: var(--danger); font-weight: 400; font-size: 0.875rem; }
+.package:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.package-icon { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: rgba(34, 184, 224, 0.1); color: var(--cyan); }
+.package:has(input:checked) .package-icon { background: var(--grad); color: var(--accent-text); }
+.package-body { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.package-name { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 800 1rem var(--head); overflow-wrap: anywhere; }
+.package-meta { font-size: 0.8rem; color: var(--muted); }
+.package-price { flex: none; text-align: right; font: 800 1.15rem var(--head); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.package-price small { display: block; font: 700 0.64rem system-ui, sans-serif; letter-spacing: 0.1em; color: var(--muted); }
+.badge { padding: 3px 8px; border-radius: 99px; font: 700 0.64rem system-ui, sans-serif; letter-spacing: 0.02em; color: var(--accent-text); background: var(--grad); }
 
+.field { display: grid; gap: 10px; margin-top: 8px; font-weight: 600; font-size: 0.85rem; color: var(--soft); }
+.field input { font: inherit; color: var(--text); }
+.phone-input {
+  display: flex; align-items: center; border-radius: 18px; background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14); transition: border-color 0.15s, box-shadow 0.15s;
+}
+.phone-input:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.phone-flag { display: flex; align-items: center; padding: 0 2px 0 18px; }
+.flag { display: block; border-radius: 3px; flex-shrink: 0; }
+.phone-input input {
+  flex: 1; width: 100%; min-width: 0; padding: 16px 16px 16px 10px; border: 0; background: transparent; outline: 0;
+  font: 600 1.1rem system-ui, sans-serif; letter-spacing: 0.04em; color: var(--text);
+}
+.hint { margin: -4px 0 0; font-size: 0.78rem; color: #6F7D98; }
+.field-error { color: var(--danger); font-weight: 400; font-size: 0.85rem; }
+.pay-methods { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.pay-methods li { padding: 6px 12px; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.74rem; font-weight: 600; color: var(--soft); }
+
+/* Bei na kitufe cha kulipa: chini ya skrini muda wote */
+.pay-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; max-width: none;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px max(20px, calc((100vw - 460px) / 2)) calc(16px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(2, 11, 31, 0.75), rgba(2, 11, 31, 0.97) 35%);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 -14px 30px -14px rgba(0, 0, 0, 0.8);
+}
+.pay-bar-info { flex: 1; min-width: 0; }
+.pay-bar-info small { display: block; font-size: 0.78rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pay-bar-info b { display: block; font: 800 1.35rem var(--head); font-variant-numeric: tabular-nums; }
+
+/* --- Vitufe --- */
 .btn {
-  display: inline-block; width: 100%;
-  font: inherit; font-weight: 700; text-align: center; text-decoration: none;
-  padding: 13px 16px; border: 0; border-radius: 10px;
-  background: var(--accent); color: var(--accent-text); cursor: pointer;
+  display: inline-block; width: 100%; padding: 15px 18px; border: 0; border-radius: 16px; cursor: pointer;
+  font: 800 1rem var(--head); text-align: center; text-decoration: none;
+  background: var(--grad); color: var(--accent-text);
+  box-shadow: 0 12px 28px -10px rgba(245, 140, 35, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: transform 0.15s, filter 0.15s;
 }
-.btn-secondary { background: var(--accent-soft); color: var(--text); }
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn-pay { width: auto; flex: none; padding: 16px 26px; }
+.btn-secondary { background: rgba(255, 255, 255, 0.07); color: var(--text); border: 1px solid var(--border); box-shadow: none; }
 
-.alert { background: var(--danger-bg); color: var(--danger); padding: 10px 12px; border-radius: 10px; }
+.alert { margin: 0; padding: 14px 16px; border-radius: 16px; background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(240, 139, 128, 0.25); }
 
-.voucher-code {
-  font: 700 1.8rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing: 0.15em; margin: 6px 0;
+/* --- Vocha --- */
+.voucher-box { padding: 18px; border-radius: 20px; background: rgba(34, 184, 224, 0.06); border: 1px dashed rgba(34, 184, 224, 0.35); }
+.voucher-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.voucher-head h2 { font-size: 1rem; }
+.voucher-head .muted { margin: 2px 0 0; }
+.voucher-icon { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: rgba(34, 184, 224, 0.14); font-size: 1.2rem; }
+.voucher-login .field input {
+  padding: 14px 16px; border-radius: 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14);
+  font: 700 1.05rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase;
 }
+.voucher-login .field input:focus { outline: 0; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(34, 184, 224, 0.15); }
+.voucher-login .btn-secondary { border-color: rgba(34, 184, 224, 0.4); color: #7FDCF5; }
+.welcome-back { padding: 18px; border-radius: 20px; background: rgba(60, 207, 126, 0.08); border: 1px solid rgba(60, 207, 126, 0.3); }
+.welcome-back h2 { font-size: 1.1rem; }
 
-.spinner {
-  width: 40px; height: 40px; margin: 8px auto 16px;
-  border: 4px solid var(--accent-soft); border-top-color: var(--accent);
-  border-radius: 50%; animation: spin 0.9s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.connecting { margin: 14px 0 6px; padding: 14px; border-radius: 12px; background: var(--accent-soft); }
-.connecting .spinner { width: 28px; height: 28px; margin: 0 auto 8px; border-width: 3px; border-color: rgba(255, 255, 255, 0.6); border-top-color: var(--accent); }
-.connecting p { margin: 0; }
-
-.footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 16px; }
-
-.sr-only {
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); white-space: nowrap;
-}
-
-/* Mteja anayerudi akiwa bado na muda */
-.welcome-back { background: var(--accent-soft); border-radius: 12px; padding: 14px; }
-.welcome-back h2 { margin-top: 0; }
-
-/* Kubadilisha lugha kwenye ukurasa wa kulipia */
-.portal-lang { display: flex; justify-content: flex-end; width: min(460px, 100%); margin: 0 auto 8px; }
-.lang-switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 99px; background: var(--card); border: 1px solid var(--border); }
-.lang-switch button { font: inherit; font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); cursor: pointer; }
-.lang-switch button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
+.footer { text-align: center; color: #6F7D98; font-size: 0.78rem; margin-top: 28px; line-height: 1.8; }
+.footer strong { color: var(--soft); }
+.footer-links a { color: #6F7D98; }
 
 /* ============================================================
-   Navy na dhahabu, kama ukurasa wa JamiiLite. Fonti za mfumo tu:
-   ukurasa huu unafunguka kupitia hotspot, mara nyingi kwa internet ndogo.
+   Kurasa za malipo na vocha (status.html): kadi moja katikati.
    ============================================================ */
-:root {
-  color-scheme: dark;
-  --bg: #0a1733;
-  --card: #10244b;
-  --text: #eef2f9;
-  --muted: #a7b3ca;
-  --border: rgba(255, 255, 255, 0.11);
-  --accent: #f5a623;
-  --accent-text: #2a1702;
-  --accent-soft: rgba(245, 166, 35, 0.12);
-  --danger-bg: rgba(240, 139, 128, 0.12);
-  --danger: #f4a59c;
-  --grad: linear-gradient(100deg, #ffb627 0%, #f5a623 40%, #ff7a3d 100%);
-}
-body {
-  min-height: 100dvh;
-  background:
-    radial-gradient(520px 320px at 100% -10%, rgba(34, 184, 224, 0.18), transparent 65%),
-    radial-gradient(480px 320px at -10% 40%, rgba(245, 166, 35, 0.12), transparent 65%),
-    var(--bg);
-  -webkit-font-smoothing: antialiased;
-}
 .card {
-  border-radius: 24px; padding: 22px;
-  background: linear-gradient(180deg, rgba(22, 48, 96, 0.92), rgba(14, 32, 68, 0.92));
-  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  margin-top: 22px; padding: 22px; border-radius: 24px;
+  background: linear-gradient(180deg, rgba(18, 48, 96, 0.9), rgba(8, 24, 56, 0.92));
+  border: 1px solid var(--border); box-shadow: 0 30px 70px -40px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
-.brand h1 { font-weight: 800; letter-spacing: -0.02em; }
-.brand-mark, .brand-logo { box-shadow: 0 10px 24px -12px rgba(245, 140, 35, 0.8); }
-.brand-mark { background: var(--grad); color: var(--accent-text); font-weight: 800; }
-.package { background: rgba(255, 255, 255, 0.03); border-radius: 14px; padding: 14px 16px; transition: border-color 0.15s, background 0.15s, transform 0.15s; }
-.package:hover { border-color: rgba(255, 255, 255, 0.24); }
-.package:active { transform: scale(0.99); }
-.package:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.12); }
-.package-price { font-variant-numeric: tabular-nums; color: #fff; }
-.package:has(input:checked) .package-price { color: #ffc456; }
-.field input { background: rgba(255, 255, 255, 0.05); border-radius: 12px; }
-.field input:focus { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.btn { border-radius: 14px; font-weight: 800; transition: transform 0.15s, filter 0.15s; }
-.btn:not(.btn-secondary) { background: var(--grad); color: var(--accent-text); box-shadow: 0 14px 30px -14px rgba(245, 140, 35, 0.9); }
-.btn:active { transform: translateY(1px) scale(0.99); }
-.btn-secondary { background: rgba(255, 255, 255, 0.07); color: var(--text); border: 1px solid var(--border); }
-.voucher-code { color: #ffc456; }
-.welcome-back { background: rgba(60, 207, 126, 0.1); border: 1px solid rgba(60, 207, 126, 0.3); }
-.lang-switch { background: rgba(255, 255, 255, 0.05); }
-.footer b, .footer strong { color: var(--text); }
+.card h2 { font-size: 1.15rem; margin-bottom: 10px; }
+.voucher-code { margin: 6px 0; font: 700 1.8rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.15em; color: #FFC456; }
+.spinner { width: 40px; height: 40px; margin: 8px auto 16px; border: 4px solid var(--accent-soft); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.connecting { margin: 14px 0 6px; padding: 14px; border-radius: 14px; background: var(--accent-soft); }
+.connecting .spinner { width: 28px; height: 28px; margin: 0 auto 8px; border-width: 3px; }
+.connecting p { margin: 0; }
 
-/* Ukurasa wa kulipia (Pesapal ndani ya ukurasa wetu) */
 .checkout { display: grid; gap: 14px; }
 .checkout-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .checkout-steps li { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: var(--muted); }
 .checkout-steps span { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border); font-size: 0.72rem; }
-.checkout-steps li.is-done { color: #3ccf7e; }
+.checkout-steps li.is-done { color: var(--green); }
 .checkout-steps li.is-done span { background: rgba(60, 207, 126, 0.15); border-color: rgba(60, 207, 126, 0.45); }
 .checkout-steps li.is-current { color: var(--text); }
 .checkout-steps li.is-current span { background: var(--grad); color: var(--accent-text); border-color: transparent; }
 .order { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: 16px; background: var(--accent-soft); border: 1px solid rgba(245, 166, 35, 0.35); }
 .order p { margin: 0; }
 .order-name { font-weight: 800; }
-.order-amount { font-size: 1.35rem; font-weight: 800; color: #ffc456; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.order-amount { font: 800 1.35rem var(--head); color: #FFC456; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .pay-frame { position: relative; overflow: hidden; border-radius: 18px; background: #fff; border: 1px solid var(--border); box-shadow: 0 20px 40px -24px rgba(0, 0, 0, 0.9); }
 .pay-frame iframe { display: block; width: 100%; height: 640px; border: 0; opacity: 0; transition: opacity 0.3s; }
 .pay-frame.is-ready iframe { opacity: 1; }
 .pay-frame-loading { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 10px; background: var(--card); color: var(--muted); transition: opacity 0.3s; }
 .pay-frame.is-ready .pay-frame-loading { opacity: 0; pointer-events: none; }
-.secure { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: var(--muted); }
-.secure svg { flex: none; margin-top: 3px; color: #3ccf7e; }
-
-/* Simu ndogo: nafasi zaidi kwa fomu ya malipo */
-@media (max-width: 480px) {
-  body { padding: 10px; }
-  .card { padding: 16px; border-radius: 20px; }
-  .pay-frame { margin-inline: -16px; border-radius: 0; border-inline: 0; }
-  .pay-frame iframe { height: 600px; }
-  .checkout-steps li { font-size: 0.74rem; gap: 4px; }
-  .order { padding: 12px 14px; }
-  .order-amount { font-size: 1.2rem; }
-}
-.footer-links { margin-top: 6px; }
-.footer-links a { color: var(--muted); }
-
-/* ============================================================
-   Vifurushi kama menyu ya bando kwenye app za mitandao
-   ============================================================ */
-.packages { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.package {
-  position: relative; flex-direction: column; align-items: flex-start; gap: 2px;
-  min-height: 92px; padding: 14px; border-radius: 16px; cursor: pointer;
-  background: rgba(255, 255, 255, 0.04);
-}
-.package input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
-.package-name { font-size: 1.05rem; font-weight: 800; }
-.package-price { font-size: 1.15rem; font-weight: 800; color: #ffc456; }
-.package-meta { font-size: 0.78rem; color: var(--muted); }
-.package-check {
-  position: absolute; top: 10px; right: 10px; display: grid; place-items: center;
-  width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--border); color: transparent;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-.package:has(input:checked) .package-check { background: var(--grad); border-color: transparent; color: var(--accent-text); }
-.package:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
-.packages .field-error { grid-column: 1 / -1; }
-
-.phone-input { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 12px; background: rgba(255, 255, 255, 0.05); transition: border-color 0.15s, box-shadow 0.15s; }
-.phone-input:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.phone-flag { padding: 0 4px 0 14px; font-size: 1.15rem; }
-.phone-input input { flex: 1; border: 0 !important; background: transparent !important; box-shadow: none !important; font-size: 1.05rem; letter-spacing: 0.02em; }
-
-.btn-pay { min-height: 54px; font-size: 1.05rem; }
-.pay-methods { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
-.pay-methods li { padding: 3px 9px; border-radius: 99px; border: 1px solid var(--border); font-size: 0.72rem; font-weight: 700; color: var(--muted); }
-
-/* Simu ndogo (upana 320–360): hakuna kitu kinachozidi upana wa skrini. */
-.card { width: 100%; }
-.packages { min-width: 0; min-inline-size: 0; }
-.package { min-width: 0; }
-.package-name, .package-price { overflow-wrap: anywhere; }
-.phone-input input { width: 100%; min-width: 0; }
-.flag { display: block; border-radius: 3px; flex-shrink: 0; }
-.phone-flag { display: flex; align-items: center; padding: 0 2px 0 14px; }
-@media (max-width: 380px) {
-  body { padding: 10px; }
-  .card { padding: 16px; border-radius: 18px; }
-  .packages { gap: 8px; }
-  .package { padding: 12px 10px; min-height: 84px; }
-  .package-name { font-size: 0.95rem; }
-  .package-price { font-size: 1.02rem; }
-  .package-check { top: 8px; right: 8px; }
-}
 
 /* Kitufe kinachosubiri jibu la server */
 .is-busy { position: relative; color: transparent !important; pointer-events: none; }
 .is-busy > * { visibility: hidden; }
-.is-busy::after { content: ""; position: absolute; inset: 0; margin: auto; width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; animation: busy-spin 0.7s linear infinite; }
-@keyframes busy-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .is-busy::after { animation-duration: 2s; } }
-.btn-primary.is-busy::after, .btn-pay.is-busy::after { border-color: rgba(42, 23, 2, 0.3); border-top-color: #2a1702; }
+.is-busy::after { content: ""; position: absolute; inset: 0; margin: auto; width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid rgba(42, 23, 2, 0.3); border-top-color: #2A1702; animation: spin 0.7s linear infinite; }
+.btn-secondary.is-busy::after { border-color: rgba(255, 255, 255, 0.3); border-top-color: #fff; }
+
+/* Simu ndogo (320–380) */
+@media (max-width: 380px) {
+  body { padding-left: 14px; padding-right: 14px; }
+  .package { padding: 13px; gap: 11px; }
+  .package-icon { width: 40px; height: 40px; }
+  .package-price { font-size: 1.02rem; }
+  .tab { font-size: 0.76rem; }
+  .card { padding: 16px; }
+  .pay-frame { margin-inline: -16px; border-radius: 0; border-inline: 0; }
+  .pay-bar { gap: 10px; }
+  .btn-pay { padding: 15px 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .spinner, .is-busy::after { animation-duration: 2s; } }

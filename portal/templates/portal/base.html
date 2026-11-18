@@ -2,31 +2,36 @@
 <html lang="{{ LANG }}">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#020B1F">
   <title>{% block title %}{{ owner.business_name }}{% endblock %} · JamiiLite 5G</title>
+  {# Fonti moja ndogo tu (vichwa na bei); maandishi mengine yanatumia fonti ya simu. #}
+  <link rel="preload" href="{% static 'fonts/sora-800.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'css/portal.css' %}">
   {% block head %}{% endblock %}
 </head>
-<body>
-  <div class="portal-lang">{% include "ui/_lang_switch.html" %}</div>
-  <main class="card">
-    <header class="brand">
-      {% if owner.logo %}
-        <img class="brand-logo" src="{{ owner.logo.url }}" alt="{{ owner.business_name }}" width="52" height="52" decoding="async" fetchpriority="high">
-      {% else %}
-        <div class="brand-mark" aria-hidden="true">{{ owner.business_name|slice:":1"|upper }}</div>
-      {% endif %}
-      <div>
-        <h1>{{ owner.business_name }}</h1>
-        {% if router.location %}<p class="muted">{{ router.location }}</p>{% endif %}
-      </div>
-    </header>
+<body class="{% block body_class %}{% endblock %}">
+  <header class="p-top">
+    {% if owner.logo %}
+      <img class="brand-logo" src="{{ owner.logo.url }}" alt="{{ owner.business_name }}" width="52" height="52" decoding="async" fetchpriority="high">
+    {% else %}
+      <div class="brand-mark" aria-hidden="true">{{ owner.business_name|slice:":1"|upper }}</div>
+    {% endif %}
+    <div class="brand-text">
+      <h1>{{ owner.business_name }}</h1>
+      {% if router.location %}<p class="brand-loc"><i aria-hidden="true"></i>{{ router.location }}</p>{% endif %}
+    </div>
+    <div class="portal-lang">{% include "ui/_lang_switch.html" %}</div>
+  </header>
+  {% block hero %}{% endblock %}
+  <main class="{% block main_class %}card{% endblock %}">
     {% block content %}{% endblock %}
   </main>
   <footer class="footer">
     {% blocktranslate %}Inaendeshwa na <strong>JamiiLite 5G</strong>{% endblocktranslate %}
     <nav class="footer-links"><a href="{% url 'pages:masharti' %}">{% translate "Masharti" %}</a> · <a href="{% url 'pages:faragha' %}">{% translate "Faragha" %}</a></nav>
   </footer>
+  {% block after %}{% endblock %}
   {% include "ui/_busy_forms.html" %}
 </body>
 </html>
