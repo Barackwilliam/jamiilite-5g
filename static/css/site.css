@@ -287,11 +287,11 @@ p { margin: 0 0 12px; }
 .nav a.nav-cta:hover { color: #2A1702; filter: brightness(1.06); background: var(--grad); }
 .nav-lang { display: inline-flex; margin: 0 4px; }
 .lang-switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--border); }
-.lang-switch button { font: inherit; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.04em; padding: 4px 10px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); cursor: pointer; }
-.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--brand); box-shadow: 0 1px 3px rgba(16, 26, 51, 0.15); }
+.lang-switch button, .lang-switch a { text-decoration: none; font: inherit; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.04em; padding: 4px 10px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); cursor: pointer; }
+.lang-switch button[aria-pressed="true"], .lang-switch a[aria-current] { background: var(--surface); color: var(--brand); box-shadow: 0 1px 3px rgba(16, 26, 51, 0.15); }
 .page-landing .lang-switch { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12); }
-.page-landing .lang-switch button { color: #A7B3CA; }
-.page-landing .lang-switch button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.14); color: #fff; box-shadow: none; }
+.page-landing .lang-switch button, .page-landing .lang-switch a { color: #A7B3CA; }
+.page-landing .lang-switch button[aria-pressed="true"], .page-landing .lang-switch a[aria-current] { background: rgba(255, 255, 255, 0.14); color: #fff; box-shadow: none; }
 .menu-toggle { position: absolute; opacity: 0; pointer-events: none; }
 .menu-button { display: none; width: 42px; height: 42px; border-radius: 11px; cursor: pointer; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
 .menu-button span { width: 20px; height: 2px; border-radius: 2px; background: currentColor; transition: transform 0.25s, opacity 0.2s; }
@@ -369,7 +369,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 /* Menyu ya simu: kibonyezo kinaweza kufikiwa kwa kibodi */
 .menu-toggle { width: 42px; height: 42px; margin: 0; }
 .menu-toggle:focus-visible + .menu-button { outline: 2px solid var(--brand); outline-offset: 2px; }
-.lang-switch button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.lang-switch button:focus-visible, .lang-switch a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 @media (min-width: 901px) { .menu-toggle { display: none; } }
 
 /* ============================================================

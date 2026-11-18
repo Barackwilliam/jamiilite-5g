@@ -1,8 +1,11 @@
 import math
+import os
 from datetime import date
 from urllib.parse import quote
 
 from django.conf import settings
+from django.contrib import messages
+from django.core.cache import cache
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.templatetags.static import static
@@ -44,7 +47,48 @@ def landing_strings():
     return strings
 
 
-class PublicPage(TemplateView):
+# Kurasa za hadhara zinahifadhiwa (cache) kwa dakika hizi, kwa kila lugha. Mipangilio ikihifadhiwa,
+# zote zinaanza upya (core.config.forget).
+PAGE_CACHE_SECONDS = 600
+BUILD_ID = (os.environ.get("RENDER_GIT_COMMIT") or "dev")[:12]
+
+
+def page_cache_key(request):
+    language = (get_language() or settings.LANGUAGE_CODE)[:2]
+    url = request.build_absolute_uri(request.path)
+    return f"jl:page:{BUILD_ID}:{config.pages_version()}:{language}:{url}"
+
+
+class CachedPublicPage:
+    """
+    Mgeni asiyeingia anapata ukurasa uliokwisha kutengenezwa: hakuna database, hakuna template.
+    Ukurasa hauna fomu wala cookie ya mtu binafsi, kwa hiyo ni ule ule kwa kila mtu wa lugha hiyo.
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+        if (
+            not settings.JAMIILITE_CACHE_PAGES
+            or request.method not in ("GET", "HEAD")
+            or request.user.is_authenticated
+            or len(messages.get_messages(request))
+        ):
+            return super().dispatch(request, *args, **kwargs)
+        key = page_cache_key(request)
+        hit = cache.get(key)
+        if hit is not None:
+            content, content_type = hit
+            response = HttpResponse(content, content_type=content_type)
+            response["X-Page-Cache"] = "hit"
+            return response
+        response = super().dispatch(request, *args, **kwargs)
+        if response.status_code == 200 and hasattr(response, "add_post_render_callback"):
+            def store(rendered):
+                cache.set(key, (rendered.content, rendered["Content-Type"]), PAGE_CACHE_SECONDS)
+            response.add_post_render_callback(store)
+        return response
+
+
+class PublicPage(CachedPublicPage, TemplateView):
     """Kurasa za hadhara za kuwavutia na kuwaelekeza wamiliki wa WiFi."""
 
     def get_context_data(self, **kwargs):

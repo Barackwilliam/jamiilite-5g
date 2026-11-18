@@ -7,6 +7,7 @@ import threading
 from dataclasses import dataclass
 
 from django.conf import settings
+from django.core.cache import cache
 
 from .models import PlatformConfig
 
@@ -25,18 +26,49 @@ class Config:
 _request = threading.local()
 
 
+CACHE_KEY = "jl:platform-config"
+CACHE_SECONDS = 300
+PAGES_VERSION_KEY = "jl:pages-version"
+
+
 def current():
-    """Inasomwa mara moja tu kwa kila ombi (RequestConfigMiddleware), si kila inapoitwa."""
+    """Inasomwa mara moja tu kwa kila ombi (RequestConfigMiddleware), si kila inapoitwa.
+
+    Kati ya maombi inakaa kwenye cache kwa dakika chache, ili kurasa zisiulize database kila mara.
+    """
     if getattr(_request, "active", False):
         if _request.value is None:
-            _request.value = _build()
+            _request.value = _cached()
         return _request.value
-    return _build()
+    return _cached()
+
+
+def _cached():
+    if not settings.JAMIILITE_CACHE_PAGES:
+        return _build()
+    value = cache.get(CACHE_KEY)
+    if value is None:
+        value = _build()
+        cache.set(CACHE_KEY, value, CACHE_SECONDS)
+    return value
 
 
 def forget():
-    """Baada ya kuhifadhi mipangilio mipya, ombi hili lisome upya."""
+    """Baada ya kuhifadhi mipangilio mipya: ombi hili, cache na kurasa zilizohifadhiwa zisome upya."""
     _request.value = None
+    cache.delete(CACHE_KEY)
+    pages_version(bump=True)
+
+
+def pages_version(bump=False):
+    """Namba inayobadilika mipangilio ikihifadhiwa, ili kurasa za hadhara zilizohifadhiwa zisitumike tena."""
+    if bump:
+        try:
+            return cache.incr(PAGES_VERSION_KEY)
+        except ValueError:
+            cache.set(PAGES_VERSION_KEY, 2, None)
+            return 2
+    return cache.get_or_set(PAGES_VERSION_KEY, 1, None)
 
 
 class RequestConfigMiddleware:

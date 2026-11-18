@@ -49,7 +49,7 @@
         <a href="{% url 'pages:home' %}#bei">{% translate "Bei" %}</a>
         <a href="{% url 'pages:mahitaji' %}" {% if request.resolver_match.url_name == 'mahitaji' %}aria-current="page"{% endif %}>{% translate "Mahitaji" %}</a>
         <a href="{% url 'pages:mwongozo' %}" {% if request.resolver_match.url_name == 'mwongozo' %}aria-current="page"{% endif %}>{% translate "Mwongozo" %}</a>
-        <span class="nav-lang">{% include "ui/_lang_switch.html" %}</span>
+        <span class="nav-lang">{% include "ui/_lang_links.html" %}</span>
         <a class="nav-login" href="{% url 'dashboard:login' %}">{% translate "Ingia" %}</a>
         <a class="nav-cta" href="{% url 'dashboard:signup' %}">{% translate "Anza bure" %}</a>
       </nav>
@@ -91,7 +91,7 @@
     </nav>
     {% endwith %}
     <div class="side-foot">
-      {% include "ui/_lang_switch.html" %}
+      {% include "ui/_lang_links.html" %}
       <a class="side-cta" href="{% url 'dashboard:signup' %}">{% translate "Anza bure" %}</a>
     </div>
   </aside>
@@ -110,7 +110,7 @@
           JamiiLite <span class="logo-5g">5G</span>
         </a>
         <p class="muted">{% translate "Mfumo wa kuuza WiFi kwa vifurushi, kwa wamiliki wa WiFi Tanzania." %}</p>
-        {% include "ui/_lang_switch.html" %}
+        {% include "ui/_lang_links.html" %}
       </div>
       <nav class="footer-col" aria-label="{% translate 'Bidhaa' %}">
         <p class="footer-head">{% translate "Bidhaa" %}</p>

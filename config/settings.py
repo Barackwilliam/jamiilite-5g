@@ -153,6 +153,20 @@ USE_I18N = True
 USE_TZ = True
 
 
+# --- Cache ---------------------------------------------------------------------
+# Faili kwenye diski ya server: workers wote wa gunicorn wanashiriki cache moja, bila huduma ya ziada.
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": os.environ.get("JAMIILITE_CACHE_DIR", "/tmp/jamiilite-cache"),
+        "TIMEOUT": 600,
+        "OPTIONS": {"MAX_ENTRIES": 2000},
+    }
+}
+# Kurasa za hadhara na mipangilio ya biashara zinahifadhiwa kati ya maombi (zinazimwa kwenye majaribio).
+JAMIILITE_CACHE_PAGES = env_bool("JAMIILITE_CACHE_PAGES", True)
+
+
 # --- Static & media --------------------------------------------------------
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
