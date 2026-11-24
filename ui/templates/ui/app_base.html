@@ -79,7 +79,13 @@
     {% endif %}
 
     {% if announcement %}
-      <div class="banner banner-announce" role="note">{% icon "megaphone" %}<p><strong>{% translate "Tangazo:" %}</strong> {{ announcement }}</p></div>
+      {# Tangazo la mfumo: bluu ya barafu mchana, machungwa ya JamiiLite usiku (saa ya simu ya mtumiaji). #}
+      <div class="announce" role="note" data-announce>
+        <span class="announce-spark s1" aria-hidden="true">✦</span><span class="announce-spark s2" aria-hidden="true">✦</span><span class="announce-spark s3" aria-hidden="true">✦</span><span class="announce-spark s4" aria-hidden="true">✦</span>
+        <span class="announce-icon" aria-hidden="true">{% icon "megaphone" 20 %}</span>
+        <p><span class="sr-only">{% translate "Tangazo:" %} </span><span class="announce-text">{{ announcement }}</span></p>
+      </div>
+      <script>(function () { var h = new Date().getHours(); document.querySelector("[data-announce]").dataset.time = h >= 6 && h < 18 ? "day" : "night"; })();</script>
     {% endif %}
     {% block banner %}{% endblock %}
 
