@@ -4360,3 +4360,12 @@ msgstr "Pay now"
 
 msgid "Weka msimbo uunganishwe papo hapo."
 msgstr "Enter your code to get online instantly."
+
+msgid "Utepe unaopita"
+msgstr "Scrolling ticker"
+
+msgid "Fremu ya dhahabu"
+msgstr "Gold frame"
+
+msgid "Mtindo wa tangazo"
+msgstr "Announcement style"

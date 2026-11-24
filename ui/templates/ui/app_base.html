@@ -79,13 +79,29 @@
     {% endif %}
 
     {% if announcement %}
-      {# Tangazo la mfumo: bluu ya barafu mchana, machungwa ya JamiiLite usiku (saa ya simu ya mtumiaji). #}
-      <div class="announce" role="note" data-announce>
-        <span class="announce-spark s1" aria-hidden="true">✦</span><span class="announce-spark s2" aria-hidden="true">✦</span><span class="announce-spark s3" aria-hidden="true">✦</span><span class="announce-spark s4" aria-hidden="true">✦</span>
-        <span class="announce-icon" aria-hidden="true">{% icon "megaphone" 20 %}</span>
-        <p><span class="sr-only">{% translate "Tangazo:" %} </span><span class="announce-text">{{ announcement }}</span></p>
-      </div>
-      <script>(function () { var h = new Date().getHours(); document.querySelector("[data-announce]").dataset.time = h >= 6 && h < 18 ? "day" : "night"; })();</script>
+      {# Tangazo la mfumo, kwa dhahabu. Super Admin anachagua mtindo: utepe unaopita au fremu inayozunguka. #}
+      {% if announcement_style == "frame" %}
+        <div class="announce announce-frame" role="note">
+          <span class="announce-spark s1" aria-hidden="true">✦</span><span class="announce-spark s2" aria-hidden="true">✦</span><span class="announce-spark s3" aria-hidden="true">✦</span><span class="announce-spark s4" aria-hidden="true">✦</span>
+          <span class="announce-icon" aria-hidden="true">{% icon "megaphone" 20 %}</span>
+          <p><span class="sr-only">{% translate "Tangazo:" %} </span><span class="announce-text">{{ announcement }}</span></p>
+        </div>
+      {% else %}
+        <div class="announce announce-ticker" role="note" data-announce>
+          <span class="announce-icon" aria-hidden="true">{% icon "megaphone" 20 %}</span>
+          <p class="announce-track">
+            <span class="sr-only">{% translate "Tangazo:" %} {{ announcement }}</span>
+            <span class="announce-run" aria-hidden="true"><span class="announce-text">{{ announcement }}</span><i>✦</i><span class="announce-text">{{ announcement }}</span><i>✦</i></span>
+          </p>
+        </div>
+        <script>
+          (function () {
+            // Kasi sawa kwa tangazo fupi au refu: takribani pikseli 55 kwa sekunde.
+            var run = document.querySelector("[data-announce] .announce-run");
+            if (run) run.style.setProperty("--announce-dur", Math.max(8, run.scrollWidth / 2 / 55) + "s");
+          })();
+        </script>
+      {% endif %}
     {% endif %}
     {% block banner %}{% endblock %}
 

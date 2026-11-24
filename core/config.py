@@ -21,6 +21,7 @@ class Config:
     whatsapp_number: str
     signups_open: bool
     announcement: str
+    announcement_style: str = "ticker"
 
 
 _request = threading.local()
@@ -100,4 +101,5 @@ def _build():
         whatsapp_number=pick("whatsapp_number", settings.JAMIILITE_WHATSAPP_NUMBER).lstrip("+"),
         signups_open=row.signups_open,
         announcement=row.announcement.strip(),
+        announcement_style=row.announcement_style,
     )
