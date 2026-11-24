@@ -18,6 +18,10 @@
       <h2 class="form-section">{% translate "Wamiliki" %}</h2>
       {% include "dashboard/_field.html" with field=form.signups_open %}
       {% include "dashboard/_field.html" with field=form.announcement %}
+      <fieldset class="tile-group">
+        <legend>{{ form.announcement_style.label }}</legend>
+        <div class="chips">{% for choice in form.announcement_style %}<label class="chip">{{ choice.tag }}<span>{{ choice.choice_label }}</span></label>{% endfor %}</div>
+      </fieldset>
       {% include "dashboard/_field.html" with field=form.whatsapp_number %}
       <button type="submit" class="btn btn-primary">{% translate "Hifadhi mipangilio" %}</button>
     </form>

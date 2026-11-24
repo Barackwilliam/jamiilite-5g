@@ -221,6 +221,7 @@ def render_owner(request, template, context, active, title):
         sub_meter=_sub_meter(sub, cfg),
         monthly_fee=cfg.monthly_fee,
         announcement=cfg.announcement,
+        announcement_style=cfg.announcement_style,
     )
     return render(request, template, context)
 

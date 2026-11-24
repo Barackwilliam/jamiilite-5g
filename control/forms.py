@@ -19,7 +19,7 @@ class PlatformConfigForm(forms.ModelForm):
         model = PlatformConfig
         fields = [
             "monthly_fee", "trial_days", "min_withdrawal", "sale_fee_percent",
-            "whatsapp_number", "signups_open", "announcement",
+            "whatsapp_number", "signups_open", "announcement", "announcement_style",
         ]
         labels = {
             "monthly_fee": _("Ada ya mwezi (Tsh)"),
@@ -29,12 +29,14 @@ class PlatformConfigForm(forms.ModelForm):
             "whatsapp_number": _("Namba ya WhatsApp ya msaada"),
             "signups_open": _("Usajili wa wamiliki wapya uko wazi"),
             "announcement": _("Tangazo kwa wamiliki wote"),
+            "announcement_style": _("Mtindo wa tangazo"),
         }
         help_texts = {
             "announcement": _("Acha tupu kuliondoa."),
         }
         widgets = {
             "announcement": forms.Textarea(attrs={"rows": 3, "placeholder": _("mfano: Kesho saa 2 usiku mfumo utakuwa kwenye matengenezo kwa dakika 10.")}),
+            "announcement_style": forms.RadioSelect,
             "whatsapp_number": forms.TextInput(attrs={"inputmode": "tel", "placeholder": "255712345678"}),
         }
 

@@ -263,7 +263,7 @@ class PlatformConfigTests(TestCase):
 
     def save(self, **data):
         base = {"monthly_fee": "", "trial_days": "", "min_withdrawal": "", "sale_fee_percent": "",
-                "whatsapp_number": "", "signups_open": "on", "announcement": ""}
+                "whatsapp_number": "", "signups_open": "on", "announcement": "", "announcement_style": "ticker"}
         base.update(data)
         return self.client.post(reverse("control:config"), base)
 
@@ -306,6 +306,25 @@ class PlatformConfigTests(TestCase):
         owner = make_owner()
         self.client.force_login(owner.user)
         self.assertContains(self.client.get(reverse("dashboard:home")), "Matengenezo kesho saa 2 usiku")
+
+    def test_announcement_style_is_chosen_by_admin(self):
+        owner = make_owner()
+        self.save(announcement="Matengenezo kesho", announcement_style="ticker")
+        admin_client = self.client
+        from django.test import Client
+
+        owner_client = Client()
+        owner_client.force_login(owner.user)
+        html = owner_client.get(reverse("dashboard:home")).content.decode()
+        self.assertIn("announce-ticker", html)
+        self.assertNotIn("Tangazo:</strong>", html)
+        admin_client.post(reverse("control:config"), {
+            "monthly_fee": "", "trial_days": "", "min_withdrawal": "", "sale_fee_percent": "",
+            "whatsapp_number": "", "signups_open": "on", "announcement": "Matengenezo kesho", "announcement_style": "frame",
+        })
+        html = owner_client.get(reverse("dashboard:home")).content.decode()
+        self.assertIn("announce-frame", html)
+        self.assertNotIn("announce-ticker", html)
 
     def test_invalid_values(self):
         response = self.save(sale_fee_percent="50", whatsapp_number="0712")

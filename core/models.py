@@ -310,6 +310,14 @@ class PlatformConfig(models.Model):
         "tangazo kwa wamiliki wote", max_length=280, blank=True,
         help_text="Linaonekana juu ya dashboard ya kila mmiliki. Acha tupu kuliondoa.",
     )
+
+    class AnnouncementStyle(models.TextChoices):
+        TICKER = "ticker", _("Utepe unaopita")
+        FRAME = "frame", _("Fremu ya dhahabu")
+
+    announcement_style = models.CharField(
+        "mtindo wa tangazo", max_length=10, choices=AnnouncementStyle.choices, default=AnnouncementStyle.TICKER,
+    )
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"

@@ -4364,3 +4364,12 @@ msgstr "Lipa sasa"
 
 msgid "Weka msimbo uunganishwe papo hapo."
 msgstr "Weka msimbo uunganishwe papo hapo."
+
+msgid "Utepe unaopita"
+msgstr "Utepe unaopita"
+
+msgid "Fremu ya dhahabu"
+msgstr "Fremu ya dhahabu"
+
+msgid "Mtindo wa tangazo"
+msgstr "Mtindo wa tangazo"
