@@ -15,8 +15,10 @@ from django.db.models import Count, Min, Q, Sum
 from django.db.models.functions import TruncDate
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone, translation
+from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -222,8 +224,15 @@ def render_owner(request, template, context, active, title):
         monthly_fee=cfg.monthly_fee,
         announcement=cfg.announcement,
         announcement_style=cfg.announcement_style,
+        guide_pdf_url=guide_pdf_url(),
     )
     return render(request, template, context)
+
+
+def guide_pdf_url():
+    """Mwongozo wa kuunganisha MikroTik (PDF) kwa lugha ya mmiliki; Kiingereza kwa lugha nyingine yoyote."""
+    language = (get_language() or "en")[:2]
+    return static(f"docs/mwongozo-jamiilite-{'sw' if language == 'sw' else 'en'}.pdf")
 
 
 def _sub_meter(sub, cfg):
