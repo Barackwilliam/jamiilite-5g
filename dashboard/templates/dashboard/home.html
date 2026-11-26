@@ -48,6 +48,7 @@
       <span class="pill pill-muted">{% blocktranslate with n=steps_done %}{{ n }} kati ya 4{% endblocktranslate %}</span>
     </div>
     <div class="onboarding-bar" aria-hidden="true"><span style="width: {% widthratio steps_done 4 100 %}%"></span></div>
+    <a class="guide-link" href="{{ guide_pdf_url }}" download>{% icon "download" 18 %}<span><strong>{% translate "Pakua mwongozo wa kuunganisha (PDF)" %}</strong><small>{% translate "Hatua 8 rahisi. Unaweza kuuchapisha." %}</small></span></a>
     <ol class="checklist">
       <li class="{% if routers %}is-done{% elif next_step == 1 %}is-next{% endif %}">
         <span class="check-dot">{% icon "check" 14 %}</span>

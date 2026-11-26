@@ -4373,3 +4373,12 @@ msgstr "Fremu ya dhahabu"
 
 msgid "Mtindo wa tangazo"
 msgstr "Mtindo wa tangazo"
+
+msgid "Pakua mwongozo wa kuunganisha (PDF)"
+msgstr "Pakua mwongozo wa kuunganisha (PDF)"
+
+msgid "Hatua 8 rahisi. Unaweza kuuchapisha."
+msgstr "Hatua 8 rahisi. Unaweza kuuchapisha."
+
+msgid "Pakua mwongozo (PDF)"
+msgstr "Pakua mwongozo (PDF)"

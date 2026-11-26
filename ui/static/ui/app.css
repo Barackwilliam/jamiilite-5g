@@ -1275,3 +1275,14 @@ i.qa-icon { font-style: normal; }
 @keyframes busy-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .is-busy::after { animation-duration: 2s; } }
 .btn-primary.is-busy::after, .btn-pay.is-busy::after { border-color: rgba(42, 23, 2, 0.3); border-top-color: #2a1702; }
+
+/* Kiungo cha kupakua mwongozo wa kuunganisha (PDF) */
+.guide-link {
+  display: flex; align-items: center; gap: 12px; margin: 14px 0 4px; padding: 12px 14px; border-radius: 14px; text-decoration: none; color: var(--text);
+  background: color-mix(in srgb, var(--brand) 10%, transparent); border: 1px dashed color-mix(in srgb, var(--brand) 55%, transparent);
+}
+.guide-link > .icon { flex: none; color: var(--brand); }
+.guide-link span { display: grid; gap: 2px; }
+.guide-link small { color: var(--muted); font-size: 0.8rem; }
+.guide-link:hover { border-style: solid; }
+.guide-links a { display: inline-flex; align-items: center; gap: 4px; }

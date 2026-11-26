@@ -4369,3 +4369,12 @@ msgstr "Gold frame"
 
 msgid "Mtindo wa tangazo"
 msgstr "Announcement style"
+
+msgid "Pakua mwongozo wa kuunganisha (PDF)"
+msgstr "Download the setup guide (PDF)"
+
+msgid "Hatua 8 rahisi. Unaweza kuuchapisha."
+msgstr "8 simple steps. You can print it."
+
+msgid "Pakua mwongozo (PDF)"
+msgstr "Download the guide (PDF)"
